@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿//FROM THE UNITY3D OFFICIAL OBJECT POOL TUTORIAL
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
