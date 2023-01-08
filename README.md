@@ -1,7 +1,7 @@
 # sccsunity-voxel-portefolio-draft-wip
 uploading some new work of bringing back to life my old projects one by one and developing new things. all around voxels.
 
-My voxel planet generator revision1-makes use of what i learned from watching Craig Perko's first minecraft tutorial on youtube:
+My voxel planet generator revision1-makes use of what i learned from watching Craig Perko's first minecraft tutorial on youtube. basically, every voxels that i code are based off how to do it from Craig Perko's first minecraft tutorial on youtube:
 
 <img WIDTH=500 src="https://i.ibb.co/JspKZ08/Capture-2023-01-08-121649.png" alt="Capture-2023-01-08-121649" border="0">
 
