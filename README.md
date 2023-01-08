@@ -14,12 +14,11 @@ My development on trying to make compute shaders work with at least receiving th
 
 <img WIDTH=500 src="https://i.ibb.co/4WBCd8s/Capture-2023-01-08-121836.png" alt="Capture-2023-01-08-121836" border="0">
 
-My development on trying to make compute shaders work with receiving the map and to create the vertexes locations from the shader but to send the vertices locations to the CPU for the cpu to build the vertices and triangles from the output. using 1 script per type of faces (6) and shaders for each face types:
+My development on trying to make compute shaders work with receiving the map and that creates the vertexes locations from the shader and outputs for the cpu to build the vertices.. using 1 script per type of faces (6) and shaders for each face types:
 
 <img WIDTH=500 src="https://i.ibb.co/7pb2mCR/Capture-2023-01-08-121906.png" alt="Capture-2023-01-08-121906" border="0">
 
-My development on trying to make compute shaders work with receiving the map and the vertexes locations from the shader but to create the vertices on 
-the CPU.  using 1 script for all faces and shaders for each face types:
+My development on trying to make compute shaders work with receiving the map and that creates the vertexes locations from the shader and outputs for the cpu to build the vertices. using 1 script for all faces and shaders for each face types:
 
 <img WIDTH=500 src="https://i.ibb.co/74YLjPY/Capture-2023-01-08-121949.png" alt="Capture-2023-01-08-121949" border="0">
 
