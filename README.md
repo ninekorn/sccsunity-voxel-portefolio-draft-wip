@@ -1,5 +1,5 @@
 # sccsunity-voxel-portefolio-draft-wip
-uploading some new work of bringing back to life my old projects one by one and developing new things. all around voxels.
+uploading some new work of bringing back to life my old projects one by one and developing new things. all around voxels. built with Unity 2020.3.42f1
 
 My voxel planet generator revision1-makes use of what i learned from watching Craig Perko's first minecraft tutorial on youtube. basically, every voxels that i code are based off how to do the basics of generating a voxel map and vertices/triangles from Craig Perko's first minecraft tutorial on youtube, the new stuff i developed
 myself with a lot of trial and error and headaches:
