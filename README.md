@@ -31,6 +31,3 @@ and successfully making the threadpool work on generating the map/vertices/trian
 My new development on using compute shaders to calculate the map needed for my universe script to create vertices/triangles from a threadpool. universe Rev2:
 
 <img WIDTH=500 src="https://i.ibb.co/7KKHtTK/Capture-2023-01-08-122113.png" alt="Capture-2023-01-08-122113" border="0">
-
-
-https://www.protectmywork.com/images/protected-round.png
