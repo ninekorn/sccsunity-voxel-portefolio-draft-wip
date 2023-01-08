@@ -5,7 +5,7 @@ My voxel planet generator revision1-makes use of what i learned from watching Cr
 
 <img WIDTH=500 src="https://i.ibb.co/JspKZ08/Capture-2023-01-08-121649.png" alt="Capture-2023-01-08-121649" border="0">
 
-My development on movement inside a chunk-wise area in the scene. This is not an infinite terrain generator and the camera has to be moved through the editor scene to see the chunks spawning clamped to the limits of the area chunk. But i built this after watching Sebastian Lagues Procedural Landmass generation and needed to develop a way to do the same thing with voxels instead the terrain as shown in Sebastian Lague's Procedural Landmass generation. The way i succeeded was to build the maps and vertexes in a threadpool but to offload to the mainthread/uithread the meshes data where meshes can be created.:
+My development on movement inside a chunk-wise area in the scene. This is not an infinite terrain generator and the camera has to be moved through the editor scene to see the chunks spawning clamped to the limits of the area chunk. But i built this after watching Sebastian Lagues Procedural Landmass generation and needed to develop a way to do the same thing with voxels instead of created meshes as shown in Sebastian Lague's Procedural Landmass generation. The way i succeeded was to build the maps and vertexes in a threadpool but to offload to the mainthread/uithread the meshes data where meshes can be created.:
 
 <img WIDTH=500 src="https://i.ibb.co/QPrdmr3/Capture-2023-01-08-121808.png" alt="Capture-2023-01-08-121808" border="0">
 
