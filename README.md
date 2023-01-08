@@ -29,6 +29,6 @@ and successfully making the threadpool work on generating the map/vertices/trian
 
 <img WIDTH=500 src="https://i.ibb.co/zJqGB6Y/Capture-2023-01-08-122041.png" alt="Capture-2023-01-08-122041" border="0">
 
-My new development on using compute shaders to calculate the map needed for my universe script to create vertices/triangles from a threadpool. universe Rev2:
+My new development on using compute shaders to calculate the map needed for my universe script to create vertices/triangles from a threadpool. Referenced from how sebastian lague did it in his marching cubes tutorial on github and youtube. universe Rev2:
 
 <img WIDTH=500 src="https://i.ibb.co/7KKHtTK/Capture-2023-01-08-122113.png" alt="Capture-2023-01-08-122113" border="0">
