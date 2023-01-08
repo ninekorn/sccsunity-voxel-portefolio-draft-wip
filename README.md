@@ -10,7 +10,7 @@ My development on movement inside a chunk-wise area in the scene. This is not an
 
 <img WIDTH=500 src="https://i.ibb.co/QPrdmr3/Capture-2023-01-08-121808.png" alt="Capture-2023-01-08-121808" border="0">
 
-My development on trying to make compute shaders work with at least receiving the map from the shader but working with creating the vertices on the CPU. using my development on my homemade vertex/triangle reducer.:
+My development on trying to make compute shaders work with at least receiving the map from the shader but working with creating the vertices on the CPU. Creating the map from the shader referenced from Sebastian Lague's Marching Cubes tutorial and compute shader access and noise. using my development on my homemade vertex/triangle reducer.:
 
 <img WIDTH=500 src="https://i.ibb.co/4WBCd8s/Capture-2023-01-08-121836.png" alt="Capture-2023-01-08-121836" border="0">
 
