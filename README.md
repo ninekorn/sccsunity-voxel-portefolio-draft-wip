@@ -24,11 +24,11 @@ the CPU.  using 1 script for all faces and shaders for each face types:
 <img WIDTH=500 src="https://i.ibb.co/74YLjPY/Capture-2023-01-08-121949.png" alt="Capture-2023-01-08-121949" border="0">
 
 My old development brought back to life, a script called universegen that i based off of watching the tutorial of Sebastian Lague's Procedural Landmass generation 
-and successfully making the threadpool work on generating the map/vertices/triangles and using bytes for a very fluid performance for small chunks. Rev1:
+and successfully making the threadpool work on generating the map/vertices/triangles and using bytes for a very fluid performance for small chunks. This is the results of my development after having built sc_terrain.cs. universe Rev1:
 
 <img WIDTH=500 src="https://i.ibb.co/zJqGB6Y/Capture-2023-01-08-122041.png" alt="Capture-2023-01-08-122041" border="0">
 
-My new development on using compute shaders to calculate the map needed for my universe script to create vertices/triangles from a threadpool. Rev2:
+My new development on using compute shaders to calculate the map needed for my universe script to create vertices/triangles from a threadpool. universe Rev2:
 
 <img WIDTH=500 src="https://i.ibb.co/7KKHtTK/Capture-2023-01-08-122113.png" alt="Capture-2023-01-08-122113" border="0">
 
