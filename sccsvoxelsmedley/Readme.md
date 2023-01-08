@@ -1,4 +1,4 @@
-My development on bringing back to life my old projects and porting my new and old things in unity.
+My development on bringing back to life my old projects and porting my new and old things in unity. yeah, i know, they are full of bugs, and i intend to keep on working on them.
 
 <img WIDTH=500 src="https://i.ibb.co/JspKZ08/Capture-2023-01-08-121649.png" alt="Capture-2023-01-08-121649" border="0">
 <img WIDTH=500 src="https://i.ibb.co/QPrdmr3/Capture-2023-01-08-121808.png" alt="Capture-2023-01-08-121808" border="0">
