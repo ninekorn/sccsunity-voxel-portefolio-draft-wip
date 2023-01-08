@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class chunkData
+public class chunkDatascterrain
 {
     //public Mesh _chunkMesh;
     public List<Vector3> _chunkVertices;
