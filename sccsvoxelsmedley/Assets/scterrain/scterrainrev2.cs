@@ -10,7 +10,7 @@ using System;
 
 
 
-public class SC_Terrain : MonoBehaviour
+public class scterrainrev2 : MonoBehaviour
 {
     public class _areaChunkData
     {
@@ -234,7 +234,7 @@ public class SC_Terrain : MonoBehaviour
 
                         if (_areaChunkArray[_xValue + _totalWidth * (_yValue + _totalHeight * _zValue)] == 0)
                         {
-                            Instantiate(_areaChunkObject, _areaChunkPos, Quaternion.identity);
+                            //Instantiate(_areaChunkObject, _areaChunkPos, Quaternion.identity);
                             _smallChunkData[] _bigChunkArrayOfData = new _smallChunkData[_totalWidth * _totalHeight * _totalDepth];
                             int[] _bigChunkArray = new int[_totalWidth * _totalHeight * _totalDepth];
                             _areaChunkArrayOfData[_xValue + _totalWidth * (_yValue + _totalHeight * _zValue)] = checkForBigChunks(_bigChunkArrayOfData, _bigChunkArray, _areaChunkPos);
@@ -276,7 +276,7 @@ public class SC_Terrain : MonoBehaviour
                         }
 
                         var _pos = _bigChunkWidth * _planeSize;
-                        UnityEngine.Debug.Log(_pos + "_");
+                        //UnityEngine.Debug.Log(_pos + "_");
 
                         Vector3 _bigChunkPos = ((new Vector3(xx, yy, zz))) + _areaChunkPos;
 
@@ -304,7 +304,7 @@ public class SC_Terrain : MonoBehaviour
 
                             if (_bigChunkArray[_xValue + _totalWidth * (_yValue + _totalHeight * _zValue)] == 0)
                             {
-                                Instantiate(_bigChunkObject, _bigChunkPos, Quaternion.identity);
+                                //Instantiate(_bigChunkObject, _bigChunkPos, Quaternion.identity);
                                 chunkDatascterrain[] _arrayOfChunkData = new chunkDatascterrain[_totalWidth * _totalHeight * _totalDepth];
                                 int[] _arrayOfChunk = new int[_totalWidth * _totalHeight * _totalDepth];
                                 //_smallChunkData _smallChunker = _bigChunkArrayOfData[_xValue + _totalWidth * (_yValue + _totalHeight * _zValue)];
@@ -391,7 +391,7 @@ public class SC_Terrain : MonoBehaviour
                         //UnityEngine.Debug.Log("Data: " + _xValue + "_" + _yValue + "_" + _zValue);
                         if (_arrayOfChunk[_xValue + _totalWidth * (_yValue + _totalHeight * _zValue)] == 0)
                         {
-                            //Instantiate(_smallChunker, _chunkPos,Quaternion.identity);
+                            ////Instantiate(_smallChunker, _chunkPos,Quaternion.identity);
                             chunkDatascterrain _chunkData;
                             _currentChunk = new chunkscterrain(_chunkPos, out _chunkData);
                             _arrayOfChunkData[_xValue + _totalWidth * (_yValue + _totalHeight * _zValue)] = _chunkData;
@@ -443,18 +443,29 @@ public class SC_Terrain : MonoBehaviour
 
             if (_newChunker != null)
             {
-                _testChunk = new GameObject();
+
+
+
+
+
+                //_testChunk = new GameObject();
+
+
+
+                _testChunk = NewObjectPoolerScript.current.GetPooledObject();
                 _testChunk.transform.position = _newChunker._chunkPosition;
+                _testChunk.SetActive(true);
 
-                _meshFilter = _testChunk.AddComponent<MeshFilter>();
+                /*_meshFilter = _testChunk.AddComponent<MeshFilter>();
                 _meshRenderer = _testChunk.AddComponent<MeshRenderer>();
+                */
 
-                _meshFilter.mesh = new Mesh();
-                _meshFilter.mesh.vertices = _newChunker._chunkVertices.ToArray();
-                _meshFilter.mesh.triangles = _newChunker._chunkTriangles.ToArray();
+                _testChunk.GetComponent<MeshFilter>().mesh = new Mesh();
+                _testChunk.GetComponent<MeshFilter>().mesh.vertices = _newChunker._chunkVertices.ToArray();
+                _testChunk.GetComponent<MeshFilter>().mesh.triangles = _newChunker._chunkTriangles.ToArray();
 
                 //_meshFilter.mesh = _chunkData._chunkMesh;
-                _meshRenderer.material = _mat;
+                //_meshRenderer.material = _mat;
                       
 
 

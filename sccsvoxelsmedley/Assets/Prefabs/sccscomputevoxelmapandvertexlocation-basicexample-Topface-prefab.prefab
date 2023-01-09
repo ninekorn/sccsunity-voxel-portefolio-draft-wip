@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1948334222743859123
+--- !u!1 &6264902066372821638
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,53 +8,46 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1948334222743859120}
-  - component: {fileID: 1948334222743859121}
+  - component: {fileID: 7522402318328556542}
+  - component: {fileID: 4907014241768081923}
   m_Layer: 0
-  m_Name: voxelgenverttrigreducedmapcs
-  m_TagString: Untagged
+  m_Name: sccscomputevoxelmapandvertexlocation-basicexample-
+  m_TagString: terrain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1948334222743859120
+--- !u!4 &7522402318328556542
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1948334222743859123}
+  m_GameObject: {fileID: 6264902066372821638}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1948334223556905647}
+  m_Father: {fileID: 2664098755517486817}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1948334222743859121
+--- !u!114 &4907014241768081923
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1948334222743859123}
+  m_GameObject: {fileID: 6264902066372821638}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7767686fe69e5b447be98c49e9f5ef33, type: 3}
+  m_Script: {fileID: 11500000, guid: 23632a1b479095644a710bd58867fa6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelsizex: 10
-  levelsizey: 10
-  levelsizez: 10
-  mapx: 10
-  mapy: 10
-  mapz: 10
-  computeShaderForMap: {fileID: 7200000, guid: b8c11517789576540a269a32e75c46d9, type: 3}
+  computeShaderForMap: {fileID: 7200000, guid: 2087eecebad03664ebe16ebd945fbdba, type: 3}
+  computeVertexes: {fileID: 7200000, guid: 84c7d4ff2a17c244e9067d1e65b5474f, type: 3}
+  mat1: {fileID: 2100000, guid: 9a81507c6c4e8f44ea0e3b7db4ff503e, type: 2}
   mat: {fileID: 2100000, guid: d6cc2254110554c4ea8733b69ec90197, type: 2}
-  threadmulx: 1
-  threadmuly: 1
-  threadmulz: 1
---- !u!1 &1948334223556905646
+--- !u!1 &8395960405862119733
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -62,26 +55,26 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1948334223556905647}
+  - component: {fileID: 2664098755517486817}
   m_Layer: 0
-  m_Name: projecttrianglereducedmapcs
+  m_Name: sccscomputevoxelmapandvertexlocation-basicexample-Topface-prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1948334223556905647
+--- !u!4 &2664098755517486817
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1948334223556905646}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_GameObject: {fileID: 8395960405862119733}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1948334222743859120}
+  - {fileID: 7522402318328556542}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

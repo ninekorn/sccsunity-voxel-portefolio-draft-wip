@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 
-public class sccscomputevoxelshrinkedALLFACES// : MonoBehaviour
+public class sccscomputevoxelshrinkedALLFACESslowREV// : MonoBehaviour
 {
     /* public struct mapbytes
      {
@@ -78,7 +78,7 @@ public class sccscomputevoxelshrinkedALLFACES// : MonoBehaviour
 
     public static Material mat;
 
-    public static universemapvert.testerOfNumber.mainChunk CreateMapArrays(Vector3 chunkpos, universemapvert.testerOfNumber.mainChunk mainChunk)
+    public static universemapvertSLOWrev.testerOfNumber.mainChunk CreateMapArrays(Vector3 chunkpos, universemapvertSLOWrev.testerOfNumber.mainChunk mainChunk)
     {
 
 
@@ -91,13 +91,13 @@ public class sccscomputevoxelshrinkedALLFACES// : MonoBehaviour
 
 
 
-        mainChunk.mapdata = new universemapvert.testerOfNumber.mapbytes[levelsizex * levelsizey * levelsizez][];
-        mainChunk.datamapfirstvertxtop = new universemapvert.testerOfNumber.mapofints[levelsizex * levelsizey * levelsizez][];
-        mainChunk.datamapfirstvertytop = new universemapvert.testerOfNumber.mapofints[levelsizex * levelsizey * levelsizez][];
-        mainChunk.datamapfirstvertztop = new universemapvert.testerOfNumber.mapofints[levelsizex * levelsizey * levelsizez][];
-        mainChunk.datawidthdimtop = new universemapvert.testerOfNumber.mapofints[levelsizex * levelsizey * levelsizez][];
-        mainChunk.dataheightdimtop = new universemapvert.testerOfNumber.mapofints[levelsizex * levelsizey * levelsizez][];
-        mainChunk.datadepthdimtop = new universemapvert.testerOfNumber.mapofints[levelsizex * levelsizey * levelsizez][];
+        mainChunk.mapdata = new universemapvertSLOWrev.testerOfNumber.mapbytes[levelsizex * levelsizey * levelsizez][];
+        mainChunk.datamapfirstvertxtop = new universemapvertSLOWrev.testerOfNumber.mapofints[levelsizex * levelsizey * levelsizez][];
+        mainChunk.datamapfirstvertytop = new universemapvertSLOWrev.testerOfNumber.mapofints[levelsizex * levelsizey * levelsizez][];
+        mainChunk.datamapfirstvertztop = new universemapvertSLOWrev.testerOfNumber.mapofints[levelsizex * levelsizey * levelsizez][];
+        mainChunk.datawidthdimtop = new universemapvertSLOWrev.testerOfNumber.mapofints[levelsizex * levelsizey * levelsizez][];
+        mainChunk.dataheightdimtop = new universemapvertSLOWrev.testerOfNumber.mapofints[levelsizex * levelsizey * levelsizez][];
+        mainChunk.datadepthdimtop = new universemapvertSLOWrev.testerOfNumber.mapofints[levelsizex * levelsizey * levelsizez][];
 
 
         //GameObject emptyobjectparent0 = this.transform.gameObject;
@@ -125,13 +125,13 @@ public class sccscomputevoxelshrinkedALLFACES// : MonoBehaviour
 
 
                     //int totalSize = mapx * mapy * mapz;
-                    mainChunk.mapdata[mindex] = new universemapvert.testerOfNumber.mapbytes[mapx * mapy * mapz];
-                    mainChunk.datamapfirstvertxtop[mindex] = new universemapvert.testerOfNumber.mapofints[mapx * mapy * mapz];
-                    mainChunk.datamapfirstvertytop[mindex] = new universemapvert.testerOfNumber.mapofints[mapx * mapy * mapz];
-                    mainChunk.datamapfirstvertztop[mindex] = new universemapvert.testerOfNumber.mapofints[mapx * mapy * mapz];
-                    mainChunk.datawidthdimtop[mindex] = new universemapvert.testerOfNumber.mapofints[mapx * mapy * mapz];
-                    mainChunk.dataheightdimtop[mindex] = new universemapvert.testerOfNumber.mapofints[mapx * mapy * mapz];
-                    mainChunk.datadepthdimtop[mindex] = new universemapvert.testerOfNumber.mapofints[mapx * mapy * mapz];
+                    mainChunk.mapdata[mindex] = new universemapvertSLOWrev.testerOfNumber.mapbytes[mapx * mapy * mapz];
+                    mainChunk.datamapfirstvertxtop[mindex] = new universemapvertSLOWrev.testerOfNumber.mapofints[mapx * mapy * mapz];
+                    mainChunk.datamapfirstvertytop[mindex] = new universemapvertSLOWrev.testerOfNumber.mapofints[mapx * mapy * mapz];
+                    mainChunk.datamapfirstvertztop[mindex] = new universemapvertSLOWrev.testerOfNumber.mapofints[mapx * mapy * mapz];
+                    mainChunk.datawidthdimtop[mindex] = new universemapvertSLOWrev.testerOfNumber.mapofints[mapx * mapy * mapz];
+                    mainChunk.dataheightdimtop[mindex] = new universemapvertSLOWrev.testerOfNumber.mapofints[mapx * mapy * mapz];
+                    mainChunk.datadepthdimtop[mindex] = new universemapvertSLOWrev.testerOfNumber.mapofints[mapx * mapy * mapz];
 
                     for (int x = 0; x < mapx; x++)
                     {
@@ -141,29 +141,29 @@ public class sccscomputevoxelshrinkedALLFACES// : MonoBehaviour
                             {
                                 int index = x + mapx * (y + mapy * z);
 
-                                mainChunk.mapdata[mindex][index] = new universemapvert.testerOfNumber.mapbytes();
+                                mainChunk.mapdata[mindex][index] = new universemapvertSLOWrev.testerOfNumber.mapbytes();
                                 mainChunk.mapdata[mindex][index].thebyte = 0;
                                 mainChunk.mapdata[mindex][index].position = new Vector3(mx * mapx * 0.1f, my * mapy * 0.1f, mz * mapz * 0.1f) + chunkmainpos;
                                 mainChunk.mapdata[mindex][index].ix = x;
                                 mainChunk.mapdata[mindex][index].iy = y;
                                 mainChunk.mapdata[mindex][index].iz = z;
 
-                                mainChunk.datamapfirstvertxtop[mindex][index] = new universemapvert.testerOfNumber.mapofints();
+                                mainChunk.datamapfirstvertxtop[mindex][index] = new universemapvertSLOWrev.testerOfNumber.mapofints();
                                 mainChunk.datamapfirstvertxtop[mindex][index].thebyte = 0;
 
-                                mainChunk.datamapfirstvertytop[mindex][index] = new universemapvert.testerOfNumber.mapofints();
+                                mainChunk.datamapfirstvertytop[mindex][index] = new universemapvertSLOWrev.testerOfNumber.mapofints();
                                 mainChunk.datamapfirstvertytop[mindex][index].thebyte = 0;
 
-                                mainChunk.datamapfirstvertztop[mindex][index] = new universemapvert.testerOfNumber.mapofints();
+                                mainChunk.datamapfirstvertztop[mindex][index] = new universemapvertSLOWrev.testerOfNumber.mapofints();
                                 mainChunk.datamapfirstvertztop[mindex][index].thebyte = 0;
 
-                                mainChunk.datawidthdimtop[mindex][index] = new universemapvert.testerOfNumber.mapofints();
+                                mainChunk.datawidthdimtop[mindex][index] = new universemapvertSLOWrev.testerOfNumber.mapofints();
                                 mainChunk.datawidthdimtop[mindex][index].thebyte = 0;
 
-                                mainChunk.dataheightdimtop[mindex][index] = new universemapvert.testerOfNumber.mapofints();
+                                mainChunk.dataheightdimtop[mindex][index] = new universemapvertSLOWrev.testerOfNumber.mapofints();
                                 mainChunk.dataheightdimtop[mindex][index].thebyte = 0;
 
-                                mainChunk.datadepthdimtop[mindex][index] = new universemapvert.testerOfNumber.mapofints();
+                                mainChunk.datadepthdimtop[mindex][index] = new universemapvertSLOWrev.testerOfNumber.mapofints();
                                 mainChunk.datadepthdimtop[mindex][index].thebyte = 0;
                             }
                         }
@@ -258,7 +258,7 @@ public class sccscomputevoxelshrinkedALLFACES// : MonoBehaviour
     static int totalSize;
 
 
-    public static universemapvert.testerOfNumber.mainChunk workonshader(Vector3 chunkpos, GameObject thecurrentchunk, out List<Vector3> vertices, out List<int> triangles, universemapvert.testerOfNumber.mainChunk mainChunk)
+    public static universemapvertSLOWrev.testerOfNumber.mainChunk workonshader(Vector3 chunkpos, GameObject thecurrentchunk, out List<Vector3> vertices, out List<int> triangles, universemapvertSLOWrev.testerOfNumber.mainChunk mainChunk)
     {
 
 
@@ -295,10 +295,10 @@ public class sccscomputevoxelshrinkedALLFACES// : MonoBehaviour
 
 
 
-        universemapvert.mapsbuffer = new ComputeBuffer(mainChunk.mapdata[mindex].Length, totalSize);
+        mainChunk.mapsbuffer = new ComputeBuffer(mainChunk.mapdata[mindex].Length, totalSize);
 
-        universemapvert.mapsbuffer.SetCounterValue(0);
-        universemapvert.mapsbuffer.SetData(mainChunk.mapdata[mindex]);
+        mainChunk.mapsbuffer.SetCounterValue(0);
+        mainChunk.mapsbuffer.SetData(mainChunk.mapdata[mindex]);
 
 
 
@@ -308,15 +308,15 @@ public class sccscomputevoxelshrinkedALLFACES// : MonoBehaviour
         }
         else
         {
-            Debug.Log("computeShaderForMap !null");
+            //Debug.Log("computeShaderForMap !null");
 
         }
 
-        computeShaderForMap.SetBuffer(0, "themap", universemapvert.mapsbuffer);
+        computeShaderForMap.SetBuffer(0, "themap", mainChunk.mapsbuffer);
 
         computeShaderForMap.Dispatch(0, (mapx * mapy * mapz) / 10, 1, 1);
 
-        universemapvert.mapsbuffer.GetData(mainChunk.mapdata[mindex]);
+        mainChunk.mapsbuffer.GetData(mainChunk.mapdata[mindex]);
 
         mapint = new int[mapx * mapy * mapz];
         for (int x = 0; x < mapx; x++)
@@ -1460,7 +1460,7 @@ public class sccscomputevoxelshrinkedALLFACES// : MonoBehaviour
 
 
 
-    public static universemapvert.testerOfNumber.mainChunk CSCreateMapBuffer(universemapvert.testerOfNumber.mainChunk mainChunk) //sccsproceduralplanetbuilderrev4.mainChunk mainChunk
+    public static universemapvertSLOWrev.testerOfNumber.mainChunk CSCreateMapBuffer(universemapvertSLOWrev.testerOfNumber.mainChunk mainChunk) //sccsproceduralplanetbuilderrev4.mainChunk mainChunk
     {
         int mindex = 0;
         //int[] mapint;// = new int[mapx * mapy * mapz];
@@ -1470,28 +1470,25 @@ public class sccscomputevoxelshrinkedALLFACES// : MonoBehaviour
         int vector3Size = sizeof(float) * 3;
         int totalSize = thebytesize + vector3Size;
 
-        if (universemapvert.mapsbuffer != null)
+        if (mainChunk.mapsbuffer != null)
         {
-            /*mainChunk.mapsbuffer.Release();
+            mainChunk.mapsbuffer.Release();
             mainChunk.mapsbuffer.Dispose();
 
             mainChunk.mapsbuffer = new ComputeBuffer(mainChunk.mapdata[mindex].Length, totalSize);
-            */
 
         }
         else
         {
 
-            universemapvert.mapsbuffer = new ComputeBuffer(mainChunk.mapdata[mindex].Length, totalSize);
+            mainChunk.mapsbuffer = new ComputeBuffer(mainChunk.mapdata[mindex].Length, totalSize);
 
         }
-        
 
         if (shaderinit == 0)
         {
-            computeShaderForMap = universemapvert.sccsmapallcompute;
 
-            //computeShaderForMap = (ComputeShader)Resources.Load("Compute/sccsmapallcompute");//ComputeShader.Find("Transparent/Diffuse");
+            computeShaderForMap = (ComputeShader)Resources.Load("Compute/sccsmapallcompute");//ComputeShader.Find("Transparent/Diffuse");
 
             shaderinit = 1;
         }
@@ -1501,7 +1498,7 @@ public class sccscomputevoxelshrinkedALLFACES// : MonoBehaviour
 
 
 
-    public static universemapvert.testerOfNumber.mainChunk CSWorkOnMapOnly(universemapvert.testerOfNumber.mainChunk mainChunk) //sccsproceduralplanetbuilderrev4.mainChunk mainChunk
+    public static universemapvertSLOWrev.testerOfNumber.mainChunk CSWorkOnMapOnly(universemapvertSLOWrev.testerOfNumber.mainChunk mainChunk) //sccsproceduralplanetbuilderrev4.mainChunk mainChunk
     {
         int mindex = 0;
         //int[] mapint;//
@@ -1534,44 +1531,9 @@ public class sccscomputevoxelshrinkedALLFACES// : MonoBehaviour
         if (mainChunk.swtc == 0)
         {
 
-            universemapvert.mapsbuffer.SetCounterValue(0);
-            universemapvert.mapsbuffer.SetData(mainChunk.mapdata[mindex]);
 
 
 
-            if (computeShaderForMap == null)
-            {
-                Debug.Log("computeShaderForMap null");
-            }
-            else
-            {
-                //Debug.Log("computeShaderForMap !null");
-
-            }
-
-            computeShaderForMap.SetBuffer(0, "themap", universemapvert.mapsbuffer);
-            computeShaderForMap.Dispatch(0, (mapx * mapy * mapz) / 10, 1, 1);
-
-            universemapvert.mapsbuffer.GetData(mainChunk.mapdata[mindex]);
-
-            mainChunk.map = new int[mapx * mapy * mapz];
-            for (int x = 0; x < mapx; x++)
-            {
-                for (int y = 0; y < mapy; y++)
-                {
-                    for (int z = 0; z < mapz; z++)
-                    {
-                        int index = x + mapx * (y + mapy * z);
-
-                        mainChunk.map[index] = mainChunk.mapdata[mindex][index].thebyte;
-
-                        //Debug.Log("map:" + data[index].thebyte);
-                    }
-                }
-            }
-            mainChunk.swtc = 1;
-
-            /*
             mainChunk.mapsbuffer.SetCounterValue(0);
             mainChunk.mapsbuffer.SetData(mainChunk.mapdata[mindex]);
 
@@ -1607,33 +1569,18 @@ public class sccscomputevoxelshrinkedALLFACES// : MonoBehaviour
                     }
                 }
             }
-            mainChunk.swtc = 1;*/
+            //mainChunk.swtc = 1;
         }
 
-        /*mainChunk.mapsbuffer.Release();
-        mainChunk.mapsbuffer.Dispose();*/
+        mainChunk.mapsbuffer.Release();
+        mainChunk.mapsbuffer.Dispose();
 
         return mainChunk;
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     static int matswtc = 0;
-    public static universemapvert.testerOfNumber.mainChunk workontherest(Vector3 chunkpos, GameObject thecurrentchunk, out List<Vector3> vertices, out List<int> triangles, int mx, int my, int mz, universemapvert.testerOfNumber.mainChunk mainChunk)
+    public static universemapvertSLOWrev.testerOfNumber.mainChunk workontherest(Vector3 chunkpos, GameObject thecurrentchunk, out List<Vector3> vertices, out List<int> triangles, int mx, int my, int mz, universemapvertSLOWrev.testerOfNumber.mainChunk mainChunk)
     {
         if (matswtc == 0)
         {
@@ -1851,8 +1798,13 @@ public class sccscomputevoxelshrinkedALLFACES// : MonoBehaviour
         }
 
 
-       
-        /*
+        if (mainChunk.maps0buffer == null)
+        {
+            mainChunk.maps0buffer = new ComputeBuffer(mainChunk.mapdata[mindex].Length, totalSize);
+            mainChunk.maps0buffer.SetData(mainChunk.mapdata[mindex]);
+
+        }
+
         if (mainChunk.mapvertlocbufferx != null)
         {
             mainChunk.mapvertlocbufferx.Release();
@@ -1889,17 +1841,9 @@ public class sccscomputevoxelshrinkedALLFACES// : MonoBehaviour
         {
             mainChunk.mapdepthdimtop.Release();
             mainChunk.mapdepthdimtop.Dispose();
-        }*/
-        
-
-
-
-        if (mainChunk.maps0buffer == null)
-        {
-            mainChunk.maps0buffer = new ComputeBuffer(mainChunk.mapdata[mindex].Length, totalSize);
-            mainChunk.maps0buffer.SetData(mainChunk.mapdata[mindex]);
-
         }
+
+
         if (mainChunk.mapvertlocbufferx == null)
         {
             mainChunk.mapvertlocbufferx = new ComputeBuffer(mainChunk.datamapfirstvertxtop[mindex].Length, 4);
@@ -1942,14 +1886,6 @@ public class sccscomputevoxelshrinkedALLFACES// : MonoBehaviour
 
 
         //mainChunk.maps0buffer.SetCounterValue(0);
-        /*mainChunk.mapvertlocbufferx.SetCounterValue(0);
-        mainChunk.mapvertlocbuffery.SetCounterValue(0);
-        mainChunk.mapvertlocbufferz.SetCounterValue(0);
-        mainChunk.mapwidthdimtop.SetCounterValue(0);
-        mainChunk.mapheightdimtop.SetCounterValue(0);
-        mainChunk.mapdepthdimtop.SetCounterValue(0);
-        */
-        mainChunk.maps0buffer.SetCounterValue(0);
         mainChunk.mapvertlocbufferx.SetCounterValue(0);
         mainChunk.mapvertlocbuffery.SetCounterValue(0);
         mainChunk.mapvertlocbufferz.SetCounterValue(0);
@@ -1957,30 +1893,9 @@ public class sccscomputevoxelshrinkedALLFACES// : MonoBehaviour
         mainChunk.mapheightdimtop.SetCounterValue(0);
         mainChunk.mapdepthdimtop.SetCounterValue(0);
 
+
         for (int f = 0; f < numberoffaces; f++)
         {
-            /*if (mainChunk.maps0buffer != null)
-            {
-                mainChunk.maps0buffer.Release();
-                mainChunk.maps0buffer.Dispose();
-            }
-
-
-            if (mainChunk.maps0buffer == null)
-            {
-                mainChunk.maps0buffer = new ComputeBuffer(mainChunk.mapdata[mindex].Length, totalSize);
-                mainChunk.maps0buffer.SetData(mainChunk.mapdata[mindex]);
-
-            }*/
-            //mainChunk.maps0buffer.SetCounterValue(0);
-            /*mainChunk.mapvertlocbufferx.SetCounterValue(0);
-            mainChunk.mapvertlocbuffery.SetCounterValue(0);
-            mainChunk.mapvertlocbufferz.SetCounterValue(0);
-            mainChunk.mapwidthdimtop.SetCounterValue(0);
-            mainChunk.mapheightdimtop.SetCounterValue(0);
-            mainChunk.mapdepthdimtop.SetCounterValue(0);*/
-
-
             /*GameObject emptyobjectparent0 = new GameObject();
 
             emptyobjectparent0.transform.name = "chunkfacetype-" + f;
@@ -2003,204 +1918,14 @@ public class sccscomputevoxelshrinkedALLFACES// : MonoBehaviour
 
 
 
-            
-            /*if (computeVertexesALLFACES != null)
-            {
-                GC.SuppressFinalize(computeVertexesALLFACES);
-            }*/
-
-            if (f == 0) //&& computeVertexesALLFACES == null
-            {
-                computeVertexesALLFACES = universemapvert.computevertexTOP;//(ComputeShader)Resources.Load("Compute/computevertexTOP");//ComputeShader.Find("Transparent/Diffuse");
-            }
-            if (f == 1)// && computeVertexesALLFACES == null)
-            {
-                computeVertexesALLFACES = universemapvert.computevertexLEFT;// (ComputeShader)Resources.Load("Compute/computevertexLEFT");//ComputeShader.Find("Transparent/Diffuse");
-            }
-            if (f == 2)// && computeVertexesALLFACES == null)
-            {
-                computeVertexesALLFACES = universemapvert.computevertexRIGHT;//(ComputeShader)Resources.Load("Compute/computevertexRIGHT");//ComputeShader.Find("Transparent/Diffuse");
-            }
-
-            if (f == 3)// && computeVertexesALLFACES == null)
-            {
-                computeVertexesALLFACES = universemapvert.computevertexFRONT;//(ComputeShader)Resources.Load("Compute/computevertexFRONT");//ComputeShader.Find("Transparent/Diffuse");
-            }
-            if (f == 4)// && computeVertexesALLFACES == null)
-            {
-                computeVertexesALLFACES = universemapvert.computevertexBACK;//(ComputeShader)Resources.Load("Compute/computevertexBACK");//ComputeShader.Find("Transparent/Diffuse");
-            }
-            if (f == 5)// && computeVertexesALLFACES == null)
-            {
-                computeVertexesALLFACES = universemapvert.computevertexBOTTOM;// (ComputeShader)Resources.Load("Compute/computevertexBOTTOM");//ComputeShader.Find("Transparent/Diffuse");
-            }
-            
-
-            /*
-            if (f == 0) //&& computeVertexesALLFACES == null
-            {
-                if (swapcomputetop == null)
-                {
-                    computeVertexesALLFACES = universemapvert.computevertexTOP;
-
-                    //computeVertexesALLFACES = (ComputeShader)Resources.Load("Compute/computevertexTOP");//ComputeShader.Find("Transparent/Diffuse");
-                    swapcomputetop = computeVertexesALLFACES;
-                }
-                else
-                {
-                    computeVertexesALLFACES = swapcomputetop;
-                }
-            }
-            else
-            {
-                if (swapcomputetop != null)
-                {
-                    computeVertexesALLFACES = swapcomputetop;
-                    //swapcompute = 
-                }
-            }
 
 
 
-            if (f == 1)// && computeVertexesALLFACES == null)
-            {
-                if (swapcomputeleft == null)
-                {
-                    computeVertexesALLFACES = universemapvert.computevertexLEFT;
-                    //computeVertexesALLFACES = (ComputeShader)Resources.Load("Compute/computevertexLEFT");//ComputeShader.Find("Transparent/Diffuse");
-                    swapcomputeleft = computeVertexesALLFACES;
-                }
-                else
-                {
-                    computeVertexesALLFACES = swapcomputeleft;
-                }
-
-
-            }
-            else
-            {
-                if (swapcomputeleft != null)
-                {
-                    computeVertexesALLFACES = swapcomputeleft;
-                    //swapcompute = 
-                }
-            }
-
-
-
-
-            if (f == 2)// && computeVertexesALLFACES == null)
-            {
-                if (swapcomputeright == null)
-                {
-                    computeVertexesALLFACES = universemapvert.computevertexRIGHT;
-                    //computeVertexesALLFACES = (ComputeShader)Resources.Load("Compute/computevertexRIGHT");//ComputeShader.Find("Transparent/Diffuse");
-                    swapcomputeright = computeVertexesALLFACES;
-                }
-                else
-                {
-                    computeVertexesALLFACES = swapcomputeright;
-                }
-
-            }
-            else
-            {
-                if (swapcomputeright != null)
-                {
-                    computeVertexesALLFACES = swapcomputeright;
-                    //swapcompute = 
-                }
-            }
-
-
-
-
-            if (f == 3)// && computeVertexesALLFACES == null)
-            {
-                if (swapcomputefront == null)
-                {
-                    computeVertexesALLFACES = universemapvert.computevertexFRONT;
-
-                    //computeVertexesALLFACES = (ComputeShader)Resources.Load("Compute/computevertexFRONT");//ComputeShader.Find("Transparent/Diffuse");
-                    swapcomputefront = computeVertexesALLFACES;
-                }
-                else
-                {
-                    computeVertexesALLFACES = swapcomputefront;
-                }
-
-
-            }
-            else
-            {
-                if (swapcomputefront != null)
-                {
-                    computeVertexesALLFACES = swapcomputefront;
-                    //swapcompute = 
-                }
-            }
-
-            if (f == 4)// && computeVertexesALLFACES == null)
-            {
-                if (swapcomputeback == null)
-                {
-                    computeVertexesALLFACES = universemapvert.computevertexBACK;
-
-                    //computeVertexesALLFACES = (ComputeShader)Resources.Load("Compute/computevertexBACK");//ComputeShader.Find("Transparent/Diffuse");
-                    swapcomputeback = computeVertexesALLFACES;
-                }
-                else
-                {
-                    computeVertexesALLFACES = swapcomputeback;
-                }
-
-
-            }
-            else
-            {
-                if (swapcomputeback != null)
-                {
-                    computeVertexesALLFACES = swapcomputeback;
-                    //swapcompute = 
-                }
-            }
-            if (f == 5)// && computeVertexesALLFACES == null)
-            {
-                if (swapcomputebottom == null)
-                {
-                    computeVertexesALLFACES = universemapvert.computevertexBOTTOM;
-
-                    //computeVertexesALLFACES = (ComputeShader)Resources.Load("Compute/computevertexBOTTOM");//ComputeShader.Find("Transparent/Diffuse");
-                    swapcomputebottom = computeVertexesALLFACES;
-                }
-                else
-                {
-                    computeVertexesALLFACES = swapcomputebottom;
-                }
-
-            }
-            else
-            {
-                if (swapcomputebottom != null)
-                {
-                    computeVertexesALLFACES = swapcomputebottom;
-                    //swapcompute = 
-                }
-            }
-
-            */
 
 
 
             if (f == 0)
             {
-
-
-                //computeVertexesALLFACES = null;
-                /*if (computeVertexesALLFACES != null)
-                {
-                    GC.SuppressFinalize(computeVertexesALLFACES);
-                }*/
 
 
                 /*if (maps0buffer != null)
@@ -2363,7 +2088,7 @@ public class sccscomputevoxelshrinkedALLFACES// : MonoBehaviour
                     GetComponent<Renderer>().material = material;*/
 
 
-                    /*
+
                     if (f == 0) //&& computeVertexesALLFACES == null
                     {
                         computeVertexesALLFACES = (ComputeShader)Resources.Load("Compute/computevertexTOP");//ComputeShader.Find("Transparent/Diffuse");
@@ -2388,11 +2113,150 @@ public class sccscomputevoxelshrinkedALLFACES// : MonoBehaviour
                     if (f == 5)// && computeVertexesALLFACES == null)
                     {
                         computeVertexesALLFACES = (ComputeShader)Resources.Load("Compute/computevertexBOTTOM");//ComputeShader.Find("Transparent/Diffuse");
+                    }
+
+
+                    /*
+                    if (f == 0) //&& computeVertexesALLFACES == null
+                    {
+                        if (swapcomputetop == null)
+                        {
+                            computeVertexesALLFACES = (ComputeShader)Resources.Load("Compute/computevertexTOP");//ComputeShader.Find("Transparent/Diffuse");
+                            swapcomputetop = computeVertexesALLFACES;
+                        }
+                        else
+                        {
+                            computeVertexesALLFACES = swapcomputetop;
+                        }
+                    }
+                    else
+                    {
+                        if (swapcomputetop != null)
+                        {
+                            computeVertexesALLFACES = swapcomputetop;
+                            //swapcompute = 
+                        }
+                    }
+
+
+
+                    if (f == 1)// && computeVertexesALLFACES == null)
+                    {
+                        if (swapcomputeleft == null)
+                        {
+                            computeVertexesALLFACES = (ComputeShader)Resources.Load("Compute/computevertexLEFT");//ComputeShader.Find("Transparent/Diffuse");
+                            swapcomputeleft = computeVertexesALLFACES;
+                        }
+                        else
+                        {
+                            computeVertexesALLFACES = swapcomputeleft;
+                        }
+
+                
+                    }
+                    else
+                    {
+                        if (swapcomputeleft != null)
+                        {
+                            computeVertexesALLFACES = swapcomputeleft;
+                            //swapcompute = 
+                        }
+                    }
+
+
+
+
+                    if (f == 2)// && computeVertexesALLFACES == null)
+                    {
+                        if (swapcomputeright == null)
+                        {
+                            computeVertexesALLFACES = (ComputeShader)Resources.Load("Compute/computevertexRIGHT");//ComputeShader.Find("Transparent/Diffuse");
+                            swapcomputeright = computeVertexesALLFACES;
+                        }
+                        else
+                        {
+                            computeVertexesALLFACES = swapcomputeright;
+                        }
+
+                    }
+                    else
+                    {
+                        if (swapcomputeright != null)
+                        {
+                            computeVertexesALLFACES = swapcomputeright;
+                            //swapcompute = 
+                        }
+                    }
+
+
+
+
+                    if (f == 3)// && computeVertexesALLFACES == null)
+                    {
+                        if (swapcomputefront == null)
+                        {
+                            computeVertexesALLFACES = (ComputeShader)Resources.Load("Compute/computevertexFRONT");//ComputeShader.Find("Transparent/Diffuse");
+                            swapcomputefront = computeVertexesALLFACES;
+                        }
+                        else
+                        {
+                            computeVertexesALLFACES = swapcomputefront;
+                        }
+
+
+                    }
+                    else
+                    {
+                        if (swapcomputefront != null)
+                        {
+                            computeVertexesALLFACES = swapcomputefront;
+                            //swapcompute = 
+                        }
+                    }
+
+                    if (f == 4)// && computeVertexesALLFACES == null)
+                    {
+                        if (swapcomputeback == null)
+                        {
+                            computeVertexesALLFACES = (ComputeShader)Resources.Load("Compute/computevertexBACK");//ComputeShader.Find("Transparent/Diffuse");
+                            swapcomputeback = computeVertexesALLFACES;
+                        }
+                        else
+                        {
+                            computeVertexesALLFACES = swapcomputeback;
+                        }
+
+
+                    }
+                    else
+                    {
+                        if (swapcomputeback != null)
+                        {
+                            computeVertexesALLFACES = swapcomputeback;
+                            //swapcompute = 
+                        }
+                    }
+                    if (f == 5)// && computeVertexesALLFACES == null)
+                    {
+                        if (swapcomputebottom == null)
+                        {
+                            computeVertexesALLFACES = (ComputeShader)Resources.Load("Compute/computevertexBOTTOM");//ComputeShader.Find("Transparent/Diffuse");
+                            swapcomputebottom = computeVertexesALLFACES;
+                        }
+                        else
+                        {
+                            computeVertexesALLFACES = swapcomputebottom;
+                        }
+
+                    }
+                    else
+                    {
+                        if (swapcomputebottom != null)
+                        {
+                            computeVertexesALLFACES = swapcomputebottom;
+                            //swapcompute = 
+                        }
                     }*/
-
-
-
-
 
 
 
@@ -3002,7 +2866,7 @@ public class sccscomputevoxelshrinkedALLFACES// : MonoBehaviour
 
                 }
 
-                
+
                 GameObject emptyobject = new GameObject();
                 var meshfilt = emptyobject.AddComponent<MeshFilter>();
                 var meshrend = emptyobject.AddComponent<MeshRenderer>();
@@ -3023,7 +2887,7 @@ public class sccscomputevoxelshrinkedALLFACES// : MonoBehaviour
 
                 emptyobject.transform.parent = thecurrentchunk.transform;
                 emptyobject.gameObject.name = "faces type:" + f;
-                
+
 
             }
 

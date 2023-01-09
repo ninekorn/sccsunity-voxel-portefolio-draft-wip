@@ -539,7 +539,7 @@ public class sccsplanetchunk : MonoBehaviour
         this.gameObject.GetComponent<MeshFilter>().mesh.RecalculateBounds();
         this.gameObject.GetComponent<MeshFilter>().mesh.RecalculateNormals();
 
-        if (this.gameObject.GetComponent<MeshCollider>() == null)
+        /*if (this.gameObject.GetComponent<MeshCollider>() == null)
         {
             this.gameObject.AddComponent<MeshCollider>();
         }
@@ -548,7 +548,7 @@ public class sccsplanetchunk : MonoBehaviour
             Destroy(this.gameObject.GetComponent<MeshCollider>());
             this.gameObject.AddComponent<MeshCollider>();
 
-        }
+        }*/
     }
 
 

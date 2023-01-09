@@ -108,7 +108,7 @@ public class sccsplanetchunkrev4// : MonoBehaviour
 
         //if (chunkpos.y >= 3)
         //{
-        mainChunk.bytemap = new byte[width*height* depth];
+        //mainChunk.bytemap = new byte[width*height* depth];
 
 
         float offsetDist = 0;
@@ -710,6 +710,62 @@ public class sccsplanetchunkrev4// : MonoBehaviour
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+        /*
+        //RIGHTFACE
+        if (IsTransparent(x + 1, y, z, mainChunk))
+        {
+            offset1 = Vector3.up * planeSize;
+            offset2 = Vector3.forward * planeSize;
+            mainChunk = DrawFace(start + Vector3.right * planeSize, offset1, offset2, mainChunk);
+        }
+        //LEFTFACE
+        if (IsTransparent(x - 1, y, z, mainChunk))
+        {
+            offset1 = Vector3.back * planeSize;
+            offset2 = Vector3.down * planeSize;
+            mainChunk = DrawFace(start + Vector3.up * planeSize + Vector3.forward * planeSize, offset1, offset2, mainChunk);
+        }
+        //FRONTFACE
+        if (IsTransparent(x, y, z - 1, mainChunk))
+        {
+            offset1 = Vector3.left * planeSize;
+            offset2 = Vector3.up * planeSize;
+            mainChunk = DrawFace(start + Vector3.right * planeSize, offset1, offset2, mainChunk);
+        }
+        //BACKFACE
+        if (IsTransparent(x, y, z + 1, mainChunk))
+        {
+            offset1 = Vector3.right * planeSize;
+            offset2 = Vector3.up * planeSize;
+            mainChunk = DrawFace(start + Vector3.forward * planeSize, offset1, offset2, mainChunk);
+        }
+        //TOPFACE
+        if (IsTransparent(x, y + 1, z, mainChunk))
+        {
+            offset1 = Vector3.forward * planeSize;
+            offset2 = Vector3.right * planeSize;
+            mainChunk = DrawFace(start + Vector3.up * planeSize, offset1, offset2, mainChunk);
+        }
+        //BOTTOMFACE
+        if (IsTransparent(x, y - 1, z, mainChunk))
+        {
+            offset1 = Vector3.right * planeSize;
+            offset2 = Vector3.forward * planeSize;
+            mainChunk = DrawFace(start, offset1, offset2, mainChunk);
+        }*/
+
+        
         //RIGHTFACE
         if (x != width - 1)
         {
@@ -723,9 +779,9 @@ public class sccsplanetchunkrev4// : MonoBehaviour
         }
         else if (x == width - 1)
         {
-            if (sccsproceduralplanetbuilderrev4.sccsproceduralplanetbuilderrev4script.getChunk((int)(chunkpos.x + 4), (int)(chunkpos.y), (int)(chunkpos.z)) != null)
+            if (sccsproceduralplanetbuilderrev4.sccsproceduralplanetbuilderrev4script.getChunk((int)(mainChunk.worldPosition.x + 4), (int)(mainChunk.worldPosition.y), (int)(mainChunk.worldPosition.z)) != null)
             {
-              sccsproceduralplanetbuilderrev4.mainChunk chunkdata = sccsproceduralplanetbuilderrev4.sccsproceduralplanetbuilderrev4script.getChunk((int)(chunkpos.x + 4), (int)(chunkpos.y), (int)(chunkpos.z));
+              sccsproceduralplanetbuilderrev4.mainChunk chunkdata = sccsproceduralplanetbuilderrev4.sccsproceduralplanetbuilderrev4script.getChunk((int)(mainChunk.worldPosition.x + 4), (int)(mainChunk.worldPosition.y), (int)(mainChunk.worldPosition.z));
 
                 float xx = (Mathf.Floor(start.x * fraction) / fraction) + chunkRadius;
                 float yy = (Mathf.Floor(start.y * fraction) / fraction) + chunkRadius;
@@ -761,9 +817,9 @@ public class sccsplanetchunkrev4// : MonoBehaviour
         }
         else if (x == 0)
         {
-            if (sccsproceduralplanetbuilderrev4.sccsproceduralplanetbuilderrev4script.getChunk((int)(chunkpos.x - 4), (int)(chunkpos.y), (int)(chunkpos.z)) != null)
+            if (sccsproceduralplanetbuilderrev4.sccsproceduralplanetbuilderrev4script.getChunk((int)(mainChunk.worldPosition.x - 4), (int)(mainChunk.worldPosition.y), (int)(mainChunk.worldPosition.z)) != null)
             {
-                sccsproceduralplanetbuilderrev4.mainChunk chunkdata = sccsproceduralplanetbuilderrev4.sccsproceduralplanetbuilderrev4script.getChunk((int)(chunkpos.x - 4), (int)(chunkpos.y), (int)(chunkpos.z));
+                sccsproceduralplanetbuilderrev4.mainChunk chunkdata = sccsproceduralplanetbuilderrev4.sccsproceduralplanetbuilderrev4script.getChunk((int)(mainChunk.worldPosition.x - 4), (int)(mainChunk.worldPosition.y), (int)(mainChunk.worldPosition.z));
 
                 float xx = (Mathf.Floor(start.x * fraction) / fraction) + chunkRadius;
                 float yy = (Mathf.Floor(start.y * fraction) / fraction) + chunkRadius;
@@ -796,9 +852,9 @@ public class sccsplanetchunkrev4// : MonoBehaviour
 
 
         //FRONTFACE
-        if (z == 0 && sccsproceduralplanetbuilderrev4.sccsproceduralplanetbuilderrev4script.getChunk((int)(chunkpos.x), (int)(chunkpos.y), (int)(chunkpos.z - 4)) != null)
+        if (z == 0 && sccsproceduralplanetbuilderrev4.sccsproceduralplanetbuilderrev4script.getChunk((int)(mainChunk.worldPosition.x), (int)(mainChunk.worldPosition.y), (int)(mainChunk.worldPosition.z - 4)) != null)
         {
-            sccsproceduralplanetbuilderrev4.mainChunk chunkdata = sccsproceduralplanetbuilderrev4.sccsproceduralplanetbuilderrev4script.getChunk((int)(chunkpos.x), (int)(chunkpos.y), (int)(chunkpos.z - 4));
+            sccsproceduralplanetbuilderrev4.mainChunk chunkdata = sccsproceduralplanetbuilderrev4.sccsproceduralplanetbuilderrev4script.getChunk((int)(mainChunk.worldPosition.x), (int)(mainChunk.worldPosition.y), (int)(mainChunk.worldPosition.z - 4));
 
             if (chunkdata != null)
             {
@@ -828,9 +884,9 @@ public class sccsplanetchunkrev4// : MonoBehaviour
         }
 
         //BACKFACE
-        if (z == width - 1 && sccsproceduralplanetbuilderrev4.sccsproceduralplanetbuilderrev4script.getChunk((int)(chunkpos.x), (int)(chunkpos.y), (int)(chunkpos.z + 4)) != null)
+        if (z == width - 1 && sccsproceduralplanetbuilderrev4.sccsproceduralplanetbuilderrev4script.getChunk((int)(mainChunk.worldPosition.x), (int)(mainChunk.worldPosition.y), (int)(mainChunk.worldPosition.z + 4)) != null)
         {
-            sccsproceduralplanetbuilderrev4.mainChunk chunkdata = sccsproceduralplanetbuilderrev4.sccsproceduralplanetbuilderrev4script.getChunk((int)(chunkpos.x), (int)(chunkpos.y), (int)(chunkpos.z + 4));
+            sccsproceduralplanetbuilderrev4.mainChunk chunkdata = sccsproceduralplanetbuilderrev4.sccsproceduralplanetbuilderrev4script.getChunk((int)(mainChunk.worldPosition.x), (int)(mainChunk.worldPosition.y), (int)(mainChunk.worldPosition.z + 4));
 
             float xx = (Mathf.Floor(start.x * fraction) / fraction) + chunkRadius;
             float yy = (Mathf.Floor(start.y * fraction) / fraction) + chunkRadius;
@@ -869,9 +925,9 @@ public class sccsplanetchunkrev4// : MonoBehaviour
 
 
         //TOPFACE
-        if (y == height - 1 && sccsproceduralplanetbuilderrev4.sccsproceduralplanetbuilderrev4script.getChunk((int)(chunkpos.x), (int)(chunkpos.y + 4), (int)(chunkpos.z)) != null)
+        if (y == height - 1 && sccsproceduralplanetbuilderrev4.sccsproceduralplanetbuilderrev4script.getChunk((int)(mainChunk.worldPosition.x), (int)(mainChunk.worldPosition.y + 4), (int)(mainChunk.worldPosition.z)) != null)
         {
-            sccsproceduralplanetbuilderrev4.mainChunk chunkdata = sccsproceduralplanetbuilderrev4.sccsproceduralplanetbuilderrev4script.getChunk((int)(chunkpos.x), (int)(chunkpos.y + 4), (int)(chunkpos.z));
+            sccsproceduralplanetbuilderrev4.mainChunk chunkdata = sccsproceduralplanetbuilderrev4.sccsproceduralplanetbuilderrev4script.getChunk((int)(mainChunk.worldPosition.x), (int)(mainChunk.worldPosition.y + 4), (int)(mainChunk.worldPosition.z));
 
             if (chunkdata != null)
             {
@@ -901,9 +957,9 @@ public class sccsplanetchunkrev4// : MonoBehaviour
         }
 
         //BOTTOMFACE
-        if (y == 0 && sccsproceduralplanetbuilderrev4.sccsproceduralplanetbuilderrev4script.getChunk((int)(chunkpos.x), (int)(chunkpos.y - 4), (int)(chunkpos.z)) != null)
+        if (y == 0 && sccsproceduralplanetbuilderrev4.sccsproceduralplanetbuilderrev4script.getChunk((int)(mainChunk.worldPosition.x), (int)(mainChunk.worldPosition.y - 4), (int)(mainChunk.worldPosition.z)) != null)
         {
-            sccsproceduralplanetbuilderrev4.mainChunk chunkdata = sccsproceduralplanetbuilderrev4.sccsproceduralplanetbuilderrev4script.getChunk((int)(chunkpos.x), (int)(chunkpos.y - 4), (int)(chunkpos.z));
+            sccsproceduralplanetbuilderrev4.mainChunk chunkdata = sccsproceduralplanetbuilderrev4.sccsproceduralplanetbuilderrev4script.getChunk((int)(mainChunk.worldPosition.x), (int)(mainChunk.worldPosition.y - 4), (int)(mainChunk.worldPosition.z));
 
             if (chunkdata != null)
             {
