@@ -1,0 +1,105 @@
+2022-JULY-26: I was able to incorporate to my project the MIT license project Procedural Landmass generation's
+threaded logic with queues and dequeue on the update thread for generating a mesh after the project is loaded.
+I was able to do the logic of dispatching to the UI thread work that was done on the UIThread but after the
+loadup of the program in my earlier revision sccsr472 or sccsr13. But i never really worked with the procedural
+landmass generation tutorial's multithreading since 2017-2018 when i made it work in my infinite terrain 
+generators universe.cs and scterrain.cs but not my terrain22.cs i think. You can find those infinite level
+generators inside of the portefolio draft in unity3d here https://github.com/ninekorn/sccsvrunity-portefolio-draft-wip
+where my terrain infinite generators are. But you might need to activate a license of the unity store 
+spinach dispatch tool for multithreaded coroutines. since i had a license for that one, i had to remove the
+assets of that license from my project portefolio. But my 2020 portefolio of incorporating physics with breaking
+voxels and virtual reality has my newest then unity scripts for planet generation. I barely touched my infinite
+level generators ever since 2017-2018 so they might not work as expected anymore in a different unity version, but
+i was using Unity 2017 LTS mostly during those days.
+
+The logic that i incorporated from the tutorial Procedural Landmass Generation MIT of Sebastian Lague's is the dispatching
+of work to threads and recuperating from dequeue in the UI main thread:
+
+	Queue<MapThreadInfo<MapData>> mapDataThreadInfoQueue = new Queue<MapThreadInfo<MapData>>();
+	Queue<MapThreadInfo<MeshData>> meshDataThreadInfoQueue = new Queue<MapThreadInfo<MeshData>>();
+
+	public void RequestMapData(Vector2 centre, Action<MapData> callback) {
+		ThreadStart threadStart = delegate {
+			MapDataThread (centre, callback);
+		};
+
+		new Thread (threadStart).Start ();
+	}
+
+	void MapDataThread(Vector2 centre, Action<MapData> callback) {
+		MapData mapData = GenerateMapData (centre);
+		lock (mapDataThreadInfoQueue) {
+			mapDataThreadInfoQueue.Enqueue (new MapThreadInfo<MapData> (callback, mapData));
+		}
+	}
+
+	public void RequestMeshData(MapData mapData, int lod, Action<MeshData> callback) {
+		ThreadStart threadStart = delegate {
+			MeshDataThread (mapData, lod, callback);
+		};
+
+		new Thread (threadStart).Start ();
+	}
+
+	void MeshDataThread(MapData mapData, int lod, Action<MeshData> callback) {
+		MeshData meshData = MeshGenerator.GenerateTerrainMesh (mapData.heightMap, meshHeightMultiplier, meshHeightCurve, lod);
+		lock (meshDataThreadInfoQueue) {
+			meshDataThreadInfoQueue.Enqueue (new MapThreadInfo<MeshData> (callback, meshData));
+		}
+	}
+
+	void Update() {
+		if (mapDataThreadInfoQueue.Count > 0) {
+			for (int i = 0; i < mapDataThreadInfoQueue.Count; i++) {
+				MapThreadInfo<MapData> threadInfo = mapDataThreadInfoQueue.Dequeue ();
+				threadInfo.callback (threadInfo.parameter);
+			}
+		}
+
+		if (meshDataThreadInfoQueue.Count > 0) {
+			for (int i = 0; i < meshDataThreadInfoQueue.Count; i++) {
+				MapThreadInfo<MeshData> threadInfo = meshDataThreadInfoQueue.Dequeue ();
+				threadInfo.callback (threadInfo.parameter);
+			}
+		}
+	}
+
+	void OnMapDataReceived(MapData mapData)
+	 {
+		this.mapData = mapData;
+		mapDataReceived = true;
+
+		Texture2D texture = TextureGenerator.TextureFromColourMap (mapData.colourMap, MapGenerator.mapChunkSize, MapGenerator.mapChunkSize);
+		meshRenderer.material.mainTexture = texture;
+
+		UpdateTerrainChunk ();
+	}
+
+
+
+	struct MapThreadInfo<T> {
+	public readonly Action<T> callback;
+	public readonly T parameter;
+
+	public MapThreadInfo (Action<T> callback, T parameter)
+	{
+		this.callback = callback;
+		this.parameter = parameter;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
