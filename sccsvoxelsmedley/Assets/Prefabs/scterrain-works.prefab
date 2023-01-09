@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1177791865688928579
+--- !u!1 &4597206066212177894
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,64 +8,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1177791865688928581}
-  - component: {fileID: 1177791865688928580}
-  m_Layer: 0
-  m_Name: scterrain-works
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1177791865688928581
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1177791865688928579}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 1177791866348946148}
-  m_Father: {fileID: 0}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1177791865688928580
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1177791865688928579}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11073642ea3ea1d4d8b382bc59cb47dd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _combineMax: 2
-  _mapWidth: 10
-  _mapHeight: 10
-  _mapDepth: 10
-  _planeSize: 0.1
-  _mat: {fileID: 2100000, guid: d6cc2254110554c4ea8733b69ec90197, type: 2}
-  _player: {fileID: 1177791866348946148}
-  _regionChunkObject: {fileID: 4880812751906945931, guid: dd065265c4506d04fadc65f1ed0a6a50, type: 3}
-  _areaChunkObject: {fileID: 3257825361997561377, guid: edcff782494a6c54f8668bc69be6c885, type: 3}
-  _bigChunkObject: {fileID: 2544616660911352859, guid: 87cb514322af5be4982ee472cb7b86b8, type: 3}
-  _smallChunkerObject: {fileID: 6819257748119029265, guid: 54656234783da984dbe1baa0792946e3, type: 3}
---- !u!1 &1177791866348946147
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1177791866348946148}
-  - component: {fileID: 1177791866348946150}
-  - component: {fileID: 1177791866348946149}
+  - component: {fileID: 4597206066212177889}
+  - component: {fileID: 4597206066212177891}
+  - component: {fileID: 4597206066212177888}
   m_Layer: 0
   m_Name: CameraMoveInEditor
   m_TagString: MainCamera
@@ -73,27 +18,27 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1177791866348946148
+--- !u!4 &4597206066212177889
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1177791866348946147}
+  m_GameObject: {fileID: 4597206066212177894}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.32729244, y: 0.6753338, z: 0.52624035}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1177791865688928581}
+  m_Father: {fileID: 4597206066541828741}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!20 &1177791866348946150
+--- !u!20 &4597206066212177891
 Camera:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1177791866348946147}
+  m_GameObject: {fileID: 4597206066212177894}
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
@@ -130,11 +75,66 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &1177791866348946149
+--- !u!81 &4597206066212177888
 AudioListener:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1177791866348946147}
+  m_GameObject: {fileID: 4597206066212177894}
   m_Enabled: 1
+--- !u!1 &4597206066541828763
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4597206066541828741}
+  - component: {fileID: 4597206066541828762}
+  m_Layer: 0
+  m_Name: scterrain-works
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4597206066541828741
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4597206066541828763}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4597206066212177889}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4597206066541828762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4597206066541828763}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11073642ea3ea1d4d8b382bc59cb47dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _combineMax: 2
+  _mapWidth: 10
+  _mapHeight: 10
+  _mapDepth: 10
+  _planeSize: 0.1
+  _mat: {fileID: 2100000, guid: d6cc2254110554c4ea8733b69ec90197, type: 2}
+  _player: {fileID: 4597206066212177889}
+  _regionChunkObject: {fileID: 4880812751906945931, guid: dd065265c4506d04fadc65f1ed0a6a50, type: 3}
+  _areaChunkObject: {fileID: 3257825361997561377, guid: edcff782494a6c54f8668bc69be6c885, type: 3}
+  _bigChunkObject: {fileID: 2544616660911352859, guid: 87cb514322af5be4982ee472cb7b86b8, type: 3}
+  _smallChunkerObject: {fileID: 6819257748119029265, guid: 54656234783da984dbe1baa0792946e3, type: 3}

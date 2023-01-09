@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &6915300105111501215
+--- !u!1 &7600343364461410452
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,9 +8,63 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6915300105111501208}
-  - component: {fileID: 6915300105111501210}
-  - component: {fileID: 6915300105111501209}
+  - component: {fileID: 7600343364461410451}
+  - component: {fileID: 7600343364461410450}
+  m_Layer: 0
+  m_Name: voxelgeneratorALLFACES
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7600343364461410451
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7600343364461410452}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7600343365927859020}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7600343364461410450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7600343364461410452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44d942971ad7ee446a238e1b799d60d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelsizex: 4
+  levelsizey: 4
+  levelsizez: 4
+  mapx: 10
+  mapy: 10
+  mapz: 10
+  mat: {fileID: 2100000, guid: d6cc2254110554c4ea8733b69ec90197, type: 2}
+  threadmulx: 1
+  threadmuly: 1
+  threadmulz: 1
+  numberoffaces: 6
+--- !u!1 &7600343365770438562
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7600343365770438561}
+  - component: {fileID: 7600343365770438591}
+  - component: {fileID: 7600343365770438560}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -18,27 +72,27 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &6915300105111501208
+--- !u!4 &7600343365770438561
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6915300105111501215}
+  m_GameObject: {fileID: 7600343365770438562}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -8.16}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 6915300105863721996}
+  m_Father: {fileID: 7600343365927859020}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!20 &6915300105111501210
+--- !u!20 &7600343365770438591
 Camera:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6915300105111501215}
+  m_GameObject: {fileID: 7600343365770438562}
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
@@ -75,15 +129,15 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &6915300105111501209
+--- !u!81 &7600343365770438560
 AudioListener:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6915300105111501215}
+  m_GameObject: {fileID: 7600343365770438562}
   m_Enabled: 1
---- !u!1 &6915300105863721987
+--- !u!1 &7600343365927859021
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -91,7 +145,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6915300105863721996}
+  - component: {fileID: 7600343365927859020}
   m_Layer: 0
   m_Name: projectcomputeshadermapandvertlocationsCOMBINED
   m_TagString: Untagged
@@ -99,73 +153,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &6915300105863721996
+--- !u!4 &7600343365927859020
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6915300105863721987}
+  m_GameObject: {fileID: 7600343365927859021}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 8, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 6915300105111501208}
-  - {fileID: 6915300106901850809}
+  - {fileID: 7600343365770438561}
+  - {fileID: 7600343364461410451}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &6915300106901850808
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6915300106901850809}
-  - component: {fileID: 6915300106901850810}
-  m_Layer: 0
-  m_Name: voxelgeneratorALLFACES
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6915300106901850809
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6915300106901850808}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 6915300105863721996}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6915300106901850810
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6915300106901850808}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44d942971ad7ee446a238e1b799d60d8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  levelsizex: 4
-  levelsizey: 4
-  levelsizez: 4
-  mapx: 10
-  mapy: 10
-  mapz: 10
-  mat: {fileID: 2100000, guid: d6cc2254110554c4ea8733b69ec90197, type: 2}
-  threadmulx: 1
-  threadmuly: 1
-  threadmulz: 1
-  numberoffaces: 6

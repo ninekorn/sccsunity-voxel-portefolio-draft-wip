@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 
-public class sccscomputeUNIVERSEALLFACES : MonoBehaviour
+public class sccscomputevoxelALLFACESRM : MonoBehaviour
 {
     public struct mapbytes
     {
@@ -15,18 +15,27 @@ public class sccscomputeUNIVERSEALLFACES : MonoBehaviour
         public Vector3 position;
     }
 
+
+
     public struct mapofints
     {
         public int thebyte;
     };
 
-    public mapbytes[][] mapdata;
+    private mapbytes[][] mapdata;
     private mapofints[][] datamapfirstvertxtop;
     private mapofints[][] datamapfirstvertytop;
     private mapofints[][] datamapfirstvertztop;
     private mapofints[][] datawidthdimtop;
     private mapofints[][] dataheightdimtop;
     private mapofints[][] datadepthdimtop;
+
+
+    public int numberoffaces = 6;
+    List<Vector3> vertices = new List<Vector3>();
+    List<int> triangles = new List<int>();
+
+    public Material mat;
 
     public int levelsizex = 1;
     public int levelsizey = 1;
@@ -35,31 +44,19 @@ public class sccscomputeUNIVERSEALLFACES : MonoBehaviour
     public int mapy = 10;
     public int mapz = 10;
 
-    ComputeShader computeShaderForMap;
-    ComputeShader computeVertexesALLFACES;
-    
-    //public ComputeShader computeVertexesTOP;
-    //public ComputeShader computeVertexestwo;
-    //public ComputeShader computeVertexesLEFT;
-    //public ComputeShader computeVertexesRIGHT;
-    //public ComputeShader computeVertexesFRONT;
-
-    /*public Material frontfacemat;
-    public Material rightfacemat;
-    public Material mat2;
-    public Material mat1;*/
-    public Material mat;
-
-
     public int threadmulx = 1;
     public int threadmuly = 1;
     public int threadmulz = 1;
 
 
-    int reducedverttrigswtc = 0;
-
-
-    public int numberoffaces = 6;
+    ComputeShader computeShaderForMap; 
+    ComputeShader computeVertexesALLFACES;
+    ComputeShader swapcomputetop;
+    ComputeShader swapcomputeleft;
+    ComputeShader swapcomputeright;
+    ComputeShader swapcomputefront;
+    ComputeShader swapcomputeback;
+    ComputeShader swapcomputebottom;
 
     ComputeBuffer maps0buffer;
 
@@ -71,31 +68,271 @@ public class sccscomputeUNIVERSEALLFACES : MonoBehaviour
     ComputeBuffer mapheightdimtop;
     ComputeBuffer mapdepthdimtop;
 
+    public Vector3 chunkmainpos;
+
+
     Vector3 firstvertofface = Vector3.zero;
     Vector3 secondvertofface = Vector3.zero;
     Vector3 thirdvertofface = Vector3.zero;
     Vector3 fourthvertofface = Vector3.zero;
 
-
-    List<Vector3> vertices = new List<Vector3>();
-    List<int> triangles = new List<int>();
-
-
-    ComputeShader swapcomputetop;
-    ComputeShader swapcomputeleft;
-    ComputeShader swapcomputeright;
-    ComputeShader swapcomputefront;
-    ComputeShader swapcomputeback;
-    ComputeShader swapcomputebottom;
-
-
-
-
-    public void WorkOnShader(Vector3 originchunkpos, GameObject parentobj)
+    public int reducedverttrigswtc = 0;
+    // Start is called before the first frame update
+    public void CreateMapArrays(Vector3 chunkpos)
     {
+
+        //mapdata = new mapbytes[levelsizex * levelsizey * levelsizez][];
+
+        int[] mapint = new int[mapx * mapy * mapz];
+
+
+
+        mapdata = new mapbytes[levelsizex * levelsizey * levelsizez][];
+        datamapfirstvertxtop = new mapofints[levelsizex * levelsizey * levelsizez][];
+        datamapfirstvertytop = new mapofints[levelsizex * levelsizey * levelsizez][];
+        datamapfirstvertztop = new mapofints[levelsizex * levelsizey * levelsizez][];
+        datawidthdimtop = new mapofints[levelsizex * levelsizey * levelsizez][];
+        dataheightdimtop = new mapofints[levelsizex * levelsizey * levelsizez][];
+        datadepthdimtop = new mapofints[levelsizex * levelsizey * levelsizez][];
+
+
+        //GameObject emptyobjectparent0 = this.transform.gameObject;
+        //GameObject emptyobjectparent0 = new GameObject();
+        /*GameObject emptyobjectparent1 = new GameObject();
+        GameObject emptyobjectparentleftfaces = new GameObject();
+        emptyobjectparentleftfaces.gameObject.name = "leftfacesmain";
+
+        GameObject emptyobjectparentrightfaces = new GameObject();
+        emptyobjectparentrightfaces.gameObject.name = "rightfacesmain";
+
+        GameObject emptyobjectparentfrontfaces = new GameObject();
+        emptyobjectparentfrontfaces.gameObject.name = "frontfacesmain";*/
+
+
+        for (int mx = 0; mx < levelsizex; mx++)
+        {
+            for (int my = 0; my < levelsizey; my++)
+            {
+                for (int mz = 0; mz < levelsizez; mz++)
+                {
+                    int mindex = mx + levelsizex * (my + levelsizey * mz);
+
+                    chunkmainpos = new Vector3(mx * mapx * 0.1f, my * mapy * 0.1f, mz * mapz * 0.1f);
+
+
+                    //int totalSize = mapx * mapy * mapz;
+                    mapdata[mindex] = new mapbytes[mapx * mapy * mapz];
+                    datamapfirstvertxtop[mindex] = new mapofints[mapx * mapy * mapz];
+                    datamapfirstvertytop[mindex] = new mapofints[mapx * mapy * mapz];
+                    datamapfirstvertztop[mindex] = new mapofints[mapx * mapy * mapz];
+                    datawidthdimtop[mindex] = new mapofints[mapx * mapy * mapz];
+                    dataheightdimtop[mindex] = new mapofints[mapx * mapy * mapz];
+                    datadepthdimtop[mindex] = new mapofints[mapx * mapy * mapz];
+
+                    for (int x = 0; x < mapx; x++)
+                    {
+                        for (int y = 0; y < mapy; y++)
+                        {
+                            for (int z = 0; z < mapz; z++)
+                            {
+                                int index = x + mapx * (y + mapy * z);
+
+                                mapdata[mindex][index] = new mapbytes();
+                                mapdata[mindex][index].thebyte = 0;
+                                mapdata[mindex][index].position = new Vector3(mx * mapx * 0.1f, my * mapy * 0.1f, mz * mapz * 0.1f);
+                                mapdata[mindex][index].ix = x;
+                                mapdata[mindex][index].iy = y;
+                                mapdata[mindex][index].iz = z;
+
+                                datamapfirstvertxtop[mindex][index] = new mapofints();
+                                datamapfirstvertxtop[mindex][index].thebyte = 0;
+
+                                datamapfirstvertytop[mindex][index] = new mapofints();
+                                datamapfirstvertytop[mindex][index].thebyte = 0;
+
+                                datamapfirstvertztop[mindex][index] = new mapofints();
+                                datamapfirstvertztop[mindex][index].thebyte = 0;
+
+                                datawidthdimtop[mindex][index] = new mapofints();
+                                datawidthdimtop[mindex][index].thebyte = 0;
+
+                                dataheightdimtop[mindex][index] = new mapofints();
+                                dataheightdimtop[mindex][index].thebyte = 0;
+
+                                datadepthdimtop[mindex][index] = new mapofints();
+                                datadepthdimtop[mindex][index].thebyte = 0;
+                            }
+                        }
+                    }
+
+                }
+
+
+
+
+                /*maps0buffer.Release();
+                mapvertlocbufferx.Release();
+                mapvertlocbuffery.Release();
+                mapvertlocbufferz.Release();
+                mapwidthdimtop.Release();
+                mapheightdimtop.Release();
+                mapdepthdimtop.Release();
+
+
+
+                maps0buffer.Dispose();
+                mapvertlocbufferx.Dispose();
+                mapvertlocbuffery.Dispose();
+                mapvertlocbufferz.Dispose();
+                mapwidthdimtop.Dispose();
+                mapheightdimtop.Dispose();
+                mapdepthdimtop.Dispose();*/
+                // _tempChunkArraybuffer.Dispose();
+
+
+
+
+
+
+
+                /*
+                GameObject emptyobject1 = new GameObject();
+
+                //chunko thechunk = new chunko();
+
+                emptyobject1.AddComponent<singleChunk>();
+
+                singleChunk thechunk = emptyobject1.GetComponent<singleChunk>();
+                thechunk.width = mapx;
+                thechunk.height = mapy;
+                thechunk.depth = mapz;
+
+                thechunk.widthflat = mapx;
+                thechunk.heightflat = mapy;
+                thechunk.depthflat = mapz;
+
+                thechunk.vertexlistWidth = thechunk.width + 1;
+                thechunk.vertexlistHeight = thechunk.height + 1;
+                thechunk.vertexlistDepth = thechunk.depth + 1;
+
+                thechunk.createvars();
+                thechunk.map = mapint;
+                thechunk._mat = mat;
+                thechunk._testChunk = emptyobject1;
+                thechunk.startthegen(chunkmainpos);
+
+                emptyobject1.transform.position = new Vector3(0, -0.01f, 0);
+                emptyobject1.transform.position += chunkmainpos;
+                emptyobject1.transform.rotation = Quaternion.identity;
+                emptyobject1.transform.parent = emptyobjectparent1.transform;*/
+
+
+
+
+            }
+        }
+
+
+
+
+
+
+
+
+        //Debug.Log("arraycreated");
+        //return mapint;
+    }
+
+
+    ComputeBuffer mapsbuffer;
+
+
+    int shaderinit = 0;
+    public int[] workonshader(Vector3 chunkpos,GameObject thecurrentchunk)
+    {
+
+
+
+        /*if (computeShaderForMap != null)
+        {
+            GC.SuppressFinalize(computeShaderForMap);
+            computeShaderForMap = null;
+        }*/
+
+        int mindex = 0;
+        int[] mapint = new int[mapx * mapy * mapz];
+
+
+        int thebytesize = sizeof(int) * 4;
+        int vector3Size = sizeof(float) * 3;
+        int totalSize = thebytesize + vector3Size;
+
+
+        if (shaderinit == 0)
+        {
+            mapsbuffer = new ComputeBuffer(mapdata[mindex].Length, totalSize);
+
+
+
+            computeShaderForMap = (ComputeShader)Resources.Load("Compute/sccsmap");//ComputeShader.Find("Transparent/Diffuse");
+            //shaderinit = 1;
+        }
+        mapsbuffer.SetCounterValue(0);
+        mapsbuffer.SetData(mapdata[mindex]);
+
+
+
+        if (computeShaderForMap == null)
+        {
+            Debug.Log("computeShaderForMap null");
+        }
+        else
+        {
+            //Debug.Log("computeShaderForMap !null");
+
+        }
+
+        computeShaderForMap.SetBuffer(0, "themap", mapsbuffer);
+        computeShaderForMap.Dispatch(0, (mapx * mapy * mapz) / 10, 1, 1);
+
+        mapsbuffer.GetData(mapdata[mindex]);
+
+        mapint = new int[mapx * mapy * mapz];
+        for (int x = 0; x < mapx; x++)
+        {
+            for (int y = 0; y < mapy; y++)
+            {
+                for (int z = 0; z < mapz; z++)
+                {
+                    int index = x + mapx * (y + mapy * z);
+
+                    mapint[index] = mapdata[mindex][index].thebyte;
+
+                    //Debug.Log("map:" + data[index].thebyte);
+                }
+            }
+        }
+
+        mapsbuffer.Release();
+        mapsbuffer.Dispose();
+
+
+
+
+
+
+
+
+
+
 
         for (int f = 0; f < numberoffaces; f++)
         {
+            GameObject emptyobjectparent0 = new GameObject();
+
+            emptyobjectparent0.transform.name = "chunkfacetype-" + f;
+            emptyobjectparent0.transform.position = chunkpos;
+            emptyobjectparent0.transform.parent = this.transform;
 
             /*
             if (computeVertexesALLFACES != null)
@@ -105,7 +342,7 @@ public class sccscomputeUNIVERSEALLFACES : MonoBehaviour
             }*/
 
 
-            if (f == 0 && computeVertexesALLFACES == null)
+            if (f == 0) //&& computeVertexesALLFACES == null
             {
                 computeVertexesALLFACES = (ComputeShader)Resources.Load("Compute/computevertexTOP");//ComputeShader.Find("Transparent/Diffuse");
                 swapcomputetop = computeVertexesALLFACES;
@@ -114,16 +351,14 @@ public class sccscomputeUNIVERSEALLFACES : MonoBehaviour
             {
                 if (swapcomputetop != null)
                 {
-                    computeVertexesALLFACES = (ComputeShader)Resources.Load("Compute/computevertexTOP");//ComputeShader.Find("Transparent/Diffuse");
-
-                    //computeVertexesALLFACES = swapcomputetop;
+                    computeVertexesALLFACES = swapcomputetop;
                     //swapcompute = 
                 }
             }
 
 
 
-            if (f == 1 && computeVertexesALLFACES == null)
+            if (f == 1)// && computeVertexesALLFACES == null)
             {
                 computeVertexesALLFACES = (ComputeShader)Resources.Load("Compute/computevertexLEFT");//ComputeShader.Find("Transparent/Diffuse");
                 swapcomputeleft = computeVertexesALLFACES;
@@ -132,9 +367,7 @@ public class sccscomputeUNIVERSEALLFACES : MonoBehaviour
             {
                 if (swapcomputeleft != null)
                 {
-                    computeVertexesALLFACES = (ComputeShader)Resources.Load("Compute/computevertexLEFT");//ComputeShader.Find("Transparent/Diffuse");
-
-                    //computeVertexesALLFACES = swapcomputeleft;
+                    computeVertexesALLFACES = swapcomputeleft;
                     //swapcompute = 
                 }
             }
@@ -142,7 +375,7 @@ public class sccscomputeUNIVERSEALLFACES : MonoBehaviour
 
 
 
-            if (f == 2 && computeVertexesALLFACES == null)
+            if (f == 2)// && computeVertexesALLFACES == null)
             {
                 computeVertexesALLFACES = (ComputeShader)Resources.Load("Compute/computevertexRIGHT");//ComputeShader.Find("Transparent/Diffuse");
                 swapcomputeright = computeVertexesALLFACES;
@@ -151,9 +384,7 @@ public class sccscomputeUNIVERSEALLFACES : MonoBehaviour
             {
                 if (swapcomputeright != null)
                 {
-                    computeVertexesALLFACES = (ComputeShader)Resources.Load("Compute/computevertexRIGHT");//ComputeShader.Find("Transparent/Diffuse");
-
-                    //computeVertexesALLFACES = swapcomputeright;
+                    computeVertexesALLFACES = swapcomputeright;
                     //swapcompute = 
                 }
             }
@@ -161,7 +392,7 @@ public class sccscomputeUNIVERSEALLFACES : MonoBehaviour
 
 
 
-            if (f == 3 && computeVertexesALLFACES == null)
+            if (f == 3)// && computeVertexesALLFACES == null)
             {
                 computeVertexesALLFACES = (ComputeShader)Resources.Load("Compute/computevertexFRONT");//ComputeShader.Find("Transparent/Diffuse");
                 swapcomputefront = computeVertexesALLFACES;
@@ -170,13 +401,11 @@ public class sccscomputeUNIVERSEALLFACES : MonoBehaviour
             {
                 if (swapcomputefront != null)
                 {
-                    computeVertexesALLFACES = (ComputeShader)Resources.Load("Compute/computevertexFRONT");//ComputeShader.Find("Transparent/Diffuse");
-
-                    //computeVertexesALLFACES = swapcomputefront;
+                    computeVertexesALLFACES = swapcomputefront;
                     //swapcompute = 
                 }
             }
-            if (f == 4 && computeVertexesALLFACES == null)
+            if (f == 4)// && computeVertexesALLFACES == null)
             {
                 computeVertexesALLFACES = (ComputeShader)Resources.Load("Compute/computevertexBACK");//ComputeShader.Find("Transparent/Diffuse");
                 swapcomputeback = computeVertexesALLFACES;
@@ -185,13 +414,11 @@ public class sccscomputeUNIVERSEALLFACES : MonoBehaviour
             {
                 if (swapcomputeback != null)
                 {
-                    computeVertexesALLFACES = (ComputeShader)Resources.Load("Compute/computevertexBACK");//ComputeShader.Find("Transparent/Diffuse");
-
-                    //computeVertexesALLFACES = swapcomputeback;
+                    computeVertexesALLFACES = swapcomputeback;
                     //swapcompute = 
                 }
             }
-            if (f == 5 && computeVertexesALLFACES == null)
+            if (f == 5)// && computeVertexesALLFACES == null)
             {
                 computeVertexesALLFACES = (ComputeShader)Resources.Load("Compute/computevertexBOTTOM");//ComputeShader.Find("Transparent/Diffuse");
                 swapcomputebottom = computeVertexesALLFACES;
@@ -200,9 +427,7 @@ public class sccscomputeUNIVERSEALLFACES : MonoBehaviour
             {
                 if (swapcomputebottom != null)
                 {
-                    computeVertexesALLFACES = (ComputeShader)Resources.Load("Compute/computevertexBOTTOM");//ComputeShader.Find("Transparent/Diffuse");
-
-                    //computeVertexesALLFACES = swapcomputebottom;
+                    computeVertexesALLFACES = swapcomputebottom;
                     //swapcompute = 
                 }
             }
@@ -212,7 +437,7 @@ public class sccscomputeUNIVERSEALLFACES : MonoBehaviour
             int dotherest1 = 0;
 
 
-            if (dotherest == 1)
+            if (dotherest == 0)
             {
 
 
@@ -222,7 +447,7 @@ public class sccscomputeUNIVERSEALLFACES : MonoBehaviour
                     {
                         for (int mz = 0; mz < levelsizez; mz++)
                         {
-                            int mindex = mx + levelsizex * (my + levelsizey * mz);
+                            mindex = mx + levelsizex * (my + levelsizey * mz);
 
                             Vector3 chunkmainpos = new Vector3(mx * mapx * 0.1f, my * mapy * 0.1f, mz * mapz * 0.1f);
 
@@ -233,7 +458,7 @@ public class sccscomputeUNIVERSEALLFACES : MonoBehaviour
                             {
 
 
-                                int thebytesize = sizeof(int) * 4;
+                                /*int thebytesize = sizeof(int) * 4;
                                 int vector3Size = sizeof(float) * 3;
                                 int totalSize = thebytesize + vector3Size;
 
@@ -242,22 +467,22 @@ public class sccscomputeUNIVERSEALLFACES : MonoBehaviour
                                 mapsbuffer.SetData(mapdata[mindex]);
 
 
-                                //if (computeShaderForMap == null)
+                                if (computeShaderForMap == null)
                                 {
-                                    computeShaderForMap = (ComputeShader)Resources.Load("Compute/sccsmapallcompute");//ComputeShader.Find("Transparent/Diffuse");
 
                                 }
 
-
-
+                                computeShaderForMap = (ComputeShader)Resources.Load("Compute/sccsmap");//ComputeShader.Find("Transparent/Diffuse");
+                                */
+                                /*
 
 
                                 computeShaderForMap.SetBuffer(0, "themap", mapsbuffer);
-                                computeShaderForMap.Dispatch(0, mapdata[mindex].Length/10, 1, 1);
+                                computeShaderForMap.Dispatch(0, mapdata[mindex].Length / 10, 1, 1);
 
                                 mapsbuffer.GetData(mapdata[mindex]);
 
-                                int[] mapint = new int[mapx * mapy * mapz];
+                                mapint = new int[mapx * mapy * mapz];
                                 for (int x = 0; x < mapx; x++)
                                 {
                                     for (int y = 0; y < mapy; y++)
@@ -273,7 +498,7 @@ public class sccscomputeUNIVERSEALLFACES : MonoBehaviour
                                     }
                                 }
                                 mapsbuffer.Release();
-                                mapsbuffer.Dispose();
+                                mapsbuffer.Dispose();*/
 
 
 
@@ -355,9 +580,7 @@ public class sccscomputeUNIVERSEALLFACES : MonoBehaviour
                                 mapdepthdimtop = new ComputeBuffer(datadepthdimtop[mindex].Length, 4);
                                 mapdepthdimtop.SetData(datadepthdimtop[mindex]);
                             }
-
-
-                            /*else
+                            //else
                             {
                                 /*int thebytesize = sizeof(int) * 4;
                                 int vector3Size = sizeof(float) * 3;
@@ -389,10 +612,10 @@ public class sccscomputeUNIVERSEALLFACES : MonoBehaviour
                                 }
                                 mapsbuffer.Release();
                                 mapsbuffer.Dispose();
+                                */
 
 
-
-
+                                /*
                                 //maps0buffer.SetCounterValue(0);
                                 mapvertlocbufferx.SetCounterValue(0);
                                 mapvertlocbuffery.SetCounterValue(0);
@@ -411,10 +634,10 @@ public class sccscomputeUNIVERSEALLFACES : MonoBehaviour
                                 mapheightdimtop.SetData(dataheightdimtop[mindex]);
                                 mapdepthdimtop.SetData(datadepthdimtop[mindex]);
 
+                                */
 
 
-
-                            }*/
+                            }
 
 
 
@@ -1029,26 +1252,26 @@ public class sccscomputeUNIVERSEALLFACES : MonoBehaviour
 
 
 
-                                
-                                GameObject emptyobject = parentobj;// new GameObject();
-                                //var meshfilt = emptyobject.AddComponent<MeshFilter>();
-                                //var meshrend = emptyobject.AddComponent<MeshRenderer>();
+
+                                //GameObject emptyobject = new GameObject();
+                                var meshfilt = thecurrentchunk.AddComponent<MeshFilter>();
+                                var meshrend = thecurrentchunk.AddComponent<MeshRenderer>();
 
                                 Mesh thenewmesh = new Mesh();
                                 thenewmesh.vertices = vertices.ToArray();
                                 thenewmesh.triangles = triangles.ToArray();
 
-                                emptyobject.GetComponent<MeshFilter>().mesh = thenewmesh;
+                                thecurrentchunk.GetComponent<MeshFilter>().mesh = thenewmesh;
                                 //_testChunk.GetComponent<MeshRenderer>().material = _mat;
 
-                                emptyobject.transform.position = chunkmainpos;
-                                emptyobject.transform.rotation = Quaternion.identity;
+                                thecurrentchunk.transform.position = chunkmainpos;
+                                thecurrentchunk.transform.rotation = Quaternion.identity;
 
-                                emptyobject.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
-                                emptyobject.GetComponent<MeshRenderer>().material = mat;
+                                thecurrentchunk.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+                                //thecurrentchunk.GetComponent<MeshRenderer>().material = mat;
 
-                                //emptyobject.transform.parent = emptyobjectparent0.transform;
-                                emptyobject.gameObject.name = "faces type:" + f;
+                                thecurrentchunk.transform.parent = emptyobjectparent0.transform;
+                                thecurrentchunk.gameObject.name = "faces type:" + f;
 
 
                             }
@@ -1166,225 +1389,20 @@ public class sccscomputeUNIVERSEALLFACES : MonoBehaviour
                 }
             }
         }
-        /*maps0buffer.Release();
-        mapvertlocbufferx.Release();
-        mapvertlocbuffery.Release();
-        mapvertlocbufferz.Release();
-        mapwidthdimtop.Release();
-        mapheightdimtop.Release();
-        mapdepthdimtop.Release();
 
 
 
-        maps0buffer.Dispose();
-        mapvertlocbufferx.Dispose();
-        mapvertlocbuffery.Dispose();
-        mapvertlocbufferz.Dispose();
-        mapwidthdimtop.Dispose();
-        mapheightdimtop.Dispose();
-        mapdepthdimtop.Dispose();*/
-        /*
-        mapdata = new mapbytes[levelsizex * levelsizey * levelsizez][];
-        datamapfirstvertxtop = new mapofints[levelsizex * levelsizey * levelsizez][];
-        datamapfirstvertytop = new mapofints[levelsizex * levelsizey * levelsizez][];
-        datamapfirstvertztop = new mapofints[levelsizex * levelsizey * levelsizez][];
-        datawidthdimtop = new mapofints[levelsizex * levelsizey * levelsizez][];
-        dataheightdimtop = new mapofints[levelsizex * levelsizey * levelsizez][];
-        datadepthdimtop = new mapofints[levelsizex * levelsizey * levelsizez][];*/
 
 
-        computeVertexesALLFACES = null;
-        computeShaderForMap = null;
+
+
+
+
+
+
+
+        return mapint;
     }
-
-
-
-
-
-    Vector3 chunkmainpos = Vector3.zero;
-
-    // Start is called before the first frame update
-    public void CreateArrays()
-    {
-
-
-        for (int f = 0; f < numberoffaces; f++)
-        {
-
-
-
-            mapdata = new mapbytes[levelsizex * levelsizey * levelsizez][];
-            datamapfirstvertxtop = new mapofints[levelsizex * levelsizey * levelsizez][];
-            datamapfirstvertytop = new mapofints[levelsizex * levelsizey * levelsizez][];
-            datamapfirstvertztop = new mapofints[levelsizex * levelsizey * levelsizez][];
-            datawidthdimtop = new mapofints[levelsizex * levelsizey * levelsizez][];
-            dataheightdimtop = new mapofints[levelsizex * levelsizey * levelsizez][];
-            datadepthdimtop = new mapofints[levelsizex * levelsizey * levelsizez][];
-
-
-            //GameObject emptyobjectparent0 = this.transform.gameObject;
-            //GameObject emptyobjectparent0 = new GameObject();
-            /*GameObject emptyobjectparent1 = new GameObject();
-            GameObject emptyobjectparentleftfaces = new GameObject();
-            emptyobjectparentleftfaces.gameObject.name = "leftfacesmain";
-
-            GameObject emptyobjectparentrightfaces = new GameObject();
-            emptyobjectparentrightfaces.gameObject.name = "rightfacesmain";
-
-            GameObject emptyobjectparentfrontfaces = new GameObject();
-            emptyobjectparentfrontfaces.gameObject.name = "frontfacesmain";*/
-
-
-            for (int mx = 0; mx < levelsizex; mx++)
-            {
-                for (int my = 0; my < levelsizey; my++)
-                {
-                    for (int mz = 0; mz < levelsizez; mz++)
-                    {
-                        int mindex = mx + levelsizex * (my + levelsizey * mz);
-
-                        chunkmainpos = new Vector3(mx * mapx * 0.1f, my * mapy * 0.1f, mz * mapz * 0.1f);
-
-
-                        //int totalSize = mapx * mapy * mapz;
-                        mapdata[mindex] = new mapbytes[mapx * mapy * mapz];
-                        datamapfirstvertxtop[mindex] = new mapofints[mapx * mapy * mapz];
-                        datamapfirstvertytop[mindex] = new mapofints[mapx * mapy * mapz];
-                        datamapfirstvertztop[mindex] = new mapofints[mapx * mapy * mapz];
-                        datawidthdimtop[mindex] = new mapofints[mapx * mapy * mapz];
-                        dataheightdimtop[mindex] = new mapofints[mapx * mapy * mapz];
-                        datadepthdimtop[mindex] = new mapofints[mapx * mapy * mapz];
-
-                        for (int x = 0; x < mapx; x++)
-                        {
-                            for (int y = 0; y < mapy; y++)
-                            {
-                                for (int z = 0; z < mapz; z++)
-                                {
-                                    int index = x + mapx * (y + mapy * z);
-
-                                    mapdata[mindex][index] = new mapbytes();
-                                    mapdata[mindex][index].thebyte = 0;
-                                    mapdata[mindex][index].position = new Vector3(mx * mapx * 0.1f, my * mapy * 0.1f, mz * mapz * 0.1f);
-                                    mapdata[mindex][index].ix = x;
-                                    mapdata[mindex][index].iy = y;
-                                    mapdata[mindex][index].iz = z;
-
-                                    datamapfirstvertxtop[mindex][index] = new mapofints();
-                                    datamapfirstvertxtop[mindex][index].thebyte = 0;
-
-                                    datamapfirstvertytop[mindex][index] = new mapofints();
-                                    datamapfirstvertytop[mindex][index].thebyte = 0;
-
-                                    datamapfirstvertztop[mindex][index] = new mapofints();
-                                    datamapfirstvertztop[mindex][index].thebyte = 0;
-
-                                    datawidthdimtop[mindex][index] = new mapofints();
-                                    datawidthdimtop[mindex][index].thebyte = 0;
-
-                                    dataheightdimtop[mindex][index] = new mapofints();
-                                    dataheightdimtop[mindex][index].thebyte = 0;
-
-                                    datadepthdimtop[mindex][index] = new mapofints();
-                                    datadepthdimtop[mindex][index].thebyte = 0;
-                                }
-                            }
-                        }
-                     
-                    }
-
-
-
-
-                    /*maps0buffer.Release();
-                    mapvertlocbufferx.Release();
-                    mapvertlocbuffery.Release();
-                    mapvertlocbufferz.Release();
-                    mapwidthdimtop.Release();
-                    mapheightdimtop.Release();
-                    mapdepthdimtop.Release();
-
-
-
-                    maps0buffer.Dispose();
-                    mapvertlocbufferx.Dispose();
-                    mapvertlocbuffery.Dispose();
-                    mapvertlocbufferz.Dispose();
-                    mapwidthdimtop.Dispose();
-                    mapheightdimtop.Dispose();
-                    mapdepthdimtop.Dispose();*/
-                    // _tempChunkArraybuffer.Dispose();
-
-
-
-
-
-
-
-                    /*
-                    GameObject emptyobject1 = new GameObject();
-
-                    //chunko thechunk = new chunko();
-
-                    emptyobject1.AddComponent<singleChunk>();
-
-                    singleChunk thechunk = emptyobject1.GetComponent<singleChunk>();
-                    thechunk.width = mapx;
-                    thechunk.height = mapy;
-                    thechunk.depth = mapz;
-
-                    thechunk.widthflat = mapx;
-                    thechunk.heightflat = mapy;
-                    thechunk.depthflat = mapz;
-
-                    thechunk.vertexlistWidth = thechunk.width + 1;
-                    thechunk.vertexlistHeight = thechunk.height + 1;
-                    thechunk.vertexlistDepth = thechunk.depth + 1;
-
-                    thechunk.createvars();
-                    thechunk.map = mapint;
-                    thechunk._mat = mat;
-                    thechunk._testChunk = emptyobject1;
-                    thechunk.startthegen(chunkmainpos);
-
-                    emptyobject1.transform.position = new Vector3(0, -0.01f, 0);
-                    emptyobject1.transform.position += chunkmainpos;
-                    emptyobject1.transform.rotation = Quaternion.identity;
-                    emptyobject1.transform.parent = emptyobjectparent1.transform;*/
-
-
-
-
-                }
-            }
-        }
-        /*maps0buffer.Release();
-        mapvertlocbufferx.Release();
-        mapvertlocbuffery.Release();
-        mapvertlocbufferz.Release();
-        mapwidthdimtop.Release();
-        mapheightdimtop.Release();
-        mapdepthdimtop.Release();
-
-
-
-        maps0buffer.Dispose();
-        mapvertlocbufferx.Dispose();
-        mapvertlocbuffery.Dispose();
-        mapvertlocbufferz.Dispose();
-        mapwidthdimtop.Dispose();
-        mapheightdimtop.Dispose();
-        mapdepthdimtop.Dispose();*/
-
-        //WorkOnShader(chunkmainpos, this.transform.gameObject);
-    }
-
-
-
-
-    
-
-
 
 
 
@@ -1395,6 +1413,6 @@ public class sccscomputeUNIVERSEALLFACES : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }

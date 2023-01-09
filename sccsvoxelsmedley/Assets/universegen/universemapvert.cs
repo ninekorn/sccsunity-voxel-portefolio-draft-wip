@@ -16,7 +16,7 @@ using System.Reflection;
 using UnityEngine.Tilemaps;
 
 
-public class universefullcompute : MonoBehaviour
+public class universemapvert : MonoBehaviour
 {
 
     public class regionChunker
@@ -298,7 +298,7 @@ public class universefullcompute : MonoBehaviour
         public static Queue<checkingBytes> nextQueue = new Queue<checkingBytes>();
 
 
-        public static Queue<sccscomputeUNIVERSEALLFACES> queuecomputeshader = new Queue<sccscomputeUNIVERSEALLFACES>();
+        public static Queue<sccscomputevoxelshrinkedALLFACES> queuecomputeshader = new Queue<sccscomputevoxelshrinkedALLFACES>();
 
 
 
@@ -468,9 +468,9 @@ public class universefullcompute : MonoBehaviour
         public class checkingBytes
         {
             public Vector3 smallChunkPos;
-            public sccscomputeUNIVERSEALLFACES sccscomputevoxelALLFACESshrinked;
+            public sccscomputevoxelshrinkedALLFACES sccscomputevoxelshrinkedALLFACESshrinked;
 
-            //public sccscomputevoxelALLFACESshrinked sccscomputevoxelALLFACESshrinked;
+            //public sccscomputevoxelshrinkedALLFACESshrinked sccscomputevoxelshrinkedALLFACESshrinked;
             public int smallX;
             public int smallY;
             public int smallZ;
@@ -483,7 +483,7 @@ public class universefullcompute : MonoBehaviour
             public smallChunker[] worldChunk;
             public int[] map;
 
-            public checkingBytes(Vector3 smallChunkPos, int smallX, int smallY, int smallZ, bool resultsOne, bool resultsTwo, bool resultsThree, smallChunker[] worldChunk, int[] map, sccscomputeUNIVERSEALLFACES sccscomputevoxelALLFACESshrinked_)
+            public checkingBytes(Vector3 smallChunkPos, int smallX, int smallY, int smallZ, bool resultsOne, bool resultsTwo, bool resultsThree, smallChunker[] worldChunk, int[] map, sccscomputevoxelshrinkedALLFACES sccscomputevoxelshrinkedALLFACESshrinked_)
             {
                 this.smallChunkPos = smallChunkPos;
                 this.resultsOne = resultsOne;
@@ -496,7 +496,7 @@ public class universefullcompute : MonoBehaviour
 
                 this.worldChunk = worldChunk;
                 this.map = map;
-                this.sccscomputevoxelALLFACESshrinked = sccscomputevoxelALLFACESshrinked_;
+                this.sccscomputevoxelshrinkedALLFACESshrinked = sccscomputevoxelshrinkedALLFACESshrinked_;
             }
         }
 
@@ -540,7 +540,7 @@ public class universefullcompute : MonoBehaviour
         int mapz = 10;
 
         int createinit = 0;
-        sccscomputeUNIVERSEALLFACES computevoxels;
+        sccscomputevoxelshrinkedALLFACES computevoxels;
 
 
         void checkLastBytes(object stateInfo)
@@ -565,39 +565,36 @@ public class universefullcompute : MonoBehaviour
                     //Debug.Log("new map start");
 
 
-                    //if (createinit == 0)
+                    if (createinit == 0)
                     {
-                        computevoxels = new sccscomputeUNIVERSEALLFACES();
-                        computevoxels.CreateArrays();
-                        //createinit = 1;
+                        createinit = 1;
 
                     }
-                    //Debug.Log("new map done0");
+                    computevoxels = new sccscomputevoxelshrinkedALLFACES();
 
-                    
+                    computevoxels.CreateMapArrays(smallChunkPos);
                     //computevoxels.CreateMap(smallChunkPos);
 
+                    byteCheck.sccscomputevoxelshrinkedALLFACESshrinked = computevoxels;
+                    //int[] themap = byteCheck.sccscomputevoxelshrinkedALLFACESshrinked.CSWorkOnMapOnly(byteCheck.smallChunkPos);
 
-                    byteCheck.sccscomputevoxelALLFACESshrinked = computevoxels;
-
-                    //byteCheck.sccscomputevoxelALLFACESshrinked.CreateMap(byteCheck.smallChunkPos);
+                    //byteCheck.sccscomputevoxelshrinkedALLFACESshrinked.CreateMap(byteCheck.smallChunkPos);
                     byteCheck.resultsOne = false;
                     byteCheck.resultsTwo = false;
                     byteCheck.resultsThree = false;
-                    //byteCheck.map = computevoxels.ma;//
+                    byteCheck.map = null;//
 
-                    ///int[] themap = byteCheck.map;
                     lock (nextQueue)
                     {
                         nextQueue.Enqueue(byteCheck);
                     }
 
-                    //Debug.Log("new map done1");
-
-                    
-                    //int[] themap = computevoxels.CreateMap(smallChunkPos);
+                    //Debug.Log("new map done");
 
                     /*
+                    int[] themap = computevoxels.CreateMap(smallChunkPos);
+
+
                     Debug.Log("new map done");
                     byteCheck.resultsOne = false;
                     byteCheck.resultsTwo = false;
@@ -637,18 +634,18 @@ public class universefullcompute : MonoBehaviour
 
                     /*GameObject currentChunk = NewObjectPoolerScript.current.GetPooledObject();
 
-                    //sccscomputevoxelALLFACES computevoxels =  currentChunk.AddComponent<>();
-                    sccscomputevoxelALLFACES computevoxels = new sccscomputevoxelALLFACES();
+                    //sccscomputevoxelshrinkedALLFACES computevoxels =  currentChunk.AddComponent<>();
+                    sccscomputevoxelshrinkedALLFACES computevoxels = new sccscomputevoxelshrinkedALLFACES();
 
                     computevoxels.createchunkfaces(smallChunkPos, currentChunk);*/
 
 
-                    //sccscomputevoxelALLFACES computevoxels = new sccscomputevoxelALLFACES();
+                    //sccscomputevoxelshrinkedALLFACES computevoxels = new sccscomputevoxelshrinkedALLFACES();
 
 
 
                     /*
-                    sccscomputevoxelALLFACES computevoxels = new sccscomputevoxelALLFACES();
+                    sccscomputevoxelshrinkedALLFACES computevoxels = new sccscomputevoxelshrinkedALLFACES();
 
 
                     //computevoxels.computeShaderForMap = new ComputeShader();
@@ -809,12 +806,12 @@ public class universefullcompute : MonoBehaviour
 
 
 
-                    
+                    /*
                     int[] map = new int[realChunkWidth * realChunkHeight * realChunkDepth];
                     int[] realMap = new int[realChunkWidth * realChunkHeight * realChunkDepth];
+                    */
                     
-                    
-                    
+                    /*
                     for (int xx = 0; xx < realChunkWidth; xx++)
                     {
                         //float noiseX = Math.Abs(((float)(xx * planeSize + smallChunkPos.x + seed) / detailScale) * heightScale);
@@ -862,10 +859,10 @@ public class universefullcompute : MonoBehaviour
                                 }
                             }
                         }
-                    }
+                    }*/
 
 
-                    
+                    /*
                     bool resultsOne = false;// Array.TrueForAll(map, s => s == 0);
                     bool resultsTwo = false;//Array.TrueForAll(map, s => s == 1);
                     bool resultsThree = false;// Array.TrueForAll(map, s => s == 2);
@@ -878,7 +875,7 @@ public class universefullcompute : MonoBehaviour
                     lock (nextQueue)
                     {
                         nextQueue.Enqueue(byteCheck);
-                    }
+                    }*/
                 }
             }
         }
@@ -1051,8 +1048,6 @@ public class universefullcompute : MonoBehaviour
             testerOfNumber.newScenePos yo = new testerOfNumber.newScenePos(realScenePos, viewerPosition);
             Myclass.AccessGlobalResource(yo);
             
-
-
             /*Myclass.realScenePos = realScenePos;
             Myclass.viewerPosition = viewerPosition;
             testerOfNumber.newScenePos yo = new testerOfNumber.newScenePos(realScenePos, viewerPosition);
@@ -1065,7 +1060,10 @@ public class universefullcompute : MonoBehaviour
         }
     }
 
-   public GameObject chunktospawn;
+    List<Vector3> vertices;
+    List<int> triangles;
+
+    public GameObject chunktospawn;
     IEnumerator buildChunks()
     {
         for (int i = 0; i < testerOfNumber.nextQueue.Count;i++)
@@ -1082,23 +1080,91 @@ public class universefullcompute : MonoBehaviour
                     //if (byteCheck.worldChunk[byteCheck.smallX + realChunkWidth * (byteCheck.smallY + realChunkHeight * byteCheck.smallZ)] == null)
                     {
 
-                        
+                        /*
                         GameObject currentChunk = NewObjectPoolerScript.current.GetPooledObject();
 
-                        byteCheck.sccscomputevoxelALLFACESshrinked.WorkOnShader(byteCheck.smallChunkPos,currentChunk);
+                        //byteCheck.sccscomputevoxelshrinkedALLFACESshrinked.CreateMap(byteCheck.smallChunkPos);
+                        byteCheck.sccscomputevoxelshrinkedALLFACESshrinked.workonshader(byteCheck.smallChunkPos,currentChunk);
+                        */
 
 
-                        //byteCheck.sccscomputevoxelALLFACESshrinked.CreateMap(byteCheck.smallChunkPos);
+                        GameObject currentChunk = NewObjectPoolerScript.current.GetPooledObject();
 
-                        //GameObject currentChunk = NewObjectPoolerScript.current.GetPooledObject();
-                        //int[] themap = 
-                        /*byteCheck.sccscomputevoxelALLFACESshrinked.WorkOnShader(byteCheck.smallChunkPos, currentChunk);
-                        Debug.Log("WorkOnShader");*/
+                        currentChunk.transform.position = byteCheck.smallChunkPos;// transform.position;
+                        currentChunk.transform.rotation = transform.rotation;
+                        currentChunk.SetActive(true);
+                        currentChunk.transform.parent = (Transform)GameObject.FindGameObjectWithTag("terrain").transform;
+
+
+
+                        //int[] themap = byteCheck.sccscomputevoxelshrinkedALLFACESshrinked.workonshader(byteCheck.smallChunkPos, currentChunk);
+
+
+
+                        int[] themap = byteCheck.sccscomputevoxelshrinkedALLFACESshrinked.CSWorkOnMapOnly(byteCheck.smallChunkPos);
+
+
+
+
+
+                        byteCheck.sccscomputevoxelshrinkedALLFACESshrinked.workontherest(byteCheck.smallChunkPos, currentChunk, out vertices, out triangles);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        //chunk chunky = new chunk();
+                        //universemaponly.meshData meshDator = chunky.startBuildingArray(byteCheck.smallChunkPos, byteCheck.smallX, byteCheck.smallY, byteCheck.smallZ, themap);
+
+
+                        /*currentChunk.transform.position = byteCheck.smallChunkPos;// transform.position;
+                        currentChunk.transform.rotation = transform.rotation;
+                        currentChunk.SetActive(true);
+                        currentChunk.transform.parent = (Transform)GameObject.FindGameObjectWithTag("terrain").transform;
+
+                        Mesh mesh = currentChunk.GetComponent<MeshFilter>().mesh;
+                        mesh.vertices = vertices.ToArray();
+                        mesh.triangles = triangles.ToArray();
+                        mesh.RecalculateNormals();*/
+
+
+
 
                         /*
                         chunk chunky = new chunk();
-                        universemaponly.meshData meshDator = chunky.startBuildingArray(byteCheck.smallChunkPos, byteCheck.smallX, byteCheck.smallY, byteCheck.smallZ, byteCheck.map);
-                        */
+                        universemaponly.meshData meshDator = chunky.startBuildingArray(byteCheck.smallChunkPos, byteCheck.smallX, byteCheck.smallY, byteCheck.smallZ, themap);
+                        currentChunk.transform.position = byteCheck.smallChunkPos;// transform.position;
+                        currentChunk.transform.rotation = transform.rotation;
+                        currentChunk.SetActive(true);
+                        currentChunk.transform.parent = (Transform)GameObject.FindGameObjectWithTag("terrain").transform;
+
+                        Mesh mesh = currentChunk.GetComponent<MeshFilter>().mesh;
+                        mesh.vertices = meshDator.positions.ToArray();
+                        mesh.triangles = meshDator.triangleIndices.ToArray();
+                        mesh.RecalculateNormals();*/
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                         /*
                         //byteCheck.worldChunk[byteCheck.smallX + realChunkWidth * (byteCheck.smallY + realChunkHeight * byteCheck.smallZ)] = new smallChunker();
@@ -1136,8 +1202,8 @@ public class universefullcompute : MonoBehaviour
                         Mesh mesh = currentChunk.GetComponent<MeshFilter>().mesh;
                         mesh.vertices = meshDator.positions.ToArray();
                         mesh.triangles = meshDator.triangleIndices.ToArray();
-                        mesh.RecalculateNormals();*/
-                        
+                        mesh.RecalculateNormals();
+                        */
 
 
 
@@ -1831,6 +1897,7 @@ public class universefullcompute : MonoBehaviour
     }
 
 
+
     public struct meshData
     {
         //public readonly smallChunk smallChunk;
@@ -1901,7 +1968,6 @@ public class universefullcompute : MonoBehaviour
         }
     }
 }
-
 
 
 

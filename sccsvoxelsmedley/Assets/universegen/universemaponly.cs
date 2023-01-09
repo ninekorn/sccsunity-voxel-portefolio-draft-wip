@@ -574,7 +574,7 @@ public class universemaponly : MonoBehaviour
                     computevoxels = new sccscomputevoxelshrinked();
 
                     //computevoxels.CreateMap(smallChunkPos);
-                    computevoxels.CreateMap(smallChunkPos);
+                    computevoxels.CreateMapArrays(smallChunkPos);
 
                     byteCheck.sccscomputevoxelshrinkedshrinked = computevoxels;
 

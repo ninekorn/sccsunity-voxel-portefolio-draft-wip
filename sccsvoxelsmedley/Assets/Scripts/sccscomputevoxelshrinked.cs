@@ -30,7 +30,7 @@ public class sccscomputevoxelshrinked : MonoBehaviour
     ComputeShader computeShaderForMap;
 
     // Start is called before the first frame update
-   public void CreateMap(Vector3 chunkpos)
+   public void CreateMapArrays(Vector3 chunkpos)
     {
         mapdata = new mapbytes[levelsizex * levelsizey * levelsizez][];
 
@@ -115,7 +115,7 @@ public class sccscomputevoxelshrinked : MonoBehaviour
 
 
             computeShaderForMap = (ComputeShader)Resources.Load("Compute/sccsmap");//ComputeShader.Find("Transparent/Diffuse");
-            shaderinit = 1;
+            //shaderinit = 1;
         }
         mapsbuffer.SetCounterValue(0);
         mapsbuffer.SetData(mapdata[mindex]);
@@ -152,9 +152,9 @@ public class sccscomputevoxelshrinked : MonoBehaviour
                 }
             }
         }
-        /*
+        
         mapsbuffer.Release();
-        mapsbuffer.Dispose();*/
+        mapsbuffer.Dispose();
 
         return mapint;
     }
