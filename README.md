@@ -5,7 +5,7 @@ developed in Unity 2020.3.42f1 .
 uploading some new work of bringing back to life my old projects one by one and developing new things. all around voxels.
 
 My voxel planet generator revision1-makes use of what i learned from watching Craig Perko's first minecraft tutorial on youtube. basically, every voxels that i code are based off how to do the basics of generating a voxel map and vertices/triangles from Craig Perko's first minecraft tutorial on youtube, the new stuff i developed
-myself with a lot of trial and error and headaches:
+myself with a lot of trial and error and headaches. rev4 released and i developed "per frame voxel mesh flat 3d looped" (xyz) solution, that dictate how fast the per frame 3d flat loop has to loop to unqueue the Queues, with manual settings in the inspector currently only, and this revision is much faster than my previous revisions and it's smoother on the cpu to generate a voxel mesh although the neighbooring chunk check isn't working anymore. more inspector settings for dequeuing iterations options will be coming in my later revisions:
 
 <img WIDTH=500 src="https://i.ibb.co/JspKZ08/Capture-2023-01-08-121649.png" alt="Capture-2023-01-08-121649" border="0">
 
@@ -38,3 +38,17 @@ My new development on building a very basic simple example of a chunk that is co
 mesh for the top face by having compute shaders to work on the map and vertex location and face dimensions but constructing the vertices vector3 on the cpu (i failed at trying to use the append method in hlsl to append to a list, so for the moment expect the cpu to work on creating only the vector3 for each vertex).
 
 <img WIDTH=500 src="https://i.ibb.co/CKXzkGN/Capture-d-cran-2023-01-09-183439.png" alt="Capture-d-cran-2023-01-09-183439" border="0">
+
+the pressure was too big to release on the unity store or not, so despite my portefolio not beeing that cleaned up and not having inquired about how to bring this to the store, when i just have too many bugs that users of my projects would complain too much after purchase anyway since this is an incomplete portefolio, and because of that, i decided to release it here on github, MIT, and from here, maybe i can keep on piling up my development on top of my development to make better revisions in the future. 
+
+thank you for trying my projects.
+
+sc
+
+I developed other projects in Virtual reality for unity 2017.4.39f1 or 2017.4.40f1 : 
+
+https://github.com/ninekorn/sccsvrunity-portefolio-draft-wip:
+
+<img WIDTH=150 src="https://i.ibb.co/5jkgr8f/sccsvrunityv3.webp" alt="sccsvrunityv3" border="0"><img WIDTH=150 src="https://i.ibb.co/1TB9LWc/sccsvrunityv2.webp" alt="sccsvrunityv2" border="0"><img WIDTH=150 src="https://i.ibb.co/q9YBcCT/sccsvrunityv0.webp" alt="sccsvrunityv0" border="0"><img WIDTH=150 src="https://i.ibb.co/619MY3M/sccsvrunityv1.webp" alt="sccsvrunityv1" border="0">
+
+
