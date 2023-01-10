@@ -39,7 +39,7 @@ mesh for the top face by having compute shaders to work on the map and vertex lo
 
 <img WIDTH=500 src="https://i.ibb.co/CKXzkGN/Capture-d-cran-2023-01-09-183439.png" alt="Capture-d-cran-2023-01-09-183439" border="0">
 
-the pressure was too big to release on the unity store or not, so despite my portefolio beeing cleaned up and not having inquired about how to do it when i just have too many bugs, i still decided to release it here on github, MIT. 
+the pressure was too big to release on the unity store or not, so despite my portefolio not beeing that cleaned up and not having inquired about how to bring this to the store, when i just have too many bugs that users of my projects would complain too much after purchase anyway since this is an incomplete portefolio, and because of that, i decided to release it here on github, MIT, and from here, maybe i can keep on piling up my development on top of my development to make better revisions in the future. 
 
 thank you for trying my projects.
 sc
