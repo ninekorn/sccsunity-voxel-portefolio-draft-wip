@@ -1092,7 +1092,19 @@ public class universemaponly : MonoBehaviour
 
                         chunk chunky = new chunk();
                         meshData meshDator = chunky.startBuildingArray(byteCheck.smallChunkPos, byteCheck.smallX, byteCheck.smallY, byteCheck.smallZ, themap);
+
+
                         
+                     currentChunk.transform.position = byteCheck.smallChunkPos;// transform.position;
+                     currentChunk.transform.rotation = transform.rotation;
+                     currentChunk.SetActive(true);
+                     currentChunk.transform.parent = (Transform)GameObject.FindGameObjectWithTag("terrain").transform;
+
+                     Mesh mesh = currentChunk.GetComponent<MeshFilter>().mesh;
+                     mesh.vertices = meshDator.positions.ToArray();
+                     mesh.triangles = meshDator.triangleIndices.ToArray();
+                     mesh.RecalculateNormals();
+                     
 
                         /*
                         //byteCheck.worldChunk[byteCheck.smallX + realChunkWidth * (byteCheck.smallY + realChunkHeight * byteCheck.smallZ)] = new smallChunker();
@@ -1111,27 +1123,17 @@ public class universemaponly : MonoBehaviour
                         //GameObject chunktospawn = GameObject.FindGameObjectWithTag("chunk");
 
                         GameObject currentChunk = NewObjectPoolerScript.current.GetPooledObject();
-
-
-
-
-
-                        
-                        //if (obj == null) return;
                         */
 
 
-                        
-                        currentChunk.transform.position = byteCheck.smallChunkPos;// transform.position;
-                        currentChunk.transform.rotation = transform.rotation;
-                        currentChunk.SetActive(true);
-                        currentChunk.transform.parent = (Transform)GameObject.FindGameObjectWithTag("terrain").transform;
 
-                        Mesh mesh = currentChunk.GetComponent<MeshFilter>().mesh;
-                        mesh.vertices = meshDator.positions.ToArray();
-                        mesh.triangles = meshDator.triangleIndices.ToArray();
-                        mesh.RecalculateNormals();
 
+
+
+
+
+
+                        //if (obj == null) return;
 
 
 

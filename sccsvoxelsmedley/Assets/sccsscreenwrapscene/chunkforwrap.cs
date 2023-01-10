@@ -8,38 +8,18 @@ using System.Reflection;
 using System.Diagnostics;
 using System.Text;
 using UnityEngine;
-//using SimplexNoise;
 
 
-//using meshData = universenocompute.meshData;
-
-public class chunknocompute : MonoBehaviour
+public class chunkforwrap
 {
-    private static chunknocompute chunker;
+    private static chunkforwrap chunker;
     private int width = 10;
     private int height = 10;
     private int depth = 10;
     //public byte[] map;
-    private byte[] map;
+    private byte[,,] map;
     private float planeSize = 0.1f;
-
     private int seed = 3420;
-
-    public byte[] leftExtremity;
-    public byte[] rightExtremity;
-    public byte[] frontExtremity;
-    public byte[] backExtremity;
-
-    public byte[] leftInsideCornerExtremity;
-    public byte[] rightInsideCornerExtremity;
-    public byte[] frontInsideCornerExtremity;
-    public byte[] backInsideCornerExtremity;
-
-    public byte[] leftOutsideCornerExtremity;
-    public byte[] rightOutsideCornerExtremity;
-    public byte[] frontOutsideCornerExtremity;
-    public byte[] backOutsideCornerExtremity;
-
 
     private byte block;
 
@@ -75,53 +55,33 @@ public class chunknocompute : MonoBehaviour
 
     public static int countingArrayOfChunks = 0;
 
-    public static float xChunkPos;
-    public static float yChunkPos;
-    public static float zChunkPos;
-    public float floorHeight;
+    Mesh mesh;
+    MeshFilter meshFilt;
+    MeshRenderer meshRend;
+    GameObject currentChunk;
+    private Texture mat;
 
-    public universenocompute.meshData startBuildingArray(Vector3 currentPosition, int smallX, int smallY, int smallZ, byte[] mapper)
+
+    public universe.meshData startBuildingArray(Vector3 currentPosition, Vector3 fakePos)
     {
-        //map = new byte[width, height, depth];
-        xChunkPos = currentPosition.x;
-        yChunkPos = currentPosition.y;
-        zChunkPos = currentPosition.z;
-
-        map = mapper;
-
-        leftExtremity = new byte[width * height * width];
-        rightExtremity = new byte[width * height * width];
-        frontExtremity = new byte[width * height * width];
-        backExtremity = new byte[width * height * width];
-
-        leftInsideCornerExtremity = new byte[width * height * width];
-        rightInsideCornerExtremity = new byte[width * height * width];
-        frontInsideCornerExtremity = new byte[width * height * width];
-        backInsideCornerExtremity = new byte[width * height * width];
-
-        leftOutsideCornerExtremity = new byte[width * height * width];
-        rightOutsideCornerExtremity = new byte[width * height * width];
-        frontOutsideCornerExtremity = new byte[width * height * width];
-        backOutsideCornerExtremity = new byte[width * height * width];
-
-
-
+        //Console.WriteLine("yo000");
+        map = new byte[width, height, depth];
 
         for (int x = 0; x < width; x++)
         {
-            //float noiseX = Math.Abs(((float)(x * planeSize + currentPosition.x + seed) / detailScale) * heightScale);
+            float noiseX = Math.Abs(((float)(x * planeSize + currentPosition.x + seed) / detailScale) * heightScale);
 
             for (int y = 0; y < height; y++)
             {
-                //float noiseY = Math.Abs(((float)(y * planeSize + currentPosition.y + seed) / detailScale) * heightScale);
+                float noiseY = Math.Abs(((float)(y * planeSize + currentPosition.y + seed) / detailScale) * heightScale);
 
                 for (int z = 0; z < depth; z++)
                 {
-                    //float noiseZ = Math.Abs(((float)(z * planeSize + currentPosition.z + seed) / detailScale) * heightScale);
+                    float noiseZ = Math.Abs(((float)(z * planeSize + currentPosition.z + seed) / detailScale) * heightScale);
 
                     //float noiser = Noise.Generate(noiseX, noiseY, noiseZ);
 
-                    /*float temporaryY = 10f;
+                    float temporaryY = 10f;
                     float temporaryZ = 10f;
                     float temporaryX = 10f;
 
@@ -136,31 +96,25 @@ public class chunknocompute : MonoBehaviour
                     temporaryX -= size1;
 
                     float size2 = (1 / planeSize) * currentPosition.z;
-                    temporaryZ -= size2;*/
+                    temporaryZ -= size2;
 
                     /*if ((int)Math.Round(temporaryY) >= y && (int)Math.Round(temporaryX) >= x && (int)Math.Round(temporaryZ) >= z)
                     {
                         map[x, y, z] = 1;
                     }*/
 
-                    /*if (currentPosition.y < 1)
+                    if (currentPosition.y < 1)
                     {
                         map[x, 0, z] = 1;
-                    }*/
-
-
-                    /*if ((int)Math.Round(temporaryY) >= y)
-                    {
-                        //map[x, y, z] = 1;
-                        map[x + width * (y + height * z)] = 1;
                     }
-                    else
-                    {
-                        //map[x, y, z] = 0;
-                        map[x + width * (y + height * z)] = 1;
-                    }*/
 
-                    block = map[x + width * (y + height * z)];
+
+                    if ((int)Math.Round(temporaryY) >= y)
+                    {
+                        map[x, y, z] = 1;
+                    }
+
+                    block = map[x, y, z];
                     if (block == 0) continue;
                     {
                         calculateNumberOfVertex(x, y, z);
@@ -168,68 +122,6 @@ public class chunknocompute : MonoBehaviour
                 }
             }
         }
-
-
-
-        /*for (int j = 0; j < createRandomLevel.currentLevelGen.rightWall.Count; j++)
-        {
-            if (new Vector3(xChunkPos, yChunkPos, zChunkPos) == LevelGenerator4.currentLevelGen.rightWall[j])
-            {
-                for (int x = 0; x < width; x++)
-                {
-                    float noiseX = Mathf.Abs((float)(x * planeSize + xChunkPos + seed) / 100);
-                    float noiseX2 = Mathf.Abs((float)(x * planeSize + xChunkPos + seed) / 25);
-                    for (int y = 0; y < height; y++)
-                    {
-                        float noiseY = Mathf.Abs((float)(y * planeSize + yChunkPos + seed) / 100);
-                        float noiseY2 = Mathf.Abs((float)(y * planeSize + yChunkPos + seed) / 25);
-                        for (int z = 0; z < width; z++)
-                        {
-                            float noiseZ = Mathf.Abs((float)(z * planeSize + zChunkPos + seed) / 100);
-                            float noiseZ2 = Mathf.Abs((float)(z * planeSize + zChunkPos + seed) / 25);
-
-                            float noiseValue = Noise.Generate(noiseX, noiseY, noiseZ);
-
-                            float noiseValue2 = Noise.Generate(noiseY2, noiseX2, noiseZ2);
-
-                            noiseValue += (10 - (float)y) / 10;
-                            noiseValue /= (float)y / 5;
-
-                            if (noiseValue > 0.2f && y < floorHeight)
-                            {
-                                map[x + width * (y + height * z)] = 1;
-                            }
-
-                            float noiseValue3i = noiseValue2;
-
-                            noiseValue3i += (5 - (float)x) / 5;
-                            noiseValue3i /= (float)x / 5;
-
-                            if (noiseValue3i < 0.2f)
-                            {
-                                map[x + width * (y + height * z)] = 1;
-                                rightExtremity[x + width * (y + height * z)] = map[x + width * (y + height * z)];
-                            }
-                        }
-                    }
-                }
-            }
-        }*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -245,6 +137,10 @@ public class chunknocompute : MonoBehaviour
         triangleIndices = new int[counterVertexTop * 6 + counterVertexBottom * 6 + counterVertexRight * 6 + counterVertexLeft * 6 + counterVertexFront * 6 + counterVertexBack * 6];
 
         Regenerate(currentPosition);
+
+
+
+
 
         //currentChunk = new GameObject();
         //mesh = new Mesh();
@@ -266,11 +162,11 @@ public class chunknocompute : MonoBehaviour
 
             chunkBig.chunkBig.smallChunkerList[xx, yy, zz].map = map;*/
 
-            return new universenocompute.meshData(currentPosition, positions.Length, positions, triangleIndices, smallX, smallY, smallZ);
+            return new universe.meshData(fakePos, currentPosition, positions.Length, positions, triangleIndices);
         }
         else
         {
-            return new universenocompute.meshData(currentPosition, 0, positions, triangleIndices, smallX, smallY, smallZ);
+            return new universe.meshData(fakePos, currentPosition, 0, positions, triangleIndices);
         }
     }
 
@@ -281,39 +177,34 @@ public class chunknocompute : MonoBehaviour
         if (IsTransparent(x, y + 1, z))
         {
             counterVertexTop += 1;
-        }
 
+        }
         //LEFTFACE
         if (IsTransparent(x - 1, y, z))
         {
             counterVertexLeft += 1;
         }
-
         //RIGHTFACE
         if (IsTransparent(x + 1, y, z))
         {
             counterVertexRight += 1;
         }
-
         //FRONTFACE
         if (IsTransparent(x, y, z - 1))
         {
             counterVertexFront += 1;
         }
-
         //BACKFACE
         if (IsTransparent(x, y, z + 1))
         {
             counterVertexBack += 1;
         }
-
         //BOTTOMFACE
         if (IsTransparent(x, y - 1, z))
         {
             counterVertexBottom += 1;
         }
     }
-
     public void Regenerate(Vector3 currentPosition)
     {
         for (int x = 0; x < width; x++)
@@ -322,8 +213,7 @@ public class chunknocompute : MonoBehaviour
             {
                 for (int z = 0; z < depth; z++)
                 {
-                    // block = map[x, y, z];
-                    block = map[x + width * (y + height * z)];
+                    block = map[x, y, z];
 
                     if (block == 0) continue;
                     {
@@ -332,6 +222,8 @@ public class chunknocompute : MonoBehaviour
                 }
             }
         }
+
+
     }
 
     //chunkPosBig chunkbig;
@@ -742,8 +634,7 @@ public class chunknocompute : MonoBehaviour
     {
         if ((x < 0) || (y < 0) || (z < 0) || (x >= width) || (y >= height) || (z >= depth)) return true;
         {
-            //return map[x, y, z] == 0;
-            return map[x + width * (y + height * z)] == 0;
+            return map[x, y, z] == 0;
             //return map[x + width * (y + depth * z)] == 0;
         }
     }
@@ -753,8 +644,7 @@ public class chunknocompute : MonoBehaviour
         {
             return 0;
         }
-        //return map[x, y, z];
-        return map[x + width * (y + height * z)];
+        return map[x, y, z];
         //return map[x + width * (y + depth * z)];
     }
     /*public bigChunk getBigChunk(float xi, float yi, float zi)

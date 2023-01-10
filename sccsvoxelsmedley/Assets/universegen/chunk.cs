@@ -10,7 +10,7 @@ using System.Text;
 using UnityEngine;
 //using SimplexNoise;
 
-public class chunk: MonoBehaviour
+public class chunk : MonoBehaviour
 {
     private static chunk chunker;
     private int width = 10;
