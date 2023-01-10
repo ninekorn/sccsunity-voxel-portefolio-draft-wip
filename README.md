@@ -38,3 +38,8 @@ My new development on building a very basic simple example of a chunk that is co
 mesh for the top face by having compute shaders to work on the map and vertex location and face dimensions but constructing the vertices vector3 on the cpu (i failed at trying to use the append method in hlsl to append to a list, so for the moment expect the cpu to work on creating only the vector3 for each vertex).
 
 <img WIDTH=500 src="https://i.ibb.co/CKXzkGN/Capture-d-cran-2023-01-09-183439.png" alt="Capture-d-cran-2023-01-09-183439" border="0">
+
+the pressure was too big to release on the unity store or not, so despite my portefolio beeing cleaned up and not having inquired about how to do it when i just have too many bugs, i still decided to release it here on github, MIT. 
+
+thank you for trying my projects.
+sc
