@@ -18,7 +18,7 @@ using CoherentNoise.Texturing;*/
 public class sccsplanetchunkrev4// : MonoBehaviour
 {
 
-    private float radiusplanetcorestart = 0.0f;
+    /*private float radiusplanetcorestart = 0.0f;
     private float radiusplanetcoreend = 5.0f;
     private float radiusplanetcavesstart = 5.0f;
     private float radiusplanetcavesend = 9.0f;
@@ -26,11 +26,23 @@ public class sccsplanetchunkrev4// : MonoBehaviour
     private float radiusplanetcrustend = 11.0f;
     private float radiusplanetmountainstart = 11.0f;
     private float radiusplanetmountainend = 20.0f;
+    */
 
 
-    public int width = 16;
-    public int height = 16;
-    public int depth = 16;
+    private float radiusplanetcorestart = 0.0f;
+    private float radiusplanetcoreend = 2.0f;
+    private float radiusplanetcavesstart = 4.0f;
+    private float radiusplanetcavesend = 6.0f;
+    private float radiusplanetcruststart = 6.0f;
+    private float radiusplanetcrustend = 8.0f;
+    private float radiusplanetmountainstart = 8.0f;
+    private float radiusplanetmountainend = 20.0f;
+
+
+
+    public static int width = 10;
+    public static int height = 10;
+    public static int depth = 10;
 
     //public byte[] map;
     //public byte[] map;
@@ -39,7 +51,7 @@ public class sccsplanetchunkrev4// : MonoBehaviour
     //public List<int> tris = new List<int>();
     public List<Vector2> uv = new List<Vector2>();
     public MeshCollider meshCollider;
-    public float planeSize = 0.25f;
+    public static float planeSize = 0.1f;//0.25f
 
     //public Transform sphere;
     float seed;
@@ -74,9 +86,13 @@ public class sccsplanetchunkrev4// : MonoBehaviour
     public sccsproceduralplanetbuilderrev4.mainChunk buildchunkmap(sccsproceduralplanetbuilderrev4.mainChunk mainChunk)
     {
 
+        radiusplanetcoreend = radiusplanetcoreend / 2;
+        radiusplanetcavesend = radiusplanetcavesend / 2;
+        radiusplanetmountainend = radiusplanetmountainend / 2;
+
         //thegameobject = mainChunk.planetchunk;
 
-        chunkpos = mainChunk.worldPosition;
+        //chunkpos = mainChunk.gridbasedposition;
 
 
         //this.gameObject.tag = "collisionObject";
@@ -128,6 +144,8 @@ public class sccsplanetchunkrev4// : MonoBehaviour
         this.gameObject.GetComponent<MeshFilter>().sharedMesh = mesh;
         */
 
+        int swtcfullvoxel = 0;
+
         for (int x = 0; x < width; x++)
         {
             float noiseX = Mathf.Abs(((float)(x * planeSize + chunkpos.x + seed) / detailScale) * heightScale);
@@ -150,391 +168,404 @@ public class sccsplanetchunkrev4// : MonoBehaviour
 
                     int indexOf = x + width * (y + depth * z);
 
-                    /*float temporaryY = 0.1f;
-                    float temporaryZ = 0.1f;
-                    float temporaryX = 0.1f;
-
-                    temporaryY *= (Mathf.PerlinNoise((x * planeSize + chunkpos.x + seed) / detailScale1, (z * planeSize + chunkpos.z + seed) / detailScale1) * heightScale1);
-                    float size0 = (1 / planeSize) * chunkpos.y;
-                    temporaryY -= size0;
 
 
-                    temporaryX *= (Mathf.PerlinNoise((y * planeSize + chunkpos.y + seed) / detailScale1, (z * planeSize + chunkpos.z + seed) / detailScale1) * heightScale1);
-                    float size1 = (1 / planeSize) * chunkpos.x;
-                    temporaryX -= size1;
-
-                    temporaryZ *= (Mathf.PerlinNoise((x * planeSize + chunkpos.x + seed) / detailScale1, (y * planeSize + chunkpos.y + seed) / detailScale1) * heightScale1);
-                    float size2 = (1 / planeSize) * chunkpos.z;
-                    temporaryZ -= size2;
 
 
-                    if ((int)Mathf.Round(temporaryY) >= y && (int)Mathf.Round(temporaryX) >= x && (int)Mathf.Round(temporaryZ) >= z)
+                    if (swtcfullvoxel == 1)
                     {
-                        map[x, y, z] = 1;
-                    }*/
-                    //map[x, y, z] = 1;
-
-                    /*float temporaryY = 1f;
-                    float temporaryZ = 0.1f;
-                    float temporaryX = 0.1f;
-
-
-                    temporaryY *= (Mathf.PerlinNoise((x * planeSize + chunkpos.x + seed) / detailScale1, (z * planeSize + chunkpos.z + seed) / detailScale1) * heightScale1);
-
-                    float size0 = (1 / planeSize) * chunkpos.y;
-                    temporaryY -= size0;
-
-
-                    temporaryX *= (Mathf.PerlinNoise((y * planeSize + chunkpos.y + seed) / detailScale1, (z * planeSize + chunkpos.z + seed) / detailScale1) * heightScale1);
-
-                    float size1 = (1 / planeSize) * chunkpos.x;
-                    temporaryX -= size1;
-
-                    temporaryZ *= (Mathf.PerlinNoise((x * planeSize + chunkpos.x + seed) / detailScale1, (y * planeSize + chunkpos.y + seed) / detailScale1) * heightScale1);
-
-                    float size2 = (1 / planeSize) * chunkpos.z;
-                    temporaryZ -= size2;*/
-
-
-                    /*if ((int)Mathf.Round(temporaryY) >= y )
+                        mainChunk.bytemap[indexOf] = 1;
+                    }
+                    else if (swtcfullvoxel == 0)
                     {
-                        map[x, y, z] = 1;
-                    }*/
-
-                    /*if ((int)Mathf.Round(temporaryY) >= 0)
-                    {
-                        map[x, y, z] = 1;
-                    }*/
 
 
+                        /*float temporaryY = 0.1f;
+                        float temporaryZ = 0.1f;
+                        float temporaryX = 0.1f;
 
-                    //if (distance1 >= 0 && distance1 < 19 )
-                    {
-                        if (distance <= radiusplanetcoreend)
+                        temporaryY *= (Mathf.PerlinNoise((x * planeSize + chunkpos.x + seed) / detailScale1, (z * planeSize + chunkpos.z + seed) / detailScale1) * heightScale1);
+                        float size0 = (1 / planeSize) * chunkpos.y;
+                        temporaryY -= size0;
+
+
+                        temporaryX *= (Mathf.PerlinNoise((y * planeSize + chunkpos.y + seed) / detailScale1, (z * planeSize + chunkpos.z + seed) / detailScale1) * heightScale1);
+                        float size1 = (1 / planeSize) * chunkpos.x;
+                        temporaryX -= size1;
+
+                        temporaryZ *= (Mathf.PerlinNoise((x * planeSize + chunkpos.x + seed) / detailScale1, (y * planeSize + chunkpos.y + seed) / detailScale1) * heightScale1);
+                        float size2 = (1 / planeSize) * chunkpos.z;
+                        temporaryZ -= size2;
+
+
+                        if ((int)Mathf.Round(temporaryY) >= y && (int)Mathf.Round(temporaryX) >= x && (int)Mathf.Round(temporaryZ) >= z)
                         {
-                            mainChunk.bytemap[indexOf] = 1;
-                        }
+                            map[x, y, z] = 1;
+                        }*/
+                        //map[x, y, z] = 1;
 
-                        else if (distance > radiusplanetcoreend && distance <= radiusplanetcavesend)
+                        /*float temporaryY = 1f;
+                        float temporaryZ = 0.1f;
+                        float temporaryX = 0.1f;
+
+
+                        temporaryY *= (Mathf.PerlinNoise((x * planeSize + chunkpos.x + seed) / detailScale1, (z * planeSize + chunkpos.z + seed) / detailScale1) * heightScale1);
+
+                        float size0 = (1 / planeSize) * chunkpos.y;
+                        temporaryY -= size0;
+
+
+                        temporaryX *= (Mathf.PerlinNoise((y * planeSize + chunkpos.y + seed) / detailScale1, (z * planeSize + chunkpos.z + seed) / detailScale1) * heightScale1);
+
+                        float size1 = (1 / planeSize) * chunkpos.x;
+                        temporaryX -= size1;
+
+                        temporaryZ *= (Mathf.PerlinNoise((x * planeSize + chunkpos.x + seed) / detailScale1, (y * planeSize + chunkpos.y + seed) / detailScale1) * heightScale1);
+
+                        float size2 = (1 / planeSize) * chunkpos.z;
+                        temporaryZ -= size2;*/
+
+
+                        /*if ((int)Mathf.Round(temporaryY) >= y )
                         {
-                            float noiseValue0 = Noise.Generate(noiseX, noiseY, noiseZ);
-                            if (noiseValue0 > 0.2f)
+                            map[x, y, z] = 1;
+                        }*/
+
+                        /*if ((int)Mathf.Round(temporaryY) >= 0)
+                        {
+                            map[x, y, z] = 1;
+                        }*/
+
+
+
+                        //if (distance1 >= 0 && distance1 < 19 )
+                        {
+                            if (distance <= radiusplanetcoreend)
                             {
                                 mainChunk.bytemap[indexOf] = 1;
                             }
+
+                            else if (distance > radiusplanetcoreend && distance <= radiusplanetcavesend)
+                            {
+                                float noiseValue0 = Noise.Generate(noiseX, noiseY, noiseZ);
+                                if (noiseValue0 > 0.2f)
+                                {
+                                    mainChunk.bytemap[indexOf] = 1;
+                                }
+                            }
+
+                            else if (distance >= radiusplanetcavesend && distance <= radiusplanetcrustend)
+                            {
+                                mainChunk.bytemap[indexOf] = 1;
+                            }
+
+                            else if (distance > radiusplanetcrustend && distance < radiusplanetmountainend + offsetDist)
+                            {
+
+
+                                float temporaryY = 10;
+                                float temporaryZ = 10;
+                                float temporaryX = 10;
+
+                                if (chunkpos.y < 0 && chunkpos.x < 0 && chunkpos.z < 0)
+                                {
+                                    temporaryY *= -(Mathf.PerlinNoise((x * planeSize + chunkpos.x + seed) / detailScale1, (z * planeSize + chunkpos.z + seed) / detailScale1) * heightScale1);
+                                    float size0 = (1 / planeSize) * chunkpos.y;
+                                    temporaryY -= size0;
+
+                                    temporaryX *= -(Mathf.PerlinNoise((y * planeSize + chunkpos.y + seed) / detailScale1, (z * planeSize + chunkpos.z + seed) / detailScale1) * heightScale1);
+                                    float size1 = (1 / planeSize) * chunkpos.x;
+                                    temporaryX -= size1;
+
+                                    temporaryZ *= -(Mathf.PerlinNoise((x * planeSize + chunkpos.x + seed) / detailScale1, (y * planeSize + chunkpos.y + seed) / detailScale1) * heightScale1);
+                                    float size2 = (1 / planeSize) * chunkpos.z;
+                                    temporaryZ -= size2;
+
+                                    if ((int)Mathf.Round(temporaryY) < y && (int)Mathf.Round(temporaryX) < x && (int)Mathf.Round(temporaryZ) < z)
+                                    {
+                                        mainChunk.bytemap[indexOf] = 1;
+                                    }
+                                }
+
+                                else if (chunkpos.y >= 0 && chunkpos.x >= 0 && chunkpos.z >= 0)
+                                {
+                                    temporaryY *= (Mathf.PerlinNoise((x * planeSize + chunkpos.x + seed) / detailScale1, (z * planeSize + chunkpos.z + seed) / detailScale1) * heightScale1);
+
+                                    float size0 = (1 / planeSize) * chunkpos.y;
+                                    temporaryY -= size0;
+
+
+                                    temporaryX *= (Mathf.PerlinNoise((y * planeSize + chunkpos.y + seed) / detailScale1, (z * planeSize + chunkpos.z + seed) / detailScale1) * heightScale1);
+
+                                    float size1 = (1 / planeSize) * chunkpos.x;
+                                    temporaryX -= size1;
+
+                                    temporaryZ *= (Mathf.PerlinNoise((x * planeSize + chunkpos.x + seed) / detailScale1, (y * planeSize + chunkpos.y + seed) / detailScale1) * heightScale1);
+
+                                    float size2 = (1 / planeSize) * chunkpos.z;
+                                    temporaryZ -= size2;
+
+
+                                    if ((int)Mathf.Round(temporaryY) >= y && (int)Mathf.Round(temporaryX) >= x && (int)Mathf.Round(temporaryZ) >= z)
+                                    {
+                                        mainChunk.bytemap[indexOf] = 1;
+                                    }
+                                }
+
+                                else if (chunkpos.y >= 0 && chunkpos.x < 0 && chunkpos.z >= 0)
+                                {
+                                    temporaryY *= (Mathf.PerlinNoise((x * planeSize + chunkpos.x + seed) / detailScale1, (z * planeSize + chunkpos.z + seed) / detailScale1) * heightScale1);
+
+                                    float size0 = (1 / planeSize) * chunkpos.y;
+                                    temporaryY -= size0;
+
+                                    temporaryX *= -(Mathf.PerlinNoise((y * planeSize + chunkpos.y + seed) / detailScale1, (z * planeSize + chunkpos.z + seed) / detailScale1) * heightScale1);
+
+                                    float size1 = (1 / planeSize) * chunkpos.x;
+                                    temporaryX -= size1;
+
+                                    temporaryZ *= (Mathf.PerlinNoise((x * planeSize + chunkpos.x + seed) / detailScale1, (y * planeSize + chunkpos.y + seed) / detailScale1) * heightScale1);
+
+                                    float size2 = (1 / planeSize) * chunkpos.z;
+                                    temporaryZ -= size2;
+
+
+                                    if ((int)Mathf.Round(temporaryY) >= y && (int)Mathf.Round(temporaryX) < x && (int)Mathf.Round(temporaryZ) >= z)
+                                    {
+                                        mainChunk.bytemap[indexOf] = 1;
+                                    }
+                                }
+
+
+                                else if (chunkpos.y >= 0 && chunkpos.x >= 0 && chunkpos.z < 0)
+                                {
+                                    temporaryY *= (Mathf.PerlinNoise((x * planeSize + chunkpos.x + seed) / detailScale1, (z * planeSize + chunkpos.z + seed) / detailScale1) * heightScale1);
+
+                                    float size0 = (1 / planeSize) * chunkpos.y;
+                                    temporaryY -= size0;
+
+
+                                    temporaryX *= (Mathf.PerlinNoise((y * planeSize + chunkpos.y + seed) / detailScale1, (z * planeSize + chunkpos.z + seed) / detailScale1) * heightScale1);
+
+                                    float size1 = (1 / planeSize) * chunkpos.x;
+                                    temporaryX -= size1;
+
+                                    temporaryZ *= -(Mathf.PerlinNoise((x * planeSize + chunkpos.x + seed) / detailScale1, (y * planeSize + chunkpos.y + seed) / detailScale1) * heightScale1);
+
+                                    float size2 = (1 / planeSize) * chunkpos.z;
+                                    temporaryZ -= size2;
+
+
+                                    if ((int)Mathf.Round(temporaryY) >= y && (int)Mathf.Round(temporaryX) >= x && (int)Mathf.Round(temporaryZ) < z)
+                                    {
+                                        mainChunk.bytemap[indexOf] = 1;
+                                    }
+                                }
+
+
+
+
+
+                                else if (chunkpos.y >= 0 && chunkpos.x < 0 && chunkpos.z < 0)
+                                {
+                                    temporaryY *= (Mathf.PerlinNoise((x * planeSize + chunkpos.x + seed) / detailScale1, (z * planeSize + chunkpos.z + seed) / detailScale1) * heightScale1);
+
+                                    float size0 = (1 / planeSize) * chunkpos.y;
+                                    temporaryY -= size0;
+
+
+                                    temporaryX *= -(Mathf.PerlinNoise((y * planeSize + chunkpos.y + seed) / detailScale1, (z * planeSize + chunkpos.z + seed) / detailScale1) * heightScale1);
+
+                                    float size1 = (1 / planeSize) * chunkpos.x;
+                                    temporaryX -= size1;
+
+                                    temporaryZ *= -(Mathf.PerlinNoise((x * planeSize + chunkpos.x + seed) / detailScale1, (y * planeSize + chunkpos.y + seed) / detailScale1) * heightScale1);
+
+                                    float size2 = (1 / planeSize) * chunkpos.z;
+                                    temporaryZ -= size2;
+
+
+                                    if ((int)Mathf.Round(temporaryY) >= y && (int)Mathf.Round(temporaryX) < x && (int)Mathf.Round(temporaryZ) < z)
+                                    {
+                                        mainChunk.bytemap[indexOf] = 1;
+                                    }
+                                }
+
+
+
+                                else if (chunkpos.y < 0 && chunkpos.x >= 0 && chunkpos.z < 0)
+                                {
+                                    temporaryY *= -(Mathf.PerlinNoise((x * planeSize + chunkpos.x + seed) / detailScale1, (z * planeSize + chunkpos.z + seed) / detailScale1) * heightScale1);
+
+                                    float size0 = (1 / planeSize) * chunkpos.y;
+                                    temporaryY -= size0;
+
+
+                                    temporaryX *= (Mathf.PerlinNoise((y * planeSize + chunkpos.y + seed) / detailScale1, (z * planeSize + chunkpos.z + seed) / detailScale1) * heightScale1);
+
+                                    float size1 = (1 / planeSize) * chunkpos.x;
+                                    temporaryX -= size1;
+
+                                    temporaryZ *= -(Mathf.PerlinNoise((x * planeSize + chunkpos.x + seed) / detailScale1, (y * planeSize + chunkpos.y + seed) / detailScale1) * heightScale1);
+
+                                    float size2 = (1 / planeSize) * chunkpos.z;
+                                    temporaryZ -= size2;
+
+
+                                    if ((int)Mathf.Round(temporaryY) < y && (int)Mathf.Round(temporaryX) >= x && (int)Mathf.Round(temporaryZ) < z)
+                                    {
+                                        mainChunk.bytemap[indexOf] = 1;
+                                    }
+                                }
+
+
+
+
+
+                                else if (chunkpos.y < 0 && chunkpos.x >= 0 && chunkpos.z >= 0)
+                                {
+                                    temporaryY *= -(Mathf.PerlinNoise((x * planeSize + chunkpos.x + seed) / detailScale1, (z * planeSize + chunkpos.z + seed) / detailScale1) * heightScale1);
+                                    float size0 = (1 / planeSize) * chunkpos.y;
+                                    temporaryY -= size0;
+
+                                    temporaryX *= (Mathf.PerlinNoise((y * planeSize + chunkpos.y + seed) / detailScale1, (z * planeSize + chunkpos.z + seed) / detailScale1) * heightScale1);
+                                    float size1 = (1 / planeSize) * chunkpos.x;
+                                    temporaryX -= size1;
+
+                                    temporaryZ *= (Mathf.PerlinNoise((x * planeSize + chunkpos.x + seed) / detailScale1, (y * planeSize + chunkpos.y + seed) / detailScale1) * heightScale1);
+                                    float size2 = (1 / planeSize) * chunkpos.z;
+                                    temporaryZ -= size2;
+
+
+                                    if ((int)Mathf.Round(temporaryY) < y && (int)Mathf.Round(temporaryX) >= x && (int)Mathf.Round(temporaryZ) >= z)
+                                    {
+                                        mainChunk.bytemap[indexOf] = 1;
+                                    }
+                                }
+
+
+
+
+
+                                else if (chunkpos.y < 0 && chunkpos.x < 0 && chunkpos.z >= 0)
+                                {
+                                    temporaryY *= -(Mathf.PerlinNoise((x * planeSize + chunkpos.x + seed) / detailScale1, (z * planeSize + chunkpos.z + seed) / detailScale1) * heightScale1);
+
+                                    float size0 = (1 / planeSize) * chunkpos.y;
+                                    temporaryY -= size0;
+
+
+                                    temporaryX *= -(Mathf.PerlinNoise((y * planeSize + chunkpos.y + seed) / detailScale1, (z * planeSize + chunkpos.z + seed) / detailScale1) * heightScale1);
+
+                                    float size1 = (1 / planeSize) * chunkpos.x;
+                                    temporaryX -= size1;
+
+                                    temporaryZ *= (Mathf.PerlinNoise((x * planeSize + chunkpos.x + seed) / detailScale1, (y * planeSize + chunkpos.y + seed) / detailScale1) * heightScale1);
+
+                                    float size2 = (1 / planeSize) * chunkpos.z;
+                                    temporaryZ -= size2;
+
+                                    if ((int)Mathf.Round(temporaryY) < y && (int)Mathf.Round(temporaryX) < x && (int)Mathf.Round(temporaryZ) >= z)
+                                    {
+                                        mainChunk.bytemap[indexOf] = 1;
+                                    }
+                                }
+                                else
+                                {
+                                    mainChunk.bytemap[indexOf] = 0;
+
+                                }
+
+
+                                ////(chunkpos.y < 0 && chunkpos.x < 0 && chunkpos.z < 0)
+                                ////chunkpos.y >= 0 && chunkpos.x >= 0 && chunkpos.z >= 0)
+                                ////chunkpos.y >= 0 && chunkpos.x < 0 && chunkpos.z >= 0)
+                                ////(chunkpos.y >= 0 && chunkpos.x >= 0 && chunkpos.z < 0)
+                                ////(chunkpos.y >= 0 && chunkpos.x < 0 && chunkpos.z < 0)
+                                ////(chunkpos.y < 0 && chunkpos.x >= 0 && chunkpos.z < 0)
+                                ////(chunkpos.y < 0 && chunkpos.x >= 0 && chunkpos.z >= 0)
+                                ////(chunkpos.y < 0 && chunkpos.x < 0 && chunkpos.z >= 0)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                /*if (chunkpos.y < 0)
+                                {
+                                    float size0 = (1 / planeSize) * chunkpos.y;
+                                    temporaryY -= size0;
+                                    temporaryY *= -(Mathf.PerlinNoise((x * planeSize + chunkpos.x + seed) / detailScale1, (z * planeSize + chunkpos.z + seed) / detailScale1) * heightScale1);
+                                    if ((int)Mathf.Round(temporaryY) <= y)
+                                    {
+                                        mainChunk.bytemap[x, y, z] = 1;
+                                    }
+                                }
+                                else
+                                {
+                                    float size0 = (1 / planeSize) * chunkpos.y;
+                                    temporaryY -= size0;
+                                    temporaryY *= (Mathf.PerlinNoise((x * planeSize + chunkpos.x + seed) / detailScale1, (z * planeSize + chunkpos.z + seed) / detailScale1) * heightScale1);
+                                    if ((int)Mathf.Round(temporaryY) >= y )
+                                    {
+                                        mainChunk.bytemap[x, y, z] = 1;
+                                    }
+                                }
+
+                                if (chunkpos.x < 0)
+                                {
+                                    float size1 = (1 / planeSize) * chunkpos.x;
+                                    temporaryX -= size1;
+                                    temporaryX *= -(Mathf.PerlinNoise((y * planeSize + chunkpos.y + seed) / detailScale1, (z * planeSize + chunkpos.z + seed) / detailScale1) * heightScale1);
+                                    if ((int)Mathf.Round(temporaryX) <= x)
+                                    {
+                                        mainChunk.bytemap[x, y, z] = 1;
+                                    }
+                                }
+                                else
+                                {
+                                    float size1 = (1 / planeSize) * chunkpos.x;
+                                    temporaryX -= size1;
+                                    temporaryX *= (Mathf.PerlinNoise((y * planeSize + chunkpos.y + seed) / detailScale1, (z * planeSize + chunkpos.z + seed) / detailScale1) * heightScale1);
+                                    if ((int)Mathf.Round(temporaryX) <= x)
+                                    {
+                                        mainChunk.bytemap[x, y, z] = 1;
+                                    }
+                                }
+
+
+
+                                if (chunkpos.z < 0)
+                                {
+                                    float size2 = (1 / planeSize) * chunkpos.z;
+                                    temporaryZ -= size2;
+                                    temporaryZ *= -(Mathf.PerlinNoise((x * planeSize + chunkpos.x + seed) / detailScale1, (y * planeSize + chunkpos.y + seed) / detailScale1) * heightScale1);
+                                    if ((int)Mathf.Round(temporaryZ) <= z)
+                                    {
+                                        mainChunk.bytemap[x, y, z] = 1;
+                                    }
+                                }
+                                else
+                                {
+                                    float size2 = (1 / planeSize) * chunkpos.z;
+                                    temporaryZ -= size2;
+                                    temporaryZ *= (Mathf.PerlinNoise((x * planeSize + chunkpos.x + seed) / detailScale1, (y * planeSize + chunkpos.y + seed) / detailScale1) * heightScale1);
+                                    if ((int)Mathf.Round(temporaryZ) >= z)
+                                    {
+                                        mainChunk.bytemap[x, y, z] = 1;
+                                    }
+                                }*/
+
+                            }
                         }
-
-                        else if (distance >= radiusplanetcavesend && distance <= radiusplanetcrustend)
-                        {
-                            mainChunk.bytemap[indexOf] = 1;
-                        }
-
-                        else if (distance > radiusplanetcrustend && distance < radiusplanetmountainend + offsetDist)
-                        {
-
-
-                            float temporaryY = 10;
-                            float temporaryZ = 10;
-                            float temporaryX = 10;
-
-                            if (chunkpos.y < 0 && chunkpos.x < 0 && chunkpos.z < 0)
-                            {
-                                temporaryY *= -(Mathf.PerlinNoise((x * planeSize + chunkpos.x + seed) / detailScale1, (z * planeSize + chunkpos.z + seed) / detailScale1) * heightScale1);
-                                float size0 = (1 / planeSize) * chunkpos.y;
-                                temporaryY -= size0;
-
-                                temporaryX *= -(Mathf.PerlinNoise((y * planeSize + chunkpos.y + seed) / detailScale1, (z * planeSize + chunkpos.z + seed) / detailScale1) * heightScale1);
-                                float size1 = (1 / planeSize) * chunkpos.x;
-                                temporaryX -= size1;
-
-                                temporaryZ *= -(Mathf.PerlinNoise((x * planeSize + chunkpos.x + seed) / detailScale1, (y * planeSize + chunkpos.y + seed) / detailScale1) * heightScale1);
-                                float size2 = (1 / planeSize) * chunkpos.z;
-                                temporaryZ -= size2;
-
-                                if ((int)Mathf.Round(temporaryY) < y && (int)Mathf.Round(temporaryX) < x && (int)Mathf.Round(temporaryZ) < z)
-                                {
-                                    mainChunk.bytemap[indexOf] = 1;
-                                }
-                            }
-
-                            else if (chunkpos.y >= 0 && chunkpos.x >= 0 && chunkpos.z >= 0)
-                            {
-                                temporaryY *= (Mathf.PerlinNoise((x * planeSize + chunkpos.x + seed) / detailScale1, (z * planeSize + chunkpos.z + seed) / detailScale1) * heightScale1);
-
-                                float size0 = (1 / planeSize) * chunkpos.y;
-                                temporaryY -= size0;
-
-
-                                temporaryX *= (Mathf.PerlinNoise((y * planeSize + chunkpos.y + seed) / detailScale1, (z * planeSize + chunkpos.z + seed) / detailScale1) * heightScale1);
-
-                                float size1 = (1 / planeSize) * chunkpos.x;
-                                temporaryX -= size1;
-
-                                temporaryZ *= (Mathf.PerlinNoise((x * planeSize + chunkpos.x + seed) / detailScale1, (y * planeSize + chunkpos.y + seed) / detailScale1) * heightScale1);
-
-                                float size2 = (1 / planeSize) * chunkpos.z;
-                                temporaryZ -= size2;
-
-
-                                if ((int)Mathf.Round(temporaryY) >= y && (int)Mathf.Round(temporaryX) >= x && (int)Mathf.Round(temporaryZ) >= z)
-                                {
-                                    mainChunk.bytemap[indexOf] = 1;
-                                }
-                            }
-
-                            else if (chunkpos.y >= 0 && chunkpos.x < 0 && chunkpos.z >= 0)
-                            {
-                                temporaryY *= (Mathf.PerlinNoise((x * planeSize + chunkpos.x + seed) / detailScale1, (z * planeSize + chunkpos.z + seed) / detailScale1) * heightScale1);
-
-                                float size0 = (1 / planeSize) * chunkpos.y;
-                                temporaryY -= size0;
-
-                                temporaryX *= -(Mathf.PerlinNoise((y * planeSize + chunkpos.y + seed) / detailScale1, (z * planeSize + chunkpos.z + seed) / detailScale1) * heightScale1);
-
-                                float size1 = (1 / planeSize) * chunkpos.x;
-                                temporaryX -= size1;
-
-                                temporaryZ *= (Mathf.PerlinNoise((x * planeSize + chunkpos.x + seed) / detailScale1, (y * planeSize + chunkpos.y + seed) / detailScale1) * heightScale1);
-
-                                float size2 = (1 / planeSize) * chunkpos.z;
-                                temporaryZ -= size2;
-
-
-                                if ((int)Mathf.Round(temporaryY) >= y && (int)Mathf.Round(temporaryX) < x && (int)Mathf.Round(temporaryZ) >= z)
-                                {
-                                    mainChunk.bytemap[indexOf] = 1;
-                                }
-                            }
-
-
-                            else if (chunkpos.y >= 0 && chunkpos.x >= 0 && chunkpos.z < 0)
-                            {
-                                temporaryY *= (Mathf.PerlinNoise((x * planeSize + chunkpos.x + seed) / detailScale1, (z * planeSize + chunkpos.z + seed) / detailScale1) * heightScale1);
-
-                                float size0 = (1 / planeSize) * chunkpos.y;
-                                temporaryY -= size0;
-
-
-                                temporaryX *= (Mathf.PerlinNoise((y * planeSize + chunkpos.y + seed) / detailScale1, (z * planeSize + chunkpos.z + seed) / detailScale1) * heightScale1);
-
-                                float size1 = (1 / planeSize) * chunkpos.x;
-                                temporaryX -= size1;
-
-                                temporaryZ *= -(Mathf.PerlinNoise((x * planeSize + chunkpos.x + seed) / detailScale1, (y * planeSize + chunkpos.y + seed) / detailScale1) * heightScale1);
-
-                                float size2 = (1 / planeSize) * chunkpos.z;
-                                temporaryZ -= size2;
-
-
-                                if ((int)Mathf.Round(temporaryY) >= y && (int)Mathf.Round(temporaryX) >= x && (int)Mathf.Round(temporaryZ) < z)
-                                {
-                                    mainChunk.bytemap[indexOf] = 1;
-                                }
-                            }
-
-
-
-
-
-                            else if (chunkpos.y >= 0 && chunkpos.x < 0 && chunkpos.z < 0)
-                            {
-                                temporaryY *= (Mathf.PerlinNoise((x * planeSize + chunkpos.x + seed) / detailScale1, (z * planeSize + chunkpos.z + seed) / detailScale1) * heightScale1);
-
-                                float size0 = (1 / planeSize) * chunkpos.y;
-                                temporaryY -= size0;
-
-
-                                temporaryX *= -(Mathf.PerlinNoise((y * planeSize + chunkpos.y + seed) / detailScale1, (z * planeSize + chunkpos.z + seed) / detailScale1) * heightScale1);
-
-                                float size1 = (1 / planeSize) * chunkpos.x;
-                                temporaryX -= size1;
-
-                                temporaryZ *= -(Mathf.PerlinNoise((x * planeSize + chunkpos.x + seed) / detailScale1, (y * planeSize + chunkpos.y + seed) / detailScale1) * heightScale1);
-
-                                float size2 = (1 / planeSize) * chunkpos.z;
-                                temporaryZ -= size2;
-
-
-                                if ((int)Mathf.Round(temporaryY) >= y && (int)Mathf.Round(temporaryX) < x && (int)Mathf.Round(temporaryZ) < z)
-                                {
-                                    mainChunk.bytemap[indexOf] = 1;
-                                }
-                            }
-
-
-
-                            else if (chunkpos.y < 0 && chunkpos.x >= 0 && chunkpos.z < 0)
-                            {
-                                temporaryY *= -(Mathf.PerlinNoise((x * planeSize + chunkpos.x + seed) / detailScale1, (z * planeSize + chunkpos.z + seed) / detailScale1) * heightScale1);
-
-                                float size0 = (1 / planeSize) * chunkpos.y;
-                                temporaryY -= size0;
-
-
-                                temporaryX *= (Mathf.PerlinNoise((y * planeSize + chunkpos.y + seed) / detailScale1, (z * planeSize + chunkpos.z + seed) / detailScale1) * heightScale1);
-
-                                float size1 = (1 / planeSize) * chunkpos.x;
-                                temporaryX -= size1;
-
-                                temporaryZ *= -(Mathf.PerlinNoise((x * planeSize + chunkpos.x + seed) / detailScale1, (y * planeSize + chunkpos.y + seed) / detailScale1) * heightScale1);
-
-                                float size2 = (1 / planeSize) * chunkpos.z;
-                                temporaryZ -= size2;
-
-
-                                if ((int)Mathf.Round(temporaryY) < y && (int)Mathf.Round(temporaryX) >= x && (int)Mathf.Round(temporaryZ) < z)
-                                {
-                                    mainChunk.bytemap[indexOf] = 1;
-                                }
-                            }
-
-
-
-
-
-                            else if (chunkpos.y < 0 && chunkpos.x >= 0 && chunkpos.z >= 0)
-                            {
-                                temporaryY *= -(Mathf.PerlinNoise((x * planeSize + chunkpos.x + seed) / detailScale1, (z * planeSize + chunkpos.z + seed) / detailScale1) * heightScale1);
-                                float size0 = (1 / planeSize) * chunkpos.y;
-                                temporaryY -= size0;
-
-                                temporaryX *= (Mathf.PerlinNoise((y * planeSize + chunkpos.y + seed) / detailScale1, (z * planeSize + chunkpos.z + seed) / detailScale1) * heightScale1);
-                                float size1 = (1 / planeSize) * chunkpos.x;
-                                temporaryX -= size1;
-
-                                temporaryZ *= (Mathf.PerlinNoise((x * planeSize + chunkpos.x + seed) / detailScale1, (y * planeSize + chunkpos.y + seed) / detailScale1) * heightScale1);
-                                float size2 = (1 / planeSize) * chunkpos.z;
-                                temporaryZ -= size2;
-
-
-                                if ((int)Mathf.Round(temporaryY) < y && (int)Mathf.Round(temporaryX) >= x && (int)Mathf.Round(temporaryZ) >= z)
-                                {
-                                    mainChunk.bytemap[indexOf] = 1;
-                                }
-                            }
-
-
-
-
-
-                            else if (chunkpos.y < 0 && chunkpos.x < 0 && chunkpos.z >= 0)
-                            {
-                                temporaryY *= -(Mathf.PerlinNoise((x * planeSize + chunkpos.x + seed) / detailScale1, (z * planeSize + chunkpos.z + seed) / detailScale1) * heightScale1);
-
-                                float size0 = (1 / planeSize) * chunkpos.y;
-                                temporaryY -= size0;
-
-
-                                temporaryX *= -(Mathf.PerlinNoise((y * planeSize + chunkpos.y + seed) / detailScale1, (z * planeSize + chunkpos.z + seed) / detailScale1) * heightScale1);
-
-                                float size1 = (1 / planeSize) * chunkpos.x;
-                                temporaryX -= size1;
-
-                                temporaryZ *= (Mathf.PerlinNoise((x * planeSize + chunkpos.x + seed) / detailScale1, (y * planeSize + chunkpos.y + seed) / detailScale1) * heightScale1);
-
-                                float size2 = (1 / planeSize) * chunkpos.z;
-                                temporaryZ -= size2;
-
-                                if ((int)Mathf.Round(temporaryY) < y && (int)Mathf.Round(temporaryX) < x && (int)Mathf.Round(temporaryZ) >= z)
-                                {
-                                    mainChunk.bytemap[indexOf] = 1;
-                                }
-                            }
-                            else
-                            {
-                                mainChunk.bytemap[indexOf] = 0;
-
-                            }
-
-
-                            ////(chunkpos.y < 0 && chunkpos.x < 0 && chunkpos.z < 0)
-                            ////chunkpos.y >= 0 && chunkpos.x >= 0 && chunkpos.z >= 0)
-                            ////chunkpos.y >= 0 && chunkpos.x < 0 && chunkpos.z >= 0)
-                            ////(chunkpos.y >= 0 && chunkpos.x >= 0 && chunkpos.z < 0)
-                            ////(chunkpos.y >= 0 && chunkpos.x < 0 && chunkpos.z < 0)
-                            ////(chunkpos.y < 0 && chunkpos.x >= 0 && chunkpos.z < 0)
-                            ////(chunkpos.y < 0 && chunkpos.x >= 0 && chunkpos.z >= 0)
-                            ////(chunkpos.y < 0 && chunkpos.x < 0 && chunkpos.z >= 0)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                            /*if (chunkpos.y < 0)
-                            {
-                                float size0 = (1 / planeSize) * chunkpos.y;
-                                temporaryY -= size0;
-                                temporaryY *= -(Mathf.PerlinNoise((x * planeSize + chunkpos.x + seed) / detailScale1, (z * planeSize + chunkpos.z + seed) / detailScale1) * heightScale1);
-                                if ((int)Mathf.Round(temporaryY) <= y)
-                                {
-                                    mainChunk.bytemap[x, y, z] = 1;
-                                }
-                            }
-                            else
-                            {
-                                float size0 = (1 / planeSize) * chunkpos.y;
-                                temporaryY -= size0;
-                                temporaryY *= (Mathf.PerlinNoise((x * planeSize + chunkpos.x + seed) / detailScale1, (z * planeSize + chunkpos.z + seed) / detailScale1) * heightScale1);
-                                if ((int)Mathf.Round(temporaryY) >= y )
-                                {
-                                    mainChunk.bytemap[x, y, z] = 1;
-                                }
-                            }
-
-                            if (chunkpos.x < 0)
-                            {
-                                float size1 = (1 / planeSize) * chunkpos.x;
-                                temporaryX -= size1;
-                                temporaryX *= -(Mathf.PerlinNoise((y * planeSize + chunkpos.y + seed) / detailScale1, (z * planeSize + chunkpos.z + seed) / detailScale1) * heightScale1);
-                                if ((int)Mathf.Round(temporaryX) <= x)
-                                {
-                                    mainChunk.bytemap[x, y, z] = 1;
-                                }
-                            }
-                            else
-                            {
-                                float size1 = (1 / planeSize) * chunkpos.x;
-                                temporaryX -= size1;
-                                temporaryX *= (Mathf.PerlinNoise((y * planeSize + chunkpos.y + seed) / detailScale1, (z * planeSize + chunkpos.z + seed) / detailScale1) * heightScale1);
-                                if ((int)Mathf.Round(temporaryX) <= x)
-                                {
-                                    mainChunk.bytemap[x, y, z] = 1;
-                                }
-                            }
-
-
-
-                            if (chunkpos.z < 0)
-                            {
-                                float size2 = (1 / planeSize) * chunkpos.z;
-                                temporaryZ -= size2;
-                                temporaryZ *= -(Mathf.PerlinNoise((x * planeSize + chunkpos.x + seed) / detailScale1, (y * planeSize + chunkpos.y + seed) / detailScale1) * heightScale1);
-                                if ((int)Mathf.Round(temporaryZ) <= z)
-                                {
-                                    mainChunk.bytemap[x, y, z] = 1;
-                                }
-                            }
-                            else
-                            {
-                                float size2 = (1 / planeSize) * chunkpos.z;
-                                temporaryZ -= size2;
-                                temporaryZ *= (Mathf.PerlinNoise((x * planeSize + chunkpos.x + seed) / detailScale1, (y * planeSize + chunkpos.y + seed) / detailScale1) * heightScale1);
-                                if ((int)Mathf.Round(temporaryZ) >= z)
-                                {
-                                    mainChunk.bytemap[x, y, z] = 1;
-                                }
-                            }*/
-
-                       }
                    }
                 }
             }
@@ -766,6 +797,11 @@ public class sccsplanetchunkrev4// : MonoBehaviour
         }*/
 
         
+
+
+
+
+
         //RIGHTFACE
         if (x != width - 1)
         {
@@ -779,9 +815,10 @@ public class sccsplanetchunkrev4// : MonoBehaviour
         }
         else if (x == width - 1)
         {
-            if (sccsproceduralplanetbuilderrev4.sccsproceduralplanetbuilderrev4script.getChunk((int)(mainChunk.worldPosition.x + 4), (int)(mainChunk.worldPosition.y), (int)(mainChunk.worldPosition.z)) != null)
+            var chunkdata = sccsproceduralplanetbuilderrev4.sccsproceduralplanetbuilderrev4script.getChunk((int)(mainChunk.indexposx + 1), (int)(mainChunk.indexposy), (int)(mainChunk.indexposz));
+            if (chunkdata != null)
             {
-              sccsproceduralplanetbuilderrev4.mainChunk chunkdata = sccsproceduralplanetbuilderrev4.sccsproceduralplanetbuilderrev4script.getChunk((int)(mainChunk.worldPosition.x + 4), (int)(mainChunk.worldPosition.y), (int)(mainChunk.worldPosition.z));
+              //sccsproceduralplanetbuilderrev4.mainChunk chunkdata = sccsproceduralplanetbuilderrev4.sccsproceduralplanetbuilderrev4script.getChunk((int)(mainChunk.indexposx + 1), (int)(mainChunk.indexposy), (int)(mainChunk.indexposz));
 
                 float xx = (Mathf.Floor(start.x * fraction) / fraction) + chunkRadius;
                 float yy = (Mathf.Floor(start.y * fraction) / fraction) + chunkRadius;
@@ -793,7 +830,7 @@ public class sccsplanetchunkrev4// : MonoBehaviour
 
                     if (comp != null)
                     {
-                        if (comp.IsTransparent(0, y, z, mainChunk))
+                        if (comp.IsTransparent(0, y, z, chunkdata))
                         {
                             offset1 = Vector3.up * planeSize;
                             offset2 = Vector3.forward * planeSize;
@@ -802,8 +839,21 @@ public class sccsplanetchunkrev4// : MonoBehaviour
                     }
                 }
             }
+            else
+            {
+                //RIGHTFACE
+                if (IsTransparent(x + 1, y, z, mainChunk))
+                {
+                    offset1 = Vector3.up * planeSize;
+                    offset2 = Vector3.forward * planeSize;
+                    mainChunk = DrawFace(start + Vector3.right * planeSize, offset1, offset2, mainChunk);
+                }
+            }
         }
 
+
+
+       
         //LEFTFACE
         if (x != 0)
         {
@@ -817,9 +867,10 @@ public class sccsplanetchunkrev4// : MonoBehaviour
         }
         else if (x == 0)
         {
-            if (sccsproceduralplanetbuilderrev4.sccsproceduralplanetbuilderrev4script.getChunk((int)(mainChunk.worldPosition.x - 4), (int)(mainChunk.worldPosition.y), (int)(mainChunk.worldPosition.z)) != null)
+            sccsproceduralplanetbuilderrev4.mainChunk chunkdata = sccsproceduralplanetbuilderrev4.sccsproceduralplanetbuilderrev4script.getChunk((int)(mainChunk.indexposx - 1), (int)(mainChunk.indexposy), (int)(mainChunk.indexposz));
+
+            if (chunkdata != null)
             {
-                sccsproceduralplanetbuilderrev4.mainChunk chunkdata = sccsproceduralplanetbuilderrev4.sccsproceduralplanetbuilderrev4script.getChunk((int)(mainChunk.worldPosition.x - 4), (int)(mainChunk.worldPosition.y), (int)(mainChunk.worldPosition.z));
 
                 float xx = (Mathf.Floor(start.x * fraction) / fraction) + chunkRadius;
                 float yy = (Mathf.Floor(start.y * fraction) / fraction) + chunkRadius;
@@ -831,13 +882,23 @@ public class sccsplanetchunkrev4// : MonoBehaviour
 
                     if (comp != null)
                     {
-                        if (comp.IsTransparent(width - 1, y, z, mainChunk))
+                        if (comp.IsTransparent(width - 1, y, z, chunkdata))
                         {
                             offset1 = Vector3.back * planeSize;
                             offset2 = Vector3.down * planeSize;
                             mainChunk = DrawFace(start + Vector3.up * planeSize + Vector3.forward * planeSize, offset1, offset2, mainChunk);
                         }
                     }
+                }
+            }
+            else
+            {
+                //LEFTFACE
+                if (IsTransparent(x - 1, y, z, mainChunk))
+                {
+                    offset1 = Vector3.back * planeSize;
+                    offset2 = Vector3.down * planeSize;
+                    mainChunk = DrawFace(start + Vector3.up * planeSize + Vector3.forward * planeSize, offset1, offset2, mainChunk);
                 }
             }
         }
@@ -852,9 +913,9 @@ public class sccsplanetchunkrev4// : MonoBehaviour
 
 
         //FRONTFACE
-        if (z == 0 && sccsproceduralplanetbuilderrev4.sccsproceduralplanetbuilderrev4script.getChunk((int)(mainChunk.worldPosition.x), (int)(mainChunk.worldPosition.y), (int)(mainChunk.worldPosition.z - 4)) != null)
+        if (z == 0)
         {
-            sccsproceduralplanetbuilderrev4.mainChunk chunkdata = sccsproceduralplanetbuilderrev4.sccsproceduralplanetbuilderrev4script.getChunk((int)(mainChunk.worldPosition.x), (int)(mainChunk.worldPosition.y), (int)(mainChunk.worldPosition.z - 4));
+            sccsproceduralplanetbuilderrev4.mainChunk chunkdata = sccsproceduralplanetbuilderrev4.sccsproceduralplanetbuilderrev4script.getChunk((int)(mainChunk.indexposx), (int)(mainChunk.indexposy), (int)(mainChunk.indexposz - 1));
 
             if (chunkdata != null)
             {
@@ -862,12 +923,32 @@ public class sccsplanetchunkrev4// : MonoBehaviour
 
                 if (comp != null)
                 {
-                    if (comp.IsTransparent(x, y, depth - 1, mainChunk))
+                    if (comp.IsTransparent(x, y, depth - 1, chunkdata))
                     {
                         offset1 = Vector3.left * planeSize;
                         offset2 = Vector3.up * planeSize;
                         mainChunk = DrawFace(start + Vector3.right * planeSize, offset1, offset2, mainChunk);
                     }
+                }
+                else
+                {
+                    //FRONTFACE
+                    if (IsTransparent(x, y, z - 1, mainChunk))
+                    {
+                        offset1 = Vector3.left * planeSize;
+                        offset2 = Vector3.up * planeSize;
+                        mainChunk = DrawFace(start + Vector3.right * planeSize, offset1, offset2, mainChunk);
+                    }
+                }
+            }
+            else
+            {
+                //FRONTFACE
+                if (IsTransparent(x, y, z - 1, mainChunk))
+                {
+                    offset1 = Vector3.left * planeSize;
+                    offset2 = Vector3.up * planeSize;
+                    mainChunk = DrawFace(start + Vector3.right * planeSize, offset1, offset2, mainChunk);
                 }
             }
         }
@@ -883,10 +964,20 @@ public class sccsplanetchunkrev4// : MonoBehaviour
             }
         }
 
+
+
+
+
+
+
+
+
+
+
         //BACKFACE
-        if (z == width - 1 && sccsproceduralplanetbuilderrev4.sccsproceduralplanetbuilderrev4script.getChunk((int)(mainChunk.worldPosition.x), (int)(mainChunk.worldPosition.y), (int)(mainChunk.worldPosition.z + 4)) != null)
+        if (z == width - 1)
         {
-            sccsproceduralplanetbuilderrev4.mainChunk chunkdata = sccsproceduralplanetbuilderrev4.sccsproceduralplanetbuilderrev4script.getChunk((int)(mainChunk.worldPosition.x), (int)(mainChunk.worldPosition.y), (int)(mainChunk.worldPosition.z + 4));
+            sccsproceduralplanetbuilderrev4.mainChunk chunkdata = sccsproceduralplanetbuilderrev4.sccsproceduralplanetbuilderrev4script.getChunk((int)(mainChunk.indexposx), (int)(mainChunk.indexposy), (int)(mainChunk.indexposz + 1));
 
             float xx = (Mathf.Floor(start.x * fraction) / fraction) + chunkRadius;
             float yy = (Mathf.Floor(start.y * fraction) / fraction) + chunkRadius;
@@ -895,15 +986,39 @@ public class sccsplanetchunkrev4// : MonoBehaviour
             if (chunkdata != null)
             {
                 var comp = chunkdata.sccsplanetchunkrev4;
+                //Debug.Log("back face check0");
 
                 if (comp != null)
                 {
-                    if (comp.IsTransparent(x, y, 0, mainChunk))
+                    //Debug.Log("back face check1");
+
+                    if (comp.IsTransparent(x, y, 0, chunkdata))
+                    {
+                        //Debug.Log("back face check2");
+                        offset1 = Vector3.right * planeSize;
+                        offset2 = Vector3.up * planeSize;
+                        mainChunk = DrawFace(start + Vector3.forward * planeSize, offset1, offset2, mainChunk);
+                    }
+                }
+                else
+                {
+                    //BACKFACE
+                    if (IsTransparent(x, y, z + 1, mainChunk))
                     {
                         offset1 = Vector3.right * planeSize;
                         offset2 = Vector3.up * planeSize;
                         mainChunk = DrawFace(start + Vector3.forward * planeSize, offset1, offset2, mainChunk);
                     }
+                }
+            }
+            else
+            {
+                //BACKFACE
+                if (IsTransparent(x, y, z + 1, mainChunk))
+                {
+                    offset1 = Vector3.right * planeSize;
+                    offset2 = Vector3.up * planeSize;
+                    mainChunk = DrawFace(start + Vector3.forward * planeSize, offset1, offset2, mainChunk);
                 }
             }
         }
@@ -925,9 +1040,9 @@ public class sccsplanetchunkrev4// : MonoBehaviour
 
 
         //TOPFACE
-        if (y == height - 1 && sccsproceduralplanetbuilderrev4.sccsproceduralplanetbuilderrev4script.getChunk((int)(mainChunk.worldPosition.x), (int)(mainChunk.worldPosition.y + 4), (int)(mainChunk.worldPosition.z)) != null)
+        if (y == height - 1)
         {
-            sccsproceduralplanetbuilderrev4.mainChunk chunkdata = sccsproceduralplanetbuilderrev4.sccsproceduralplanetbuilderrev4script.getChunk((int)(mainChunk.worldPosition.x), (int)(mainChunk.worldPosition.y + 4), (int)(mainChunk.worldPosition.z));
+            sccsproceduralplanetbuilderrev4.mainChunk chunkdata = sccsproceduralplanetbuilderrev4.sccsproceduralplanetbuilderrev4script.getChunk((int)(mainChunk.indexposx), (int)(mainChunk.indexposy + 1), (int)(mainChunk.indexposz));
 
             if (chunkdata != null)
             {
@@ -935,12 +1050,32 @@ public class sccsplanetchunkrev4// : MonoBehaviour
 
                 if (comp != null)
                 {
-                    if (comp.IsTransparent(x, 0, z, mainChunk))
+                    if (comp.IsTransparent(x, 0, z, chunkdata))
                     {
                         offset1 = Vector3.forward * planeSize;
                         offset2 = Vector3.right * planeSize;
                         mainChunk = DrawFace(start + Vector3.up * planeSize, offset1, offset2, mainChunk);
                     }
+                }
+                else
+                {
+                    //TOPFACE
+                    if (IsTransparent(x, y + 1, z, mainChunk))
+                    {
+                        offset1 = Vector3.forward * planeSize;
+                        offset2 = Vector3.right * planeSize;
+                        mainChunk = DrawFace(start + Vector3.up * planeSize, offset1, offset2, mainChunk);
+                    }
+                }
+            }
+            else
+            {
+                //TOPFACE
+                if (IsTransparent(x, y + 1, z, mainChunk))
+                {
+                    offset1 = Vector3.forward * planeSize;
+                    offset2 = Vector3.right * planeSize;
+                    mainChunk = DrawFace(start + Vector3.up * planeSize, offset1, offset2, mainChunk);
                 }
             }
         }
@@ -957,9 +1092,9 @@ public class sccsplanetchunkrev4// : MonoBehaviour
         }
 
         //BOTTOMFACE
-        if (y == 0 && sccsproceduralplanetbuilderrev4.sccsproceduralplanetbuilderrev4script.getChunk((int)(mainChunk.worldPosition.x), (int)(mainChunk.worldPosition.y - 4), (int)(mainChunk.worldPosition.z)) != null)
+        if (y == 0 )
         {
-            sccsproceduralplanetbuilderrev4.mainChunk chunkdata = sccsproceduralplanetbuilderrev4.sccsproceduralplanetbuilderrev4script.getChunk((int)(mainChunk.worldPosition.x), (int)(mainChunk.worldPosition.y - 4), (int)(mainChunk.worldPosition.z));
+            sccsproceduralplanetbuilderrev4.mainChunk chunkdata = sccsproceduralplanetbuilderrev4.sccsproceduralplanetbuilderrev4script.getChunk((int)(mainChunk.indexposx), (int)(mainChunk.indexposy - 1), (int)(mainChunk.indexposz));
 
             if (chunkdata != null)
             {
@@ -967,12 +1102,32 @@ public class sccsplanetchunkrev4// : MonoBehaviour
 
                 if (comp != null)
                 {
-                    if (comp.IsTransparent(x, height - 1, z, mainChunk))
+                    if (comp.IsTransparent(x, height-1, z, chunkdata))
                     {
                         offset1 = Vector3.right * planeSize;
                         offset2 = Vector3.forward * planeSize;
                         mainChunk = DrawFace(start, offset1, offset2, mainChunk);
                     }
+                }
+                else
+                {
+                    //BOTTOMFACE
+                    if (IsTransparent(x, y - 1, z, mainChunk))
+                    {
+                        offset1 = Vector3.right * planeSize;
+                        offset2 = Vector3.forward * planeSize;
+                        mainChunk = DrawFace(start, offset1, offset2, mainChunk);
+                    }
+                }
+            }
+            else
+            {
+                //BOTTOMFACE
+                if (IsTransparent(x, y - 1, z, mainChunk))
+                {
+                    offset1 = Vector3.right * planeSize;
+                    offset2 = Vector3.forward * planeSize;
+                    mainChunk = DrawFace(start, offset1, offset2, mainChunk);
                 }
             }
         }

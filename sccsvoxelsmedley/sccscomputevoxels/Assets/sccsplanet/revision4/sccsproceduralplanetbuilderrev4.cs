@@ -39,12 +39,19 @@ public class sccsproceduralplanetbuilderrev4 : MonoBehaviour
         public Vector3 parentPosition;
         public int swtc;
         public Vector3 worldPosition;
+        public Vector3 gridbasedposition;
+
         public GameObject planetchunk;
         public sccsplanetchunkrev4 sccsplanetchunkrev4;
         public byte[] bytemap;
 
+        public int indexposx;
+        public int indexposy;
+
+        public int indexposz;
+
         public mainChunk(Vector3 worldPos, GameObject planetchunk_, int swtc_, sccsplanetchunkrev4 sccsplanetchunkrev4_,
-            byte[] bytemap, Vector3 parentPosition, int xindex, int yindex, int zindex, List<Vector3> verts, List<int> tris)
+            byte[] bytemap, Vector3 parentPosition, int xindex, int yindex, int zindex, List<Vector3> verts, List<int> tris,Vector3 gridbasedposition,int indexposx, int indexposy, int indexposz)
         {
             worldPosition = worldPos;
             planetchunk = planetchunk_;
@@ -57,6 +64,10 @@ public class sccsproceduralplanetbuilderrev4 : MonoBehaviour
             this.zindex = zindex;
             this.verts = verts;
             this.tris = tris;
+            this.gridbasedposition = gridbasedposition;
+            this.indexposx = indexposx;
+            this.indexposy = indexposy;
+            this.indexposz = indexposz;
         }
 
         /*public mainChunk getChunk(int x, int y, int z)
@@ -110,7 +121,7 @@ public class sccsproceduralplanetbuilderrev4 : MonoBehaviour
 
     }
     //byte[,,] blocks;
-    static mainChunk[] blockers;
+    public static mainChunk[] blockers;
 
     //byte block;
     int realplanetwidth = 4;
@@ -169,9 +180,11 @@ public class sccsproceduralplanetbuilderrev4 : MonoBehaviour
     int othermaxz = 0;
 
 
-    public int width = 16;
-    public int height = 16;
-    public int depth = 16;
+    public int width = 10;
+    public int height = 10;
+    public int depth = 10;
+
+    int blocksize = 1;
 
     void Awake()
     {
@@ -187,9 +200,9 @@ public class sccsproceduralplanetbuilderrev4 : MonoBehaviour
 
         _max = (ChunkWidth_L + ChunkWidth_R + 1) * (ChunkHeight_L + ChunkHeight_R + 1) * (ChunkDepth_L + ChunkDepth_R + 1);
 
-        othermaxx = ((ChunkWidth_L + ChunkWidth_R + 1) / 4);
-        othermaxy = ((ChunkHeight_L + ChunkHeight_R + 1) / 4);
-        othermaxz = ((ChunkDepth_L + ChunkDepth_R + 1) / 4);
+        othermaxx = ((ChunkWidth_L + ChunkWidth_R + 1) / blocksize);
+        othermaxy = ((ChunkHeight_L + ChunkHeight_R + 1) / blocksize);
+        othermaxz = ((ChunkDepth_L + ChunkDepth_R + 1) / blocksize);
 
         waitforseconds = new WaitForSeconds(0);
         //buildplanetchunk();
@@ -224,15 +237,15 @@ public class sccsproceduralplanetbuilderrev4 : MonoBehaviour
 
         int _index = xx + (ChunkWidth_L + ChunkWidth_R + 1) * (yy + (ChunkHeight_L + ChunkHeight_R + 1) * zz);
         ti++;
-        iz += 4;
+        iz ++;
         if (iz >= ChunkDepth_R)
         {
-            iy += 4;
+            iy ++;
             iz = -ChunkDepth_L;
         }
         if (iy >= ChunkHeight_R)
         {
-            ix += 4;
+            ix ++;
             iy = -ChunkHeight_L;
         }
         if (ix >= ChunkWidth_R)
@@ -368,6 +381,8 @@ public class sccsproceduralplanetbuilderrev4 : MonoBehaviour
                             ////Debug.Log("dequeuing");
                             var dequeued = queueofmapdatacallback.Dequeue();
                             dequeued.callback(dequeued.parameter);
+                            int index = dequeued.parameter.xindex + (ChunkWidth_L + ChunkWidth_R + 1) * (dequeued.parameter.yindex + (ChunkHeight_L + ChunkHeight_R + 1) * dequeued.parameter.zindex);
+                            //blockers[index] = dequeued.parameter;
                             queueofmapdatacallbackcounter++;
 
                         }
@@ -441,6 +456,8 @@ public class sccsproceduralplanetbuilderrev4 : MonoBehaviour
                                 ////Debug.Log("dequeuing");
                                 var dequeued = queueofmeshdatacallback.Dequeue();
                                 dequeued.callback(dequeued.parameter);
+                                int index = dequeued.parameter.xindex + (ChunkWidth_L + ChunkWidth_R + 1) * (dequeued.parameter.yindex + (ChunkHeight_L + ChunkHeight_R + 1) * dequeued.parameter.zindex);
+                                //blockers[index] = dequeued.parameter;
                                 queueofmeshdatacallbackcounter++;
 
                             }
@@ -599,33 +616,31 @@ public class sccsproceduralplanetbuilderrev4 : MonoBehaviour
         int _index = xx + (ChunkWidth_L + ChunkWidth_R + 1) * (yy + (ChunkHeight_L + ChunkHeight_R + 1) * zz);
         */
 
+        int xi = -ChunkWidth_L;
+        int yi = -ChunkHeight_L;
+        int zi = -ChunkDepth_L;
 
-
-        for (int x = -ChunkWidth_L, xe = 0; x <= ChunkWidth_R; x += 4, xe++)
+        for (int x = -ChunkWidth_L, xe = 0; x <= ChunkWidth_R; x ++, xe++)
         {
-            for (int y = -ChunkHeight_L, ye = 0; y <= ChunkHeight_R; y += 4, ye++)
+            for (int y = -ChunkHeight_L, ye = 0; y <= ChunkHeight_R; y ++, ye++)
             {
-                for (int z = -ChunkDepth_L, ze = 0; z <= ChunkDepth_R; z += 4, ze++)
+                for (int z = -ChunkDepth_L, ze = 0; z <= ChunkDepth_R; z ++, ze++)
                 {
                     float posX = (x);
                     float posY = (y);
                     float posZ = (z);
 
-                    Vector3 planetchunkpos = new Vector3(posX, posY, posZ);
-
-                    var xx = xe;
-                    var yy = ye;
-                    var zz = ze;
-
-                    /*
-                    float posX = (x);
-                    float posY = (y);
-                    float posZ = (z);
+                    ///Vector3 planetchunkpos = new Vector3(posX, posY, posZ);
 
                     var xx = x;
                     var yy = y;
                     var zz = z;
 
+                    /*
+                    float posX = (x);
+                    float posY = (y);
+                    float posZ = (z);
+                    */
                     if (xx < 0)
                     {
                         xx *= -1;
@@ -643,48 +658,80 @@ public class sccsproceduralplanetbuilderrev4 : MonoBehaviour
                     }
 
 
-                    int _index = xx + (ChunkWidth_L + ChunkWidth_R + 1) * (yy + (ChunkHeight_L + ChunkHeight_R + 1) * zz);
-                    */
+                    var xxi = xi;
+                    var yyi = yi;
+                    var zzi = zi;
+
+                    if (xxi < 0)
+                    {
+                        xxi *= -1;
+                        xxi = (ChunkWidth_R) + xxi;
+                    }
+                    if (yyi < 0)
+                    {
+                        yyi *= -1;
+                        yyi = (ChunkHeight_R) + yyi;
+                    }
+                    if (zzi < 0)
+                    {
+                        zzi *= -1;
+                        zzi = (ChunkDepth_R) + zzi;
+                    }
+
+
+                    //int _index = xx + (ChunkWidth_L + ChunkWidth_R + 1) * (yy + (ChunkHeight_L + ChunkHeight_R + 1) * zz);
+                    
 
                     int _index = xx + (ChunkWidth_L + ChunkWidth_R + 1) * (yy + (ChunkHeight_L + ChunkHeight_R + 1) * zz);
 
 
 
+                    int index3d = xxi + (ChunkWidth_L + ChunkWidth_R + 1) * (yyi + (ChunkHeight_L + ChunkHeight_R + 1) * zzi);
 
 
 
+                    Vector3 planetchunkpos = new Vector3(xi, yi, zi);
 
 
 
-                    GameObject objectfrompool = this.transform.gameObject.GetComponent<NewObjectPoolerScript>().GetPooledObject();
 
                     //Transform yo = Instantiate(cube, planetchunkpos, Quaternion.identity);
 
-                    objectfrompool.transform.position = planetchunkpos;
-                    objectfrompool.SetActive(true);
-                    objectfrompool.transform.parent = transform;
 
 
-                 
 
                     if (blockers[_index] == null)
                     {
+                        GameObject objectfrompool = this.transform.gameObject.GetComponent<NewObjectPoolerScript>().GetPooledObject();
 
+                        sccsplanetchunkrev4.width = width;
+                        sccsplanetchunkrev4.height = height;
+                        sccsplanetchunkrev4.depth = depth;
+                        sccsplanetchunkrev4.planeSize = 0.20f;
+
+                        var sccsplanetchunkrev4script = new sccsplanetchunkrev4();
+
+                        sccsplanetchunkrev4script.chunkpos = new Vector3(x * (width * 0.1f), y * (height * 0.1f), z * (depth * 0.1f)) + center;
+
+
+                        Vector3 gridposition = new Vector3(x, y, z) + center;
                         //objectfrompool.GetComponent<sccsplanetchunkrev4>().buildchunkmap();
-                        blockers[_index] = new mainChunk(planetchunkpos, objectfrompool.gameObject, 0, null, new byte[width * height * depth], this.transform.position, xx, yy, zz, new List<Vector3>(), new List<int>());
-                        blockers[_index].sccsplanetchunkrev4 = new sccsplanetchunkrev4();// objectfrompool.GetComponent<sccsplanetchunkrev4>();
-
+                        blockers[_index] = new mainChunk(planetchunkpos, objectfrompool.gameObject, 0, sccsplanetchunkrev4script, new byte[width * height * depth], this.transform.position, xxi, yyi, zzi, new List<Vector3>(), new List<int>(), gridposition, x, y, z);
+                        blockers[_index].sccsplanetchunkrev4 = sccsplanetchunkrev4script;// objectfrompool.GetComponent<sccsplanetchunkrev4>();
 
 
                         //TO OPTIMIZE LATER
                         RequestMapData(blockers[_index], OnMapDataReceivedFlipSwtcWorkOnMesh);
 
-
-
                         //blockers[_index].sccsplanetchunkrev4.buildchunkmap();
                         //Queue
                         //blockers[_index].swtc = 1;
+                        objectfrompool.transform.position = new Vector3(x * (width*0.1f), y * (height * 0.1f), z * (depth * 0.1f)) + center;
+                        objectfrompool.SetActive(true);
+                        objectfrompool.transform.parent = transform;
                     }
+
+
 
 
                     /*if (objectfrompool.GetComponent<sccsplanetchunkrev4>() != null)
@@ -702,6 +749,23 @@ public class sccsproceduralplanetbuilderrev4 : MonoBehaviour
 
 
                     // yield return waitforseconds;
+
+
+                    zi++;
+                    if(zi > ChunkDepth_R)
+                    {
+                        yi++;
+                        zi = -ChunkDepth_L;
+                    }
+                    if (yi > ChunkHeight_R)
+                    {
+                        xi++;
+                        yi = -ChunkHeight_L;
+                    }
+                    if (xi > ChunkWidth_R)
+                    {
+                        xi = -ChunkWidth_L;
+                    }
                 }
             }
         }
@@ -719,15 +783,15 @@ public class sccsproceduralplanetbuilderrev4 : MonoBehaviour
         }
 
         ti++;
-        iz += 4;
+        iz ++;
         if (iz > ChunkDepth_R)
         {
-            iy += 4;
+            iy ++;
             iz = -ChunkDepth_L;
         }
         if (iy > ChunkHeight_R)
         {
-            ix += 4;
+            ix ++;
             iy = -ChunkHeight_L;
         }
         if (ix > ChunkWidth_R)
@@ -859,7 +923,7 @@ public class sccsproceduralplanetbuilderrev4 : MonoBehaviour
         }
         if (mapData.swtc == 3)
         {
-            mapData.swtc = 4;
+            mapData.swtc ++;
 
             lock (queueofmeshdatacallbacktwo)
             {
@@ -939,14 +1003,14 @@ public class sccsproceduralplanetbuilderrev4 : MonoBehaviour
 
         // yield return waitforseconds;
 
-        //for (int x = -ChunkWidth_L; x <= ChunkWidth_R; x += 4)
+        //for (int x = -ChunkWidth_L; x <= ChunkWidth_R; x ++)
         {
-            //for (int y = -ChunkHeight_L; y <= ChunkHeight_R; y += 4)
+            //for (int y = -ChunkHeight_L; y <= ChunkHeight_R; y ++)
             {
-                //for (int z = -ChunkDepth_L; z <= ChunkDepth_R; z += 4)
+                //for (int z = -ChunkDepth_L; z <= ChunkDepth_R; z ++)
                 {
 
-                    if (blockers[_index].swtc == 4)
+                    if (blockers[_index].swtc =++)
                     {
                         ////Debug.Log("index:" + _index + "/buildingmesh");
                         //blockers[_index].sccsplanetchunkrev4.Regenerate(this, blockers[_index]);
@@ -967,15 +1031,15 @@ public class sccsproceduralplanetbuilderrev4 : MonoBehaviour
 
 
         ti++;
-        iz += 4;
+        iz ++;
         if (iz > ChunkDepth_R)
         {
-            iy += 4;
+            iy ++;
             iz = -ChunkDepth_L;
         }
         if (iy > ChunkHeight_R)
         {
-            ix += 4;
+            ix ++;
             iy = -ChunkHeight_L;
         }
         if (ix > ChunkWidth_R)
@@ -1003,11 +1067,11 @@ public class sccsproceduralplanetbuilderrev4 : MonoBehaviour
 
 
 
-        for (int x = -ChunkWidth_L, xe = 0; x <= ChunkWidth_R; x += 4, xe++)
+        for (int x = -ChunkWidth_L, xe = 0; x <= ChunkWidth_R; x ++, xe++)
         {
-            for (int y = -ChunkHeight_L, ye = 0; y <= ChunkHeight_R; y += 4, ye++)
+            for (int y = -ChunkHeight_L, ye = 0; y <= ChunkHeight_R; y ++, ye++)
             {
-                for (int z = -ChunkDepth_L, ze = 0; z <= ChunkDepth_R; z += 4, ze++)
+                for (int z = -ChunkDepth_L, ze = 0; z <= ChunkDepth_R; z ++, ze++)
                 {
                     float posX = (x);
                     float posY = (y);
@@ -1015,18 +1079,18 @@ public class sccsproceduralplanetbuilderrev4 : MonoBehaviour
 
                     Vector3 planetchunkpos = new Vector3(posX, posY, posZ);
 
-                    var xx = xe;
-                    var yy = ye;
-                    var zz = ze;
+                    var xx = x;
+                    var yy = y;
+                    var zz = z;
 
-                    /*
-                    float posX = (x);
+                    
+                    /*float posX = (x);
                     float posY = (y);
                     float posZ = (z);
 
                     var xx = x;
                     var yy = y;
-                    var zz = z;
+                    var zz = z;*/
 
                     if (xx < 0)
                     {
@@ -1042,7 +1106,7 @@ public class sccsproceduralplanetbuilderrev4 : MonoBehaviour
                     {
                         zz *= -1;
                         zz = (ChunkDepth_R) + zz;
-                    }*/
+                    }
 
 
                     int _index = xx + (ChunkWidth_L + ChunkWidth_R + 1) * (yy + (ChunkHeight_L + ChunkHeight_R + 1) * zz);
@@ -1075,6 +1139,12 @@ public class sccsproceduralplanetbuilderrev4 : MonoBehaviour
             swtcstopgen = 3;
         }
     }
+
+
+
+
+
+
 
 
 
@@ -1127,6 +1197,67 @@ public class sccsproceduralplanetbuilderrev4 : MonoBehaviour
         }
         return blockers[x, y, z];*/
     }
+
+
+
+
+
+
+
+
+
+
+
+
+    /*
+    public mainChunk getChunk(int x, int y, int z)
+    {
+        if ((x < -ChunkWidth_L) || (y < -ChunkHeight_L) || (z < -ChunkDepth_L) || (x >= ChunkWidth_R + 1) || (y >= (ChunkHeight_R + 1)) || (z >= (ChunkDepth_R + 1)))
+        {
+            return null;
+        }
+
+        if (x < 0)
+        {
+            x *= -1;
+            x = (ChunkWidth_R) + x;
+        }
+        if (y < 0)
+        {
+            y *= -1;
+            y = (ChunkHeight_R) + y;
+        }
+        if (z < 0)
+        {
+            z *= -1;
+            z = (ChunkDepth_R) + z;
+        }
+
+        int _index = x + (ChunkWidth_L + ChunkWidth_R + 1) * (y + (ChunkHeight_L + ChunkHeight_R + 1) * z);
+
+        return blockers[_index];
+
+        //return map[_index] == 0;
+        /*if ((x < -planetwidth) || (y < -planetheight) || (z < -planetdepth) || (y >= planetwidth) || (x >= planetheight) || (z >= planetdepth))
+        {
+            return null;
+        }
+
+        return blockers[x, y, z];*/
+
+
+
+
+        /*if ((x < -planetwidth) || (y < -planetheight) || (z < -planetdepth) || (y >= planetwidth) || (x >= planetheight) || (z >= planetdepth))
+        {
+            return null;
+        }
+        if (blockers[x, y, z] == null)
+        {
+            return null;
+        }
+        return blockers[x, y, z];
+    }*/
 
 
 
@@ -1194,7 +1325,7 @@ if (swtchYi == 1)
 {
     if (Yi <= ChunkHeight_R)
     {
-        Yi += 4;
+        Yi ++;
         swtchYi = 0;
         swtchZi = 0;
     }
@@ -1210,7 +1341,7 @@ if (swtchYi == 1)
 {
     if (Xi <= ChunkWidth_R)
     {
-        Xi += 4;
+        Xi ++;
         swtchXi = 0;
         swtchYi = 0;
         swtchZi = 0;       
@@ -1306,11 +1437,11 @@ if (swtchZi == 1)
 
 
 /*
-for (int x = -planetwidth; x < planetwidth; x += 4)
+for (int x = -planetwidth; x < planetwidth; x ++)
 {
-    for (int y = -planetheight; y < planetheight; y += 4)
+    for (int y = -planetheight; y < planetheight; y ++)
     {
-        for (int z = -planetdepth; z < planetdepth; z += 4)
+        for (int z = -planetdepth; z < planetdepth; z ++)
         {
             Vector3 position = new Vector3(x, y, z);
             Transform yo = Instantiate(cube, new Vector3(x, y, z), Quaternion.identity);
