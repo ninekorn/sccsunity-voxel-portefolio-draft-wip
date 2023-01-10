@@ -27,7 +27,7 @@ mesh for the top face by having compute shaders to work on the map and vertex lo
 <img WIDTH=500 src="https://i.ibb.co/CKXzkGN/Capture-d-cran-2023-01-09-183439.png" alt="Capture-d-cran-2023-01-09-183439" border="0">
 
 My old development brought back to life, a script called universegen that i based off of watching the tutorial of Sebastian Lague's Procedural Landmass generation 
-and successfully making the threadpool work on generating the map/vertices/triangles and using bytes (as shown in Craig Perkos first and second minecraft tutorial) for a very fluid performance for small chunks. This is the results of my development after having built sc_terrain.cs. universe Rev1:
+and successfully making the threadpool work on generating the map/vertices/triangles and using bytes (as shown in Craig Perkos first and second minecraft tutorial) for a very fluid performance for small chunks. universe Rev1:
 
 <img WIDTH=500 src="https://i.ibb.co/zJqGB6Y/Capture-2023-01-08-122041.png" alt="Capture-2023-01-08-122041" border="0">
 
@@ -35,10 +35,10 @@ My new development on using compute shaders to calculate the map needed for my u
 
 <img WIDTH=500 src="https://i.ibb.co/7KKHtTK/Capture-2023-01-08-122113.png" alt="Capture-2023-01-08-122113" border="0">
 
-My old development with a a few tweaks. using my old homemade vertex/triangle reducer, i build the faces one after the other and my vertex/triangle reducer gives better results since the arrays of vertices position aren't shared between the functions that build the faces/verts for the chunk. This is a basic example of how to correctly use my homemade vertex/triangle reducer as i never was done in making sure if it was working or not. I have many variations of my vertex/triangle reducer development, but building the
+My old development with a few tweaks. using my old homemade vertex/triangle reducer, i build the faces one after the other and my vertex/triangle reducer gives better results since the arrays of vertices position aren't shared between the functions that build the faces/verts for the chunk. This is a basic example of how to correctly use my homemade vertex/triangle reducer as i never was done in making sure if it was working or not. I have many variations of my vertex/triangle reducer development, but building the
 faces one after the other always was the one iteration that gave better results.
 
-<img WIDTH=500 src="https://github.com/ninekorn/gif-resources/blob/main/Capture%20d%E2%80%99%C3%A9cran%202023-01-10%20145011.png" border="0">
+<img WIDTH=250 src="https://github.com/ninekorn/gif-resources/blob/main/Capture%20d%E2%80%99%C3%A9cran%202023-01-10%20152954.png" border="0"><img WIDTH=250 src="https://github.com/ninekorn/gif-resources/blob/main/Capture%20d%E2%80%99%C3%A9cran%202023-01-10%20152625.png" border="0"><img WIDTH=250 src="https://github.com/ninekorn/gif-resources/blob/main/Capture%20d%E2%80%99%C3%A9cran%202023-01-10%20145011.png" border="0">
 
 the pressure was too big to release on the unity store or not, so despite my portefolio not beeing that cleaned up and not having inquired about how to bring this to the store, when i just have too many bugs that users of my projects would complain too much after purchase anyway since this is an incomplete portefolio, and because of that, i decided to release it here on github, MIT, and from here, maybe i can keep on piling up my development on top of my development to make better revisions in the future. 
 
@@ -46,7 +46,7 @@ thank you for trying my projects.
 
 sc
 
-I developed other projects in Virtual reality for unity 2017.4.39f1 or 2017.4.40f1 : 
+I developed other projects in the past in Virtual reality for unity 2017.4.39f1 or 2017.4.40f1 : 
 
 https://github.com/ninekorn/sccsvrunity-portefolio-draft-wip:
 
