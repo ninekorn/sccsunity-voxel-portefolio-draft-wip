@@ -5,7 +5,7 @@ using System.Diagnostics;
 using System;
 using UnityEditor;
 
-public class chunkscterrain
+public class chunkscterrainrev2
 {
     int _combineMax = 10;
 
@@ -76,17 +76,20 @@ public class chunkscterrain
 
     int _newVertzCounter = 0;
     //MeshCombineUtility _meshCombineUtility;
-    chunkDatascterrain[] _arrayOfChunks;
-    chunkDatascterrain[] _arrayOfChunkDataCHUNK;
+    chunkDatascterrainrev2[] _arrayOfChunks;
+    chunkDatascterrainrev2[] _arrayOfChunkDataCHUNK;
     int[] _arrayOfChunkCHUNK;
 
-    public chunkscterrain(Vector3 _chunkPos, out chunkDatascterrain _chunkData, int width_, int height_, int depth_)
+    public chunkscterrainrev2(Vector3 _chunkPos, out chunkDatascterrainrev2 _chunkData, int width_, int height_, int depth_, int facetype)
     {
         _vertexWidth = _width + 1;
         _vertexHeight = _height + 1;
         _vertexDepth = _depth + 1;
         _testVertexArray = new int[_vertexWidth * _vertexHeight * _vertexDepth];
-        _chunkData = buildingTerrain(_chunkPos);
+        // this._chunkData = _chunkData;
+        _chunkData = new chunkDatascterrainrev2();
+        _chunkData = buildingTerrain(_chunkPos, facetype, _chunkData);
+
 
         _width = width_;
         _height = height_;
@@ -100,11 +103,11 @@ public class chunkscterrain
 
     float size0 = 0;
     float temporaryY = 0;
-    chunkDatascterrain _chunkData;
+    chunkDatascterrainrev2 _chunkData;
 
-    chunkDatascterrain buildingTerrain(Vector3 _chunkPos) //unsafe
+    chunkDatascterrainrev2 buildingTerrain(Vector3 _chunkPos, int facetype, chunkDatascterrainrev2 _chunkData) //unsafe
     {
-        _chunkData = new chunkDatascterrain();
+        //_chunkData = new chunkDatascterrainrev2();
         //Vector3 _chunkPos = this.gameObject.transform.position;
         _index0 = 0;
         _index1 = 0;
@@ -246,7 +249,7 @@ public class chunkscterrain
         }
         else
         {
-            _buildFaces(_chunkPos);
+            _buildFaces(_chunkPos, facetype);
 
             //_stopWatch.Stop();
             //_milli = _stopWatch.Elapsed.Milliseconds;
@@ -283,7 +286,7 @@ public class chunkscterrain
     int _milli = 0;
     int _maxHeight = 0;
 
-    void _buildFaces(Vector3 _chunkPos)
+    void _buildFaces(Vector3 _chunkPos, int facetype)
     {
         for (int y = _height - 1; y >= 0; y--)
         {
@@ -294,12 +297,31 @@ public class chunkscterrain
                     _block = _chunkArray[_x + _width * (y + _height * _z)];
                     if (_block == 0) continue; //|| _block == 2
                     {
-                        buildTopFace(_x, y, _z, _chunkPos);
-                        buildTopRight(_x, y, _z, _chunkPos);
-                        buildTopLeft(_x, y, _z, _chunkPos);
-                        buildFrontFace(_x, y, _z, _chunkPos);
-                        buildBackFace(_x, y, _z, _chunkPos);
-                        buildBottomFace(_x, y, _z, _chunkPos);
+                        if (facetype == 0)
+                        {
+                            buildTopFace(_x, y, _z, _chunkPos);
+                        }
+                        else if (facetype == 1)
+                        {
+                            buildTopLeft(_x, y, _z, _chunkPos);
+                        }
+                        else if (facetype == 2)
+                        {
+                            buildTopRight(_x, y, _z, _chunkPos);
+                        }
+                        else if (facetype == 3)
+                        {
+                            buildFrontFace(_x, y, _z, _chunkPos);
+                        }
+                        else if (facetype == 4)
+                        {
+                            buildBackFace(_x, y, _z, _chunkPos);
+                        }
+                        else if (facetype == 5)
+                        {
+                            buildBottomFace(_x, y, _z, _chunkPos);
+                        }
+
                     }
                 }
             }

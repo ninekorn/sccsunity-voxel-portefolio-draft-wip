@@ -276,7 +276,7 @@ public class SC_Terrain : MonoBehaviour
                         }
 
                         var _pos = _bigChunkWidth * _planeSize;
-                        UnityEngine.Debug.Log(_pos + "_");
+                        //UnityEngine.Debug.Log(_pos + "_");
 
                         Vector3 _bigChunkPos = ((new Vector3(xx, yy, zz))) + _areaChunkPos;
 
@@ -393,7 +393,8 @@ public class SC_Terrain : MonoBehaviour
                         {
                             //Instantiate(_smallChunker, _chunkPos,Quaternion.identity);
                             chunkDatascterrain _chunkData;
-                            _currentChunk = new chunkscterrain(_chunkPos, out _chunkData);
+
+                            _currentChunk = new chunkscterrain(_chunkPos, out _chunkData, 30, 30, 30);
                             _arrayOfChunkData[_xValue + _totalWidth * (_yValue + _totalHeight * _zValue)] = _chunkData;
                             _arrayOfChunk[_xValue + _totalWidth * (_yValue + _totalHeight * _zValue)] = 1;
                             counter++;

@@ -12,7 +12,7 @@ using UnityEngine.SceneManagement;
 //oh man. this is 2++ years old :)
 
 
-public class universe : MonoBehaviour
+public class universewraprev2 : MonoBehaviour
 {
 
 
@@ -491,17 +491,19 @@ public class universe : MonoBehaviour
                                 regionChunky.areaChunkyArray[areaX, areaY, areaZ].bigChunkyArray[bigXX, bigYY, bigZZ].smallChunkerList[smallXX, smallYY, smallZZ] = new smallChunker();
                                 regionChunky.areaChunkyArray[areaX, areaY, areaZ].bigChunkyArray[bigXX, bigYY, bigZZ].smallChunkerList[smallXX, smallYY, smallZZ].worldPosition = fakePos;
                                 regionChunky.areaChunkyArray[areaX, areaY, areaZ].bigChunkyArray[bigXX, bigYY, bigZZ].smallChunkerList[smallXX, smallYY, smallZZ].currentChunk = null;
-                                chunkforwrap chunki = new chunkforwrap();
+                                
+                                
+                                chunkforwraprev2 chunki = new chunkforwraprev2();
                                 //Debug.Log(truePos);
 
 
-                                universe.meshData meshDator = chunki.startBuildingArray(truePos, fakePos);
+                                universewraprev2.meshData meshDator = chunki.startBuildingArray(truePos, fakePos);
 
                                 if (meshDator.lengthOfArray > 0)
                                 {
                                     lock (meshDataThreadInfoQueue)
                                     {
-                                        meshDataThreadInfoQueue.Enqueue(new meshThreadInfo<meshData>(callback, meshDator));
+                                        meshDataThreadInfoQueue.Enqueue(new meshThreadInfo<universewraprev2.meshData>(callback, meshDator));
                                     }
                                 }
                             }

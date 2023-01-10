@@ -10,9 +10,9 @@ using System.Text;
 using UnityEngine;
 
 
-public class chunkforwrap
+public class chunkforwraprev2
 {
-    private static chunkforwrap chunker;
+    private static chunkforwraprev2 chunker;
     private int width = 10;
     private int height = 10;
     private int depth = 10;
@@ -62,7 +62,7 @@ public class chunkforwrap
     private Texture mat;
 
 
-    public universe.meshData startBuildingArray(Vector3 currentPosition, Vector3 fakePos)
+    public universewraprev2.meshData startBuildingArray(Vector3 currentPosition, Vector3 fakePos)
     {
         //Console.WriteLine("yo000");
         map = new byte[width, height, depth];
@@ -162,11 +162,11 @@ public class chunkforwrap
 
             chunkBig.chunkBig.smallChunkerList[xx, yy, zz].map = map;*/
 
-            return new universe.meshData(fakePos, currentPosition, positions.Length, positions, triangleIndices);
+            return new universewraprev2.meshData(fakePos, currentPosition, positions.Length, positions, triangleIndices);
         }
         else
         {
-            return new universe.meshData(fakePos, currentPosition, 0, positions, triangleIndices);
+            return new universewraprev2.meshData(fakePos, currentPosition, 0, positions, triangleIndices);
         }
     }
 

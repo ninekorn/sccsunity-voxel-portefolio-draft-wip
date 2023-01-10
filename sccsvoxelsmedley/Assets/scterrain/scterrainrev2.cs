@@ -393,7 +393,7 @@ public class scterrainrev2 : MonoBehaviour
                         {
                             ////Instantiate(_smallChunker, _chunkPos,Quaternion.identity);
                             chunkDatascterrain _chunkData;
-                            _currentChunk = new chunkscterrain(_chunkPos, out _chunkData);
+                            _currentChunk = new chunkscterrain(_chunkPos, out _chunkData,30,30,30);
                             _arrayOfChunkData[_xValue + _totalWidth * (_yValue + _totalHeight * _zValue)] = _chunkData;
                             _arrayOfChunk[_xValue + _totalWidth * (_yValue + _totalHeight * _zValue)] = 1;
                             counter++;

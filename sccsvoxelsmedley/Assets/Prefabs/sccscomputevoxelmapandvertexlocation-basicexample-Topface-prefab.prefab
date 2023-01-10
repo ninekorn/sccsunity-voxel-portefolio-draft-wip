@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &4119804872054378923
+--- !u!1 &9101517148889602911
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,41 +8,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4119804872054378922}
-  m_Layer: 0
-  m_Name: sccscomputevoxelmapandvertexlocation-basicexample-Topface-prefab
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4119804872054378922
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4119804872054378923}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 4119804872542228451}
-  - {fileID: 4119804872589555956}
-  m_Father: {fileID: 0}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &4119804872542228448
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4119804872542228451}
-  - component: {fileID: 4119804872542228453}
-  - component: {fileID: 4119804872542228450}
+  - component: {fileID: 9101517148889602910}
+  - component: {fileID: 9101517148889602908}
+  - component: {fileID: 9101517148889602909}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -50,27 +18,27 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4119804872542228451
+--- !u!4 &9101517148889602910
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4119804872542228448}
+  m_GameObject: {fileID: 9101517148889602911}
   m_LocalRotation: {x: 0.20373417, y: -0, z: -0, w: 0.97902626}
   m_LocalPosition: {x: 0, y: 0.506, z: -0.39}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4119804872054378922}
+  m_Father: {fileID: 9101517149835073634}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 23.511, y: 0, z: 0}
---- !u!20 &4119804872542228453
+--- !u!20 &9101517148889602908
 Camera:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4119804872542228448}
+  m_GameObject: {fileID: 9101517148889602911}
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
@@ -107,15 +75,15 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &4119804872542228450
+--- !u!81 &9101517148889602909
 AudioListener:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4119804872542228448}
+  m_GameObject: {fileID: 9101517148889602911}
   m_Enabled: 1
---- !u!1 &4119804872589555957
+--- !u!1 &9101517148925917593
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -123,8 +91,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4119804872589555956}
-  - component: {fileID: 4119804872589555959}
+  - component: {fileID: 9101517148925917592}
+  - component: {fileID: 9101517148925917599}
   m_Layer: 0
   m_Name: sccscomputevoxelmapandvertexlocation-basicexample-
   m_TagString: terrain
@@ -132,27 +100,27 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4119804872589555956
+--- !u!4 &9101517148925917592
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4119804872589555957}
+  m_GameObject: {fileID: 9101517148925917593}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4119804872054378922}
+  m_Father: {fileID: 9101517149835073634}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4119804872589555959
+--- !u!114 &9101517148925917599
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4119804872589555957}
+  m_GameObject: {fileID: 9101517148925917593}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 23632a1b479095644a710bd58867fa6e, type: 3}
@@ -162,3 +130,35 @@ MonoBehaviour:
   computeVertexes: {fileID: 7200000, guid: 84c7d4ff2a17c244e9067d1e65b5474f, type: 3}
   mat1: {fileID: 2100000, guid: 9a81507c6c4e8f44ea0e3b7db4ff503e, type: 2}
   mat: {fileID: 2100000, guid: d6cc2254110554c4ea8733b69ec90197, type: 2}
+--- !u!1 &9101517149835073635
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9101517149835073634}
+  m_Layer: 0
+  m_Name: sccscomputevoxelmapandvertexlocation-basicexample-Topface-prefab
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9101517149835073634
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9101517149835073635}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 9101517148889602910}
+  - {fileID: 9101517148925917592}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
