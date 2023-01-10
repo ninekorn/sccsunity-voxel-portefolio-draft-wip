@@ -21,6 +21,11 @@ My development on trying to make compute shaders work with receiving the map and
 
 <img WIDTH=350 src="https://i.ibb.co/7pb2mCR/Capture-2023-01-08-121906.png" alt="Capture-2023-01-08-121906" border="0"><img WIDTH=350 src="https://github.com/ninekorn/gif-resources/blob/main/Capture%20d%E2%80%99%C3%A9cran%202023-01-10%20113304.png" border="0"><img WIDTH=350 src="https://i.ibb.co/74YLjPY/Capture-2023-01-08-121949.png" alt="Capture-2023-01-08-121949" border="0"/><img WIDTH=350 src="https://github.com/ninekorn/gif-resources/blob/main/Capture%20d%E2%80%99%C3%A9cran%202023-01-10%20114755.png" border="0">
 
+My new development on building a very basic simple example of a chunk that is constructed using my WIP homemade vertex/triangle reducer, and also creating a second
+mesh for the top face by having compute shaders to work on the map and vertex location and face dimensions but constructing the vertices vector3 on the cpu (i failed at trying to use the append method in hlsl to append to a list, so for the moment expect the cpu to work on creating only the vector3 for each vertex). I use the same principles as the above 2 projects for the topface and create it to the scene, and use a second chunk generation system for the gray chunk underneath that uses my vertex triangle reducer.
+
+<img WIDTH=500 src="https://i.ibb.co/CKXzkGN/Capture-d-cran-2023-01-09-183439.png" alt="Capture-d-cran-2023-01-09-183439" border="0">
+
 My old development brought back to life, a script called universegen that i based off of watching the tutorial of Sebastian Lague's Procedural Landmass generation 
 and successfully making the threadpool work on generating the map/vertices/triangles and using bytes (as shown in Craig Perkos first and second minecraft tutorial) for a very fluid performance for small chunks. This is the results of my development after having built sc_terrain.cs. universe Rev1:
 
@@ -29,11 +34,6 @@ and successfully making the threadpool work on generating the map/vertices/trian
 My new development on using compute shaders to calculate the map needed for my universe script to create vertices/triangles from a threadpool. Referenced from how sebastian lague did it in his marching cubes tutorial on github and youtube and based off the basics of voxel generation of craig perko's first minecraft tutorial on youtube. But i am currently only building the map in the shader and not the vertex locations yet. universe Rev2:
 
 <img WIDTH=500 src="https://i.ibb.co/7KKHtTK/Capture-2023-01-08-122113.png" alt="Capture-2023-01-08-122113" border="0">
-
-My new development on building a very basic simple example of a chunk that is constructed using my WIP homemade vertex/triangle reducer, and also creating a second
-mesh for the top face by having compute shaders to work on the map and vertex location and face dimensions but constructing the vertices vector3 on the cpu (i failed at trying to use the append method in hlsl to append to a list, so for the moment expect the cpu to work on creating only the vector3 for each vertex).
-
-<img WIDTH=500 src="https://i.ibb.co/CKXzkGN/Capture-d-cran-2023-01-09-183439.png" alt="Capture-d-cran-2023-01-09-183439" border="0">
 
 the pressure was too big to release on the unity store or not, so despite my portefolio not beeing that cleaned up and not having inquired about how to bring this to the store, when i just have too many bugs that users of my projects would complain too much after purchase anyway since this is an incomplete portefolio, and because of that, i decided to release it here on github, MIT, and from here, maybe i can keep on piling up my development on top of my development to make better revisions in the future. 
 
