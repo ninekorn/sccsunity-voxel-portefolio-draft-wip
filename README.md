@@ -35,7 +35,7 @@ My new development on using compute shaders to calculate the map needed for my u
 
 <img WIDTH=500 src="https://i.ibb.co/7KKHtTK/Capture-2023-01-08-122113.png" alt="Capture-2023-01-08-122113" border="0">
 
-My old development with a a few tweaks. using my old homemade vertex/triangle reducer, i build the faces one after the other and get better results since the arrays of vertices position aren't shared between the functions that build the faces/verts for the chunk. This is a basic example of how to correctly use my homemade vertex/triangle reducer as i never was done in making sure if it was working or not. I have many variations of my vertex/triangle reducer development, but building the
+My old development with a a few tweaks. using my old homemade vertex/triangle reducer, i build the faces one after the other and my vertex/triangle reducer gives better results since the arrays of vertices position aren't shared between the functions that build the faces/verts for the chunk. This is a basic example of how to correctly use my homemade vertex/triangle reducer as i never was done in making sure if it was working or not. I have many variations of my vertex/triangle reducer development, but building the
 faces one after the other always was the one iteration that gave better results.
 
 <img WIDTH=500 src="https://github.com/ninekorn/gif-resources/blob/main/Capture%20d%E2%80%99%C3%A9cran%202023-01-10%20145011.png" border="0">
