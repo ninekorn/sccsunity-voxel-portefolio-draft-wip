@@ -15,29 +15,41 @@ public class NewObjectPoolerScript : MonoBehaviour {
     void Awake()
     {
         current = this;
-    }
 
-	// Use this for initialization
-	void Start () {
         pooledObjects = new List<GameObject>();
-        for(int i = 0;i <pooledAmount;i++)
+        for (int i = 0; i < pooledAmount; i++)
         {
             GameObject obj = (GameObject)Instantiate(pooledObject);
             obj.SetActive(false);
             pooledObjects.Add(obj);
         }
+    }
+
+	// Use this for initialization
+	void Start () {
+        /*pooledObjects = new List<GameObject>();
+        for(int i = 0;i <pooledAmount;i++)
+        {
+            GameObject obj = (GameObject)Instantiate(pooledObject);
+            obj.SetActive(false);
+            pooledObjects.Add(obj);
+        }*/
 	}
 	
 	// Update is called once per frame
 	public GameObject GetPooledObject()
     {
-        for (int i = 0; i < pooledObjects.Count; i++)
+        if (pooledObjects!= null)
         {
-            if (!pooledObjects[i].activeInHierarchy)
+            for (int i = 0; i < pooledObjects.Count; i++)
             {
-                return pooledObjects[i];
+                if (!pooledObjects[i].activeInHierarchy)
+                {
+                    return pooledObjects[i];
+                }
             }
         }
+      
 
         if (willGrow)
         {
