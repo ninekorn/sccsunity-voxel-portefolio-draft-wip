@@ -41,7 +41,8 @@ faces one after the other always was the one iteration that gave better results.
 <img WIDTH=250 src="https://github.com/ninekorn/gif-resources/blob/main/Capture%20d%E2%80%99%C3%A9cran%202023-01-10%20152954.png" border="0"><img WIDTH=250 src="https://github.com/ninekorn/gif-resources/blob/main/Capture%20d%E2%80%99%C3%A9cran%202023-01-10%20152625.png" border="0"><img WIDTH=250 src="https://github.com/ninekorn/gif-resources/blob/main/Capture%20d%E2%80%99%C3%A9cran%202023-01-10%20145011.png" border="0">
 
 My planet generator revision 3 that i brought back to life coming from my sccsunityVR portefolio. Trying to bring back my 1st and 2nd revision also. You can find my sccsunityvr portefolio in the link at the bottom.
-<img WIDTH=250 src="https://github.com/ninekorn/gif-resources/blob/main/GifMaker_20230111183030529.gif" border="0"
+
+<img src="https://github.com/ninekorn/gif-resources/blob/main/GifMaker_20230111183030529.gif" width="150" height="90" />
 
 the pressure was too big to release on the unity store or not, so despite my portefolio not beeing that cleaned up and not having inquired about how to bring this to the store, when i just have too many bugs that users of my projects would complain too much after purchase anyway since this is an incomplete portefolio, i decided to release it here on github, MIT, and from here, maybe i can keep on piling up my development on top of my development to make better revisions in the future. 
 
