@@ -46,7 +46,7 @@ thank you for trying my projects.
 
 sc
 
-I developed other projects in the past in Virtual reality for unity 2017.4.39f1 or 2017.4.40f1 : 
+I developed other projects in the past in Virtual reality (using the oculus rift cv1) for unity 2017.4.39f1 or 2017.4.40f1 : 
 
 https://github.com/ninekorn/sccsvrunity-portefolio-draft-wip:
 
