@@ -40,7 +40,7 @@ faces one after the other always was the one iteration that gave better results.
 
 <img WIDTH=250 src="https://github.com/ninekorn/gif-resources/blob/main/Capture%20d%E2%80%99%C3%A9cran%202023-01-10%20152954.png" border="0"><img WIDTH=250 src="https://github.com/ninekorn/gif-resources/blob/main/Capture%20d%E2%80%99%C3%A9cran%202023-01-10%20152625.png" border="0"><img WIDTH=250 src="https://github.com/ninekorn/gif-resources/blob/main/Capture%20d%E2%80%99%C3%A9cran%202023-01-10%20145011.png" border="0">
 
-My planet generator revision 3 that i brought back to life coming from my sccsunityVR portefolio. Trying to bring back my 1st and 2nd revision also. You can find my sccsunityvr portefolio in the link at the bottom.
+My planet generator revision 3 that i brought back to life coming from my sccsunityVR portefolio. Trying to bring back my 1st and 2nd revision also. You can find my sccsunityvr portefolio in the link at the bottom. The perlin noise never worked correctly for my revision 3 if i remember correctly, hence why it's chunks filled with unbroken bytes...
 
 <img src="https://github.com/ninekorn/gif-resources/blob/main/GifMaker_20230111183030529.gif" width="350"/>
 
