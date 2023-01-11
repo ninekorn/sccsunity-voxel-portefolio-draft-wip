@@ -42,7 +42,7 @@ faces one after the other always was the one iteration that gave better results.
 
 the pressure was too big to release on the unity store or not, so despite my portefolio not beeing that cleaned up and not having inquired about how to bring this to the store, when i just have too many bugs that users of my projects would complain too much after purchase anyway since this is an incomplete portefolio, and because of that, i decided to release it here on github, MIT, and from here, maybe i can keep on piling up my development on top of my development to make better revisions in the future. 
 
-thank you for trying my projects.
+thank you for trying my projects. it's far from perfect and it's not without bugs. i am happy if you find my projects inspiring in order for you to do your own work and programs with voxels in unity or not.
 
 sc
 
@@ -51,5 +51,6 @@ I developed other projects in the past in Virtual reality (using the oculus rift
 https://github.com/ninekorn/sccsvrunity-portefolio-draft-wip:
 
 <img WIDTH=150 src="https://i.ibb.co/5jkgr8f/sccsvrunityv3.webp" alt="sccsvrunityv3" border="0"><img WIDTH=150 src="https://i.ibb.co/1TB9LWc/sccsvrunityv2.webp" alt="sccsvrunityv2" border="0"><img WIDTH=150 src="https://i.ibb.co/q9YBcCT/sccsvrunityv0.webp" alt="sccsvrunityv0" border="0"><img WIDTH=150 src="https://i.ibb.co/619MY3M/sccsvrunityv1.webp" alt="sccsvrunityv1" border="0">
+
 
 
