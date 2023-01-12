@@ -29,7 +29,7 @@ mesh for the top face by having compute shaders to work on the map and vertex lo
 My old development brought back to life, a script called universegen that i based off of watching the tutorial of Sebastian Lague's Procedural Landmass generation 
 and successfully making the threadpool work on generating the map/vertices/triangles and using bytes (as shown in Craig Perkos first and second minecraft tutorial) for a very fluid performance for small chunks. universe Rev1:
 
-<img WIDTH=350 src="https://github.com/ninekorn/gif-resources/blob/main/Capture%20d%E2%80%99%C3%A9cran%202023-01-08%20122041.png" border="0">
+<img WIDTH=350 src="https://github.com/ninekorn/gif-resources/blob/main/Capture%20d%E2%80%99%C3%A9cran%202023-01-08%20122041.png" border="0"><img WIDTH=350 src="https://github.com/ninekorn/gif-resources/blob/main/GifMaker_20230112174527516.gif" border="0">
 
 My new development on using compute shaders to calculate the map needed for my universe script to create vertices/triangles from a threadpool. Referenced from how sebastian lague did it in his marching cubes tutorial on github and youtube and based off the basics of voxel generation of craig perko's first minecraft tutorial on youtube. But i am currently only building the map in the shader and not the vertex locations yet. universe Rev2:
 
@@ -52,7 +52,6 @@ I am also halfway there in bringing back my sccsunityVR revision 1 of my VR ik r
 stop motion in the editor spoiler below (no controls currently):
 
 <img src="https://github.com/ninekorn/gif-resources/blob/main/Capture%20d%E2%80%99%C3%A9cran%202023-01-12%20001153.png" width="185"/><img src="https://github.com/ninekorn/gif-resources/blob/main/Capture%20d%E2%80%99%C3%A9cran%202023-01-12%20001429.png" width="185"/><img src="https://github.com/ninekorn/gif-resources/blob/main/Capture%20d%E2%80%99%C3%A9cran%202023-01-12%20015243.png" width="185"/><img src="https://github.com/ninekorn/gif-resources/blob/main/GifMaker_20230112020224749.gif" width="185"/><img src="https://github.com/ninekorn/gif-resources/blob/main/Capture%20d%E2%80%99%C3%A9cran%202023-01-12%20113430.png" width="185"/><img src="https://github.com/ninekorn/gif-resources/blob/main/GifMaker_20230112114557048.gif" width="185"/>
-
 
 the pressure was too big to release on the unity store or not, so despite my portefolio not beeing that cleaned up and not having inquired about how to bring this to the store, when i just have too many bugs that users of my projects would complain too much after purchase anyway since this is an incomplete portefolio, i decided to release it here on github, MIT, and from here, maybe i can keep on piling up my development on top of my development to make better revisions in the future. And how could i be selling to the store when i use so many different MIT license anyway. It feels like a troublesome process which i don't have to go through when i am using github for release. A lot of my projects that i have coded and developed are old and/or with commented out discarded trial/error attempts, and most of my projects are blueprints/templates that can be simplified by anyone anyway, and/or improved upon.
 
