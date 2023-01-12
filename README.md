@@ -46,7 +46,10 @@ My planet generator revision 3 that i brought back to life coming from my sccsun
 
 My development on breaking cubes in unity3d back in 2016-2017. i started with creating my scripts with names cubicfrac because i wanted to break cubes and only cubes and climb the rope to move to breaking other types of objects later. I then changed my scripts name to fracture and then shatter when i was able to make a random point inside of a cube and link all the triangles to that random point. but never continued development. Now those asset names are picked on the store, so i am reverting back to my first name CubicFrac and releasing my stuff as that scene name instead CubicFrac, although using my old scripts names in my released folder Fracture4/Shatter1/cubicFrac. Don't worry, those scripts are mine, i developed them, and don't know who's on the store that picked my fav names but now i am stuck with cubicfrac but i am happy anyways. I could procedurally name my development the name that i want them to be. i developed this 2016-2017. although i will be continuing development on the three of my development that i developed back then. I might change it to cubiccrack or something. or i will call them sccsfracture and sccscubicfrac and sccsshatter. 2 of them would be named derivatives to what the assets are named in the store simply because of the same name in the scripts, but i assure you that i created them.
 
-stop motion in the editor spoiler below:
+I am also halfway there in bringing back my sccsunityVR revision 1 of my VR ik rig character and pickaxe and a breakable voxel planet with fracturable cubic bytes that can also recombine into a bigger mesh after time passes by for draw call reduction. The spawning of fractures upon the pickaxe here is exaggerated to show that on
+impact i developped code to spawn a procedurally broken cube at the location of the destroyed byte.
+
+stop motion in the editor spoiler below (no controls currently):
 
 <img src="https://github.com/ninekorn/gif-resources/blob/main/Capture%20d%E2%80%99%C3%A9cran%202023-01-12%20001153.png" width="250"/><img src="https://github.com/ninekorn/gif-resources/blob/main/Capture%20d%E2%80%99%C3%A9cran%202023-01-12%20001429.png" width="250"/><img src="https://github.com/ninekorn/gif-resources/blob/main/Capture%20d%E2%80%99%C3%A9cran%202023-01-12%20001541.png" width="250"/>
 
