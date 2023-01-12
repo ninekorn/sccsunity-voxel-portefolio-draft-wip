@@ -123,6 +123,41 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &664148268
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 664148269}
+  m_Layer: 0
+  m_Name: 'notes: '
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &664148269
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 664148268}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 689961985}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &689961985 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5335434459190099061, guid: 7da2d3b8a63ac5e45a4cdcfdee22ea29, type: 3}
+  m_PrefabInstance: {fileID: 9200806529873902578}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1933722810
 GameObject:
   m_ObjectHideFlags: 0
@@ -310,6 +345,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Basic examples
       objectReference: {fileID: 0}
+    - target: {fileID: 2443331740000431483, guid: 7da2d3b8a63ac5e45a4cdcfdee22ea29, type: 3}
+      propertyPath: explosionForce
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 5386512311712280965, guid: 7da2d3b8a63ac5e45a4cdcfdee22ea29, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -358,13 +397,29 @@ PrefabInstance:
       propertyPath: m_Name
       value: sccscubicfracrev3
       objectReference: {fileID: 0}
+    - target: {fileID: 5555232239902232291, guid: 7da2d3b8a63ac5e45a4cdcfdee22ea29, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7059123116229315437, guid: 7da2d3b8a63ac5e45a4cdcfdee22ea29, type: 3}
       propertyPath: m_Name
       value: sccscubicfracrev2
       objectReference: {fileID: 0}
+    - target: {fileID: 7059123116229315437, guid: 7da2d3b8a63ac5e45a4cdcfdee22ea29, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7124834959242277642, guid: 7da2d3b8a63ac5e45a4cdcfdee22ea29, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7774925983308681792, guid: 7da2d3b8a63ac5e45a4cdcfdee22ea29, type: 3}
       propertyPath: m_Name
       value: sccscubicfracrev1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7774925983308681792, guid: 7da2d3b8a63ac5e45a4cdcfdee22ea29, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8845762994715509467, guid: 7da2d3b8a63ac5e45a4cdcfdee22ea29, type: 3}

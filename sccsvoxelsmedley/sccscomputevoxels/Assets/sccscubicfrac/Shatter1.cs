@@ -482,7 +482,7 @@ public class Shatter1 : MonoBehaviour
 
 
 
-            /*if (FracturingObj[i].transform.gameObject.GetComponent<MeshCollider>() == null)
+            if (FracturingObj[i].transform.gameObject.GetComponent<MeshCollider>() == null)
             {
                 MeshCollider meshCol = FracturingObj[i].gameObject.AddComponent<MeshCollider>();
                 meshCol.convex = true;
@@ -504,7 +504,7 @@ public class Shatter1 : MonoBehaviour
             if (gameObject.GetComponent<SphereCollider>() != null)
             {
                 Destroy(gameObject.GetComponent<SphereCollider>(), 0.1f);
-            }*/
+            }
         }
     }
 }
