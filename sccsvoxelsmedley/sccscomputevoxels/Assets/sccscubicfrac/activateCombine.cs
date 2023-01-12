@@ -26,7 +26,10 @@ public class activateCombine : MonoBehaviour {
         timer();
         if (counter == 1)
         {
-            if (this.transform.gameObject.GetComponent<Rigidbody>().velocity == Vector3.zero)
+            Vector3 velocity = this.transform.gameObject.GetComponent<Rigidbody>().velocity;
+            //if (velocity.x <= 0.01235321f && velocity.y <= 0.01235321f && velocity.z <= 0.01235321f && velocity.magnitude <= 0.005235f)
+            //if (this.transform.gameObject.GetComponent<Rigidbody>().velocity == Vector3.zero)
+            if (velocity.x <= 0.01235321f && velocity.y <= 0.01235321f && velocity.z <= 0.01235321f && velocity.magnitude <= 0.009235f)
             {
 
 

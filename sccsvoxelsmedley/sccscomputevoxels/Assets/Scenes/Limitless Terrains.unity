@@ -306,9 +306,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 795310824901857717, guid: d36c7ca2dabe03d4ba9460a580f91754, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2081847659395848066, guid: d36c7ca2dabe03d4ba9460a580f91754, type: 3}
       propertyPath: m_Name
       value: Limitless terrain
+      objectReference: {fileID: 0}
+    - target: {fileID: 5372696293490638016, guid: d36c7ca2dabe03d4ba9460a580f91754, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6489072955070805418, guid: d36c7ca2dabe03d4ba9460a580f91754, type: 3}
       propertyPath: m_RootOrder

@@ -136,7 +136,7 @@ public class reparator : MonoBehaviour
 
                             
                             filtero.mesh = MeshCombineUtility.Combine(instances, generateTriangleStrips);
-                            gameObject.GetComponent<MeshRenderer>().material = Resources.Load("Material/TerrainColor") as Material;//(Material)de.Key;
+                            gameObject.GetComponent<MeshRenderer>().material = Resources.Load("Materials/FracColor1") as Material;//(Material)de.Key;
 
 
 
