@@ -48,8 +48,6 @@ My development on breaking cubes in unity3d back in 2016-2017. i started with cr
 
 I am also halfway there in bringing back my sccsunityVR revision 1 of my VR ik rig character project, that can wield a pickaxe and a breakable voxel planet with fracturable cubic bytes that can also recombine into a bigger mesh after time passes by for draw call reduction. The spawning of fractures upon the pickaxe here is exaggerated so don't stay in the destroyed by area for a while otherwise it's permaspawn procedurally destroying cubes at the destroyed byte location. i will fix this later when i have a chance.
 
-impact i developped code to spawn a procedurally broken cube at the location of the destroyed byte.
-
 stop motion in the editor spoiler below (no controls currently):
 
 <img src="https://github.com/ninekorn/gif-resources/blob/main/Capture%20d%E2%80%99%C3%A9cran%202023-01-12%20001153.png" width="250"/><img src="https://github.com/ninekorn/gif-resources/blob/main/Capture%20d%E2%80%99%C3%A9cran%202023-01-12%20001429.png" width="250"/><img src="https://github.com/ninekorn/gif-resources/blob/main/Capture%20d%E2%80%99%C3%A9cran%202023-01-12%20001541.png" width="250"/>
