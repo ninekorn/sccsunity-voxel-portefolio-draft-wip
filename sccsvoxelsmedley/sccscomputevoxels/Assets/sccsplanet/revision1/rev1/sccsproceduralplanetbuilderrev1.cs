@@ -5,22 +5,23 @@ using UnityEngine;
 using System;
 
 
-public class mainChunk
-{
-    public Vector3 worldPosition;
-    public GameObject planetchunk;
-
-    public mainChunk(Vector3 worldPos, GameObject planetchunk_)
-    {
-        worldPosition = worldPos;
-        planetchunk = planetchunk_;
-    }
-}
-
 
 
 public class sccsproceduralplanetbuilderrev1 : MonoBehaviour
 {
+    public class mainChunk
+    {
+        public Vector3 worldPosition;
+        public GameObject planetchunk;
+
+        public mainChunk(Vector3 worldPos, GameObject planetchunk_)
+        {
+            worldPosition = worldPos;
+            planetchunk = planetchunk_;
+        }
+    }
+
+
     //byte[,,] blocks;
     static mainChunk[] blockers;
 

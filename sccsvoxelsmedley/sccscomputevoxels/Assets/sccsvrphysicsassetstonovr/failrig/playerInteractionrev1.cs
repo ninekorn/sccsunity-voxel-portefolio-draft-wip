@@ -71,7 +71,7 @@ public class playerInteractionrev1 : MonoBehaviour
             totallegLength = upperleglength + lowerleglength + footlength;
 
             IdleStandingTargetPositionMax = transform.position + ((transform.forward * upperleglength) + (transform.forward * lowerleglength) + (transform.forward * footlength));
-            IdleStandingTargetPositionMin = transform.position + ((transform.forward * (upperleglength)) + (transform.forward * (lowerleglength)) + (transform.forward * (footlength))*0.5f);
+            IdleStandingTargetPositionMin = transform.position + ((transform.forward * (upperleglength)) + (transform.forward * (lowerleglength)) + (transform.forward * (footlength)) * 0.5f);
 
         }
 
@@ -636,11 +636,11 @@ public class playerInteractionrev1 : MonoBehaviour
                     {
                         if (hit.transform.tag == "collisionObject")
                         {
-                            //if (GetComponent<Fracture4>() != null)
+                            if (GetComponent<Fracture4>() != null)
                             {
 
                             }
-                            //else
+                            else
                             {
                                 var chunkX = (int)(Mathf.Round(hit.transform.position.x * tileSize) / tileSize);
                                 var chunkY = (int)(Mathf.Round(hit.transform.position.y * tileSize) / tileSize);
@@ -648,9 +648,7 @@ public class playerInteractionrev1 : MonoBehaviour
 
                                 ////Debug.Log("x: " + chunkX + " y: " + chunkY + " z: " + chunkZ);
 
-                                var thechunkhit = planetmanager.GetComponent<sccsproceduralplanetbuilderrev11>().getChunk((int)hit.transform.position.x, (int)hit.transform.position.y, (int)hit.transform.position.z) != null;
-
-                                if (thechunkhit)
+                                if (planetmanager.GetComponent<sccsproceduralplanetbuilderrev11>().getChunk((int)hit.transform.position.x, (int)hit.transform.position.y, (int)hit.transform.position.z) != null)
                                 {
                                     ////Debug.Log("==count==");
                                     sccsproceduralplanetbuilderrev11.mainChunk currentChunk = planetmanager.GetComponent<sccsproceduralplanetbuilderrev11>().getChunk((int)hit.transform.position.x, (int)hit.transform.position.y, (int)hit.transform.position.z);
@@ -1093,8 +1091,8 @@ public class playerInteractionrev1 : MonoBehaviour
             //var someTouch0 = Input.GetTouch(0);
             ////Debug.Log(""+ someTouch0);
 
-            bool buttonPressedLeft = Input.GetMouseButton(0);//OVRInput.Get(OVRInput.Button.PrimaryHandTrigger, OVRInput.Controller.LTouch);
-            bool buttonPressedRight = Input.GetMouseButton(1);//OVRInput.Get(OVRInput.Button.PrimaryHandTrigger, OVRInput.Controller.RTouch);
+            bool buttonPressedLeft = Input.GetMouseButton(0);// OVRInput.Get(OVRInput.Button.PrimaryHandTrigger, OVRInput.Controller.LTouch);
+            bool buttonPressedRight = Input.GetMouseButton(1);// OVRInput.Get(OVRInput.Button.PrimaryHandTrigger, OVRInput.Controller.RTouch);
 
             if (buttonPressedLeft)
             {
@@ -1113,11 +1111,11 @@ public class playerInteractionrev1 : MonoBehaviour
                     {
                         if (hit.transform.tag == "collisionObject")
                         {
-                            //if (GetComponent<Fracture4>() != null)
+                            if (GetComponent<Fracture4>() != null)
                             {
 
                             }
-                           // else
+                            else
                             {
                                 var chunkX = (int)(Mathf.Round(hit.transform.position.x * tileSize) / tileSize);
                                 var chunkY = (int)(Mathf.Round(hit.transform.position.y * tileSize) / tileSize);
@@ -1125,9 +1123,7 @@ public class playerInteractionrev1 : MonoBehaviour
 
                                 ////Debug.Log("x: " + chunkX + " y: " + chunkY + " z: " + chunkZ);
 
-                                var thechunkhit = planetmanager.GetComponent<sccsproceduralplanetbuilderrev11>().getChunk((int)hit.transform.position.x, (int)hit.transform.position.y, (int)hit.transform.position.z) != null;
-
-                                if (thechunkhit)
+                                if (planetmanager.GetComponent<sccsproceduralplanetbuilderrev11>().getChunk((int)hit.transform.position.x, (int)hit.transform.position.y, (int)hit.transform.position.z) != null)
                                 {
                                     ////Debug.Log("==count==");
                                     sccsproceduralplanetbuilderrev11.mainChunk currentChunk = planetmanager.GetComponent<sccsproceduralplanetbuilderrev11>().getChunk((int)hit.transform.position.x, (int)hit.transform.position.y, (int)hit.transform.position.z);
@@ -1627,7 +1623,7 @@ public class playerInteractionrev1 : MonoBehaviour
                         {
                             foottarget.position = hit.point;
                         }*/
-                        
+
                     }
                 }
                 counterForIkFootPlacement = 0;

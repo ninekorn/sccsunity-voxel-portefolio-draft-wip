@@ -1,8 +1,8 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 
 
-public class playerInteraction : MonoBehaviour
+public class playerInteractionrev11 : MonoBehaviour
 {
 
 
@@ -161,10 +161,10 @@ public class playerInteraction : MonoBehaviour
 
                         ////Debug.Log("x: " + chunkX + " y: " + chunkY + " z: " + chunkZ);
 
-                        if (planetmanager.GetComponent<sccsproceduralplanetbuilderrev1>().getChunk((int)collision.transform.position.x, (int)collision.transform.position.y, (int)collision.transform.position.z) != null)
+                        if (planetmanager.GetComponent<sccsproceduralplanetbuilderrev11>().getChunk((int)collision.transform.position.x, (int)collision.transform.position.y, (int)collision.transform.position.z) != null)
                         {
                             ////Debug.Log("==count==");
-                            mainChunk currentChunk = planetmanager.GetComponent<sccsproceduralplanetbuilderrev1>().getChunk((int)collision.transform.position.x, (int)collision.transform.position.y, (int)collision.transform.position.z);
+                            mainChunk currentChunk = planetmanager.GetComponent<sccsproceduralplanetbuilderrev11>().getChunk((int)collision.transform.position.x, (int)collision.transform.position.y, (int)collision.transform.position.z);
 
                             ////Debug.Log("x: " + collision.normal.x + " y: " + collision.normal.y + " z: " + collision.normal.z);
                             if (collision.contacts[0].normal.x == 0 && collision.contacts[0].normal.y == 0 && collision.contacts[0].normal.z == -1) //FRONT FACE
@@ -223,10 +223,10 @@ public class playerInteraction : MonoBehaviour
 
                                 ////Debug.Log("x: " + (indexX) + " y: " + (indexY) + " z: " + (indexZ));
 
-                                currentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().SetByte((int)indexX, (int)indexY, (int)indexZ, activeBlockType);
+                                currentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().SetByte((int)indexX, (int)indexY, (int)indexZ, activeBlockType);
 
-                                currentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().Regenerate();
-                                currentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().buildMesh();
+                                currentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().Regenerate();
+                                currentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().buildMesh();
 
                                 setAdjacentChunks(currentChunk, collision.transform.position, indexX, indexY, indexZ);
 
@@ -292,9 +292,9 @@ public class playerInteraction : MonoBehaviour
                                 indexY -= 1;
                                 indexZ -= 1;
 
-                                currentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().SetByte((int)indexX, (int)indexY, (int)indexZ, activeBlockType);
-                                currentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().Regenerate();
-                                currentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().buildMesh();
+                                currentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().SetByte((int)indexX, (int)indexY, (int)indexZ, activeBlockType);
+                                currentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().Regenerate();
+                                currentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().buildMesh();
 
                                 setAdjacentChunks(currentChunk, collision.transform.position, indexX, indexY, indexZ);
 
@@ -360,10 +360,10 @@ public class playerInteraction : MonoBehaviour
                                 indexY -= 1;
                                 indexZ -= 1;
 
-                                currentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().SetByte((int)indexX, (int)indexY, (int)indexZ, activeBlockType);
+                                currentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().SetByte((int)indexX, (int)indexY, (int)indexZ, activeBlockType);
 
-                                currentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().Regenerate();
-                                currentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().buildMesh();
+                                currentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().Regenerate();
+                                currentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().buildMesh();
 
                                 setAdjacentChunks(currentChunk, collision.transform.position, indexX, indexY, indexZ);
 
@@ -428,10 +428,10 @@ public class playerInteraction : MonoBehaviour
                                 indexY -= 1;
                                 indexZ -= 1;
 
-                                currentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().SetByte((int)indexX, (int)indexY, (int)indexZ, activeBlockType);
+                                currentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().SetByte((int)indexX, (int)indexY, (int)indexZ, activeBlockType);
 
-                                currentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().Regenerate();
-                                currentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().buildMesh();
+                                currentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().Regenerate();
+                                currentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().buildMesh();
 
                                 setAdjacentChunks(currentChunk, collision.transform.position, indexX, indexY, indexZ);
 
@@ -496,10 +496,10 @@ public class playerInteraction : MonoBehaviour
                                 indexY -= 1;
                                 indexZ -= 1;
 
-                                currentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().SetByte((int)indexX, (int)indexY, (int)indexZ, activeBlockType);
+                                currentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().SetByte((int)indexX, (int)indexY, (int)indexZ, activeBlockType);
 
-                                currentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().Regenerate();
-                                currentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().buildMesh();
+                                currentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().Regenerate();
+                                currentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().buildMesh();
 
                                 setAdjacentChunks(currentChunk, collision.transform.position, indexX, indexY, indexZ);
 
@@ -567,10 +567,10 @@ public class playerInteraction : MonoBehaviour
 
                                 ////Debug.Log("x: " + (indexX) + " y: " + (indexY) + " z: " + (indexZ));
 
-                                currentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().SetByte((int)indexX, (int)indexY, (int)indexZ, activeBlockType);
+                                currentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().SetByte((int)indexX, (int)indexY, (int)indexZ, activeBlockType);
 
-                                currentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().Regenerate();
-                                currentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().buildMesh();
+                                currentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().Regenerate();
+                                currentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().buildMesh();
 
                                 setAdjacentChunks(currentChunk, collision.transform.position, indexX, indexY, indexZ);
 
@@ -648,10 +648,10 @@ public class playerInteraction : MonoBehaviour
 
                                 ////Debug.Log("x: " + chunkX + " y: " + chunkY + " z: " + chunkZ);
 
-                                if (planetmanager.GetComponent<sccsproceduralplanetbuilderrev1>().getChunk((int)hit.transform.position.x, (int)hit.transform.position.y, (int)hit.transform.position.z) != null)
+                                if (planetmanager.GetComponent<sccsproceduralplanetbuilderrev11>().getChunk((int)hit.transform.position.x, (int)hit.transform.position.y, (int)hit.transform.position.z) != null)
                                 {
                                     ////Debug.Log("==count==");
-                                    mainChunk currentChunk = planetmanager.GetComponent<sccsproceduralplanetbuilderrev1>().getChunk((int)hit.transform.position.x, (int)hit.transform.position.y, (int)hit.transform.position.z);
+                                    sccsproceduralplanetbuilderrev11.mainChunk currentChunk = planetmanager.GetComponent<sccsproceduralplanetbuilderrev11>().getChunk((int)hit.transform.position.x, (int)hit.transform.position.y, (int)hit.transform.position.z);
 
                                     ////Debug.Log("x: " + hit.normal.x + " y: " + hit.normal.y + " z: " + hit.normal.z);
                                     if (hit.normal.x == 0 && hit.normal.y == 0 && hit.normal.z == -1) //FRONT FACE
@@ -710,10 +710,10 @@ public class playerInteraction : MonoBehaviour
 
                                         ////Debug.Log("x: " + (indexX) + " y: " + (indexY) + " z: " + (indexZ));
 
-                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().SetByte((int)indexX, (int)indexY, (int)indexZ, activeBlockType);
+                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().SetByte((int)indexX, (int)indexY, (int)indexZ, activeBlockType);
 
-                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().Regenerate();
-                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().buildMesh();
+                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().Regenerate();
+                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().buildMesh();
 
                                         setAdjacentChunks(currentChunk, hit.transform.position, indexX, indexY, indexZ);
 
@@ -779,9 +779,9 @@ public class playerInteraction : MonoBehaviour
                                         indexY -= 1;
                                         indexZ -= 1;
 
-                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().SetByte((int)indexX, (int)indexY, (int)indexZ, activeBlockType);
-                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().Regenerate();
-                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().buildMesh();
+                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().SetByte((int)indexX, (int)indexY, (int)indexZ, activeBlockType);
+                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().Regenerate();
+                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().buildMesh();
 
                                         setAdjacentChunks(currentChunk, hit.transform.position, indexX, indexY, indexZ);
 
@@ -847,10 +847,10 @@ public class playerInteraction : MonoBehaviour
                                         indexY -= 1;
                                         indexZ -= 1;
 
-                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().SetByte((int)indexX, (int)indexY, (int)indexZ, activeBlockType);
+                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().SetByte((int)indexX, (int)indexY, (int)indexZ, activeBlockType);
 
-                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().Regenerate();
-                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().buildMesh();
+                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().Regenerate();
+                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().buildMesh();
 
                                         setAdjacentChunks(currentChunk, hit.transform.position, indexX, indexY, indexZ);
 
@@ -915,10 +915,10 @@ public class playerInteraction : MonoBehaviour
                                         indexY -= 1;
                                         indexZ -= 1;
 
-                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().SetByte((int)indexX, (int)indexY, (int)indexZ, activeBlockType);
+                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().SetByte((int)indexX, (int)indexY, (int)indexZ, activeBlockType);
 
-                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().Regenerate();
-                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().buildMesh();
+                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().Regenerate();
+                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().buildMesh();
 
                                         setAdjacentChunks(currentChunk, hit.transform.position, indexX, indexY, indexZ);
 
@@ -983,10 +983,10 @@ public class playerInteraction : MonoBehaviour
                                         indexY -= 1;
                                         indexZ -= 1;
 
-                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().SetByte((int)indexX, (int)indexY, (int)indexZ, activeBlockType);
+                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().SetByte((int)indexX, (int)indexY, (int)indexZ, activeBlockType);
 
-                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().Regenerate();
-                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().buildMesh();
+                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().Regenerate();
+                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().buildMesh();
 
                                         setAdjacentChunks(currentChunk, hit.transform.position, indexX, indexY, indexZ);
 
@@ -1054,10 +1054,10 @@ public class playerInteraction : MonoBehaviour
 
                                         ////Debug.Log("x: " + (indexX) + " y: " + (indexY) + " z: " + (indexZ));
 
-                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().SetByte((int)indexX, (int)indexY, (int)indexZ, activeBlockType);
+                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().SetByte((int)indexX, (int)indexY, (int)indexZ, activeBlockType);
 
-                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().Regenerate();
-                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().buildMesh();
+                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().Regenerate();
+                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().buildMesh();
 
                                         setAdjacentChunks(currentChunk, hit.transform.position, indexX, indexY, indexZ);
 
@@ -1123,10 +1123,10 @@ public class playerInteraction : MonoBehaviour
 
                                 ////Debug.Log("x: " + chunkX + " y: " + chunkY + " z: " + chunkZ);
 
-                                if (planetmanager.GetComponent<sccsproceduralplanetbuilderrev1>().getChunk((int)hit.transform.position.x, (int)hit.transform.position.y, (int)hit.transform.position.z) != null)
+                                if (planetmanager.GetComponent<sccsproceduralplanetbuilderrev11>().getChunk((int)hit.transform.position.x, (int)hit.transform.position.y, (int)hit.transform.position.z) != null)
                                 {
                                     ////Debug.Log("==count==");
-                                    mainChunk currentChunk = planetmanager.GetComponent<sccsproceduralplanetbuilderrev1>().getChunk((int)hit.transform.position.x, (int)hit.transform.position.y, (int)hit.transform.position.z);
+                                    sccsproceduralplanetbuilderrev11.mainChunk currentChunk = planetmanager.GetComponent<sccsproceduralplanetbuilderrev11>().getChunk((int)hit.transform.position.x, (int)hit.transform.position.y, (int)hit.transform.position.z);
 
                                     ////Debug.Log("x: " + hit.normal.x + " y: " + hit.normal.y + " z: " + hit.normal.z);
                                     if (hit.normal.x == 0 && hit.normal.y == 0 && hit.normal.z == -1) //FRONT FACE
@@ -1185,10 +1185,10 @@ public class playerInteraction : MonoBehaviour
 
                                         ////Debug.Log("x: " + (indexX) + " y: " + (indexY) + " z: " + (indexZ));
 
-                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().SetByte((int)indexX, (int)indexY, (int)indexZ, activeBlockType);
+                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().SetByte((int)indexX, (int)indexY, (int)indexZ, activeBlockType);
 
-                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().Regenerate();
-                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().buildMesh();
+                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().Regenerate();
+                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().buildMesh();
 
                                         setAdjacentChunks(currentChunk, hit.transform.position, indexX, indexY, indexZ);
 
@@ -1254,9 +1254,9 @@ public class playerInteraction : MonoBehaviour
                                         indexY -= 1;
                                         indexZ -= 1;
 
-                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().SetByte((int)indexX, (int)indexY, (int)indexZ, activeBlockType);
-                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().Regenerate();
-                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().buildMesh();
+                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().SetByte((int)indexX, (int)indexY, (int)indexZ, activeBlockType);
+                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().Regenerate();
+                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().buildMesh();
 
                                         setAdjacentChunks(currentChunk, hit.transform.position, indexX, indexY, indexZ);
 
@@ -1322,10 +1322,10 @@ public class playerInteraction : MonoBehaviour
                                         indexY -= 1;
                                         indexZ -= 1;
 
-                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().SetByte((int)indexX, (int)indexY, (int)indexZ, activeBlockType);
+                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().SetByte((int)indexX, (int)indexY, (int)indexZ, activeBlockType);
 
-                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().Regenerate();
-                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().buildMesh();
+                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().Regenerate();
+                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().buildMesh();
 
                                         setAdjacentChunks(currentChunk, hit.transform.position, indexX, indexY, indexZ);
 
@@ -1390,10 +1390,10 @@ public class playerInteraction : MonoBehaviour
                                         indexY -= 1;
                                         indexZ -= 1;
 
-                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().SetByte((int)indexX, (int)indexY, (int)indexZ, activeBlockType);
+                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().SetByte((int)indexX, (int)indexY, (int)indexZ, activeBlockType);
 
-                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().Regenerate();
-                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().buildMesh();
+                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().Regenerate();
+                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().buildMesh();
 
                                         setAdjacentChunks(currentChunk, hit.transform.position, indexX, indexY, indexZ);
 
@@ -1458,10 +1458,10 @@ public class playerInteraction : MonoBehaviour
                                         indexY -= 1;
                                         indexZ -= 1;
 
-                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().SetByte((int)indexX, (int)indexY, (int)indexZ, activeBlockType);
+                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().SetByte((int)indexX, (int)indexY, (int)indexZ, activeBlockType);
 
-                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().Regenerate();
-                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().buildMesh();
+                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().Regenerate();
+                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().buildMesh();
 
                                         setAdjacentChunks(currentChunk, hit.transform.position, indexX, indexY, indexZ);
 
@@ -1529,10 +1529,10 @@ public class playerInteraction : MonoBehaviour
 
                                         ////Debug.Log("x: " + (indexX) + " y: " + (indexY) + " z: " + (indexZ));
 
-                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().SetByte((int)indexX, (int)indexY, (int)indexZ, activeBlockType);
+                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().SetByte((int)indexX, (int)indexY, (int)indexZ, activeBlockType);
 
-                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().Regenerate();
-                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().buildMesh();
+                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().Regenerate();
+                                        currentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().buildMesh();
 
                                         setAdjacentChunks(currentChunk, hit.transform.position, indexX, indexY, indexZ);
 
@@ -1645,106 +1645,106 @@ public class playerInteraction : MonoBehaviour
    hit.normal.x == 0 && hit.normal.y == 0 && hit.normal.z == 1 ||
    hit.normal.x == 0 && hit.normal.y == 1 && hit.normal.z == 0 ||
    hit.normal.x == 0 && hit.normal.y == -1 && hit.normal.z == 0*/
-    public void setAdjacentChunks(mainChunk currentChunk, Vector3 pos, int indexX, int indexY, int indexZ)
+    public void setAdjacentChunks(sccsproceduralplanetbuilderrev11.mainChunk currentChunk, Vector3 pos, int indexX, int indexY, int indexZ)
     {
-        int width = currentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().width;
-        int height = currentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().height;
-        int depth = currentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().depth;
+        int width = currentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().width;
+        int height = currentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().height;
+        int depth = currentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().depth;
 
         ////Debug.Log("x: " + (indexX) + " y: " + (indexY) + " z: " + (indexZ));
 
         if (indexX == 0)
         {
-            if (planetmanager.GetComponent<sccsproceduralplanetbuilderrev1>().getChunk((int)pos.x - 4, (int)pos.y, (int)pos.z) != null)
+            if (planetmanager.GetComponent<sccsproceduralplanetbuilderrev11>().getChunk((int)pos.x - 4, (int)pos.y, (int)pos.z) != null)
             {
-                mainChunk adjacentChunk = planetmanager.GetComponent<sccsproceduralplanetbuilderrev1>().getChunk((int)pos.x - 4, (int)pos.y, (int)pos.z);
+                sccsproceduralplanetbuilderrev11.mainChunk adjacentChunk = planetmanager.GetComponent<sccsproceduralplanetbuilderrev11>().getChunk((int)pos.x - 4, (int)pos.y, (int)pos.z);
 
-                if (adjacentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().GetByte((int)width - 1, (int)indexY, (int)indexZ) == 1)
+                if (adjacentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().GetByte((int)width - 1, (int)indexY, (int)indexZ) == 1)
                 {
                     ////Debug.Log("adjacent chunk left exists");
-                    adjacentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().SetByte((int)width - 1, (int)indexY, (int)indexZ, 1);
-                    adjacentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().Regenerate();
-                    adjacentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().buildMesh();
+                    adjacentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().SetByte((int)width - 1, (int)indexY, (int)indexZ, 1);
+                    adjacentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().Regenerate();
+                    adjacentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().buildMesh();
                 }
             }
         }
 
         if (indexX == width - 1)
         {
-            if (planetmanager.GetComponent<sccsproceduralplanetbuilderrev1>().getChunk((int)pos.x + 4, (int)pos.y, (int)pos.z) != null)
+            if (planetmanager.GetComponent<sccsproceduralplanetbuilderrev11>().getChunk((int)pos.x + 4, (int)pos.y, (int)pos.z) != null)
             {
-                mainChunk adjacentChunk = planetmanager.GetComponent<sccsproceduralplanetbuilderrev1>().getChunk((int)pos.x + 4, (int)pos.y, (int)pos.z);
+                sccsproceduralplanetbuilderrev11.mainChunk adjacentChunk = planetmanager.GetComponent<sccsproceduralplanetbuilderrev11>().getChunk((int)pos.x + 4, (int)pos.y, (int)pos.z);
 
-                if (adjacentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().GetByte((int)0, (int)indexY, (int)indexZ) == 1)
+                if (adjacentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().GetByte((int)0, (int)indexY, (int)indexZ) == 1)
                 {
                     ////Debug.Log("adjacent chunk right exists");
-                    adjacentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().SetByte((int)0, (int)indexY, (int)indexZ, 1);
-                    adjacentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().Regenerate();
-                    adjacentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().buildMesh();
+                    adjacentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().SetByte((int)0, (int)indexY, (int)indexZ, 1);
+                    adjacentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().Regenerate();
+                    adjacentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().buildMesh();
                 }
             }
         }
 
         if (indexY == 0)
         {
-            if (planetmanager.GetComponent<sccsproceduralplanetbuilderrev1>().getChunk((int)pos.x, (int)pos.y - 4, (int)pos.z) != null)
+            if (planetmanager.GetComponent<sccsproceduralplanetbuilderrev11>().getChunk((int)pos.x, (int)pos.y - 4, (int)pos.z) != null)
             {
-                mainChunk adjacentChunk = planetmanager.GetComponent<sccsproceduralplanetbuilderrev1>().getChunk((int)pos.x, (int)pos.y - 4, (int)pos.z);
+                sccsproceduralplanetbuilderrev11.mainChunk adjacentChunk = planetmanager.GetComponent<sccsproceduralplanetbuilderrev11>().getChunk((int)pos.x, (int)pos.y - 4, (int)pos.z);
 
-                if (adjacentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().GetByte((int)indexX, (int)height - 1, (int)indexZ) == 1)
+                if (adjacentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().GetByte((int)indexX, (int)height - 1, (int)indexZ) == 1)
                 {
                     ////Debug.Log("adjacent chunk left exists");
-                    adjacentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().SetByte((int)indexX, (int)height - 1, (int)indexZ, 1);
-                    adjacentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().Regenerate();
-                    adjacentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().buildMesh();
+                    adjacentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().SetByte((int)indexX, (int)height - 1, (int)indexZ, 1);
+                    adjacentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().Regenerate();
+                    adjacentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().buildMesh();
                 }
             }
         }
 
         if (indexY == height - 1)
         {
-            if (planetmanager.GetComponent<sccsproceduralplanetbuilderrev1>().getChunk((int)pos.x, (int)pos.y + 4, (int)pos.z) != null)
+            if (planetmanager.GetComponent<sccsproceduralplanetbuilderrev11>().getChunk((int)pos.x, (int)pos.y + 4, (int)pos.z) != null)
             {
-                mainChunk adjacentChunk = planetmanager.GetComponent<sccsproceduralplanetbuilderrev1>().getChunk((int)pos.x, (int)pos.y + 4, (int)pos.z);
+                sccsproceduralplanetbuilderrev11.mainChunk adjacentChunk = planetmanager.GetComponent<sccsproceduralplanetbuilderrev11>().getChunk((int)pos.x, (int)pos.y + 4, (int)pos.z);
 
-                if (adjacentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().GetByte((int)indexX, (int)0, (int)indexZ) == 1)
+                if (adjacentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().GetByte((int)indexX, (int)0, (int)indexZ) == 1)
                 {
                     ////Debug.Log("adjacent chunk left exists");
-                    adjacentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().SetByte((int)indexX, (int)0, (int)indexZ, 1);
-                    adjacentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().Regenerate();
-                    adjacentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().buildMesh();
+                    adjacentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().SetByte((int)indexX, (int)0, (int)indexZ, 1);
+                    adjacentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().Regenerate();
+                    adjacentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().buildMesh();
                 }
             }
         }
 
         if (indexZ == 0)
         {
-            if (planetmanager.GetComponent<sccsproceduralplanetbuilderrev1>().getChunk((int)pos.x, (int)pos.y, (int)pos.z - 4) != null)
+            if (planetmanager.GetComponent<sccsproceduralplanetbuilderrev11>().getChunk((int)pos.x, (int)pos.y, (int)pos.z - 4) != null)
             {
-                mainChunk adjacentChunk = planetmanager.GetComponent<sccsproceduralplanetbuilderrev1>().getChunk((int)pos.x, (int)pos.y, (int)pos.z - 4);
+                sccsproceduralplanetbuilderrev11.mainChunk adjacentChunk = planetmanager.GetComponent<sccsproceduralplanetbuilderrev11>().getChunk((int)pos.x, (int)pos.y, (int)pos.z - 4);
 
-                if (adjacentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().GetByte((int)indexX, (int)indexY, (int)depth - 1) == 1)
+                if (adjacentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().GetByte((int)indexX, (int)indexY, (int)depth - 1) == 1)
                 {
                     ////Debug.Log("adjacent chunk left exists");
-                    adjacentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().SetByte((int)indexX, (int)indexY, (int)depth - 1, 1);
-                    adjacentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().Regenerate();
-                    adjacentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().buildMesh();
+                    adjacentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().SetByte((int)indexX, (int)indexY, (int)depth - 1, 1);
+                    adjacentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().Regenerate();
+                    adjacentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().buildMesh();
                 }
             }
         }
 
         if (indexZ == depth - 1)
         {
-            if (planetmanager.GetComponent<sccsproceduralplanetbuilderrev1>().getChunk((int)pos.x, (int)pos.y, (int)pos.z + 4) != null)
+            if (planetmanager.GetComponent<sccsproceduralplanetbuilderrev11>().getChunk((int)pos.x, (int)pos.y, (int)pos.z + 4) != null)
             {
-                mainChunk adjacentChunk = planetmanager.GetComponent<sccsproceduralplanetbuilderrev1>().getChunk((int)pos.x, (int)pos.y, (int)pos.z + 4);
+                sccsproceduralplanetbuilderrev11.mainChunk adjacentChunk = planetmanager.GetComponent<sccsproceduralplanetbuilderrev11>().getChunk((int)pos.x, (int)pos.y, (int)pos.z + 4);
 
-                if (adjacentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().GetByte((int)indexX, (int)indexY, (int)0) == 1)
+                if (adjacentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().GetByte((int)indexX, (int)indexY, (int)0) == 1)
                 {
                     ////Debug.Log("adjacent chunk left exists");
-                    adjacentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().SetByte((int)indexX, (int)indexY, (int)0, 1);
-                    adjacentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().Regenerate();
-                    adjacentChunk.planetchunk.GetComponent<sccsplanetchunkrev1>().buildMesh();
+                    adjacentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().SetByte((int)indexX, (int)indexY, (int)0, 1);
+                    adjacentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().Regenerate();
+                    adjacentChunk.planetchunk.GetComponent<sccsplanetchunkrev11>().buildMesh();
                 }
             }
         }
@@ -1761,7 +1761,7 @@ if (Input.GetMouseButtonDown(0))
     if (Physics.Raycast(ray, out hit))
     {
         //hit.transform.GetComponent<MeshRenderer>().material.color = Color.red;
-        if (planetmanager.GetComponent<sccsproceduralplanetbuilderrev1>().getChunk((int)hit.transform.position.x, (int)hit.transform.position.y,(int)hit.transform.position.z) != null)
+        if (planetmanager.GetComponent<sccsproceduralplanetbuilderrev11>().getChunk((int)hit.transform.position.x, (int)hit.transform.position.y,(int)hit.transform.position.z) != null)
         {
             var chunkX = (int)(Mathf.Round(hit.point.x * planeSize) / planeSize);
             var chunkY = (int)(Mathf.Round(hit.point.y * planeSize) / planeSize);
@@ -1859,11 +1859,11 @@ var chunkZ = (int)(Mathf.Round(hit.transform.position.z * tileSize) / tileSize);
 
 ////Debug.Log("x: " + chunkX + " y: " + chunkY + " z: " + chunkZ);
 
-if (planetmanager.GetComponent<sccsproceduralplanetbuilderrev1>().getChunk((int)hit.transform.position.x, (int)hit.transform.position.y, (int)hit.transform.position.z) != null)
+if (planetmanager.GetComponent<sccsproceduralplanetbuilderrev11>().getChunk((int)hit.transform.position.x, (int)hit.transform.position.y, (int)hit.transform.position.z) != null)
 {
 
     ////Debug.Log("==count==");
-    mainChunk currentChunk = planetmanager.GetComponent<sccsproceduralplanetbuilderrev1>().getChunk((int)hit.transform.position.x, (int)hit.transform.position.y, (int)hit.transform.position.z);
+    mainChunk currentChunk = planetmanager.GetComponent<sccsproceduralplanetbuilderrev11>().getChunk((int)hit.transform.position.x, (int)hit.transform.position.y, (int)hit.transform.position.z);
 
     if (Input.GetMouseButtonDown(0))
     {
@@ -1873,10 +1873,10 @@ if (planetmanager.GetComponent<sccsproceduralplanetbuilderrev1>().getChunk((int)
                                            //terrain1.GetChunk(x, y, z).SetBrick(x / planeSize, y / planeSize, z / planeSize, activeBlockType);
 
         var planetchunk = hit.transform;
-        planetchunk.GetComponent<sccsplanetchunkrev1>().SetByte((int)x, (int)y, (int)z, activeBlockType);
+        planetchunk.GetComponent<sccsplanetchunkrev11>().SetByte((int)x, (int)y, (int)z, activeBlockType);
 
-        planetchunk.GetComponent<sccsplanetchunkrev1>().Regenerate();
-        planetchunk.GetComponent<sccsplanetchunkrev1>().buildMesh();
+        planetchunk.GetComponent<sccsplanetchunkrev11>().Regenerate();
+        planetchunk.GetComponent<sccsplanetchunkrev11>().buildMesh();
 
         setAdjacentChunks(currentChunk, hit, x, y, z);
     }
@@ -1893,10 +1893,10 @@ if (planetmanager.GetComponent<sccsproceduralplanetbuilderrev1>().getChunk((int)
 
         //terrain1.GetChunk(x, y, z).SetBrick(x / planeSize, y / planeSize, z / planeSize, 0);
         var planetchunk = hit.transform;
-        planetchunk.GetComponent<sccsplanetchunkrev1>().SetByte((int)x, (int)y, (int)z, activeBlockType);
+        planetchunk.GetComponent<sccsplanetchunkrev11>().SetByte((int)x, (int)y, (int)z, activeBlockType);
 
-        planetchunk.GetComponent<sccsplanetchunkrev1>().Regenerate();
-        planetchunk.GetComponent<sccsplanetchunkrev1>().buildMesh();
+        planetchunk.GetComponent<sccsplanetchunkrev11>().Regenerate();
+        planetchunk.GetComponent<sccsplanetchunkrev11>().buildMesh();
 
         setAdjacentChunks(currentChunk, hit, x, y, z);
     }

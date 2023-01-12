@@ -688,7 +688,7 @@ public class sccsplanetchunkrev1 : MonoBehaviour
         {
             if (componentParent.getChunk((int)(transform.position.x + 4), (int)(transform.position.y), (int)(transform.position.z)) != null)
             {
-                mainChunk chunkdata = componentParent.getChunk((int)(transform.position.x + 4), (int)(transform.position.y), (int)(transform.position.z));
+              sccsproceduralplanetbuilderrev1.mainChunk chunkdata = componentParent.getChunk((int)(transform.position.x + 4), (int)(transform.position.y), (int)(transform.position.z));
 
                 float xx = (Mathf.Floor(start.x * fraction) / fraction) + chunkRadius;
                 float yy = (Mathf.Floor(start.y * fraction) / fraction) + chunkRadius;
@@ -726,7 +726,7 @@ public class sccsplanetchunkrev1 : MonoBehaviour
         {
             if (componentParent.getChunk((int)(transform.position.x - 4), (int)(transform.position.y), (int)(transform.position.z)) != null)
             {
-                mainChunk chunkdata = componentParent.getChunk((int)(transform.position.x - 4), (int)(transform.position.y), (int)(transform.position.z));
+                sccsproceduralplanetbuilderrev1.mainChunk chunkdata = componentParent.getChunk((int)(transform.position.x - 4), (int)(transform.position.y), (int)(transform.position.z));
 
                 float xx = (Mathf.Floor(start.x * fraction) / fraction) + chunkRadius;
                 float yy = (Mathf.Floor(start.y * fraction) / fraction) + chunkRadius;
@@ -761,7 +761,7 @@ public class sccsplanetchunkrev1 : MonoBehaviour
         //FRONTFACE
         if (z == 0 && componentParent.getChunk((int)(transform.position.x), (int)(transform.position.y), (int)(transform.position.z - 4)) != null)
         {
-            mainChunk chunkdata = componentParent.getChunk((int)(transform.position.x), (int)(transform.position.y), (int)(transform.position.z - 4));
+            sccsproceduralplanetbuilderrev1.mainChunk chunkdata = componentParent.getChunk((int)(transform.position.x), (int)(transform.position.y), (int)(transform.position.z - 4));
 
             if (chunkdata != null)
             {
@@ -793,7 +793,7 @@ public class sccsplanetchunkrev1 : MonoBehaviour
         //BACKFACE
         if (z == width - 1 && componentParent.getChunk((int)(transform.position.x), (int)(transform.position.y), (int)(transform.position.z + 4)) != null)
         {
-            mainChunk chunkdata = componentParent.getChunk((int)(transform.position.x), (int)(transform.position.y), (int)(transform.position.z + 4));
+            sccsproceduralplanetbuilderrev1.mainChunk chunkdata = componentParent.getChunk((int)(transform.position.x), (int)(transform.position.y), (int)(transform.position.z + 4));
 
             float xx = (Mathf.Floor(start.x * fraction) / fraction) + chunkRadius;
             float yy = (Mathf.Floor(start.y * fraction) / fraction) + chunkRadius;
@@ -834,7 +834,7 @@ public class sccsplanetchunkrev1 : MonoBehaviour
         //TOPFACE
         if (y == height - 1 && componentParent.getChunk((int)(transform.position.x), (int)(transform.position.y + 4), (int)(transform.position.z)) != null)
         {
-            mainChunk chunkdata = componentParent.getChunk((int)(transform.position.x), (int)(transform.position.y + 4), (int)(transform.position.z));
+            sccsproceduralplanetbuilderrev1.mainChunk chunkdata = componentParent.getChunk((int)(transform.position.x), (int)(transform.position.y + 4), (int)(transform.position.z));
 
             if (chunkdata != null)
             {
@@ -866,7 +866,7 @@ public class sccsplanetchunkrev1 : MonoBehaviour
         //BOTTOMFACE
         if (y == 0 && componentParent.getChunk((int)(transform.position.x), (int)(transform.position.y - 4), (int)(transform.position.z)) != null)
         {
-            mainChunk chunkdata = componentParent.getChunk((int)(transform.position.x), (int)(transform.position.y - 4), (int)(transform.position.z));
+            sccsproceduralplanetbuilderrev1.mainChunk chunkdata = componentParent.getChunk((int)(transform.position.x), (int)(transform.position.y - 4), (int)(transform.position.z));
 
             if (chunkdata != null)
             {

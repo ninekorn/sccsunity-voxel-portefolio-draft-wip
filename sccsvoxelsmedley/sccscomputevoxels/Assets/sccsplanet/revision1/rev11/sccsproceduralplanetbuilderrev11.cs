@@ -25,7 +25,7 @@ public class sccsproceduralplanetbuilderrev11 : MonoBehaviour
     static mainChunk[] blockers;
 
     //byte block;
-    int realplanetwidth = 4;
+    public int realplanetwidth = 4;
     public Transform cube;
     Vector3[] myArray;
 
