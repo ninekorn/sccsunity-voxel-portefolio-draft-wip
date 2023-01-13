@@ -354,5 +354,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: Limitless terrain
       objectReference: {fileID: 0}
+    - target: {fileID: 705826040297516503, guid: d36c7ca2dabe03d4ba9460a580f91754, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 705826040943332623, guid: d36c7ca2dabe03d4ba9460a580f91754, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d36c7ca2dabe03d4ba9460a580f91754, type: 3}

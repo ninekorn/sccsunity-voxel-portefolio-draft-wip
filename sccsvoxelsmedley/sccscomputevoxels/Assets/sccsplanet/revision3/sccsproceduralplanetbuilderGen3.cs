@@ -12,6 +12,11 @@ using Debug = UnityEngine.Debug;
 
 public class sccsproceduralplanetbuilderGen3 : MonoBehaviour
 {
+    public float raycounterLoopMax = 20;
+    public int InitcounterForIkFootPlacementMax = 10;
+    public int projectilespeed = 1;
+
+    public Material hitmaterial;
     public struct somemessage
     {
         public int testswtc;
@@ -777,7 +782,10 @@ public class sccsproceduralplanetbuilderGen3 : MonoBehaviour
 
                     int addfracturedcubeonimpact = 0;
                     int swtcForTypeOfInteract = 1;
-                    float raycounterLoopMax = 20;
+
+
+                                   
+                    // raycounterLoopMax = 20;
                     float raylength = 0;
                     float raycounterSwtc = 0;
                     int lastFrameRayPosSwtc = 0;
@@ -785,10 +793,10 @@ public class sccsproceduralplanetbuilderGen3 : MonoBehaviour
                     int someswtc = 0;
                     int counterForByteChange = 1;
                     int InitcounterForIkFootPlacement = 0;
-                    int InitcounterForIkFootPlacementMax = 10;
+                    //InitcounterForIkFootPlacementMax = 10;
                     int InitcounterForIkFootPlacementSwtc = 0;
                     int counterForByteChangeMax = 1;
-                    int projectilespeed = 1;
+                    //projectilespeed = 1;
                     Vector3 currentRayPosition = Vector3.zero;
                     Vector3 lastFrameRayInitDirUp = Vector3.zero;
                     Vector3 lastFrameRayInitDirForward = Vector3.zero;
@@ -1441,17 +1449,18 @@ public class sccsproceduralplanetbuilderGen3 : MonoBehaviour
                                                                     if (getChunk(neighboorindexx, neighboorindexy, neighboorindexz) != null)
                                                                     {
                                                                         sccsChunk somechunk = (sccsChunk)getChunk(neighboorindexx, neighboorindexy, neighboorindexz);
+                                                                        
                                                                         /*if (somechunk.planetchunk != null)
                                                                         {
                                                                             somechunk.planetchunk.GetComponent<MeshRenderer>().material = hitmaterial;
-                                                                        }*/
-
+                                                                        }
+                                                                        */
 
                                                                         if (somechunk.map != null)
                                                                         {
                                                                             //Debug.Log("found neighbour chunk");
                                                                             //mainChunkFinal currentChunk = somemsg[0].somechunkarray[index];// this.getChunk(neighboorindexx, neighboorindexy, neighboorindexz);// posnotroundedx, posnotroundedy, posnotroundedz);
-                                                                            /*int indexx = 0;
+                                                                            /*t indexx = 0;
                                                                             int indexy = 0;
                                                                             int indexz = 0;
 

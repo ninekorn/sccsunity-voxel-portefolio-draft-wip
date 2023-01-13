@@ -1978,7 +1978,10 @@ public class cubicFrac : MonoBehaviour
 
         for (int i = 0; i < FracturingObj.Count; i++)
         {
-            FracturingObj[i].transform.gameObject.AddComponent<activateCombine>().enabled = true;
+            /*
+            FracturingObj[i].transform.gameObject.AddComponent<activateCombine>().enabled = true;*/
+
+
             FracturingObj[i].GetComponent<MeshFilter>().mesh.RecalculateNormals();
             FracturingObj[i].GetComponent<MeshFilter>().mesh.RecalculateBounds();
 
@@ -1988,6 +1991,9 @@ public class cubicFrac : MonoBehaviour
                 FracturingObj[i].GetComponent<MeshFilter>().mesh.normals = normalz;
                 FracturingObj[i].GetComponent<MeshFilter>().mesh.RecalculateNormals();
             }
+
+
+
 
 
             if (FracturingObj[i].transform.gameObject.GetComponent<MeshCollider>() == null)
@@ -2015,8 +2021,13 @@ public class cubicFrac : MonoBehaviour
             {
                 Destroy(gameObject.GetComponent<SphereCollider>(), 0.1f);
             }
+
             FracturingObj[i].transform.parent = this.transform;
-            FracturingObj[i].transform.gameObject.AddComponent<activateCombine>().enabled = true;
+            
+            
+            //FracturingObj[i].transform.gameObject.AddComponent<activateCombine>().enabled = true;
+            
+            
             //GetComponent<reparator>().objToReact.Add(FracturingObj[i]);
 
             //Destroy(this.transform.gameObject,0.1f);

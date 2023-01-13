@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.17276807, g: 0.21589197, b: 0.29782572, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -306,6 +306,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 428148506680771608, guid: 7da2d3b8a63ac5e45a4cdcfdee22ea29, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1391333793480688626, guid: 7da2d3b8a63ac5e45a4cdcfdee22ea29, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -350,9 +354,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1434076581517345716, guid: 7da2d3b8a63ac5e45a4cdcfdee22ea29, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 3.26
+      objectReference: {fileID: 0}
     - target: {fileID: 1795517762576767325, guid: 7da2d3b8a63ac5e45a4cdcfdee22ea29, type: 3}
       propertyPath: m_Name
       value: Basic examples
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 5125442123429593070, guid: 7da2d3b8a63ac5e45a4cdcfdee22ea29, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -2.74
+      objectReference: {fileID: 0}
+    - target: {fileID: 6920740833533625170, guid: 7da2d3b8a63ac5e45a4cdcfdee22ea29, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.26
+      objectReference: {fileID: 0}
+    - target: {fileID: 8226880822135573608, guid: 7da2d3b8a63ac5e45a4cdcfdee22ea29, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9203167476411910387, guid: 7da2d3b8a63ac5e45a4cdcfdee22ea29, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 2458302967916048469, guid: 7da2d3b8a63ac5e45a4cdcfdee22ea29, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 7da2d3b8a63ac5e45a4cdcfdee22ea29, type: 3}

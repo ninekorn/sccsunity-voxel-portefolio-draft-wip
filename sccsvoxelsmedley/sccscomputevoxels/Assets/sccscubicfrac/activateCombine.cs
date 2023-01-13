@@ -33,6 +33,7 @@ public class activateCombine : MonoBehaviour {
             {
 
 
+
                 parent.GetComponent<reparator>().objToReact.Add(this.transform.gameObject);
                 
                 parent.GetComponent<reparator>().counter = 1;
