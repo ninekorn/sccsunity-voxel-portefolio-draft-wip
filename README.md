@@ -1,4 +1,4 @@
-#as per advertised, update 1.0. In this information page of my current development, you will find nothing more and nothing less than my project:
+#as per advertised, update 1.0. In this page of my current development, you will find nothing more and nothing less than my project:
 
 # sccsunity-voxel-portefolio-draft-wip
 
@@ -57,7 +57,7 @@ stop motion in the editor spoiler below (no controls currently):
 
 the pressure was too big to release on the unity store or not, so despite my portefolio not beeing that cleaned up and not having inquired about how to bring this to the store, when i just have too many bugs that users of my projects would complain too much after purchase anyway since this is an incomplete portefolio, i decided to release it here on github, MIT, and from here, maybe i can keep on piling up my development on top of my development to make better revisions in the future. And how could i be selling to the store when i use so many different MIT license anyway. It feels like a troublesome process which i don't have to go through when i am using github for release. A lot of my projects that i have coded and developed are old and/or with commented out discarded trial/error attempts, and most of my projects are blueprints/templates that can be simplified by anyone anyway, and/or improved upon.
 
-thank you for trying my projects. it's far from perfect and it's not without bugs. i am happy if you find my projects inspiring in order for you to do your own work and programs with voxels in unity or not, i deliver my assets to you as per mit license. I will clean my scripts as i go. 
+thank you for trying my projects. it's far from perfect and it's not without bugs. i am happy if you find my projects inspiring in order for you to do your own work and programs with voxels in unity or not, i deliver my assets to you as per mit license. I will clean my scripts as i go. Please note that the assets that i developped are beginner tutorials more or less.
 
 sc
 
