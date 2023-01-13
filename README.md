@@ -1,3 +1,5 @@
+#as per advertised in this information page of my current development.
+
 # sccsunity-voxel-portefolio-draft-wip
 
 developed in Unity 2020.3.42f1 . 
