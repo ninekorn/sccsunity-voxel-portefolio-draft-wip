@@ -1,4 +1,4 @@
-#as per advertised, update 1.0, in this information page of my current development, you will find:
+#as per advertised, update 1.0. In this information page of my current development, you will find:
 
 # sccsunity-voxel-portefolio-draft-wip
 
