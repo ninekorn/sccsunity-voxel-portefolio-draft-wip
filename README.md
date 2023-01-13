@@ -56,7 +56,7 @@ stop motion in the editor spoiler below (no controls currently):
 <img src="https://github.com/ninekorn/gif-resources/blob/main/Capture%20d%E2%80%99%C3%A9cran%202023-01-12%20001153.png" width="185"/><img src="https://github.com/ninekorn/gif-resources/blob/main/Capture%20d%E2%80%99%C3%A9cran%202023-01-12%20001429.png" width="185"/><img src="https://github.com/ninekorn/gif-resources/blob/main/Capture%20d%E2%80%99%C3%A9cran%202023-01-12%20015243.png" width="185"/><img src="https://github.com/ninekorn/gif-resources/blob/main/GifMaker_20230112020224749.gif" width="185"/><img src="https://github.com/ninekorn/gif-resources/blob/main/Capture%20d%E2%80%99%C3%A9cran%202023-01-12%20113430.png" width="185"/><img src="https://github.com/ninekorn/gif-resources/blob/main/GifMaker_20230112114557048.gif" width="185"/>
 
 
-developping on an idea i had- giving results soon. my character prefabs are all ik rigged characters. And i want to developp mesh that recombines into voxel bytes after sometime passes by. But i didn't start yet on that voxel byte recombination:
+developping on an idea i had- giving results soon. my character prefabs are all ik rigged characters. And i want to developp mesh that recombines into voxel bytes after sometime passes by. But i didn't start yet on that voxel byte recombination, and i didn't figure out how i will attempt to give the ik rigged characters the ability to dig like npc characters yet or how much time it would take for me to developp that:
 
 <img src="https://github.com/ninekorn/gif-resources/blob/main/Capture%20d%E2%80%99%C3%A9cran%202023-01-13%20163609.png" width="185"/>
 
