@@ -7,6 +7,17 @@ public class scmaths : MonoBehaviour
 {
 
 
+    public static float DegreeToRadian(float angle)
+    {
+        return (float)(Math.PI * angle / 180.0f);
+    }
+
+    public static float RadianToDegree(float angle)
+    {
+        return (float)(angle * (180.0f / Math.PI));
+    }
+
+
     public static int LimitInclusiveInt(int value, int min, int max)
     {
         return Math.Min(max, Math.Max(value, min));
