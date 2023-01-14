@@ -66,6 +66,8 @@ thank you for trying my projects. it's far from perfect and it's not without bug
 
 sc
 
+And yes, i know, i don't even come close to other programmers projects regarding voxel terrain generation in unity3d. even outside of unity3d i've been struggling. 
+
 I developed other projects in the past in Virtual reality (using the oculus rift cv1) for unity 2017.4.39f1 or 2017.4.40f1 : 
 
 https://github.com/ninekorn/sccsvrunity-portefolio-draft-wip:
