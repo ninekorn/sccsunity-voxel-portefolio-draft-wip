@@ -95,7 +95,7 @@ public class sccsplanetchunkrev12 : MonoBehaviour
 
         float sizeofplanetchunks = ((sizex * planeSize) * (sizey * planeSize) * (sizez * planeSize)) * 1.15f;// * sizecalceachbytechunk * 0.75f;
 
-        mountainend = ((sizeofplanetchunks)) ;
+        mountainend = ((sizeofplanetchunks)) * 0.5f;
 
         mountainend *= radiusplanetmountainend;
         radiusplanetmountainend = mountainend;

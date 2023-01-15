@@ -104,7 +104,7 @@ public class IKSC : MonoBehaviour
         Vector3 elbowposition = locOfPointadjacentX + (crosser.normalized * circircinterhalfA);
 
         Vector3 upperToElbow = elbowposition - shoulder.position;
-        Debug.DrawRay(locOfPointadjacentX, crosser.normalized * 0.15f, Color.red, 0.1f);
+        //Debug.DrawRay(locOfPointadjacentX, crosser.normalized * 0.15f, Color.red, 0.1f);
 
 
 
@@ -165,9 +165,9 @@ public class IKSC : MonoBehaviour
 
 
 
-        Debug.DrawRay(pointer1.position, crosssss.normalized * 0.15f, Color.blue, 0.1f);
-        Debug.DrawRay(pointer2.position, crosssss.normalized * 0.15f, Color.blue, 0.1f);
-        Debug.DrawRay(pointer3.position, crosssss.normalized * 0.15f, Color.blue, 0.1f);
+        //Debug.DrawRay(pointer1.position, crosssss.normalized * 0.15f, Color.blue, 0.1f);
+        //Debug.DrawRay(pointer2.position, crosssss.normalized * 0.15f, Color.blue, 0.1f);
+        //Debug.DrawRay(pointer3.position, crosssss.normalized * 0.15f, Color.blue, 0.1f);
         previousPos = transform.position;
     }
 
@@ -640,17 +640,17 @@ else
 }*/
 
 
-//Debug.DrawRay(upperArm.transform.position, newDirec, Color.red, 0.1f);
-//Debug.DrawRay(endPoint3, crosssss, Color.blue, 0.1f);
-//Debug.DrawRay(endPoint3, crosser, Color.magenta, 0.1f);
+////Debug.DrawRay(upperArm.transform.position, newDirec, Color.red, 0.1f);
+////Debug.DrawRay(endPoint3, crosssss, Color.blue, 0.1f);
+////Debug.DrawRay(endPoint3, crosser, Color.magenta, 0.1f);
 
 //Instantiate(rotationPoint, endPoint3, Quaternion.identity);
 //Instantiate(rotationPoint, endPoint4, Quaternion.identity);
 
-//Debug.DrawRay(endPoint4, lastoDir, Color.cyan, 0.1f);
-//Debug.DrawRay(endPoint4, handTarget.position - endPoint4, Color.green, 0.1f);
-//Debug.DrawRay(endPoint3, handTarget.position-endPoint3, Color.green, 0.1f);
-//Debug.DrawRay(upperArm.position, endPoint4-upperArm.position, Color.green, 0.1f);
+////Debug.DrawRay(endPoint4, lastoDir, Color.cyan, 0.1f);
+////Debug.DrawRay(endPoint4, handTarget.position - endPoint4, Color.green, 0.1f);
+////Debug.DrawRay(endPoint3, handTarget.position-endPoint3, Color.green, 0.1f);
+////Debug.DrawRay(upperArm.position, endPoint4-upperArm.position, Color.green, 0.1f);
 
 
 
@@ -685,9 +685,9 @@ if (currentMovement == Vector3.zero)
 
 
 
-//Debug.DrawRay(upperArm.transform.position, dirFromUpperArmToHandTarget, Color.green, 0.1f);
-//Debug.DrawRay(elbowTarget.transform.position, dirElbowTargetToHandTarget, Color.green, 0.1f);
-//Debug.DrawRay(upperArm.transform.position, dirUpperArmToElbowTarget, Color.green, 0.1f);
+////Debug.DrawRay(upperArm.transform.position, dirFromUpperArmToHandTarget, Color.green, 0.1f);
+////Debug.DrawRay(elbowTarget.transform.position, dirElbowTargetToHandTarget, Color.green, 0.1f);
+////Debug.DrawRay(upperArm.transform.position, dirUpperArmToElbowTarget, Color.green, 0.1f);
 
 
 

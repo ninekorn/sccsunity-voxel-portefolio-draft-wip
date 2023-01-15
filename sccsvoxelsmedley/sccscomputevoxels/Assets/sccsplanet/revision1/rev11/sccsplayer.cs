@@ -7,6 +7,13 @@ using UnityEngine.XR;
 
 public class sccsplayer : MonoBehaviour
 {
+    public float movementspeed = 0.01f;
+
+    float isgroundedmaxdist = 0.70f;
+    float hiptofloordist = 1.0f;
+
+
+
     public GameObject originalcamerapivot;
     public GameObject upperbodypivot;
     public GameObject headpivotpoint;
@@ -83,6 +90,9 @@ public class sccsplayer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
+
+
         cam = Camera.main;
         originalcamerarot = camera.transform.rotation;
 
@@ -146,9 +156,10 @@ public class sccsplayer : MonoBehaviour
         MouseRotationZ = scmaths.RadianToDegree(rollcurrent);// rotationincrements;
 
 
-         
 
 
+        isgroundedmaxdist = (isgroundedpivotpoint.transform.position - pointertarget.transform.position).magnitude * 3.0f;
+        hiptofloordist = (isgroundedpivotpoint.transform.position - pointertarget.transform.position).magnitude;
     }
 
 
@@ -159,22 +170,6 @@ public class sccsplayer : MonoBehaviour
     void Update()
     {
 
-        /*Quaternion q = viewer.transform.rotation;
-
-        float x = q.x;
-        float y = q.y;
-        float z = q.z;
-        float w = q.w;
-
-        //https://answers.unity.com/questions/416169/finding-pitchrollyaw-from-quaternions.html - also found elsewhere
-        float rollcurrent = Mathf.Atan2(2 * y * w - 2 * x * z, 1 - 2 * y * y - 2 * z * z);
-        float pitchcurrent = Mathf.Atan2(2 * x * w - 2 * y * z, 1 - 2 * x * x - 2 * z * z);
-        float yawcurrent = Mathf.Asin(2 * x * y + 2 * z * w);
-
-        RotationX = scmaths.RadianToDegree(pitchcurrent);
-        RotationY = scmaths.RadianToDegree(yawcurrent);
-        RotationZ = scmaths.RadianToDegree(rollcurrent);
-        */
         
         StartCoroutine(CheckMoving());
         StartCoroutine(MovePlayerWithKeyboard());
@@ -231,698 +226,12 @@ public class sccsplayer : MonoBehaviour
 
 
 
-        /*
-        float rotate_speed = 1.0f;
+
+        float rotate_speed = 25.0f;
 
         Quaternion rot = new Quaternion();
         rot.SetLookRotation(forwarddirtopointfrontplayer, -(theplanet.transform.position - viewer.transform.position).normalized);
         viewer.transform.rotation = Quaternion.Lerp(viewer.transform.rotation, rot, rotate_speed * Time.deltaTime);
-        */
-
-        float rotate_speed = 1.0f;
-
-        Quaternion rot = new Quaternion();
-        rot.SetLookRotation(forwarddirtopointfrontplayer, -(theplanet.transform.position - viewer.transform.position).normalized);
-        viewer.transform.rotation = Quaternion.Lerp(viewer.transform.rotation, rot, rotate_speed * Time.deltaTime);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //MouseRotationX += mousey;
-        //MouseRotationY += mousex;
-
-        /*float pitch = (MouseRotationX + RotationX) * 0.0174532925f;
-        float yaw = (MouseRotationY + RotationY) * 0.0174532925f;  // float yaw = RotationY * (float)Math.PI / 180.0f;
-        float roll = (MouseOriginalRotationZ) * 0.0174532925f;
-        */
-
-
-
-        /*
-        float rotationincrements = 50.0f;
-
-        Vector2 dirbulletprimerright = new Vector2(viewer.transform.forward.z, viewer.transform.forward.y);
-        dirbulletprimerright.Normalize();
-
-        Vector2 dirprimertonorthpoletransform = new Vector2(theplanet.transform.position.z, theplanet.transform.position.y) - new Vector2(viewer.transform.position.z, viewer.transform.position.y);
-        dirprimertonorthpoletransform.Normalize();
-
-        var _dotGoal = sc_maths.Dot(dirbulletprimerright.x, dirbulletprimerright.y, dirprimertonorthpoletransform.x, dirprimertonorthpoletransform.y);
-        */
-        /*if (-_dotGoal > 0.1f) // 0.001f
-        {
-            //RotationPlayerPivotX = RotationX;
-            RotationPlayerPivotX += rotationincrements;//
-        }
-        else if (-_dotGoal < -0.1f) //-0.001f
-        {
-            //RotationPlayerPivotX = RotationX;
-            RotationPlayerPivotX -= rotationincrements;//
-        }*/
-
-
-
-        /*float pitch = (RotationPlayerPivotX + RotationX) * 0.0174532925f;
-        float yaw = (RotationPlayerPivotY) * 0.0174532925f;  // float yaw = RotationY * (float)Math.PI / 180.0f;
-        float roll = (RotationPlayerPivotZ + RotationZ) * 0.0174532925f;
-
-        viewer.transform.rotation = Quaternion.Euler(pitch, yaw, roll);
-        */
-
-        /*dirbulletprimerright = new Vector2(viewer.transform.right.x, viewer.transform.right.z);
-        dirbulletprimerright.Normalize();
-
-        dirprimertonorthpoletransform = new Vector2(theplanet.transform.position.x, theplanet.transform.position.z) - new Vector2(viewer.transform.position.x, viewer.transform.position.z);
-        dirprimertonorthpoletransform.Normalize();
-
-        _dotGoal = sc_maths.Dot(dirbulletprimerright.x, dirbulletprimerright.y, dirprimertonorthpoletransform.x, dirprimertonorthpoletransform.y);
-
-        if (_dotGoal > 0.5f) // 0.001f //0.5f
-        {
-            RotationPlayerPivotZ += rotationincrements;//
-
-        }
-        else if (_dotGoal < -0.5f) //-0.001f //0.50f
-        {
-            RotationPlayerPivotZ -= rotationincrements;//
-
-        }*/
-
-
-
-
-
-
-
-
-        /*
-        float rotate_speed = 10.0f;
-
-        Quaternion rot = new Quaternion();
-        rot.SetLookRotation(viewer.transform.forward, -(theplanet.transform.position - viewer.transform.position).normalized);
-        viewer.transform.rotation =  Quaternion.Lerp(viewer.transform.rotation, rot, rotate_speed * Time.deltaTime);
-        */
-
-
-
-
-
-
-
-        /*
-        //https://answers.unity.com/questions/1397510/converting-mouse-position-to-worldpoint-in-3d.html
-        float speed = 10.0f;
-        // Cast a ray from screen point
-        Ray ray = new Ray(isgroundedpivotpoint.transform.position, isgroundedpivotpoint.transform.forward);// isgroundedpivotpoint.transform.position;// Camera.main.ScreenPointToRay(isgroundedpivotpoint.transform.position);//Camera.main.ScreenPointToRay(Input.mousePosition);
-                                                                                                           // Save the info
-        RaycastHit theouthit;
-
-        */
-        // Find the direction to move in
-        //Vector3 dir = theouthit.point - isgroundedpivotpoint.transform.position;
-        /*
-        var distance = 0.025f;
-        var dirForward = viewer.transform.rotation * Vector3.forward;
-        dirForward.Normalize();
-
-        Vector3 positioninfrontofplayer = isgroundedpivotpoint.transform.position + (dirForward * distance);
-
-        Vector3 dirplanetcoretopoint = theplanet.transform.position - positioninfrontofplayer;
-        Vector3 dirplanetcoretopointnotnorm = dirplanetcoretopoint;
-        float distcoretopointinfrontofplayer = dirplanetcoretopoint.magnitude;
-
-        dirplanetcoretopoint.Normalize();
-        */
-        /*
-        Quaternion rot = new Quaternion();
-        rot.SetLookRotation(currentdirtopointinfrontdir, -(theplanet.transform.position - viewer.transform.position).normalized);
-        viewer.transform.rotation = Quaternion.Lerp(viewer.transform.rotation, rot, rotate_speed * Time.deltaTime);
-        */
-        /*
-
-        Vector3 dirplanetcoretoplayer = theplanet.transform.position - viewer.transform.position;
-        float distcoretopointinfrontofplayer = dirplanetcoretoplayer.magnitude;
-
-        Vector3 alwaysuppointofplayercomparedtoplayercore = theplanet.transform.position + (dirplanetcoretoplayer* (distcoretopointinfrontofplayer + 1.5f));
-
-        //c2=a2+b2
-
-
-
-
-
-        var distance = 1.0f;
-        var dirForward = viewer.transform.rotation * Vector3.forward;
-        dirForward.Normalize();
-
-        Vector3 positioninfrontofplayer = isgroundedpivotpoint.transform.position + (dirForward * distance);
-
-
-
-  
-
-        dirplanetcoretoplayer.Normalize();
-
-        Vector3 dirpointfromplanettopointfrontplayer = positioninfrontofplayer - theplanet.transform.position;
-        dirpointfromplanettopointfrontplayer.Normalize();
-
-
-        Vector3 correctpointatcircumferencebasedondirectionforward = theplanet.transform.position + (dirpointfromplanettopointfrontplayer * distcoretopointinfrontofplayer);
-
-        Vector3 forwarddir = correctpointatcircumferencebasedondirectionforward - isgroundedpivotpoint.transform.position;
-        forwarddir.Normalize();
-        */
-        /*
-        float rotate_speed = 1.0f;
-        Quaternion rot = new Quaternion();
-        rot.SetLookRotation(forwarddir, -(theplanet.transform.position - viewer.transform.position).normalized);
-        viewer.transform.rotation = Quaternion.Lerp(viewer.transform.rotation, rot, rotate_speed * Time.deltaTime);
-        */
-        /*
-        float rotate_speed = 1.0f;
-        Quaternion rot = new Quaternion();
-        rot.SetLookRotation(viewer.transform.forward, - (theplanet.transform.position - viewer.transform.position).normalized);
-        viewer.transform.rotation = Quaternion.Lerp(viewer.transform.rotation, rot, rotate_speed * Time.deltaTime);
-        */
-
-
-
-
-
-
-        /*
-        //https://answers.unity.com/questions/1397510/converting-mouse-position-to-worldpoint-in-3d.html
-        float speed = 10.0f;
-        // Cast a ray from screen point
-        Ray ray = new Ray(isgroundedpivotpoint.transform.position, isgroundedpivotpoint.transform.forward);// isgroundedpivotpoint.transform.position;// Camera.main.ScreenPointToRay(isgroundedpivotpoint.transform.position);//Camera.main.ScreenPointToRay(Input.mousePosition);
-                                                                                                           // Save the info
-        RaycastHit theouthit;
-
-
-        if (Physics.Raycast(ray, out theouthit, layerMask))
-        {
-            // Find the direction to move in
-            Vector3 dir = theouthit.point - isgroundedpivotpoint.transform.position;
-
-            var distance = 0.025f;
-            var dirForward = viewer.transform.rotation * Vector3.forward;
-            dirForward.Normalize();
-
-            Vector3 positioninfrontofplayer = isgroundedpivotpoint.transform.position + (dirForward * distance);
-
-            Vector3 dirplanetcoretopoint = theplanet.transform.position - positioninfrontofplayer;
-            Vector3 dirplanetcoretopointnotnorm = dirplanetcoretopoint;
-            float distcoretopointinfrontofplayer = dirplanetcoretopoint.magnitude;
-
-            dirplanetcoretopoint.Normalize();
-
-
-            //Vector3 pointinfrontofplayer = 
-
-            Vector3 dirtopointinfrontofplayer = positioninfrontofplayer - isgroundedpivotpoint.transform.position;
-            //distcoretopointinfrontofplayer
-
-
-
-
-            //Debug.DrawRay(isgroundedpivotpoint.transform.position, dirtopointinfrontofplayer * 5.0f, Color.cyan, 10.0f);
-
-
-
-
-
-
-            Ray raypointtoground = new Ray(positioninfrontofplayer, isgroundedpivotpoint.transform.forward);
-            RaycastHit theouthitpointtoground;
-
-
-
-            if (Physics.Raycast(raypointtoground, out theouthitpointtoground, layerMask))
-            {
-                //Vector3 dirpointtoground = theouthitpointtoground.point - viewer.transform.position;//
-
-                // Debug.DrawRay(theouthitpointtoground.point, isgroundedpivotpoint.transform.forward * 3.0f, Color.red, 10.0f);
-
-
-                /*Vector3 dirpointtoground = theouthitpointtoground.point - viewer.transform.position;// positioninfrontofplayer;
-
-                Vector3 currentdirtopointinfrontdir = theouthitpointtoground.point - theouthit.point;
-                
-
-
-
-                //Debug.DrawRay(theouthitpointtoground.point, dirplanetcoretopoint * 1.0f, Color.red, 10.0f);
-
-
-
-
-                pointertarget.transform.position = theouthitpointtoground.point;
-
-
-
-                Vector3 currentdirtopointinfrontdir = theouthitpointtoground.point - theouthit.point;
-
-
-
-
-
-
-
-                // Make it so that its only in x and y axis
-                //dir.y = 0; // No vertical movement
-
-                // Now move your character in world space 
-                //transform.Translate(dir * Time.deltaTime * speed, Space.World);
-                //Instantiate(GameObject.CreatePrimitive(PrimitiveType.Sphere), thetouchpoint, Quaternion.identity);
-                //transform.Translate (dir * Time.deltaTime * speed); // Try t$$anonymous$$s if it doesn't work
-
-                /* var distance = 0.1f;
-                //https://answers.unity.com/questions/251619/rotation-to-direction-vector.html
-                var dirForward = viewer.transform.rotation * Vector3.forward;
-                dirForward.Normalize();
-                MOVEPOSOFFSET = MOVEPOSOFFSET + (dirForward * distance);*/
-
-
-        ///Debug.DrawRay(viewer.transform.position, dirpointtoground * 1.0f, Color.magenta, 10.0f);
-
-
-
-
-
-        //var dirUp = viewer.transform.rotation * Vector3.up;
-        //dirUp.Normalize();
-
-        /*topointforward = positioninfrontofplayer;// clicktomoveplayerpos;
-
-        thepositionupofpoint = positioninfrontofplayer + (dirplanetcoretopoint * 0.0012345f);
-
-
-
-        var topointforward = theouthitpointtoground.point;
-        //Debug.DrawRay(positioninfrontofplayer, thepositionupofpoint - positioninfrontofplayer, Color.red, 1.0f);
-        MOVEPOSOFFSET = MOVEPOSOFFSET + (currentdirtopointinfrontdir * distance);
-
-
-        //MOVEPOSOFFSET = Vector3.Lerp(topointforward, thepositionupofpoint, 0.01f);
-
-        //viewer.transform.position = MOVEPOSOFFSET;
-        //lastframeviewerpos = viewer.transform.position;
-
-
-
-
-
-
-
-
-
-
-
-        float rotate_speed = 10.0f;
-
-        Quaternion rot = new Quaternion();
-        rot.SetLookRotation(currentdirtopointinfrontdir, -(theplanet.transform.position - theouthitpointtoground.point).normalized);
-        viewer.transform.rotation = Quaternion.Lerp(viewer.transform.rotation, rot, rotate_speed * Time.deltaTime);
-
-
-
-
-
-
-
-    }
-}*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-        /*
-        // A rotation 30 degrees around the y-axis
-        Vector3 rotationVector = new Vector3(0, 30, 0);
-        Quaternion rotation = Quaternion.Euler(rotationVector);*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        /*
-        pitch = (RotationPlayerPivotX) * 0.0174532925f;
-        yaw = (RotationPlayerPivotY) * 0.0174532925f;  // float yaw = RotationY * (float)Math.PI / 180.0f;
-        roll = (RotationPlayerPivotZ) * 0.0174532925f;
-
-        viewer.transform.rotation *= Quaternion.Euler(pitch, yaw, roll);
-        */
-
-        /*
-        float pitch = (RotationPlayerPivotX ) * 0.0174532925f;
-        float yaw = (RotationPlayerPivotY) * 0.0174532925f;  // float yaw = RotationY * (float)Math.PI / 180.0f;
-        float roll = (RotationPlayerPivotZ ) * 0.0174532925f;
-
-        viewer.transform.rotation *=Quaternion.Euler(pitch, yaw, roll);
-        */
-
-
-
-
-
-
-
-
-
-
-
-
-
-        /*
-        dirtoplanetcore = theplanet.transform.position - viewer.transform.position;
-        dirtoplanetcore.Normalize();*/
-
-        //viewer.transform.up = -dirtoplanetcore;
-
-        /*
-        dirtoplanetcore = theplanet.transform.position - viewer.transform.position;
-        dirtoplanetcore.Normalize();
-        //viewer.transform.up = -dirtoplanetcore;
-
-        var dirright = viewer.transform.rotation * Vector3.right;
-        dirright.Normalize();
-        clicktomoveplayerdirtopos.Normalize();
-
-        float thedot = Vector3.Dot(dirtoplanetcore, viewer.transform.up);
-
-        float rotationincrements = 50.0f;
-
-
-        var rotation = viewer.transform.rotation.eulerAngles;
-        viewer.transform.LookAt(dirtoplanetcore);
-        viewer.transform.eulerAngles = new Vector3(rotation.x, viewer.transform.eulerAngles.y, rotation.z);
-        */
-
-        //Debug.Log(thedot);
-        //viewer.transform.Rotate(90.0f, 0.0f, 0.0f, Space.World);
-
-
-        //viewer.transform.ro
-        /*
-        dirtoplanetcore = theplanet.transform.position - viewer.transform.position;
-        dirtoplanetcore.Normalize();
-
-
-        var dirright = viewer.transform.rotation * Vector3.up;
-        dirright.Normalize();
-        clicktomoveplayerdirtopos.Normalize();
-
-        float thedot = Vector3.Dot(dirright, dirtoplanetcore);
-
-        float rotationincrements = 50.0f;*/
-
-
-        /*
-        Vector2 dirbulletprimerright = new Vector2(-viewer.transform.right.z, viewer.transform.right.x);
-        dirbulletprimerright.Normalize();
-
-        Vector2 dirprimertonorthpoletransform = new Vector2(theplanet.transform.position.x, theplanet.transform.position.z) - new Vector2(viewer.transform.position.x, viewer.transform.position.z);
-        dirprimertonorthpoletransform.Normalize();
-
-        var _dotGoal = sc_maths.Dot(dirbulletprimerright.x, dirbulletprimerright.y, dirprimertonorthpoletransform.x, dirprimertonorthpoletransform.y);
-
-
-        Debug.Log(_dotGoal);
-
-        if (_dotGoal >= 0.1f) // 0.001f
-        {
-            RotationX += rotationincrements;//
-
-
-            // Set the yaw (Y axis), pitch (X axis), and roll (Z axis) rotations in radians.
-            float pitch = RotationX * 0.0174532925f;
-            float yaw = RotationY * 0.0174532925f;  // float yaw = RotationY * (float)Math.PI / 180.0f;
-            float roll = RotationZ * 0.0174532925f;
-
-            //Vector3 lookatlocal = transform.TransformDirection(lookAt);
-
-            //https://answers.unity.com/questions/1611821/rotation-yaw-roll-pitch.html
-            //Vector3 up = transform.TransformPoint(Vector3.up, rotationMatrix);
-            //viewer.transform.rotation = Quaternion.Euler(pitch, yaw, roll);
-            viewer.transform.rotation = Quaternion.Euler(pitch, yaw, roll);
-            //answer = 1;
-        }
-        else if (_dotGoal < -0.1f)//-0.001f
-        {
-            RotationX -= rotationincrements;//
-
-
-            // Set the yaw (Y axis), pitch (X axis), and roll (Z axis) rotations in radians.
-            float pitch = RotationX * 0.0174532925f;
-            float yaw = RotationY * 0.0174532925f;  // float yaw = RotationY * (float)Math.PI / 180.0f;
-            float roll = RotationZ * 0.0174532925f;
-
-            //Vector3 lookatlocal = transform.TransformDirection(lookAt);
-
-            //https://answers.unity.com/questions/1611821/rotation-yaw-roll-pitch.html
-            //Vector3 up = transform.TransformPoint(Vector3.up, rotationMatrix);
-            //viewer.transform.rotation = Quaternion.Euler(pitch, yaw, roll);
-            viewer.transform.rotation = Quaternion.Euler(pitch, yaw, roll);
-            //answer = -1;
-        }*/
-
-
-
-
-        /*Vector2 dirbulletprimerright = new Vector2(viewer.transform.right.x, viewer.transform.right.y);
-        dirbulletprimerright.Normalize();
-
-        Vector2 dirprimertonorthpoletransform = new Vector2(theplanet.transform.position.x, theplanet.transform.position.y) - new Vector2(viewer.transform.position.x, viewer.transform.position.y);
-        dirprimertonorthpoletransform.Normalize();
-
-        var _dotGoal = sc_maths.Dot(dirbulletprimerright.x, dirbulletprimerright.y, dirprimertonorthpoletransform.x, dirprimertonorthpoletransform.y);
-
-
-        if (_dotGoal > 0 && _dotGoal < 0.99f) // 0.001f
-        {
-            RotationX += rotationincrements;//
-
-
-            // Set the yaw (Y axis), pitch (X axis), and roll (Z axis) rotations in radians.
-            float pitch = RotationX * 0.0174532925f;
-            float yaw = RotationY * 0.0174532925f;  // float yaw = RotationY * (float)Math.PI / 180.0f;
-            float roll = RotationZ * 0.0174532925f;
-
-            //Vector3 lookatlocal = transform.TransformDirection(lookAt);
-
-            //https://answers.unity.com/questions/1611821/rotation-yaw-roll-pitch.html
-            //Vector3 up = transform.TransformPoint(Vector3.up, rotationMatrix);
-            //viewer.transform.rotation = Quaternion.Euler(pitch, yaw, roll);
-            viewer.transform.rotation = Quaternion.Euler(pitch, yaw, roll);
-            //answer = 1;
-            //answer = 1;
-        }
-        else if (_dotGoal < 0 && _dotGoal > -0.99f) //-0.001f
-        {
-            RotationX -= rotationincrements;//
-
-
-            // Set the yaw (Y axis), pitch (X axis), and roll (Z axis) rotations in radians.
-            float pitch = RotationX * 0.0174532925f;
-            float yaw = RotationY * 0.0174532925f;  // float yaw = RotationY * (float)Math.PI / 180.0f;
-            float roll = RotationZ * 0.0174532925f;
-
-            //Vector3 lookatlocal = transform.TransformDirection(lookAt);
-
-            //https://answers.unity.com/questions/1611821/rotation-yaw-roll-pitch.html
-            //Vector3 up = transform.TransformPoint(Vector3.up, rotationMatrix);
-            //viewer.transform.rotation = Quaternion.Euler(pitch, yaw, roll);
-            viewer.transform.rotation = Quaternion.Euler(pitch, yaw, roll);
-            //answer = -1;
-            //answer = -1;
-        }*/
-
-
-
-
-
-
-        /*
-        Vector2 dirbulletprimerright = new Vector2(viewer.transform.forward.z, viewer.transform.forward.y);
-        dirbulletprimerright.Normalize();
-
-        Vector2 dirprimertonorthpoletransform = new Vector2(theplanet.transform.position.z, theplanet.transform.position.y) - new Vector2(viewer.transform.position.z, viewer.transform.position.y);
-        dirprimertonorthpoletransform.Normalize();
-
-        var _dotGoal = sc_maths.Dot(dirbulletprimerright.x, dirbulletprimerright.y, dirprimertonorthpoletransform.x, dirprimertonorthpoletransform.y);
-
-        if (-_dotGoal > 0.1f) // 0.001f
-        {
-
-            RotationPlayerPivotX = RotationX;
-            RotationPlayerPivotX += rotationincrements;//
-
-
-            // Set the yaw (Y axis), pitch (X axis), and roll (Z axis) rotations in radians.
-            float pitch = RotationPlayerPivotX * 0.0174532925f;
-            float yaw = RotationY * 0.0174532925f;  // float yaw = RotationY * (float)Math.PI / 180.0f;
-            float roll = RotationZ * 0.0174532925f;
-
-            //Vector3 lookatlocal = transform.TransformDirection(lookAt);
-
-            //https://answers.unity.com/questions/1611821/rotation-yaw-roll-pitch.html
-            //Vector3 up = transform.TransformPoint(Vector3.up, rotationMatrix);
-            //viewer.transform.rotation = Quaternion.Euler(pitch, yaw, roll);
-            viewer.transform.rotation = Quaternion.Euler(pitch, yaw, roll);
-        }
-        else if (-_dotGoal < -0.1f) //-0.001f
-        {
-            RotationPlayerPivotX = RotationX;
-            RotationPlayerPivotX -= rotationincrements;//
-
-
-            // Set the yaw (Y axis), pitch (X axis), and roll (Z axis) rotations in radians.
-            float pitch = RotationPlayerPivotX * 0.0174532925f;
-            float yaw = RotationY * 0.0174532925f;  // float yaw = RotationY * (float)Math.PI / 180.0f;
-            float roll = RotationZ * 0.0174532925f;
-            //Vector3 lookatlocal = transform.TransformDirection(lookAt);
-
-            //https://answers.unity.com/questions/1611821/rotation-yaw-roll-pitch.html
-            //Vector3 up = transform.TransformPoint(Vector3.up, rotationMatrix);
-            //viewer.transform.rotation = Quaternion.Euler(pitch, yaw, roll);
-            viewer.transform.rotation = Quaternion.Euler(pitch, yaw, roll);
-        }*/
-
-        /*
-        float rotationincrements = 50.0f;
-
-        Vector2 dirbulletprimerright = new Vector2(viewer.transform.forward.z, viewer.transform.forward.y);
-        dirbulletprimerright.Normalize();
-
-        Vector2 dirprimertonorthpoletransform = new Vector2(theplanet.transform.position.z, theplanet.transform.position.y) - new Vector2(viewer.transform.position.z, viewer.transform.position.y);
-        dirprimertonorthpoletransform.Normalize();
-
-        var _dotGoal = sc_maths.Dot(dirbulletprimerright.x, dirbulletprimerright.y, dirprimertonorthpoletransform.x, dirprimertonorthpoletransform.y);
-
-        if (-_dotGoal > 0.1f) // 0.001f
-        {
-            //RotationPlayerPivotX = RotationX;
-            RotationPlayerPivotX += rotationincrements;//
-        }
-        else if (-_dotGoal < -0.1f) //-0.001f
-        {
-            //RotationPlayerPivotX = RotationX;
-            RotationPlayerPivotX -= rotationincrements;//
-        }*/
-
-
-
-
-
-        /*
-        dirbulletprimerright = new Vector2(viewer.transform.right.x, viewer.transform.right.z);
-        dirbulletprimerright.Normalize();
-
-        dirprimertonorthpoletransform = new Vector2(theplanet.transform.position.x, theplanet.transform.position.z) - new Vector2(viewer.transform.position.x, viewer.transform.position.z);
-        dirprimertonorthpoletransform.Normalize();
-
-        _dotGoal = sc_maths.Dot(dirbulletprimerright.x, dirbulletprimerright.y, dirprimertonorthpoletransform.x, dirprimertonorthpoletransform.y);
-
-        if (_dotGoal >= 0.5f) // 0.001f
-        {
-            RotationPlayerPivotZ += rotationincrements;//
-
-        }
-        else if (_dotGoal < -0.50f) //-0.001f
-        {
-            RotationPlayerPivotZ -= rotationincrements;//
-
-        }
-        */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        /*
-        var gdir = Physics.gravity.normalized;
-        var d = Vector3.Dot(rigid.velocity, gdir);
-        d = Mathf.Max(0f, d); //if we don't clamp this we'd also remove upward velocities, if you want to do that as well... comment out this line
-        d += Physics.gravity.magnitude * Time.deltaTime;
-        //rigid.AddForce(-d * gdir * 1.0f, ForceMode.Impulse);*/
-
-
-
-
-        /*
-        // Set the yaw (Y axis), pitch (X axis), and roll (Z axis) rotations in radians.
-        float pitch = (RotationX + RotationPlayerPivotX) * 0.0174532925f;
-        float yaw = (RotationY + RotationPlayerPivotY) * 0.0174532925f;  // float yaw = RotationY * (float)Math.PI / 180.0f;
-        float roll = (RotationZ + RotationPlayerPivotZ) * 0.0174532925f;
-
-        finalrotationplayerpivot = Quaternion.Euler(pitch, yaw, roll);
-
-
-        viewer.transform.rotation = finalrotationplayerpivot;
-        */
-
-        /*
-        MouseRotationX += mousey;
-        MouseRotationY += mousex;
-
-        float pitch = (MouseRotationX + RotationX) * 0.0174532925f;
-        float yaw = (MouseRotationY + RotationY) * 0.0174532925f;  // float yaw = RotationY * (float)Math.PI / 180.0f;
-        float roll = (MouseOriginalRotationZ) * 0.0174532925f;*/
-
-
-
-
-
-
 
     }
 
@@ -1003,110 +312,6 @@ public class sccsplayer : MonoBehaviour
         }
 
 
-
-        /*var dirForward = viewer.transform.rotation * Vector3.forward;
-        dirForward.Normalize();
-        clicktomoveplayerdirtopos.Normalize();
-
-        float thedot = Vector3.Dot(dirForward, clicktomoveplayerdirtopos);
-
-        var dirUp = viewer.transform.rotation * Vector3.up;
-        dirUp.Normalize();
-        //Debug.Log(thedot);
-
-        thepositionupofpoint = clicktomoveplayerpos + (dirUp * 2.0f);
-
-        Debug.DrawRay(clicktomoveplayerpos, thepositionupofpoint - clicktomoveplayerpos, Color.red,1.0f);
-        */
-
-
-
-        //this.transform.Rotate()
-
-
-
-
-
-
-
-        //hmdmatrixRot = viewer.transform.rotation;
-
-        /*float rotationincrements = 25.75f;
-
-        if (Input.GetKey(KeyCode.A))
-        {
-           
-            RotationY -= rotationincrements;//
-
-
-            // Set the yaw (Y axis), pitch (X axis), and roll (Z axis) rotations in radians.
-            float pitch = RotationX * 0.0174532925f;
-            float yaw = RotationY * 0.0174532925f;  // float yaw = RotationY * (float)Math.PI / 180.0f;
-            float roll = RotationZ * 0.0174532925f;
-
-            //Vector3 lookatlocal = transform.TransformDirection(lookAt);
-
-            //https://answers.unity.com/questions/1611821/rotation-yaw-roll-pitch.html
-            //Vector3 up = transform.TransformPoint(Vector3.up, rotationMatrix);
-            //viewer.transform.rotation = Quaternion.Euler(pitch, yaw, roll);
-            viewer.transform.rotation = Quaternion.Euler(pitch, yaw, roll);
-        }
-        //* Time.deltaTime
-        if (Input.GetKey(KeyCode.D))
-        {
-            RotationY += rotationincrements;//
-
-
-            // Set the yaw (Y axis), pitch (X axis), and roll (Z axis) rotations in radians.
-            float pitch = RotationX * 0.0174532925f;
-            float yaw = RotationY * 0.0174532925f;  // float yaw = RotationY * (float)Math.PI / 180.0f;
-            float roll = RotationZ * 0.0174532925f;
-
-            //Vector3 lookatlocal = transform.TransformDirection(lookAt);
-            //https://answers.unity.com/questions/1611821/rotation-yaw-roll-pitch.html
-            //Vector3 up = transform.TransformPoint(Vector3.up, rotationMatrix);
-            //viewer.transform.rotation = Quaternion.Euler(pitch, yaw, roll);
-            viewer.transform.rotation = Quaternion.Euler(pitch, yaw, roll);
-            //Matrix4x4.Rotate
-
-        }
-
-
-
-        if (Input.GetKey(KeyCode.T))
-        {
-          
-
-            upperbodypivotRotationX += rotationincrements;
-            // Set the yaw (Y axis), pitch (X axis), and roll (Z axis) rotations in radians.
-            float pitch = upperbodypivotRotationX * 0.0174532925f;
-            float yaw = RotationY * 0.0174532925f;  // float yaw = RotationY * (float)Math.PI / 180.0f;
-            float roll = upperbodypivotRotationZ * 0.0174532925f;
-           
-
-            //Vector3 lookatlocal = transform.TransformDirection(lookAt);
-
-
-            //Vector3 up = transform.TransformPoint(Vector3.up, rotationMatrix);
-            upperbodypivot.transform.rotation = Quaternion.Euler(pitch, yaw, roll);
-            //Matrix4x4.Rotate
-        }
-
-        if (Input.GetKey(KeyCode.G))
-        {
-            
-            upperbodypivotRotationX -= rotationincrements;
-            // Set the yaw (Y axis), pitch (X axis), and roll (Z axis) rotations in radians.
-            float pitch = upperbodypivotRotationX * 0.0174532925f;
-            float yaw = RotationY * 0.0174532925f;  // float yaw = RotationY * (float)Math.PI / 180.0f;
-            float roll = upperbodypivotRotationZ * 0.0174532925f;
-
-            //Vector3 up = transform.TransformPoint(Vector3.up, rotationMatrix);
-            upperbodypivot.transform.rotation = Quaternion.Euler(pitch, yaw, roll);
-            //Matrix4x4.Rotate
-        }*/
-
-        //getPan
 
         yield return new WaitForSeconds(0.001f);
     }
@@ -1195,81 +400,6 @@ public class sccsplayer : MonoBehaviour
 
 
 
-        /* if (startPos.x != finalPos.x || startPos.y != finalPos.y
-             || startPos.z != finalPos.z)
-         {
-             isMoving = true;
-         }
-
-         else if (startPos.x == finalPos.x && startPos.y == finalPos.y
-              && startPos.z == finalPos.z)
-         {
-             isMoving = false;
-         }*/
-
-        /*if (Input.GetKey(KeyCode.W))
-        {
-            var distance = 0.1f;
-            //https://answers.unity.com/questions/251619/rotation-to-direction-vector.html
-            var dirForward = viewer.transform.rotation * Vector3.forward;
-            dirForward.Normalize();
-            MOVEPOSOFFSET = MOVEPOSOFFSET + (dirForward * distance);
-            //topointforward = MOVEPOSOFFSET + pointforward;
-        }
-
-        if (Input.GetKey(KeyCode.Q))
-        {
-            var distance = 0.1f;
-            //https://answers.unity.com/questions/251619/rotation-to-direction-vector.html
-            var dirForward = viewer.transform.rotation * -Vector3.right;
-            dirForward.Normalize();
-            MOVEPOSOFFSET = MOVEPOSOFFSET + (dirForward * distance);
-            //topointforward = MOVEPOSOFFSET + pointforward;
-        }
-
-        if (Input.GetKey(KeyCode.E))
-        {
-            var distance = 0.1f;
-            //https://answers.unity.com/questions/251619/rotation-to-direction-vector.html
-            var dirForward = viewer.transform.rotation * Vector3.right;
-            dirForward.Normalize();
-            MOVEPOSOFFSET = MOVEPOSOFFSET + (dirForward * distance);
-            //topointforward = MOVEPOSOFFSET + pointforward;
-        }
-
-        if (Input.GetKey(KeyCode.S))
-        {
-            var distance = 0.1f;
-            //https://answers.unity.com/questions/251619/rotation-to-direction-vector.html
-            var dirForward = viewer.transform.rotation * -Vector3.forward;
-            dirForward.Normalize();
-            MOVEPOSOFFSET = MOVEPOSOFFSET + (dirForward * distance);
-            //topointforward = MOVEPOSOFFSET + pointforward;
-        }
-
-        if (Input.GetKey(KeyCode.R))
-        {
-            var distance = 0.1f;
-            //https://answers.unity.com/questions/251619/rotation-to-direction-vector.html
-            var dirForward = viewer.transform.rotation * Vector3.up;
-            dirForward.Normalize();
-            MOVEPOSOFFSET = MOVEPOSOFFSET + (dirForward * distance);
-            //topointforward = MOVEPOSOFFSET + pointforward;
-        }
-
-
-        if (Input.GetKey(KeyCode.F))
-        {
-            var distance = 0.1f;
-            //https://answers.unity.com/questions/251619/rotation-to-direction-vector.html
-            var dirForward = viewer.transform.rotation * -Vector3.up;
-            dirForward.Normalize();
-            MOVEPOSOFFSET = MOVEPOSOFFSET + (dirForward * distance);
-            //topointforward = MOVEPOSOFFSET + pointforward;
-        }*/
-
-        //var currentrotationforward = viewer.transform.rotation.eulerAngles.z;
-
         MOVEPOSOFFSET = Vector3.Lerp(topointforward, thepositionupofpoint, 0.01f);
 
         viewer.transform.position = MOVEPOSOFFSET;
@@ -1290,7 +420,7 @@ public class sccsplayer : MonoBehaviour
     {
         //MOVEPOSOFFSET = viewer.transform.position;
 
-        currentChunkCoordX = Mathf.RoundToInt(viewer.transform.position.x / (smallChunkWidth * 0.5f));
+        /*currentChunkCoordX = Mathf.RoundToInt(viewer.transform.position.x / (smallChunkWidth * 0.5f));
         currentChunkCoordY = Mathf.RoundToInt(viewer.transform.position.y / (smallChunkWidth * 0.5f));
         currentChunkCoordZ = Mathf.RoundToInt(viewer.transform.position.z / (smallChunkWidth * 0.5f));
 
@@ -1303,235 +433,12 @@ public class sccsplayer : MonoBehaviour
         Vector3 startPos = currentPosition;
         yield return new WaitForSeconds(0.001f);
         Vector3 finalPos = currentPosition;
+        */
 
         Vector3 topointforward = MOVEPOSOFFSET;
-        /* if (startPos.x != finalPos.x || startPos.y != finalPos.y
-             || startPos.z != finalPos.z)
-         {
-             isMoving = true;
-         }
-
-         else if (startPos.x == finalPos.x && startPos.y == finalPos.y
-              && startPos.z == finalPos.z)
-         {
-             isMoving = false;
-         }*/
-
-
-
-
-
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+       
         if (Input.GetKey(KeyCode.W))
         {
-            //https://answers.unity.com/questions/1397510/converting-mouse-position-to-worldpoint-in-3d.html
-            float speed = 10.0f;
-            // Cast a ray from screen point
-            Ray ray = new Ray(isgroundedpivotpoint.transform.position, isgroundedpivotpoint.transform.forward);// isgroundedpivotpoint.transform.position;// Camera.main.ScreenPointToRay(isgroundedpivotpoint.transform.position);//Camera.main.ScreenPointToRay(Input.mousePosition);
-                                                                              // Save the info
-            RaycastHit theouthit;
-
-            /* if (swtchastriedmovingplayerwithmouseclick == 0)
-             {
-                 // You successfully $$anonymous$$
-
-             }*/
-
-            if (Physics.Raycast(ray, out theouthit, layerMask))
-            {
-                // Find the direction to move in
-                Vector3 dir = theouthit.point - isgroundedpivotpoint.transform.position;
-
-                var distance = 0.025f;
-                var dirForward = viewer.transform.rotation * Vector3.forward;
-                dirForward.Normalize();
-
-                Vector3 positioninfrontofplayer = isgroundedpivotpoint.transform.position + (dirForward * distance);
-
-                Vector3 dirplanetcoretopoint = theplanet.transform.position - positioninfrontofplayer;
-                Vector3 dirplanetcoretopointnotnorm = dirplanetcoretopoint;
-                float distcoretopointinfrontofplayer = dirplanetcoretopoint.magnitude;
-
-                dirplanetcoretopoint.Normalize();
-
-
-                //Vector3 pointinfrontofplayer = 
-
-                Vector3 dirtopointinfrontofplayer = positioninfrontofplayer - isgroundedpivotpoint.transform.position;
-                //distcoretopointinfrontofplayer
-
-
-
-
-                //Debug.DrawRay(isgroundedpivotpoint.transform.position, dirtopointinfrontofplayer * 5.0f, Color.cyan, 10.0f);
-
-
-
-
-
-
-                Ray raypointtoground = new Ray(positioninfrontofplayer, isgroundedpivotpoint.transform.forward);
-                RaycastHit theouthitpointtoground;
-
-
-
-                if (Physics.Raycast(raypointtoground, out theouthitpointtoground, layerMask))
-                {
-                    //Vector3 dirpointtoground = theouthitpointtoground.point - viewer.transform.position;//
-
-                   // Debug.DrawRay(theouthitpointtoground.point, isgroundedpivotpoint.transform.forward * 3.0f, Color.red, 10.0f);
-
-
-                    /*Vector3 dirpointtoground = theouthitpointtoground.point - viewer.transform.position;// positioninfrontofplayer;
-
-                    Vector3 currentdirtopointinfrontdir = theouthitpointtoground.point - theouthit.point;
-                    */
-
-
-
-                    //Debug.DrawRay(theouthitpointtoground.point, dirplanetcoretopoint * 1.0f, Color.red, 10.0f);
-
-
-
-
-                    pointertarget.transform.position = theouthitpointtoground.point;
-
-
-
-                    Vector3 currentdirtopointinfrontdir = theouthitpointtoground.point - theouthit.point;
-
-
-
-
-
-
-
-                    // Make it so that its only in x and y axis
-                    //dir.y = 0; // No vertical movement
-
-                    // Now move your character in world space 
-                    //transform.Translate(dir * Time.deltaTime * speed, Space.World);
-                    //Instantiate(GameObject.CreatePrimitive(PrimitiveType.Sphere), thetouchpoint, Quaternion.identity);
-                    //transform.Translate (dir * Time.deltaTime * speed); // Try t$$anonymous$$s if it doesn't work
-
-                    /* var distance = 0.1f;
-                    //https://answers.unity.com/questions/251619/rotation-to-direction-vector.html
-                    var dirForward = viewer.transform.rotation * Vector3.forward;
-                    dirForward.Normalize();
-                    MOVEPOSOFFSET = MOVEPOSOFFSET + (dirForward * distance);*/
-
-
-                    ///Debug.DrawRay(viewer.transform.position, dirpointtoground * 1.0f, Color.magenta, 10.0f);
-
-
-
-
-
-                    //var dirUp = viewer.transform.rotation * Vector3.up;
-                    //dirUp.Normalize();
-
-                    /*topointforward = positioninfrontofplayer;// clicktomoveplayerpos;
-
-                    thepositionupofpoint = positioninfrontofplayer + (dirplanetcoretopoint * 0.0012345f);
-                    */
-                    
-                    
-                    topointforward = theouthitpointtoground.point;
-                    //Debug.DrawRay(positioninfrontofplayer, thepositionupofpoint - positioninfrontofplayer, Color.red, 1.0f);
-                    MOVEPOSOFFSET = MOVEPOSOFFSET + (currentdirtopointinfrontdir * distance);
-                    
-
-                    //MOVEPOSOFFSET = Vector3.Lerp(topointforward, thepositionupofpoint, 0.01f);
-
-                    //viewer.transform.position = MOVEPOSOFFSET;
-                    //lastframeviewerpos = viewer.transform.position;
-
-
-
-                }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                /*clicktomoveplayerpos = theouthit.point;
-                clicktomoveplayerdirtopos = dir;
-                clicktomoveplayernormalofpos = theouthit.normal;
-
-                Debug.DrawRay(camera.transform.position, dir * 10.0f, Color.blue, 10.0f);
-                hasclickedtomoveplayer = 1;
-
-                Debug.Log("hasclickedtomoveplayer");
-                swtchastriedmovingplayerwithmouseclick = 1;*/
-            }
-            else
-            {
-                hasclickedtomoveplayer = 0;
-                //Debug.Log("test");
-            }
-
-
-
-            /*
-            var distance = 0.1f;
-            //https://answers.unity.com/questions/251619/rotation-to-direction-vector.html
-            var dirForward = viewer.transform.rotation * Vector3.forward;
-            dirForward.Normalize();
-            MOVEPOSOFFSET = MOVEPOSOFFSET + (dirForward * distance);
-            //topointforward = MOVEPOSOFFSET + pointforward;*/
-
-
-
-
-
-
-        }
-
-        if (Input.GetKey(KeyCode.Q))
-        {
-            /*var distance = 0.1f;
-             //https://answers.unity.com/questions/251619/rotation-to-direction-vector.html
-             var dirForward = viewer.transform.rotation * Vector3.right;
-             dirForward.Normalize();
-             MOVEPOSOFFSET = MOVEPOSOFFSET + (dirForward * distance);
-             //topointforward = MOVEPOSOFFSET + pointforward;*/
-
-            /*var distance = 0.1f;
-            //https://answers.unity.com/questions/251619/rotation-to-direction-vector.html
-            var dirForward = viewer.transform.rotation * -Vector3.right;
-            dirForward.Normalize();
-            MOVEPOSOFFSET = MOVEPOSOFFSET + (dirForward * distance);
-            //topointforward = MOVEPOSOFFSET + pointforward;*/
-
             //https://answers.unity.com/questions/1397510/converting-mouse-position-to-worldpoint-in-3d.html
             float speed = 10.0f;
             // Cast a ray from screen point
@@ -1550,13 +457,13 @@ public class sccsplayer : MonoBehaviour
                 // Find the direction to move in
                 //Vector3 dir = theouthit.point - isgroundedpivotpoint.transform.position;
 
-                var distance = 0.05f;
-                var dirright = viewer.transform.rotation * -Vector3.right;
-                dirright.Normalize();
+                var distance = 0.01f * movementspeed;
+                var dirForward = viewer.transform.rotation * Vector3.forward;
+                dirForward.Normalize();
 
-                Vector3 positioninrightofplayer = isgroundedpivotpoint.transform.position + (dirright * distance);
+                Vector3 positioninfrontofplayer = isgroundedpivotpoint.transform.position + (dirForward * distance);
 
-                //Vector3 dirplanetcoretopoint = theplanet.transform.position - positioninrightofplayer;
+                //Vector3 dirplanetcoretopoint = theplanet.transform.position - positioninfrontofplayer;
                 //Vector3 dirplanetcoretopointnotnorm = dirplanetcoretopoint;
                 //float distcoretopointinfrontofplayer = dirplanetcoretopoint.magnitude;
 
@@ -1565,30 +472,122 @@ public class sccsplayer : MonoBehaviour
 
                 //Vector3 pointinfrontofplayer = 
 
-                //Vector3 dirtopointinfrontofplayer = positioninrightofplayer - isgroundedpivotpoint.transform.position;
+                //Vector3 dirtopointinfrontofplayer = positioninfrontofplayer - isgroundedpivotpoint.transform.position;
                 //distcoretopointinfrontofplayer
-                //Debug.DrawRay(isgroundedpivotpoint.transform.position, dirtopointinfrontofplayer * 5.0f, Color.cyan, 10.0f);
 
 
-                Ray raypointtoground = new Ray(positioninrightofplayer, isgroundedpivotpoint.transform.forward);
+
+                Ray raypointtoground = new Ray(positioninfrontofplayer, isgroundedpivotpoint.transform.forward);
                 RaycastHit theouthitpointtoground;
 
 
-
-                if (Physics.Raycast(raypointtoground, out theouthitpointtoground, layerMask))
+                if (Physics.Raycast(positioninfrontofplayer, isgroundedpivotpoint.transform.forward, out theouthitpointtoground, isgroundedmaxdist, layerMask))
+                //if (Physics.Raycast(raypointtoground, out theouthitpointtoground, layerMask))
                 {
 
-                    pointertarget.transform.position = theouthitpointtoground.point;
-                    Vector3 currentdirtopointinfrontdir = theouthitpointtoground.point - theouthit.point;// viewer.transform.position;// theouthit.point;
-                    currentdirtopointinfrontdir.Normalize();
 
-                    distance = 25.5f;
+
+
+
+                    pointertarget.transform.position = theouthitpointtoground.point;
+
+                    Vector3 currentdirtopointinfrontdir = theouthitpointtoground.point - theouthit.point;
+
                     //topointforward = theouthitpointtoground.point;
                     //Debug.DrawRay(positioninfrontofplayer, thepositionupofpoint - positioninfrontofplayer, Color.red, 1.0f);
-                    //MOVEPOSOFFSET = MOVEPOSOFFSET + (dirright * distance);
                     MOVEPOSOFFSET = MOVEPOSOFFSET + (currentdirtopointinfrontdir * distance);
-                }
 
+
+                    Vector3 uppoint = viewer.transform.position - theplanet.transform.position;
+                    uppoint.Normalize();
+
+                    Vector3 pointtobeat = theouthitpointtoground.point + (-uppoint * 0.1f);
+
+                    MOVEPOSOFFSET = Vector3.Lerp(MOVEPOSOFFSET, pointtobeat, movementspeed * Time.deltaTime); // * Time.deltaTime
+
+
+
+                    //Vector3 uppoint = viewer.transform.position - theplanet.transform.position;
+                    //uppoint.Normalize();
+
+                    //Vector3 pointtobeat = viewer.transform.position + (uppoint * 0.5f);
+
+                    //MOVEPOSOFFSET = MOVEPOSOFFSET;// MOVEPOSOFFSET + (currentdirtopointinfrontdir * distance);
+                    //MOVEPOSOFFSET = Vector3.Lerp(MOVEPOSOFFSET, pointtobeat, movementspeed * Time.deltaTime); // * Time.deltaTime
+                }
+            }
+            else
+            {
+                hasclickedtomoveplayer = 0;
+                //Debug.Log("test");
+            }
+
+        }
+
+        if (Input.GetKey(KeyCode.Q))
+        {
+            //https://answers.unity.com/questions/1397510/converting-mouse-position-to-worldpoint-in-3d.html
+            float speed = 10.0f;
+            // Cast a ray from screen point
+            Ray ray = new Ray(isgroundedpivotpoint.transform.position, isgroundedpivotpoint.transform.forward);// isgroundedpivotpoint.transform.position;// Camera.main.ScreenPointToRay(isgroundedpivotpoint.transform.position);//Camera.main.ScreenPointToRay(Input.mousePosition);
+                                                                                                               // Save the info
+            RaycastHit theouthit;
+
+            /* if (swtchastriedmovingplayerwithmouseclick == 0)
+             {
+                 // You successfully $$anonymous$$
+
+             }*/
+
+            if (Physics.Raycast(ray, out theouthit, layerMask))
+            {
+                // Find the direction to move in
+                //Vector3 dir = theouthit.point - isgroundedpivotpoint.transform.position;
+
+                var distance = 0.01f * movementspeed;
+                var dirForward = viewer.transform.rotation * -Vector3.right;
+                dirForward.Normalize();
+
+                Vector3 positioninfrontofplayer = isgroundedpivotpoint.transform.position + (dirForward * distance);
+
+                //Vector3 dirplanetcoretopoint = theplanet.transform.position - positioninfrontofplayer;
+                //Vector3 dirplanetcoretopointnotnorm = dirplanetcoretopoint;
+                //float distcoretopointinfrontofplayer = dirplanetcoretopoint.magnitude;
+
+                //dirplanetcoretopoint.Normalize();
+
+
+                //Vector3 pointinfrontofplayer = 
+
+                //Vector3 dirtopointinfrontofplayer = positioninfrontofplayer - isgroundedpivotpoint.transform.position;
+                //distcoretopointinfrontofplayer
+
+
+
+                Ray raypointtoground = new Ray(positioninfrontofplayer, isgroundedpivotpoint.transform.forward);
+                RaycastHit theouthitpointtoground;
+
+
+                if (Physics.Raycast(positioninfrontofplayer, isgroundedpivotpoint.transform.forward, out theouthitpointtoground, isgroundedmaxdist, layerMask))
+                //if (Physics.Raycast(raypointtoground, out theouthitpointtoground, layerMask))
+                {
+                    pointertarget.transform.position = theouthitpointtoground.point;
+
+                    Vector3 currentdirtopointinfrontdir = theouthitpointtoground.point - theouthit.point;
+
+                    //topointforward = theouthitpointtoground.point;
+                    //Debug.DrawRay(positioninfrontofplayer, thepositionupofpoint - positioninfrontofplayer, Color.red, 1.0f);
+                    MOVEPOSOFFSET = MOVEPOSOFFSET + (currentdirtopointinfrontdir * distance);
+
+
+                    Vector3 uppoint = viewer.transform.position - theplanet.transform.position;
+                    uppoint.Normalize();
+
+                    Vector3 pointtobeat = theouthitpointtoground.point + (-uppoint * 0.1f);
+
+                    MOVEPOSOFFSET = Vector3.Lerp(MOVEPOSOFFSET, pointtobeat, movementspeed * Time.deltaTime); // * Time.deltaTime
+
+                }
             }
             else
             {
@@ -1599,19 +598,6 @@ public class sccsplayer : MonoBehaviour
 
         if (Input.GetKey(KeyCode.E))
         {
-            /*var distance = 0.1f;
-            //https://answers.unity.com/questions/251619/rotation-to-direction-vector.html
-            var dirForward = viewer.transform.rotation * Vector3.right;
-            dirForward.Normalize();
-            MOVEPOSOFFSET = MOVEPOSOFFSET + (dirForward * distance);
-            //topointforward = MOVEPOSOFFSET + pointforward;*/
-
-            /*var distance = 0.1f;
-            //https://answers.unity.com/questions/251619/rotation-to-direction-vector.html
-            var dirForward = viewer.transform.rotation * -Vector3.right;
-            dirForward.Normalize();
-            MOVEPOSOFFSET = MOVEPOSOFFSET + (dirForward * distance);
-            //topointforward = MOVEPOSOFFSET + pointforward;*/
 
             //https://answers.unity.com/questions/1397510/converting-mouse-position-to-worldpoint-in-3d.html
             float speed = 10.0f;
@@ -1631,13 +617,13 @@ public class sccsplayer : MonoBehaviour
                 // Find the direction to move in
                 //Vector3 dir = theouthit.point - isgroundedpivotpoint.transform.position;
 
-                var distance = 0.05f;
-                var dirright = viewer.transform.rotation * Vector3.right;
-                dirright.Normalize();
+                var distance = 0.01f * movementspeed;
+                var dirForward = viewer.transform.rotation * Vector3.right;
+                dirForward.Normalize();
 
-                Vector3 positioninrightofplayer = isgroundedpivotpoint.transform.position + (dirright * distance);
+                Vector3 positioninfrontofplayer = isgroundedpivotpoint.transform.position + (dirForward * distance);
 
-                //Vector3 dirplanetcoretopoint = theplanet.transform.position - positioninrightofplayer;
+                //Vector3 dirplanetcoretopoint = theplanet.transform.position - positioninfrontofplayer;
                 //Vector3 dirplanetcoretopointnotnorm = dirplanetcoretopoint;
                 //float distcoretopointinfrontofplayer = dirplanetcoretopoint.magnitude;
 
@@ -1646,30 +632,35 @@ public class sccsplayer : MonoBehaviour
 
                 //Vector3 pointinfrontofplayer = 
 
-                //Vector3 dirtopointinfrontofplayer = positioninrightofplayer - isgroundedpivotpoint.transform.position;
+                //Vector3 dirtopointinfrontofplayer = positioninfrontofplayer - isgroundedpivotpoint.transform.position;
                 //distcoretopointinfrontofplayer
-                //Debug.DrawRay(isgroundedpivotpoint.transform.position, dirtopointinfrontofplayer * 5.0f, Color.cyan, 10.0f);
 
 
-                Ray raypointtoground = new Ray(positioninrightofplayer, isgroundedpivotpoint.transform.forward);
+
+                Ray raypointtoground = new Ray(positioninfrontofplayer, isgroundedpivotpoint.transform.forward);
                 RaycastHit theouthitpointtoground;
 
 
-
-                if (Physics.Raycast(raypointtoground, out theouthitpointtoground, layerMask))
+                if (Physics.Raycast(positioninfrontofplayer, isgroundedpivotpoint.transform.forward, out theouthitpointtoground, isgroundedmaxdist, layerMask))
+                //if (Physics.Raycast(raypointtoground, out theouthitpointtoground, layerMask))
                 {
-
                     pointertarget.transform.position = theouthitpointtoground.point;
-                    Vector3 currentdirtopointinfrontdir = theouthitpointtoground.point - theouthit.point;// viewer.transform.position;// theouthit.point;
-                    currentdirtopointinfrontdir.Normalize();
 
-                    distance = 25.5f;
+                    Vector3 currentdirtopointinfrontdir = theouthitpointtoground.point - theouthit.point;
+
                     //topointforward = theouthitpointtoground.point;
                     //Debug.DrawRay(positioninfrontofplayer, thepositionupofpoint - positioninfrontofplayer, Color.red, 1.0f);
-                    //MOVEPOSOFFSET = MOVEPOSOFFSET + (dirright * distance);
                     MOVEPOSOFFSET = MOVEPOSOFFSET + (currentdirtopointinfrontdir * distance);
-                }
 
+
+                    Vector3 uppoint = viewer.transform.position - theplanet.transform.position;
+                    uppoint.Normalize();
+
+                    Vector3 pointtobeat = theouthitpointtoground.point + (-uppoint * 0.1f);
+
+                    MOVEPOSOFFSET = Vector3.Lerp(MOVEPOSOFFSET, pointtobeat, movementspeed * Time.deltaTime); // * Time.deltaTime
+
+                }
             }
             else
             {
@@ -1696,33 +687,25 @@ public class sccsplayer : MonoBehaviour
             if (Physics.Raycast(ray, out theouthit, layerMask))
             {
                 // Find the direction to move in
-                Vector3 dir = theouthit.point - isgroundedpivotpoint.transform.position;
+                //Vector3 dir = theouthit.point - isgroundedpivotpoint.transform.position;
 
-                var distance = 0.025f;
+                var distance = 0.01f * movementspeed;
                 var dirForward = viewer.transform.rotation * -Vector3.forward;
                 dirForward.Normalize();
 
                 Vector3 positioninfrontofplayer = isgroundedpivotpoint.transform.position + (dirForward * distance);
 
-                Vector3 dirplanetcoretopoint = theplanet.transform.position - positioninfrontofplayer;
-                Vector3 dirplanetcoretopointnotnorm = dirplanetcoretopoint;
-                float distcoretopointinfrontofplayer = dirplanetcoretopoint.magnitude;
+                //Vector3 dirplanetcoretopoint = theplanet.transform.position - positioninfrontofplayer;
+                //Vector3 dirplanetcoretopointnotnorm = dirplanetcoretopoint;
+                //float distcoretopointinfrontofplayer = dirplanetcoretopoint.magnitude;
 
-                dirplanetcoretopoint.Normalize();
+                //dirplanetcoretopoint.Normalize();
 
 
                 //Vector3 pointinfrontofplayer = 
 
-                Vector3 dirtopointinfrontofplayer = positioninfrontofplayer - isgroundedpivotpoint.transform.position;
+                //Vector3 dirtopointinfrontofplayer = positioninfrontofplayer - isgroundedpivotpoint.transform.position;
                 //distcoretopointinfrontofplayer
-
-
-
-
-                //Debug.DrawRay(isgroundedpivotpoint.transform.position, dirtopointinfrontofplayer * 5.0f, Color.cyan, 10.0f);
-
-
-
 
 
 
@@ -1730,129 +713,32 @@ public class sccsplayer : MonoBehaviour
                 RaycastHit theouthitpointtoground;
 
 
-
-                if (Physics.Raycast(raypointtoground, out theouthitpointtoground, layerMask))
+                if (Physics.Raycast(positioninfrontofplayer, isgroundedpivotpoint.transform.forward, out theouthitpointtoground, isgroundedmaxdist, layerMask))
+                //if (Physics.Raycast(raypointtoground, out theouthitpointtoground, layerMask))
                 {
-                    //Vector3 dirpointtoground = theouthitpointtoground.point - viewer.transform.position;//
-
-                    // Debug.DrawRay(theouthitpointtoground.point, isgroundedpivotpoint.transform.forward * 3.0f, Color.red, 10.0f);
-
-
-                    /*Vector3 dirpointtoground = theouthitpointtoground.point - viewer.transform.position;// positioninfrontofplayer;
-
-                    Vector3 currentdirtopointinfrontdir = theouthitpointtoground.point - theouthit.point;
-                    */
-
-
-
-                    //Debug.DrawRay(theouthitpointtoground.point, dirplanetcoretopoint * 1.0f, Color.red, 10.0f);
-
-
-
-
                     pointertarget.transform.position = theouthitpointtoground.point;
 
-
-
                     Vector3 currentdirtopointinfrontdir = theouthitpointtoground.point - theouthit.point;
 
-
-
-
-
-
-
-                    // Make it so that its only in x and y axis
-                    //dir.y = 0; // No vertical movement
-
-                    // Now move your character in world space 
-                    //transform.Translate(dir * Time.deltaTime * speed, Space.World);
-                    //Instantiate(GameObject.CreatePrimitive(PrimitiveType.Sphere), thetouchpoint, Quaternion.identity);
-                    //transform.Translate (dir * Time.deltaTime * speed); // Try t$$anonymous$$s if it doesn't work
-
-                    /* var distance = 0.1f;
-                    //https://answers.unity.com/questions/251619/rotation-to-direction-vector.html
-                    var dirForward = viewer.transform.rotation * Vector3.forward;
-                    dirForward.Normalize();
-                    MOVEPOSOFFSET = MOVEPOSOFFSET + (dirForward * distance);*/
-
-
-                    ///Debug.DrawRay(viewer.transform.position, dirpointtoground * 1.0f, Color.magenta, 10.0f);
-
-
-
-
-
-                    //var dirUp = viewer.transform.rotation * Vector3.up;
-                    //dirUp.Normalize();
-
-                    /*topointforward = positioninfrontofplayer;// clicktomoveplayerpos;
-
-                    thepositionupofpoint = positioninfrontofplayer + (dirplanetcoretopoint * 0.0012345f);
-                    */
-
-
-                    topointforward = theouthitpointtoground.point;
+                    //topointforward = theouthitpointtoground.point;
                     //Debug.DrawRay(positioninfrontofplayer, thepositionupofpoint - positioninfrontofplayer, Color.red, 1.0f);
                     MOVEPOSOFFSET = MOVEPOSOFFSET + (currentdirtopointinfrontdir * distance);
 
 
-                    //MOVEPOSOFFSET = Vector3.Lerp(topointforward, thepositionupofpoint, 0.01f);
+                    Vector3 uppoint = viewer.transform.position - theplanet.transform.position;
+                    uppoint.Normalize();
 
-                    //viewer.transform.position = MOVEPOSOFFSET;
-                    //lastframeviewerpos = viewer.transform.position;
+                    Vector3 pointtobeat = theouthitpointtoground.point + (-uppoint * 0.1f);
 
-
+                    MOVEPOSOFFSET = Vector3.Lerp(MOVEPOSOFFSET, pointtobeat, movementspeed * Time.deltaTime); // * Time.deltaTime
 
                 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                /*clicktomoveplayerpos = theouthit.point;
-                clicktomoveplayerdirtopos = dir;
-                clicktomoveplayernormalofpos = theouthit.normal;
-
-                Debug.DrawRay(camera.transform.position, dir * 10.0f, Color.blue, 10.0f);
-                hasclickedtomoveplayer = 1;
-
-                Debug.Log("hasclickedtomoveplayer");
-                swtchastriedmovingplayerwithmouseclick = 1;*/
             }
             else
             {
                 hasclickedtomoveplayer = 0;
                 //Debug.Log("test");
             }
-
-
-
-            /*
-            var distance = 0.1f;
-            //https://answers.unity.com/questions/251619/rotation-to-direction-vector.html
-            var dirForward = viewer.transform.rotation * Vector3.forward;
-            dirForward.Normalize();
-            MOVEPOSOFFSET = MOVEPOSOFFSET + (dirForward * distance);
-            //topointforward = MOVEPOSOFFSET + pointforward;*/
-
-
-
         }
 
         if (Input.GetKey(KeyCode.R))
@@ -1878,13 +764,39 @@ public class sccsplayer : MonoBehaviour
 
         //var currentrotationforward = viewer.transform.rotation.eulerAngles.z;
 
-        MOVEPOSOFFSET = Vector3.Lerp(topointforward, MOVEPOSOFFSET, 0.1f *Time.deltaTime); // * Time.deltaTime
+        //MOVEPOSOFFSET.y = topointforward.y;
 
-        viewer.transform.Translate(MOVEPOSOFFSET, Space.World);
 
+
+        /*
+        Vector3 uppoint = viewer.transform.position - theplanet.transform.position;
+        uppoint.Normalize();
+
+        Vector3 pointtobeat = viewer.transform.position + (uppoint * 0.5f);
+
+        MOVEPOSOFFSET = Vector3.Lerp(MOVEPOSOFFSET, pointtobeat, movementspeed * Time.deltaTime); // * Time.deltaTime
+        */
+
+
+
+        //MOVEPOSOFFSET = Vector3.Lerp(topointforward, MOVEPOSOFFSET, movementspeed * Time.deltaTime); // * Time.deltaTime
+
+
+  
+
+        //viewer.transform.Translate(MOVEPOSOFFSET, Space.World);
+
+
+
+
+
+
+        //hiptofloordist
 
         viewer.transform.position = MOVEPOSOFFSET;
         lastframeviewerpos = viewer.transform.position;
+
+        yield return new WaitForSeconds(0.001f);
     }
 
 
@@ -1920,32 +832,6 @@ public class sccsplayer : MonoBehaviour
             oricursory = mousey;
 
 
-            /*if (mousex != 0)
-            {
-                RotationX += mousex;
-
-                float pitch = RotationX * 0.0174532925f;
-                float yaw = RotationY * 0.0174532925f;  // float yaw = RotationY * (float)Math.PI / 180.0f;
-                float roll = RotationZ * 0.0174532925f;
-                viewer.transform.rotation = Quaternion.Euler(pitch, yaw, roll);
-
-            }
-
-
-
-            if (mousey != 0)
-            {
-                RotationY = mousey;
-
-                float pitch = RotationX * 0.0174532925f;
-                float yaw = RotationY * 0.0174532925f;  // float yaw = RotationY * (float)Math.PI / 180.0f;
-                float roll = RotationZ * 0.0174532925f;
-                viewer.transform.rotation = Quaternion.Euler(pitch, yaw, roll);
-            }*/
-
-
-
-
             
             Quaternion q = viewer.transform.rotation;
 
@@ -1975,82 +861,10 @@ public class sccsplayer : MonoBehaviour
 
             camera.transform.rotation = viewer.transform.rotation * Quaternion.Euler(pitch, yaw, roll);
 
-            /*Vector3 upcoreplayer = camera.transform.position - theplanet.transform.position;
-            upcoreplayer.Normalize();
-
-            float rotationincrements = -2.5f;
-            camera.transform.RotateAround(camera.transform.position, upcoreplayer, rotationincrements);
-            */
-
-
-
-
-
-
-            /*
-            MouseRotationX += mousey;
-            MouseRotationY += mousex;
-
-
-            float pitch = (MouseRotationX) * 0174532925f;
-            float yaw = (MouseRotationY) * 0174532925f;
-            float roll = 0;// (RotationZ) * 0174532925f;
-
-            roll = MouseOriginalRotationZ * 0.0174532925f;
-            */
-
-
-            //viewer.transform.rotation = Quaternion.Euler(pitch, yaw, roll);
-
-            //camera.transform.rotation = Quaternion.Euler(pitch, yaw, roll);
-            /*camera.transform.rotation = Quaternion.Euler(pitch, yaw, roll);// Quaternion.Lerp(camera.transform.rotation, Quaternion.Euler(pitch, yaw, roll), speedlerprotation);
-
-            */
-
-
-
             Cursor.visible = false;
 
 
 
-            /*if (swtcactivatemouselook == 0)
-            {
-                beforemouselookrot = viewer.transform.rotation;
-                swtcactivatemouselook = 1;
-            }
-            Vector3 mov = new Vector3(Input.GetAxis("Mouse X") * mouserotatespeed, Input.GetAxis("Mouse Y") * mouserotatespeed, 0);
-
-            RotationX += mov.x;
-            RotationY += mov.y;
-
-
-
-            // Set the yaw (Y axis), pitch (X axis), and roll (Z axis) rotations in radians.
-            float pitch = RotationX;// * 0.0174532925f;
-            float yaw = RotationY;// * 0.0174532925f;  // float yaw = RotationY * (float)Math.PI / 180.0f;
-            float roll = RotationZ;//* 0.0174532925f;
-            /*this.transform.rotation.ToAngleAxis(out angle, out axis);
-
-
-            Quaternion q = this.transform.rotation;
-
-            float x = q.x;
-            float y = q.x;
-            float z = q.x;
-            float w = q.x;
-
-            //https://answers.unity.com/questions/416169/finding-pitchrollyaw-from-quaternions.html - also found elsewhere
-            float rollcurrent = Mathf.Atan2(2 * y * w - 2 * x * z, 1 - 2 * y * y - 2 * z * z);
-            float pitchcurrent = Mathf.Atan2(2 * x * w - 2 * y * z, 1 - 2 * x * x - 2 * z * z);
-            float yawcurrent = Mathf.Asin(2 * x * y + 2 * z * w);
-            
-
-
-            //Vector3 lookatlocal = transform.TransformDirection(lookAt);
-
-            //https://answers.unity.com/questions/1611821/rotation-yaw-roll-pitch.html
-            //Vector3 up = transform.TransformPoint(Vector3.up, rotationMatrix);
-            viewer.transform.rotation = Quaternion.Euler(pitch, yaw, roll);*/
         }
 
 
@@ -2062,22 +876,6 @@ public class sccsplayer : MonoBehaviour
             {
                 Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.None;
-
-
-
-
-                /*
-                float pitch = MouseOriginalRotationX * 0.0174532925f;
-                float yaw = MouseOriginalRotationY * 0.0174532925f;  // float yaw = RotationY * (float)Math.PI / 180.0f;
-                float roll = MouseOriginalRotationZ * 0.0174532925f;
-                */
-
-                /*
-                float pitch = RotationX * 0.0174532925f;
-                float yaw = RotationY * 0.0174532925f;  // float yaw = RotationY * (float)Math.PI / 180.0f;
-                float roll = RotationZ * 0.0174532925f;
-                */
-
 
                 Quaternion q = viewer.transform.rotation;
 
@@ -2143,13 +941,7 @@ public class sccsplayer : MonoBehaviour
                     // Find the direction to move in
                     Vector3 dir = theouthit.point - camera.transform.position;
 
-                    // Make it so that its only in x and y axis
-                    //dir.y = 0; // No vertical movement
-
-                    // Now move your character in world space 
-                    //transform.Translate(dir * Time.deltaTime * speed, Space.World);
-                    //Instantiate(GameObject.CreatePrimitive(PrimitiveType.Sphere), thetouchpoint, Quaternion.identity);
-                    //transform.Translate (dir * Time.deltaTime * speed); // Try t$$anonymous$$s if it doesn't work
+                   
                     clicktomoveplayerpos = theouthit.point;
                     clicktomoveplayerdirtopos = dir;
                     clicktomoveplayernormalofpos = theouthit.normal;
@@ -2167,27 +959,6 @@ public class sccsplayer : MonoBehaviour
                 }
             }
 
-
-            /*float mousex = Input.GetAxis("Mouse X") * mouserotatespeed;
-            float mousey = Input.GetAxis("Mouse Y") * mouserotatespeed;
-            var point = cam.ScreenToWorldPoint(new Vector3(mousex, mousey, cam.nearClipPlane));
-
-            Vector3 thetouchpoint = Camera.main.ScreenToWorldPoint(point);
-
-            Instantiate(GameObject.CreatePrimitive(PrimitiveType.Sphere), thetouchpoint, Quaternion.identity);
-            */
-            /*Vector3 point = new Vector3();
-            Event currentEvent = Event.current;
-            Vector2 mousePos = new Vector2();
-
-            // Get the mouse position from Event.
-            // Note that the y position from Event is inverted.
-            mousePos.x = currentEvent.mousePosition.x;
-            mousePos.y = cam.pixelHeight - currentEvent.mousePosition.y;
-
-            point = cam.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, cam.nearClipPlane));
-
-            Instantiate(GameObject.CreatePrimitive(PrimitiveType.Sphere), point, Quaternion.identity);*/
 
         }
 
@@ -2208,85 +979,12 @@ public class sccsplayer : MonoBehaviour
 
     IEnumerator RotatePlayerWithKeyboard()
     {
-        /*//https://docs.unity3d.com/ScriptReference/Input.GetAxis.html
-        // Get the horizontal and vertical axis.
-        // By default they are mapped to the arrow keys.
-        // The value is in the range -1 to 1
-        float translation = Input.GetAxis("Vertical") * speed;
-        float rotation = Input.GetAxis("Horizontal") * rotationSpeed;
-
-        // Make it move 10 meters per second instead of 10 meters per frame...
-        translation *= Time.deltaTime;
-        rotation *= Time.deltaTime;
-
-        // Move translation along the object's z-axis
-        viewer.transform.Translate(0, 0, translation);
-
-        // Rotate around our y-axis
-        viewer.transform.Rotate(0, rotation, 0);
-        */
-
-
-
-
-        /*float horizontalSpeed = 2.0f;
-        float verticalSpeed = 2.0f;
-
-        void Update()
-        {
-            // Get the mouse delta. This is not in the range -1...1
-            float h = horizontalSpeed * Input.GetAxis("Mouse X");
-            float v = verticalSpeed * Input.GetAxis("Mouse Y");
-
-            viewer.transform.Rotate(v, h, 0);
-        }*/
-
+        
 
 
         if (canmovecamera == 1)
         {
-            /*if (keyboardinput._KeyboardState != null && keyboardinput._KeyboardState.PressedKeys.Contains(Key.A))
-            {
-                if (useOculusRift == 0)
-                {
-                    roty -= speedRot;
-                }
-                else if (useOculusRift == 1)
-                {
-                    roty += speedRot;
-                }
-                //Console.WriteLine("pressed A");
-
-            }
-            else if (keyboardinput._KeyboardState != null && keyboardinput._KeyboardState.PressedKeys.Contains(Key.D))
-            {
-                if (useOculusRift == 0)
-                {
-                    roty += speedRot;
-                }
-                else if (useOculusRift == 1)
-                {
-                    roty -= speedRot;
-
-                }
-                //Console.WriteLine("pressed D");
-            }
-            else if (keyboardinput._KeyboardState != null && keyboardinput._KeyboardState.PressedKeys.Contains(Key.R))
-            {
-                rotx -= speedRot;
-                //Console.WriteLine("pressed R");
-            }
-            else if (keyboardinput._KeyboardState != null && keyboardinput._KeyboardState.PressedKeys.Contains(Key.F))
-            {
-                //Console.WriteLine("pressed F");
-                rotx += speedRot;
-            }
-
-            var somerot = camera.GetRotation();
-            camera.SetRotation(rotx, roty, somerot.Z);*/
-
-
-
+           
 
         }
 
@@ -2297,97 +995,7 @@ public class sccsplayer : MonoBehaviour
 
         if (Input.GetKey(KeyCode.A))
         {
-            /*var distance = 0.1f;
-            //https://answers.unity.com/questions/251619/rotation-to-direction-vector.html
-            var dirForward = viewer.transform.rotation * Vector3.forward;
-            dirForward.Normalize();
-            MOVEPOSOFFSET = MOVEPOSOFFSET + (dirForward * distance);
-            //topointforward = MOVEPOSOFFSET + pointforward;
-            */
-            /*var eulers = transform.eulerAngles;
-
-            eulers.y -= 0.05f;
-
-            //transform.eulerAngles = eulers;
-
-            viewer.transform.Rotate(eulers, Space.Self);*/
-
-            /*
-            Quaternion q = viewer.transform.rotation;
-
-            float x = q.x;
-            float y = q.x;
-            float z = q.x;
-            float w = q.x;
-
-            //https://answers.unity.com/questions/416169/finding-pitchrollyaw-from-quaternions.html - also found elsewhere
-            float rollcurrent = Mathf.Atan2(2 * y * w - 2 * x * z, 1 - 2 * y * y - 2 * z * z);
-            float pitchcurrent = Mathf.Atan2(2 * x * w - 2 * y * z, 1 - 2 * x * x - 2 * z * z);
-            float yawcurrent = Mathf.Asin(2 * x * y + 2 * z * w);
-            */
-
-
-
-
-
-            /*
-            pitchcurrent = scmaths.RadianToDegree(pitchcurrent);
-            yawcurrent = scmaths.RadianToDegree(yawcurrent);
-            rollcurrent = scmaths.RadianToDegree(rollcurrent);
-
-            rollcurrent = rollcurrent * Mathf.PI / 180;
-            pitchcurrent = pitchcurrent * Mathf.PI / 180;
-            yawcurrent = yawcurrent * Mathf.PI / 180;
             
-            RotationX = pitchcurrent;// rotationincrements;
-            RotationY = yawcurrent - rotationincrements;// rotationincrements;
-            RotationZ = rollcurrent;// rotationincrements;
-
-
-            yawcurrent = RotationY;
-
-            float pitch = RotationX * 0.0174532925f;
-            float yaw = RotationY * 0.0174532925f;  // float yaw = RotationY * (float)Math.PI / 180.0f;
-            float roll = RotationZ * 0.0174532925f;*/
-
-            /*Quaternion q = viewer.transform.rotation;
-
-            float x = q.x;
-            float y = q.y;
-            float z = q.z;
-            float w = q.w;
-
-            //https://answers.unity.com/questions/416169/finding-pitchrollyaw-from-quaternions.html - also found elsewhere
-            float rollcurrent = Mathf.Atan2(2 * y * w - 2 * x * z, 1 - 2 * y * y - 2 * z * z);
-            float pitchcurrent = Mathf.Atan2(2 * x * w - 2 * y * z, 1 - 2 * x * x - 2 * z * z);
-            float yawcurrent = Mathf.Asin(2 * x * y + 2 * z * w);
-
-            RotationX = viewer.transform.rotation.eulerAngles.x;// scmaths.RadianToDegree(pitchcurrent);
-            RotationY = viewer.transform.rotation.eulerAngles.y;//scmaths.RadianToDegree(yawcurrent);
-            RotationZ = viewer.transform.rotation.eulerAngles.z;//scmaths.RadianToDegree(rollcurrent);
-
-
-
-
-            RotationY -= rotationincrements;//
-
-
-            // Set the yaw (Y axis), pitch (X axis), and roll (Z axis) rotations in radians.
-            float pitch = (RotationX) * 0.0174532925f;
-            float yaw = (RotationY) * 0.0174532925f;  // float yaw = RotationY * (float)Math.PI / 180.0f;
-            float roll = (RotationZ) * 0.0174532925f;
-
-
-            viewer.transform.rotation = Quaternion.Euler(pitch, yaw, roll);
-            */
-
-            /*Vector3 eulersangles = viewer.transform.eulerAngles;
-
-            eulersangles.y -= (0.001f * Time.deltaTime);
-
-            viewer.transform.Rotate(eulersangles, Space.World);*/
-
-
 
             Vector3 upcoreplayer = viewer.transform.position - theplanet.transform.position;
             upcoreplayer.Normalize();
@@ -2395,216 +1003,11 @@ public class sccsplayer : MonoBehaviour
             rotationincrements = -2.5f;
             viewer.transform.RotateAround(viewer.transform.position, upcoreplayer, rotationincrements);
 
-
-
-
-
-
-
-            /*this.transform.rotation.ToAngleAxis(out angle, out axis);
-
-
-            Quaternion q = this.transform.rotation;
-
-            float x = q.x;
-            float y = q.x;
-            float z = q.x;
-            float w = q.x;
-
-            //https://answers.unity.com/questions/416169/finding-pitchrollyaw-from-quaternions.html - also found elsewhere
-            float rollcurrent = Mathf.Atan2(2 * y * w - 2 * x * z, 1 - 2 * y * y - 2 * z * z);
-            float pitchcurrent = Mathf.Atan2(2 * x * w - 2 * y * z, 1 - 2 * x * x - 2 * z * z);
-            float yawcurrent = Mathf.Asin(2 * x * y + 2 * z * w);
-            */
-
-
-            //Vector3 lookatlocal = transform.TransformDirection(lookAt);
-
-            //https://answers.unity.com/questions/1611821/rotation-yaw-roll-pitch.html
-            //Vector3 up = transform.TransformPoint(Vector3.up, rotationMatrix);
-            //viewer.transform.rotation = Quaternion.Euler(pitch, yaw, roll);
-
-
-            //camera.transform.rotation = camera.transform.rotation + viewer.transform.rotation;
-
-
-
-
-
-
-
-
-            //Matrix4x4.Rotate
-
         }
         //* Time.deltaTime
         if (Input.GetKey(KeyCode.D))
         {
-            /*var distance = rotationincrements;
-            //https://answers.unity.com/questions/251619/rotation-to-direction-vector.html
-            var dirForward = viewer.transform.rotation * -Vector3.right;
-            dirForward.Normalize();
-            MOVEPOSOFFSET = MOVEPOSOFFSET + (dirForward * distance);
-            //topointforward = MOVEPOSOFFSET + pointforward;
-            */
-
-            /*var eulers = transform.eulerAngles;
-
-            eulers.y += 0.05f;
-
-            //transform.eulerAngles = eulers;
-
-            viewer.transform.Rotate(eulers, Space.Self);*/
-
-            /*RotationY += rotationincrements;
-            // Set the yaw (Y axis), pitch (X axis), and roll (Z axis) rotations in radians.
-            float pitch = RotationX * 0.0174532925f;
-            float yaw = RotationY * 0.0174532925f;  // float yaw = RotationY * (float)Math.PI / 180.0f;
-            float roll = RotationZ * 0.0174532925f;*/
-            /*this.transform.rotation.ToAngleAxis(out angle, out axis);
-
-
-            Quaternion q = this.transform.rotation;
-
-            float x = q.x;
-            float y = q.x;
-            float z = q.x;
-            float w = q.x;
-
-            //https://answers.unity.com/questions/416169/finding-pitchrollyaw-from-quaternions.html - also found elsewhere
-            float rollcurrent = Mathf.Atan2(2 * y * w - 2 * x * z, 1 - 2 * y * y - 2 * z * z);
-            float pitchcurrent = Mathf.Atan2(2 * x * w - 2 * y * z, 1 - 2 * x * x - 2 * z * z);
-            float yawcurrent = Mathf.Asin(2 * x * y + 2 * z * w);
-            */
-
-
-            //Vector3 lookatlocal = transform.TransformDirection(lookAt);
-
-            /*
-            //Vector3 up = transform.TransformPoint(Vector3.up, rotationMatrix);
-            viewer.transform.rotation = Quaternion.Euler(pitch, yaw, roll);
-            //Matrix4x4.Rotate*/
-
-
-            /*Quaternion q = viewer.transform.rotation;
-
-            float x = q.x;
-            float y = q.x;
-            float z = q.x;
-            float w = q.x;
-
-            //https://answers.unity.com/questions/416169/finding-pitchrollyaw-from-quaternions.html - also found elsewhere
-            float rollcurrent = Mathf.Atan2(2 * y * w - 2 * x * z, 1 - 2 * y * y - 2 * z * z);
-            float pitchcurrent = Mathf.Atan2(2 * x * w - 2 * y * z, 1 - 2 * x * x - 2 * z * z);
-            float yawcurrent = Mathf.Asin(2 * x * y + 2 * z * w);
-
-
-            rollcurrent = rollcurrent * Mathf.PI / 180;
-            pitchcurrent = pitchcurrent * Mathf.PI / 180;
-            yawcurrent = yawcurrent * Mathf.PI / 180;
-
-
-
-            RotationX = pitchcurrent;// rotationincrements;
-            RotationY = yawcurrent;// rotationincrements;
-            RotationZ = rollcurrent;// rotationincrements;
-
-            RotationY += rotationincrements;
-
-            yawcurrent = RotationY;*/
-
-
-            // Set the yaw (Y axis), pitch (X axis), and roll (Z axis) rotations in radians.
-            /*float pitch = RotationX * 0.0174532925f;
-            float yaw = RotationY * 0.0174532925f;  // float yaw = RotationY * (float)Math.PI / 180.0f;
-            float roll = RotationZ * 0.0174532925f;
-            *//*this.transform.rotation.ToAngleAxis(out angle, out axis);
-
-
-            Quaternion q = this.transform.rotation;
-
-            float x = q.x;
-            float y = q.x;
-            float z = q.x;
-            float w = q.x;
-
-            //https://answers.unity.com/questions/416169/finding-pitchrollyaw-from-quaternions.html - also found elsewhere
-            float rollcurrent = Mathf.Atan2(2 * y * w - 2 * x * z, 1 - 2 * y * y - 2 * z * z);
-            float pitchcurrent = Mathf.Atan2(2 * x * w - 2 * y * z, 1 - 2 * x * x - 2 * z * z);
-            float yawcurrent = Mathf.Asin(2 * x * y + 2 * z * w);
-            */
-
-
-            //Vector3 lookatlocal = transform.TransformDirection(lookAt);
-
-            //https://answers.unity.com/questions/1611821/rotation-yaw-roll-pitch.html
-            //Vector3 up = transform.TransformPoint(Vector3.up, rotationMatrix);
-            //viewer.transform.rotation = Quaternion.Euler(pitch, yaw, roll);
-            //viewer.transform.rotation = Quaternion.Euler(pitchcurrent, yawcurrent, rollcurrent);
-
-
-            /*
-            RotationY += rotationincrements;//
-
-
-            // Set the yaw (Y axis), pitch (X axis), and roll (Z axis) rotations in radians.
-            float pitch = RotationX * 0.0174532925f;
-            float yaw = RotationY * 0.0174532925f;  // float yaw = RotationY * (float)Math.PI / 180.0f;
-            float roll = RotationZ * 0.0174532925f;
-            /*this.transform.rotation.ToAngleAxis(out angle, out axis);
             
-
-            Quaternion q = this.transform.rotation;
-
-            float x = q.x;
-            float y = q.x;
-            float z = q.x;
-            float w = q.x;
-
-            //https://answers.unity.com/questions/416169/finding-pitchrollyaw-from-quaternions.html - also found elsewhere
-            float rollcurrent = Mathf.Atan2(2 * y * w - 2 * x * z, 1 - 2 * y * y - 2 * z * z);
-            float pitchcurrent = Mathf.Atan2(2 * x * w - 2 * y * z, 1 - 2 * x * x - 2 * z * z);
-            float yawcurrent = Mathf.Asin(2 * x * y + 2 * z * w);
-            */
-
-            /*Quaternion q = viewer.transform.rotation;
-
-            float x = q.x;
-            float y = q.y;
-            float z = q.z;
-            float w = q.w;
-
-            //https://answers.unity.com/questions/416169/finding-pitchrollyaw-from-quaternions.html - also found elsewhere
-            float rollcurrent = Mathf.Atan2(2 * y * w - 2 * x * z, 1 - 2 * y * y - 2 * z * z);
-            float pitchcurrent = Mathf.Atan2(2 * x * w - 2 * y * z, 1 - 2 * x * x - 2 * z * z);
-            float yawcurrent = Mathf.Asin(2 * x * y + 2 * z * w);
-
-            RotationX = scmaths.RadianToDegree(pitchcurrent);
-            RotationY = scmaths.RadianToDegree(yawcurrent);
-            RotationZ = scmaths.RadianToDegree(rollcurrent);
-
-
-
-
-            RotationkeyboardY += rotationincrements;//
-
-
-            // Set the yaw (Y axis), pitch (X axis), and roll (Z axis) rotations in radians.
-            float pitch = (RotationkeyboardX + RotationX) * 0.0174532925f;
-            float yaw = (RotationkeyboardY + RotationY) * 0.0174532925f;  // float yaw = RotationY * (float)Math.PI / 180.0f;
-            float roll = (RotationkeyboardZ + RotationZ) * 0.0174532925f;
-           */
-
-            /*this.transform.rotation.ToAngleAxis(out angle, out axis);
-
-            //Vector3 lookatlocal = transform.TransformDirection(lookAt);
-            */
-            //https://answers.unity.com/questions/1611821/rotation-yaw-roll-pitch.html
-            //Vector3 up = transform.TransformPoint(Vector3.up, rotationMatrix);
-            //viewer.transform.rotation = Quaternion.Euler(pitch, yaw, roll);
-            /*viewer.transform.rotation = Quaternion.Euler(pitch, yaw, roll);*/
-            //Matrix4x4.Rotate
-
             Vector3 upcoreplayer = viewer.transform.position - theplanet.transform.position;
             upcoreplayer.Normalize();
 
@@ -2618,47 +1021,13 @@ public class sccsplayer : MonoBehaviour
 
         if (Input.GetKey(KeyCode.T))
         {
-            /*var distance = rotationincrements;
-            //https://answers.unity.com/questions/251619/rotation-to-direction-vector.html
-            var dirForward = viewer.transform.rotation * Vector3.forward;
-            dirForward.Normalize();
-            MOVEPOSOFFSET = MOVEPOSOFFSET + (dirForward * distance);
-            //topointforward = MOVEPOSOFFSET + pointforward;
-            */
-            /*var eulers = transform.eulerAngles;
-
-            eulers.x += 0.05f;
-
-           //viewer.transform.Rotate(eulers, Space.Self);
-            viewer.transform.RotateAround(transform.position, Vector3.right, 0.01f);*/
-
-            ///transform.eulerAngles = eulers;
-            ///
-
+            
             upperbodypivotRotationX += rotationincrements;
             // Set the yaw (Y axis), pitch (X axis), and roll (Z axis) rotations in radians.
             float pitch = upperbodypivotRotationX * 0.0174532925f;
             float yaw = RotationY * 0.0174532925f;  // float yaw = RotationY * (float)Math.PI / 180.0f;
             float roll = upperbodypivotRotationZ * 0.0174532925f;
-            /*this.transform.rotation.ToAngleAxis(out angle, out axis);
-
-
-            Quaternion q = this.transform.rotation;
-
-            float x = q.x;
-            float y = q.x;
-            float z = q.x;
-            float w = q.x;
-
-            //https://answers.unity.com/questions/416169/finding-pitchrollyaw-from-quaternions.html - also found elsewhere
-            float rollcurrent = Mathf.Atan2(2 * y * w - 2 * x * z, 1 - 2 * y * y - 2 * z * z);
-            float pitchcurrent = Mathf.Atan2(2 * x * w - 2 * y * z, 1 - 2 * x * x - 2 * z * z);
-            float yawcurrent = Mathf.Asin(2 * x * y + 2 * z * w);
-            */
-
-
-            //Vector3 lookatlocal = transform.TransformDirection(lookAt);
-
+           
 
             //Vector3 up = transform.TransformPoint(Vector3.up, rotationMatrix);
             upperbodypivot.transform.rotation = Quaternion.Euler(pitch, yaw, roll);
@@ -2667,47 +1036,13 @@ public class sccsplayer : MonoBehaviour
 
         if (Input.GetKey(KeyCode.G))
         {
-            /*var distance = rotationincrements;
-            //https://answers.unity.com/questions/251619/rotation-to-direction-vector.html
-            var dirForward = viewer.transform.rotation * -Vector3.right;
-            dirForward.Normalize();
-            MOVEPOSOFFSET = MOVEPOSOFFSET + (dirForward * distance);
-            //topointforward = MOVEPOSOFFSET + pointforward;
-            */
-
-            /* var eulers = transform.eulerAngles;
-
-             eulers.x -= 0.05f;
-
-             //transform.eulerAngles = eulers;
-             //viewer.transform.Rotate(eulers, Space.Self);
-
-             viewer.transform.RotateAround(transform.forward,-Vector3.right,0.01f);*/
-
+            
             upperbodypivotRotationX -= rotationincrements;
             // Set the yaw (Y axis), pitch (X axis), and roll (Z axis) rotations in radians.
             float pitch = upperbodypivotRotationX * 0.0174532925f;
             float yaw = RotationY * 0.0174532925f;  // float yaw = RotationY * (float)Math.PI / 180.0f;
             float roll = upperbodypivotRotationZ * 0.0174532925f;
-            /*this.transform.rotation.ToAngleAxis(out angle, out axis);
-
-
-            Quaternion q = this.transform.rotation;
-
-            float x = q.x;
-            float y = q.x;
-            float z = q.x;
-            float w = q.x;
-
-            //https://answers.unity.com/questions/416169/finding-pitchrollyaw-from-quaternions.html - also found elsewhere
-            float rollcurrent = Mathf.Atan2(2 * y * w - 2 * x * z, 1 - 2 * y * y - 2 * z * z);
-            float pitchcurrent = Mathf.Atan2(2 * x * w - 2 * y * z, 1 - 2 * x * x - 2 * z * z);
-            float yawcurrent = Mathf.Asin(2 * x * y + 2 * z * w);
-            */
-
-
-            //Vector3 lookatlocal = transform.TransformDirection(lookAt);
-
+            
 
             //Vector3 up = transform.TransformPoint(Vector3.up, rotationMatrix);
             upperbodypivot.transform.rotation = Quaternion.Euler(pitch, yaw, roll);
