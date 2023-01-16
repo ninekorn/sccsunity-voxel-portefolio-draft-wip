@@ -188,7 +188,7 @@ public class sccsplayer : MonoBehaviour
         
         if (hasclickedtomoveplayer == 1)
         {
-            //StartCoroutine(RotatePlayerWithMouseClick());
+            StartCoroutine(RotatePlayerWithMouseClick());
 
             StartCoroutine(MovePlayerWithMouseClick()); 
 
@@ -272,13 +272,43 @@ public class sccsplayer : MonoBehaviour
 
         float rotationincrements = 50.0f;
 
-       
+
+
+
+        var distance = 0.025f;
+        var dirForward = viewer.transform.rotation * Vector3.forward;
+        dirForward.Normalize();
+
+
+        Vector3 positioninfrontofplayer = viewer.transform.position + (dirForward * distance);
+
+        Vector3 positioninbackofplayer = viewer.transform.position + (-dirForward * distance);
+
+
+        Vector3 dirplanetcoretoplayer = viewer.transform.position - theplanet.transform.position;
+        float distcoretoplayer = dirplanetcoretoplayer.magnitude;
+
+
+        Vector3 dirplanetcoretopointfrontofplayer = positioninfrontofplayer - theplanet.transform.position;
+        //float distcoretopointinfrontofplayer = dirplanetcoretopointfrontofplayer.magnitude;
+        dirplanetcoretopointfrontofplayer.Normalize();
+
+        Vector3 alwaysuppointofplayercomparedtoplayercore = theplanet.transform.position + (dirplanetcoretopointfrontofplayer * (distcoretoplayer));
+
+        Vector3 forwarddirtopointfrontplayer = thepositionupofpoint - viewer.transform.position;
+
+        forwarddirtopointfrontplayer.Normalize();
+
+        float rotate_speed = 5.0f;
+
+        Quaternion rot = new Quaternion();
+        rot.SetLookRotation(forwarddirtopointfrontplayer, -(theplanet.transform.position - viewer.transform.position).normalized);
+        viewer.transform.rotation = Quaternion.Lerp(viewer.transform.rotation, rot, rotate_speed * Time.deltaTime);
+
+
         if (thedot > 0.00123f)
         {
-
-
-
-            RotationY += rotationincrements;//
+            /*RotationY += rotationincrements;//
 
 
             // Set the yaw (Y axis), pitch (X axis), and roll (Z axis) rotations in radians.
@@ -291,14 +321,14 @@ public class sccsplayer : MonoBehaviour
             //https://answers.unity.com/questions/1611821/rotation-yaw-roll-pitch.html
             //Vector3 up = transform.TransformPoint(Vector3.up, rotationMatrix);
             //viewer.transform.rotation = Quaternion.Euler(pitch, yaw, roll);
-            viewer.transform.rotation = Quaternion.Euler(pitch, yaw, roll);
+            viewer.transform.rotation = Quaternion.Euler(pitch, yaw, roll);*/
         }
         else if (thedot < -0.00123f)
         {
-            RotationY -= rotationincrements;//
+            /*RotationY -= rotationincrements;//
 
 
-            // Set the yaw (Y axis), pitch (X axis), and roll (Z axis) rotations in radians.
+            /// Set the yaw (Y axis), pitch (X axis), and roll (Z axis) rotations in radians.
             float pitch = RotationX * 0.0174532925f;
             float yaw = RotationY * 0.0174532925f;  // float yaw = RotationY * (float)Math.PI / 180.0f;
             float roll = RotationZ * 0.0174532925f;
@@ -308,7 +338,7 @@ public class sccsplayer : MonoBehaviour
             //https://answers.unity.com/questions/1611821/rotation-yaw-roll-pitch.html
             //Vector3 up = transform.TransformPoint(Vector3.up, rotationMatrix);
             //viewer.transform.rotation = Quaternion.Euler(pitch, yaw, roll);
-            viewer.transform.rotation = Quaternion.Euler(pitch, yaw, roll);
+            viewer.transform.rotation = Quaternion.Euler(pitch, yaw, roll);*/
         }
 
 
@@ -322,10 +352,6 @@ public class sccsplayer : MonoBehaviour
     Vector3 clicktomoveplayernormalofpos = Vector3.zero;
 
     int hasclickedtomoveplayer = 0;
-
-
-
-
 
     IEnumerator CheckMoving()
     {
