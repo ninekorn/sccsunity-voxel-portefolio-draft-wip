@@ -516,8 +516,8 @@ public class sccscomputevoxelBACK : MonoBehaviour
 
 
 
-
-                    GameObject emptyobject = new GameObject();
+                    var emptyobject = this.transform.gameObject;
+                    //GameObject emptyobject = new GameObject();
                     var meshfilt = emptyobject.AddComponent<MeshFilter>();
                     var meshrend = emptyobject.AddComponent<MeshRenderer>();
 

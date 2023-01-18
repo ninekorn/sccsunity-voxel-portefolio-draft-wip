@@ -76,13 +76,139 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
 
     // Start is called before the first frame update
 
+    ComputeShader swapcomputetop;
+    ComputeShader swapcomputeleft;
+    ComputeShader swapcomputeright;
+    ComputeShader swapcomputefront;
+    ComputeShader swapcomputeback;
+    ComputeShader swapcomputebottom;
 
 
 
-    void CreateTheFaces(int facetype)
+
+    public void CreateTheFaces(int facetype)
 
     //void Start()
     {
+
+
+
+
+        if (facetype == 0) //&& computeVertexesALLFACES == null
+        {
+            computeVertexesfacetype = (ComputeShader)Resources.Load("Compute/computevertexTOP");//ComputeShader.Find("Transparent/Diffuse");
+            swapcomputetop = computeVertexesfacetype;
+        }
+        else
+        {
+            if (swapcomputetop != null)
+            {
+                computeVertexesfacetype = swapcomputetop;
+                //swapcompute = 
+            }
+        }
+
+
+
+        if (facetype == 1)// && computeVertexesfacetype == null)
+        {
+            computeVertexesfacetype = (ComputeShader)Resources.Load("Compute/computevertexLEFT");//ComputeShader.Find("Transparent/Diffuse");
+            swapcomputeleft = computeVertexesfacetype;
+        }
+        else
+        {
+            if (swapcomputeleft != null)
+            {
+                computeVertexesfacetype = swapcomputeleft;
+                //swapcompute = 
+            }
+        }
+
+
+
+
+        if (facetype == 2)// && computeVertexesfacetype == null)
+        {
+            computeVertexesfacetype = (ComputeShader)Resources.Load("Compute/computevertexRIGHT");//ComputeShader.Find("Transparent/Diffuse");
+            swapcomputeright = computeVertexesfacetype;
+        }
+        else
+        {
+            if (swapcomputeright != null)
+            {
+                computeVertexesfacetype = swapcomputeright;
+                //swapcompute = 
+            }
+        }
+
+
+
+
+        if (facetype == 3)// && computeVertexesfacetype == null)
+        {
+            computeVertexesfacetype = (ComputeShader)Resources.Load("Compute/computevertexFRONT");//ComputeShader.Find("Transparent/Diffuse");
+            swapcomputefront = computeVertexesfacetype;
+        }
+        else
+        {
+            if (swapcomputefront != null)
+            {
+                computeVertexesfacetype = swapcomputefront;
+                //swapcompute = 
+            }
+        }
+        if (facetype == 4)// && computeVertexesfacetype == null)
+        {
+            computeVertexesfacetype = (ComputeShader)Resources.Load("Compute/computevertexBACK");//ComputeShader.Find("Transparent/Diffuse");
+            swapcomputeback = computeVertexesfacetype;
+        }
+        else
+        {
+            if (swapcomputeback != null)
+            {
+                computeVertexesfacetype = swapcomputeback;
+                //swapcompute = 
+            }
+        }
+        if (facetype == 5)// && computeVertexesfacetype == null)
+        {
+            computeVertexesfacetype = (ComputeShader)Resources.Load("Compute/computevertexBOTTOM");//ComputeShader.Find("Transparent/Diffuse");
+            swapcomputebottom = computeVertexesfacetype;
+        }
+        else
+        {
+            if (swapcomputebottom != null)
+            {
+                computeVertexesfacetype = swapcomputebottom;
+                //swapcompute = 
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         //int facetype = 5;
 
         mapdata = new mapbytes[levelsizex * levelsizey * levelsizez][];
@@ -943,9 +1069,16 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
 
 
 
-                    GameObject emptyobject = new GameObject();
-                    var meshfilt = emptyobject.AddComponent<MeshFilter>();
-                    var meshrend = emptyobject.AddComponent<MeshRenderer>();
+
+
+
+                    GameObject emptyobject = this.transform.gameObject.GetComponent<NewObjectPoolerScript>().GetPooledObject();
+
+                    emptyobject.SetActive(true);
+
+                    //GameObject emptyobject = new GameObject();
+                    /*var meshfilt = emptyobject.AddComponent<MeshFilter>();
+                    var meshrend = emptyobject.AddComponent<MeshRenderer>();*/
 
                     /*Mesh thenewmesh = new Mesh();
                     thenewmesh.vertices = vertices.ToArray();
