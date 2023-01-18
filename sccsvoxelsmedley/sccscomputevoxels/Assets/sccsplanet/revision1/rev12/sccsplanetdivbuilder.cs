@@ -17,6 +17,7 @@ public class sccsplanetdivbuilder : MonoBehaviour
     public int chunkhright = 0;
     public int chunkdleft = 1;
     public int chunkdright = 0;
+    public float planesize = 0.5f;
 
     int max = 0;
     // Start is called before the first frame update
@@ -83,20 +84,21 @@ public class sccsplanetdivbuilder : MonoBehaviour
                     arrayofplanetdiv[theindex].mindexposy = y;
                     arrayofplanetdiv[theindex].mindexposz = z;
 
-                    arrayofplanetdiv[theindex].transform.position = new Vector3(x * 256 * 0.1f, y * 256 * 0.1f, z * 256 * 0.1f);
+                    //arrayofplanetdiv[theindex].transform.position = new Vector3(x * 32 * planesize, y * 32 * planesize, z * 32 * planesize);
+                    arrayofplanetdiv[theindex].transform.position = new Vector3(x * 64 * planesize, y * 64 * planesize, z * 64 * planesize);
 
-                    arrayofplanetdiv[theindex].ChunkWidth_L = 2;
-                    arrayofplanetdiv[theindex].ChunkWidth_R = 1;
+                    arrayofplanetdiv[theindex].ChunkWidth_L = chunkwleft;
+                    arrayofplanetdiv[theindex].ChunkWidth_R = chunkwright;
 
-                    arrayofplanetdiv[theindex].ChunkHeight_L = 2;
-                    arrayofplanetdiv[theindex].ChunkHeight_R = 1;
+                    arrayofplanetdiv[theindex].ChunkHeight_L = chunkhleft;
+                    arrayofplanetdiv[theindex].ChunkHeight_R = chunkhright;
 
-                    arrayofplanetdiv[theindex].ChunkDepth_L = 2;
-                    arrayofplanetdiv[theindex].ChunkDepth_R = 1;
+                    arrayofplanetdiv[theindex].ChunkDepth_L = chunkdleft;
+                    arrayofplanetdiv[theindex].ChunkDepth_R = chunkdright;
 
-                    arrayofplanetdiv[theindex].width = 64;
-                    arrayofplanetdiv[theindex].height = 64;
-                    arrayofplanetdiv[theindex].depth = 64;
+                    arrayofplanetdiv[theindex].width = 32;
+                    arrayofplanetdiv[theindex].height = 32;
+                    arrayofplanetdiv[theindex].depth = 32;
 
                     arrayofplanetdiv[theindex].iterateloopmap = 1;
                     arrayofplanetdiv[theindex].iterateloopmesh = 1;

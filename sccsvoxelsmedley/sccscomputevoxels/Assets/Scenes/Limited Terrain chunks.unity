@@ -132,75 +132,75 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 289419976116956113, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: mapx
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 289419976116956113, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: mapy
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 289419976116956113, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: mapz
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 289419976116956113, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: levelsizex
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 289419976116956113, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: levelsizey
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 289419976116956113, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: levelsizez
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 289419976116956113, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: threadmulx
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 289419976116956113, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: threadmuly
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 289419976116956113, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: threadmulz
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 638659446414730111, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: mapx
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 638659446414730111, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: mapy
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 638659446414730111, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: mapz
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 638659446414730111, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: levelsizex
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 638659446414730111, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: levelsizey
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 638659446414730111, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: levelsizez
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 638659446414730111, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: threadmulx
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 638659446414730111, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: threadmuly
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 638659446414730111, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: threadmulz
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 739811241839366548, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: m_IsActive
@@ -256,7 +256,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1810152642228698999, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2095464856392196981, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: m_IsActive
@@ -288,39 +288,39 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4145201803661429322, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: mapx
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 4145201803661429322, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: mapy
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 4145201803661429322, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: mapz
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 4145201803661429322, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: levelsizex
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4145201803661429322, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: levelsizey
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4145201803661429322, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: levelsizez
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4145201803661429322, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: threadmulx
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4145201803661429322, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: threadmuly
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4145201803661429322, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: threadmulz
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4611697468844682206, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: m_IsActive
@@ -328,39 +328,39 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5427950708275308951, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: mapx
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5427950708275308951, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: mapy
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5427950708275308951, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: mapz
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5427950708275308951, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: levelsizex
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5427950708275308951, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: levelsizey
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5427950708275308951, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: levelsizez
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5427950708275308951, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: threadmulx
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5427950708275308951, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: threadmuly
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5427950708275308951, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: threadmulz
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5934971068346504954, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: m_Name
@@ -376,79 +376,83 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6735549874620522854, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: mapx
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 6735549874620522854, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: mapy
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 6735549874620522854, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: mapz
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 6735549874620522854, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: levelsizex
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6735549874620522854, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: levelsizey
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6735549874620522854, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: levelsizez
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6735549874620522854, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: threadmulx
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6735549874620522854, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: threadmuly
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6735549874620522854, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: threadmulz
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7159477652299935446, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7171111626056228359, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7755785521749696427, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: mapx
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 7755785521749696427, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: mapy
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 7755785521749696427, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: mapz
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 7755785521749696427, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: levelsizex
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7755785521749696427, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: levelsizey
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7755785521749696427, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: levelsizez
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7755785521749696427, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: threadmulx
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7755785521749696427, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: threadmuly
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7755785521749696427, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: threadmulz
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7765056914424464867, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: m_IsActive
@@ -512,8 +516,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8442981517110482950, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
       propertyPath: numberoffaces
-      value: 1
+      value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 8442981517110482950, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
+      propertyPath: computeShaderForMap
+      value: 
+      objectReference: {fileID: 7200000, guid: b8c11517789576540a269a32e75c46d9, type: 3}
+    - target: {fileID: 8442981517110482950, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
+      propertyPath: computeVertexesfacetype
+      value: 
+      objectReference: {fileID: 7200000, guid: 714b3ead705248245a18591e235c7a27, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1709d6394ed176e45a917a1500a083e2, type: 3}
 --- !u!1 &705507993

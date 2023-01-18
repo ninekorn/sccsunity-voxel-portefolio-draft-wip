@@ -75,6 +75,11 @@ public class sccscomputevoxelTOP: MonoBehaviour
     int reducedverttrigswtc = 0;
 
     // Start is called before the first frame update
+
+
+
+
+
     void Start()
     {
         mapdata = new mapbytes[levelsizex * levelsizey * levelsizez][];

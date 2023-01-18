@@ -394,10 +394,12 @@ public class SC_Terrain : MonoBehaviour
                             //Instantiate(_smallChunker, _chunkPos,Quaternion.identity);
                             chunkDatascterrain _chunkData;
 
-                            _currentChunk = new chunkscterrain(_chunkPos, out _chunkData, 30, 30, 30);
+                            _currentChunk = new chunkscterrain(_chunkPos, out _chunkData, _smallChunkWidth, _smallChunkHeight, _smallChunkDepth);
+
                             _arrayOfChunkData[_xValue + _totalWidth * (_yValue + _totalHeight * _zValue)] = _chunkData;
                             _arrayOfChunk[_xValue + _totalWidth * (_yValue + _totalHeight * _zValue)] = 1;
                             counter++;
+
                             if (!_chunkData.resultsOne && !_chunkData.resultsTwo && !_chunkData.resultsThree && !_chunkData._trueForAll)////!_chunkData._trueForAll //!_chunkData.resultsOne && !_chunkData.resultsTwo && !_chunkData.resultsThree
                             {
                                 //lock (_dummyObject)                    

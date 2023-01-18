@@ -21,8 +21,6 @@ public class sccsproceduralplanetbuilderrev12 : MonoBehaviour
     public int mindexposy;
     public int mindexposz;
 
-
-
     public static sccsproceduralplanetbuilderrev12 sccsproceduralplanetbuilderrev12script;
 
     public Queue<mainChunk> QueueMainChunk = new Queue<mainChunk>();
