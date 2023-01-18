@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 using UnityEngine.XR;
+using System.Security.Cryptography;
 
 public class sccsplayer : MonoBehaviour
 {
@@ -170,56 +171,107 @@ public class sccsplayer : MonoBehaviour
     void Update()
     {
 
-        
-        StartCoroutine(CheckMoving());
-        StartCoroutine(MovePlayerWithKeyboard());
+
+        //var planetdivright = sccsplanetdivbuilder.currentsccsplanetbuilder.getplanetdiv((int)(mainChunk.mindexposx), (int)(mainChunk.mindexposy - 1), (int)(mainChunk.mindexposz));
 
 
 
 
 
-        
-        StartCoroutine(RotatePlayerMouse());
-        StartCoroutine(RotatePlayerWithKeyboard());
-        //StartCoroutine(MovePlayerWithKeyboard());
-        viewerPosition = viewer.transform.position;
 
-        StartCoroutine(CheckMoving());
-        
-        if (hasclickedtomoveplayer == 1)
+        //isgrounded
+        Ray ray = new Ray(isgroundedpivotpoint.transform.position, isgroundedpivotpoint.transform.forward);
+
+        // isgroundedpivotpoint.transform.position;// Camera.main.ScreenPointToRay(isgroundedpivotpoint.transform.position);//Camera.main.ScreenPointToRay(Input.mousePosition);
+        // Save the info
+
+        RaycastHit theouthit;
+
+        if (Physics.Raycast(ray, out theouthit, layerMask))
         {
-            StartCoroutine(RotatePlayerWithMouseClick());
+            //theplanet = theouthit.transform.gameObject;
 
-            StartCoroutine(MovePlayerWithMouseClick()); 
+            var distance = 0.025f;
+            var dirForward = viewer.transform.rotation * Vector3.forward;
+            dirForward.Normalize();
+
+
+            Vector3 positioninfrontofplayer = viewer.transform.position + (dirForward * distance);
+
+            Vector3 positioninbackofplayer = viewer.transform.position + (-dirForward * distance);
+
+
+            Vector3 dirplanetcoretoplayer = viewer.transform.position - theplanet.transform.position;
+            float distcoretoplayer = dirplanetcoretoplayer.magnitude;
+
+
+            Vector3 dirplanetcoretopointfrontofplayer = positioninfrontofplayer - theplanet.transform.position;
+            //float distcoretopointinfrontofplayer = dirplanetcoretopointfrontofplayer.magnitude;
+            dirplanetcoretopointfrontofplayer.Normalize();
+
+            Vector3 alwaysuppointofplayercomparedtoplayercore = theplanet.transform.position + (dirplanetcoretopointfrontofplayer * (distcoretoplayer));
+
+            Vector3 forwarddirtopointfrontplayer = alwaysuppointofplayercomparedtoplayercore - viewer.transform.position;
+
+            forwarddirtopointfrontplayer.Normalize();
+
+
+
+
+
+
+
+            float rotate_speed = 25.0f;
+
+            Quaternion rot = new Quaternion();
+            rot.SetLookRotation(forwarddirtopointfrontplayer, -(theplanet.transform.position - viewer.transform.position).normalized);
+            viewer.transform.rotation = Quaternion.Lerp(viewer.transform.rotation, rot, rotate_speed * Time.deltaTime);
+
+
+
+            StartCoroutine(CheckMoving());
+            StartCoroutine(MovePlayerWithKeyboard());
+
+            StartCoroutine(RotatePlayerMouse());
+            StartCoroutine(RotatePlayerWithKeyboard());
+            //StartCoroutine(MovePlayerWithKeyboard());
+            viewerPosition = viewer.transform.position;
+
+            StartCoroutine(CheckMoving());
+
+            if (hasclickedtomoveplayer == 1)
+            {
+
+                if (Mathf.Round(clicktomoveplayerpos.x) == Mathf.Round(viewer.transform.position.x) &&
+                    Mathf.Round(clicktomoveplayerpos.y) == Mathf.Round(viewer.transform.position.y) &&
+                    Mathf.Round(clicktomoveplayerpos.z) == Mathf.Round(viewer.transform.position.z))
+
+                //if ((Mathf.Round(clicktomoveplayerpos.x * 100) / 100) == (Mathf.Round(currentPosition.x * 100) / 100) &&
+                //    (Mathf.Round(clicktomoveplayerpos.y * 100) / 100) == (Mathf.Round(currentPosition.y * 100) / 100) &&
+                //    (Mathf.Round(clicktomoveplayerpos.z * 100) / 100) == (Mathf.Round(currentPosition.z * 100) / 100))
+                {
+
+                }
+                else
+                {
+                    StartCoroutine(RotatePlayerWithMouseClick());
+
+                    StartCoroutine(MovePlayerWithMouseClick());
+
+
+                }
+
+
+
+            }
 
         }
-        
 
 
 
-        var distance = 0.025f;
-        var dirForward = viewer.transform.rotation * Vector3.forward;
-        dirForward.Normalize();
 
-
-        Vector3 positioninfrontofplayer = viewer.transform.position + (dirForward * distance);
-
-        Vector3 positioninbackofplayer = viewer.transform.position + (-dirForward * distance);
-
-
-        Vector3 dirplanetcoretoplayer = viewer.transform.position - theplanet.transform.position;
-        float distcoretoplayer = dirplanetcoretoplayer.magnitude;
-
-
-        Vector3 dirplanetcoretopointfrontofplayer = positioninfrontofplayer - theplanet.transform.position;
-        //float distcoretopointinfrontofplayer = dirplanetcoretopointfrontofplayer.magnitude;
-        dirplanetcoretopointfrontofplayer.Normalize();
-
-        Vector3 alwaysuppointofplayercomparedtoplayercore = theplanet.transform.position + (dirplanetcoretopointfrontofplayer * (distcoretoplayer));
-
-        Vector3 forwarddirtopointfrontplayer = alwaysuppointofplayercomparedtoplayercore - viewer.transform.position;
-
-        forwarddirtopointfrontplayer.Normalize();
+        //(int)(mainChunk.mindexposx), (int)(mainChunk.mindexposy - 1), (int)(mainChunk.mindexposz)
+        //theplanet = sccsplanetdivbuilder.currentsccsplanetbuilder.getplanetdiv(); 
 
 
 
@@ -227,11 +279,11 @@ public class sccsplayer : MonoBehaviour
 
 
 
-        float rotate_speed = 25.0f;
 
-        Quaternion rot = new Quaternion();
-        rot.SetLookRotation(forwarddirtopointfrontplayer, -(theplanet.transform.position - viewer.transform.position).normalized);
-        viewer.transform.rotation = Quaternion.Lerp(viewer.transform.rotation, rot, rotate_speed * Time.deltaTime);
+
+
+
+
 
     }
 
@@ -264,84 +316,93 @@ public class sccsplayer : MonoBehaviour
 
     IEnumerator RotatePlayerWithMouseClick()
     {
-        var dirright = viewer.transform.rotation * Vector3.right;
-        dirright.Normalize();
-        clicktomoveplayerdirtopos.Normalize();
-
-        float thedot = Vector3.Dot(dirright, clicktomoveplayerdirtopos);
-
-        float rotationincrements = 50.0f;
 
 
-
-
-        var distance = 0.025f;
-        var dirForward = viewer.transform.rotation * Vector3.forward;
-        dirForward.Normalize();
-
-
-        Vector3 positioninfrontofplayer = viewer.transform.position + (dirForward * distance);
-
-        Vector3 positioninbackofplayer = viewer.transform.position + (-dirForward * distance);
-
-
-        Vector3 dirplanetcoretoplayer = viewer.transform.position - theplanet.transform.position;
-        float distcoretoplayer = dirplanetcoretoplayer.magnitude;
-
-
-        Vector3 dirplanetcoretopointfrontofplayer = positioninfrontofplayer - theplanet.transform.position;
-        //float distcoretopointinfrontofplayer = dirplanetcoretopointfrontofplayer.magnitude;
-        dirplanetcoretopointfrontofplayer.Normalize();
-
-        Vector3 alwaysuppointofplayercomparedtoplayercore = theplanet.transform.position + (dirplanetcoretopointfrontofplayer * (distcoretoplayer));
-
-        Vector3 forwarddirtopointfrontplayer = thepositionupofpoint - viewer.transform.position;
-
-        forwarddirtopointfrontplayer.Normalize();
-
-        float rotate_speed = 5.0f;
-
-        Quaternion rot = new Quaternion();
-        rot.SetLookRotation(forwarddirtopointfrontplayer, -(theplanet.transform.position - viewer.transform.position).normalized);
-        viewer.transform.rotation = Quaternion.Lerp(viewer.transform.rotation, rot, rotate_speed * Time.deltaTime);
-
-
-        if (thedot > 0.00123f)
+        if (theplanet != null)
         {
-            /*RotationY += rotationincrements;//
+            var dirright = viewer.transform.rotation * Vector3.right;
+            dirright.Normalize();
+            clicktomoveplayerdirtopos.Normalize();
+
+            float thedot = Vector3.Dot(dirright, clicktomoveplayerdirtopos);
+
+            float rotationincrements = 50.0f;
+
+            var distance = 0.025f;
+            var dirForward = viewer.transform.rotation * Vector3.forward;
+            dirForward.Normalize();
 
 
-            // Set the yaw (Y axis), pitch (X axis), and roll (Z axis) rotations in radians.
-            float pitch = RotationX * 0.0174532925f;
-            float yaw = RotationY * 0.0174532925f;  // float yaw = RotationY * (float)Math.PI / 180.0f;
-            float roll = RotationZ * 0.0174532925f;
+            Vector3 positioninfrontofplayer = viewer.transform.position + (dirForward * distance);
 
-            //Vector3 lookatlocal = transform.TransformDirection(lookAt);
+            Vector3 positioninbackofplayer = viewer.transform.position + (-dirForward * distance);
 
-            //https://answers.unity.com/questions/1611821/rotation-yaw-roll-pitch.html
-            //Vector3 up = transform.TransformPoint(Vector3.up, rotationMatrix);
-            //viewer.transform.rotation = Quaternion.Euler(pitch, yaw, roll);
-            viewer.transform.rotation = Quaternion.Euler(pitch, yaw, roll);*/
+
+            Vector3 dirplanetcoretoplayer = viewer.transform.position - theplanet.transform.position;
+            float distcoretoplayer = dirplanetcoretoplayer.magnitude;
+
+
+            Vector3 dirplanetcoretopointfrontofplayer = positioninfrontofplayer - theplanet.transform.position;
+            //float distcoretopointinfrontofplayer = dirplanetcoretopointfrontofplayer.magnitude;
+            dirplanetcoretopointfrontofplayer.Normalize();
+
+            Vector3 alwaysuppointofplayercomparedtoplayercore = theplanet.transform.position + (dirplanetcoretopointfrontofplayer * (distcoretoplayer));
+
+            var dirUp = viewer.transform.rotation * Vector3.up;
+            dirUp.Normalize();
+            thepositionupofpoint = clicktomoveplayerpos + (dirUp * 0.0012345f);
+
+            Vector3 forwarddirtopointfrontplayer = thepositionupofpoint - viewer.transform.position;
+
+            forwarddirtopointfrontplayer.Normalize();
+
+            float rotate_speed = 5.0f;
+
+            Quaternion rot = new Quaternion();
+            rot.SetLookRotation(forwarddirtopointfrontplayer, -(theplanet.transform.position - viewer.transform.position).normalized);
+            viewer.transform.rotation = Quaternion.Lerp(viewer.transform.rotation, rot, rotate_speed * Time.deltaTime);
+
+
+            if (thedot > 0.00123f)
+            {
+                /*RotationY += rotationincrements;//
+
+
+                // Set the yaw (Y axis), pitch (X axis), and roll (Z axis) rotations in radians.
+                float pitch = RotationX * 0.0174532925f;
+                float yaw = RotationY * 0.0174532925f;  // float yaw = RotationY * (float)Math.PI / 180.0f;
+                float roll = RotationZ * 0.0174532925f;
+
+                //Vector3 lookatlocal = transform.TransformDirection(lookAt);
+
+                //https://answers.unity.com/questions/1611821/rotation-yaw-roll-pitch.html
+                //Vector3 up = transform.TransformPoint(Vector3.up, rotationMatrix);
+                //viewer.transform.rotation = Quaternion.Euler(pitch, yaw, roll);
+                viewer.transform.rotation = Quaternion.Euler(pitch, yaw, roll);*/
+            }
+            else if (thedot < -0.00123f)
+            {
+                /*RotationY -= rotationincrements;//
+
+
+                /// Set the yaw (Y axis), pitch (X axis), and roll (Z axis) rotations in radians.
+                float pitch = RotationX * 0.0174532925f;
+                float yaw = RotationY * 0.0174532925f;  // float yaw = RotationY * (float)Math.PI / 180.0f;
+                float roll = RotationZ * 0.0174532925f;
+
+                //Vector3 lookatlocal = transform.TransformDirection(lookAt);
+
+                //https://answers.unity.com/questions/1611821/rotation-yaw-roll-pitch.html
+                //Vector3 up = transform.TransformPoint(Vector3.up, rotationMatrix);
+                //viewer.transform.rotation = Quaternion.Euler(pitch, yaw, roll);
+                viewer.transform.rotation = Quaternion.Euler(pitch, yaw, roll);*/
+            }
+
         }
-        else if (thedot < -0.00123f)
+        else
         {
-            /*RotationY -= rotationincrements;//
-
-
-            /// Set the yaw (Y axis), pitch (X axis), and roll (Z axis) rotations in radians.
-            float pitch = RotationX * 0.0174532925f;
-            float yaw = RotationY * 0.0174532925f;  // float yaw = RotationY * (float)Math.PI / 180.0f;
-            float roll = RotationZ * 0.0174532925f;
-
-            //Vector3 lookatlocal = transform.TransformDirection(lookAt);
-
-            //https://answers.unity.com/questions/1611821/rotation-yaw-roll-pitch.html
-            //Vector3 up = transform.TransformPoint(Vector3.up, rotationMatrix);
-            //viewer.transform.rotation = Quaternion.Euler(pitch, yaw, roll);
-            viewer.transform.rotation = Quaternion.Euler(pitch, yaw, roll);*/
+            Debug.Log("the planet is null");
         }
-
-
 
         yield return new WaitForSeconds(0.001f);
     }
@@ -394,7 +455,7 @@ public class sccsplayer : MonoBehaviour
 
 
         //MOVEPOSOFFSET = viewer.transform.position;
-
+        /*
         currentChunkCoordX = Mathf.RoundToInt(viewer.transform.position.x / (smallChunkWidth * 0.5f));
         currentChunkCoordY = Mathf.RoundToInt(viewer.transform.position.y / (smallChunkWidth * 0.5f));
         currentChunkCoordZ = Mathf.RoundToInt(viewer.transform.position.z / (smallChunkWidth * 0.5f));
@@ -407,29 +468,261 @@ public class sccsplayer : MonoBehaviour
 
         Vector3 startPos = currentPosition;
         yield return new WaitForSeconds(0.001f);
-        Vector3 finalPos = currentPosition;
+        Vector3 finalPos = currentPosition;*/
 
 
-
+        /*
         var dirUp = viewer.transform.rotation * Vector3.up;
         dirUp.Normalize();
 
 
+        //var dirUp = theplanet.transform.position - viewer.transform.position;
+        //dirUp.Normalize();
+
         Vector3 topointforward = MOVEPOSOFFSET;// clicktomoveplayerpos;
 
-        
-        thepositionupofpoint = clicktomoveplayerpos + (dirUp * 0.0012345f);
+
+        //clicktomoveplayerpos
+
+        float clickmovespeed = movementspeed * 0.1f;
+
+        /*thepositionupofpoint = clicktomoveplayerpos + (dirUp * 0.0012345f);
 
         Debug.DrawRay(clicktomoveplayerpos, thepositionupofpoint - clicktomoveplayerpos, Color.red, 1.0f);
-        
-
-
-
-
+       
         MOVEPOSOFFSET = Vector3.Lerp(topointforward, thepositionupofpoint, 0.01f);
 
         viewer.transform.position = MOVEPOSOFFSET;
         lastframeviewerpos = viewer.transform.position;
+
+
+        //https://answers.unity.com/questions/1397510/converting-mouse-position-to-worldpoint-in-3d.html
+        float speed = 10.0f;
+        // Cast a ray from screen point
+        Ray ray = new Ray(isgroundedpivotpoint.transform.position, isgroundedpivotpoint.transform.forward);// isgroundedpivotpoint.transform.position;// Camera.main.ScreenPointToRay(isgroundedpivotpoint.transform.position);//Camera.main.ScreenPointToRay(Input.mousePosition);
+                                                                                                           // Save the info
+        RaycastHit theouthit;
+
+        /* if (swtchastriedmovingplayerwithmouseclick == 0)
+         {
+             // You successfully $$anonymous$$
+
+         }
+
+        if (Physics.Raycast(ray, out theouthit, layerMask))
+        {
+            // Find the direction to move in
+            //Vector3 dir = theouthit.point - isgroundedpivotpoint.transform.position;
+
+            var distance = 0.01f * movementspeed;
+            var dirForward = viewer.transform.rotation * Vector3.forward;
+            dirForward.Normalize();
+
+            Vector3 positioninfrontofplayer = isgroundedpivotpoint.transform.position + (dirForward * distance);
+
+            //Vector3 dirplanetcoretopoint = theplanet.transform.position - positioninfrontofplayer;
+            //Vector3 dirplanetcoretopointnotnorm = dirplanetcoretopoint;
+            //float distcoretopointinfrontofplayer = dirplanetcoretopoint.magnitude;
+
+            //dirplanetcoretopoint.Normalize();
+
+
+            //Vector3 pointinfrontofplayer = 
+
+            //Vector3 dirtopointinfrontofplayer = positioninfrontofplayer - isgroundedpivotpoint.transform.position;
+            //distcoretopointinfrontofplayer
+
+
+            pointertarget.transform.position = clicktomoveplayerpos;
+
+            Vector3 currentdirtopointinfrontdir = clicktomoveplayerpos - theouthit.point;
+            currentdirtopointinfrontdir.Normalize();
+            //topointforward = theouthitpointtoground.point;
+            //Debug.DrawRay(positioninfrontofplayer, thepositionupofpoint - positioninfrontofplayer, Color.red, 1.0f);
+            Vector3 movepos = MOVEPOSOFFSET + (currentdirtopointinfrontdir * distance);
+
+
+            Vector3 uppoint = viewer.transform.position - theplanet.transform.position;
+            uppoint.Normalize();
+
+            //Vector3 pointtobeat = clicktomoveplayerpos + (-uppoint * 0.1f);
+
+            MOVEPOSOFFSET = Vector3.Lerp(MOVEPOSOFFSET, movepos, clickmovespeed * Time.deltaTime); // * Time.deltaTime
+
+
+
+            //Vector3 uppoint = viewer.transform.position - theplanet.transform.position;
+            //uppoint.Normalize();
+
+            //Vector3 pointtobeat = viewer.transform.position + (uppoint * 0.5f);
+
+            //MOVEPOSOFFSET = MOVEPOSOFFSET;// MOVEPOSOFFSET + (currentdirtopointinfrontdir * distance);
+            //MOVEPOSOFFSET = Vector3.Lerp(MOVEPOSOFFSET, pointtobeat, movementspeed * Time.deltaTime); // * Time.deltaTime
+
+            Ray raypointtoground = new Ray(positioninfrontofplayer, isgroundedpivotpoint.transform.forward);
+            RaycastHit theouthitpointtoground;
+
+
+            if (Physics.Raycast(positioninfrontofplayer, isgroundedpivotpoint.transform.forward, out theouthitpointtoground, isgroundedmaxdist, layerMask))
+            //if (Physics.Raycast(raypointtoground, out theouthitpointtoground, layerMask))
+            {
+
+
+
+
+            }
+        }
+        else
+        {
+            hasclickedtomoveplayer = 0;
+            //Debug.Log("test");
+        }
+
+        Debug.DrawRay(clicktomoveplayerpos, thepositionupofpoint - clicktomoveplayerpos, Color.red, 1.0f);
+        //MOVEPOSOFFSET = Vector3.Lerp(topointforward, thepositionupofpoint, 0.01f);
+
+        viewer.transform.position = MOVEPOSOFFSET;
+        lastframeviewerpos = viewer.transform.position;*/
+
+
+
+
+
+
+
+        //https://answers.unity.com/questions/1397510/converting-mouse-position-to-worldpoint-in-3d.html
+        float speed = 10.0f;
+        // Cast a ray from screen point
+        Ray ray = new Ray(isgroundedpivotpoint.transform.position, isgroundedpivotpoint.transform.forward);// isgroundedpivotpoint.transform.position;// Camera.main.ScreenPointToRay(isgroundedpivotpoint.transform.position);//Camera.main.ScreenPointToRay(Input.mousePosition);
+                                                                                                           // Save the info
+        RaycastHit theouthit;
+
+        /* if (swtchastriedmovingplayerwithmouseclick == 0)
+         {
+             // You successfully $$anonymous$$
+
+         }*/
+
+
+        //var something = 1 << 8; layermaskunitystuff 
+
+
+
+        if (Physics.Raycast(ray, out theouthit, layerMask))
+        {
+            // Find the direction to move in
+            //Vector3 dir = theouthit.point - isgroundedpivotpoint.transform.position;
+
+            //Vector3 currentdirtopointclick = clicktomoveplayerpos - theouthit.point;
+            //currentdirtopointclick.Normalize();
+
+            Vector3 dirForward = clicktomoveplayerpos - theouthit.point;
+            dirForward.Normalize();
+
+            var distance = 0.01f * movementspeed;
+            /*var dirForward = viewer.transform.rotation * Vector3.forward;
+            dirForward.Normalize();
+            */
+
+
+            //Vector3 currentdirtopointclick = clicktomoveplayerpos - theouthit.point;
+            //currentdirtopointclick.Normalize();
+
+            Vector3 positioninfrontofplayer = isgroundedpivotpoint.transform.position + (dirForward * distance);
+            
+            
+            /*
+            MOVEPOSOFFSET = Vector3.Lerp(MOVEPOSOFFSET, positioninfrontofplayer, movementspeed * Time.deltaTime); // * Time.deltaTime
+
+            */
+            //Vector3 dirplanetcoretopoint = theplanet.transform.position - positioninfrontofplayer;
+            //Vector3 dirplanetcoretopointnotnorm = dirplanetcoretopoint;
+            //float distcoretopointinfrontofplayer = dirplanetcoretopoint.magnitude;
+
+            //dirplanetcoretopoint.Normalize();
+
+
+            //Vector3 pointinfrontofplayer = 
+
+            //Vector3 dirtopointinfrontofplayer = positioninfrontofplayer - isgroundedpivotpoint.transform.position;
+            //distcoretopointinfrontofplayer
+
+
+
+            Ray raypointtoground = new Ray(positioninfrontofplayer, isgroundedpivotpoint.transform.forward);
+            RaycastHit theouthitpointtoground;
+
+
+            if (Physics.Raycast(positioninfrontofplayer, isgroundedpivotpoint.transform.forward, out theouthitpointtoground, isgroundedmaxdist, layerMask))
+            //if (Physics.Raycast(raypointtoground, out theouthitpointtoground, layerMask))
+            {
+
+
+
+
+                if (theplanet != null)
+                {
+               
+                pointertarget.transform.position = theouthitpointtoground.point;
+
+                Vector3 currentdirtopointinfrontdir = theouthitpointtoground.point - theouthit.point;
+                currentdirtopointinfrontdir.Normalize();
+
+
+                Vector3 uppoint = viewer.transform.position - theplanet.transform.position;
+                uppoint.Normalize();
+
+                Vector3 pointtobeat = theouthitpointtoground.point + (-uppoint * 0.1f);
+                MOVEPOSOFFSET = Vector3.Lerp(MOVEPOSOFFSET, pointtobeat, movementspeed * Time.deltaTime); // * Time.deltaTime
+
+
+
+                    //MOVEPOSOFFSET = Vector3.Lerp(MOVEPOSOFFSET, pointtobeat, movementspeed * Time.deltaTime); // * Time.deltaTime
+
+
+                    //topointforward = theouthitpointtoground.point;
+                    //Debug.DrawRay(positioninfrontofplayer, thepositionupofpoint - positioninfrontofplayer, Color.red, 1.0f);
+                    //MOVEPOSOFFSET = MOVEPOSOFFSET + (currentdirtopointinfrontdir * distance); //
+
+                    /*
+                    Vector3 uppoint = viewer.transform.position - theplanet.transform.position;
+                    uppoint.Normalize();
+
+                    Vector3 pointtobeat = theouthitpointtoground.point + (-uppoint * 0.1f);
+
+                    MOVEPOSOFFSET = Vector3.Lerp(MOVEPOSOFFSET, pointtobeat, movementspeed * Time.deltaTime); // * Time.deltaTime
+                    */
+
+
+                    //Vector3 uppoint = viewer.transform.position - theplanet.transform.position;
+                    //uppoint.Normalize();
+
+                    //Vector3 pointtobeat = viewer.transform.position + (uppoint * 0.5f);
+
+                    //MOVEPOSOFFSET = MOVEPOSOFFSET;// MOVEPOSOFFSET + (currentdirtopointinfrontdir * distance);
+                    //MOVEPOSOFFSET = Vector3.Lerp(MOVEPOSOFFSET, pointtobeat, movementspeed * Time.deltaTime); // * Time.deltaTime
+                }
+                else
+                {
+                    Debug.Log("the planet is null");
+                }
+            }
+        }
+        else
+        {
+            hasclickedtomoveplayer = 0;
+            //Debug.Log("test");
+        }
+
+        Debug.DrawRay(clicktomoveplayerpos, thepositionupofpoint - clicktomoveplayerpos, Color.red, 1.0f);
+
+        if (theplanet != null)
+        {
+            viewer.transform.position = MOVEPOSOFFSET;
+            lastframeviewerpos = viewer.transform.position;
+        }
+        yield return new WaitForSeconds(0.001f);
+
     }
 
 
@@ -515,31 +808,39 @@ public class sccsplayer : MonoBehaviour
 
 
 
-                    pointertarget.transform.position = theouthitpointtoground.point;
+                    if (theplanet != null)
+                    {
+                        pointertarget.transform.position = theouthitpointtoground.point;
 
-                    Vector3 currentdirtopointinfrontdir = theouthitpointtoground.point - theouthit.point;
+                        Vector3 currentdirtopointinfrontdir = theouthitpointtoground.point - theouthit.point;
 
-                    //topointforward = theouthitpointtoground.point;
-                    //Debug.DrawRay(positioninfrontofplayer, thepositionupofpoint - positioninfrontofplayer, Color.red, 1.0f);
-                    MOVEPOSOFFSET = MOVEPOSOFFSET + (currentdirtopointinfrontdir * distance);
-
-
-                    Vector3 uppoint = viewer.transform.position - theplanet.transform.position;
-                    uppoint.Normalize();
-
-                    Vector3 pointtobeat = theouthitpointtoground.point + (-uppoint * 0.1f);
-
-                    MOVEPOSOFFSET = Vector3.Lerp(MOVEPOSOFFSET, pointtobeat, movementspeed * Time.deltaTime); // * Time.deltaTime
+                        //topointforward = theouthitpointtoground.point;
+                        //Debug.DrawRay(positioninfrontofplayer, thepositionupofpoint - positioninfrontofplayer, Color.red, 1.0f);
+                        MOVEPOSOFFSET = MOVEPOSOFFSET + (currentdirtopointinfrontdir * distance);
 
 
+                        Vector3 uppoint = viewer.transform.position - theplanet.transform.position;
+                        uppoint.Normalize();
 
-                    //Vector3 uppoint = viewer.transform.position - theplanet.transform.position;
-                    //uppoint.Normalize();
+                        Vector3 pointtobeat = theouthitpointtoground.point + (-uppoint * 0.1f);
 
-                    //Vector3 pointtobeat = viewer.transform.position + (uppoint * 0.5f);
+                        MOVEPOSOFFSET = Vector3.Lerp(MOVEPOSOFFSET, pointtobeat, movementspeed * Time.deltaTime); // * Time.deltaTime
 
-                    //MOVEPOSOFFSET = MOVEPOSOFFSET;// MOVEPOSOFFSET + (currentdirtopointinfrontdir * distance);
-                    //MOVEPOSOFFSET = Vector3.Lerp(MOVEPOSOFFSET, pointtobeat, movementspeed * Time.deltaTime); // * Time.deltaTime
+
+
+                        //Vector3 uppoint = viewer.transform.position - theplanet.transform.position;
+                        //uppoint.Normalize();
+
+                        //Vector3 pointtobeat = viewer.transform.position + (uppoint * 0.5f);
+
+                        //MOVEPOSOFFSET = MOVEPOSOFFSET;// MOVEPOSOFFSET + (currentdirtopointinfrontdir * distance);
+                        //MOVEPOSOFFSET = Vector3.Lerp(MOVEPOSOFFSET, pointtobeat, movementspeed * Time.deltaTime); // * Time.deltaTime
+                    }
+                    else
+                    {
+                        Debug.Log("the planet is null");
+
+                    }
                 }
             }
             else
@@ -597,6 +898,8 @@ public class sccsplayer : MonoBehaviour
                 if (Physics.Raycast(positioninfrontofplayer, isgroundedpivotpoint.transform.forward, out theouthitpointtoground, isgroundedmaxdist, layerMask))
                 //if (Physics.Raycast(raypointtoground, out theouthitpointtoground, layerMask))
                 {
+                    if (theplanet != null)
+                    { 
                     pointertarget.transform.position = theouthitpointtoground.point;
 
                     Vector3 currentdirtopointinfrontdir = theouthitpointtoground.point - theouthit.point;
@@ -612,6 +915,12 @@ public class sccsplayer : MonoBehaviour
                     Vector3 pointtobeat = theouthitpointtoground.point + (-uppoint * 0.1f);
 
                     MOVEPOSOFFSET = Vector3.Lerp(MOVEPOSOFFSET, pointtobeat, movementspeed * Time.deltaTime); // * Time.deltaTime
+                    }
+                    else
+                    {
+                        Debug.Log("the planet is null");
+
+                    }
 
                 }
             }
@@ -670,6 +979,8 @@ public class sccsplayer : MonoBehaviour
                 if (Physics.Raycast(positioninfrontofplayer, isgroundedpivotpoint.transform.forward, out theouthitpointtoground, isgroundedmaxdist, layerMask))
                 //if (Physics.Raycast(raypointtoground, out theouthitpointtoground, layerMask))
                 {
+                    if (theplanet != null)
+                    { 
                     pointertarget.transform.position = theouthitpointtoground.point;
 
                     Vector3 currentdirtopointinfrontdir = theouthitpointtoground.point - theouthit.point;
@@ -685,7 +996,13 @@ public class sccsplayer : MonoBehaviour
                     Vector3 pointtobeat = theouthitpointtoground.point + (-uppoint * 0.1f);
 
                     MOVEPOSOFFSET = Vector3.Lerp(MOVEPOSOFFSET, pointtobeat, movementspeed * Time.deltaTime); // * Time.deltaTime
+                    
+                    }
+                    else
+                    {
+                        Debug.Log("the planet is null");
 
+                    }
                 }
             }
             else
@@ -742,6 +1059,9 @@ public class sccsplayer : MonoBehaviour
                 if (Physics.Raycast(positioninfrontofplayer, isgroundedpivotpoint.transform.forward, out theouthitpointtoground, isgroundedmaxdist, layerMask))
                 //if (Physics.Raycast(raypointtoground, out theouthitpointtoground, layerMask))
                 {
+                    if (theplanet != null)
+                    {
+                   
                     pointertarget.transform.position = theouthitpointtoground.point;
 
                     Vector3 currentdirtopointinfrontdir = theouthitpointtoground.point - theouthit.point;
@@ -757,7 +1077,13 @@ public class sccsplayer : MonoBehaviour
                     Vector3 pointtobeat = theouthitpointtoground.point + (-uppoint * 0.1f);
 
                     MOVEPOSOFFSET = Vector3.Lerp(MOVEPOSOFFSET, pointtobeat, movementspeed * Time.deltaTime); // * Time.deltaTime
+                    
+                    }
+                    else
+                    {
+                        Debug.Log("the planet is null");
 
+                    }
                 }
             }
             else
@@ -808,7 +1134,7 @@ public class sccsplayer : MonoBehaviour
         //MOVEPOSOFFSET = Vector3.Lerp(topointforward, MOVEPOSOFFSET, movementspeed * Time.deltaTime); // * Time.deltaTime
 
 
-  
+
 
         //viewer.transform.Translate(MOVEPOSOFFSET, Space.World);
 
@@ -818,9 +1144,11 @@ public class sccsplayer : MonoBehaviour
 
 
         //hiptofloordist
-
-        viewer.transform.position = MOVEPOSOFFSET;
-        lastframeviewerpos = viewer.transform.position;
+        if (theplanet != null)
+        {
+            viewer.transform.position = MOVEPOSOFFSET;
+            lastframeviewerpos = viewer.transform.position;
+        }
 
         yield return new WaitForSeconds(0.001f);
     }
@@ -1021,25 +1349,42 @@ public class sccsplayer : MonoBehaviour
 
         if (Input.GetKey(KeyCode.A))
         {
+
+            if (theplanet != null)
+            {
+                Vector3 upcoreplayer = viewer.transform.position - theplanet.transform.position;
+                upcoreplayer.Normalize();
+
+                rotationincrements = -2.5f;
+                viewer.transform.RotateAround(viewer.transform.position, upcoreplayer, rotationincrements);
+            }
+            else
+            {
+                Debug.Log("the planet is null");
+
+            }
             
-
-            Vector3 upcoreplayer = viewer.transform.position - theplanet.transform.position;
-            upcoreplayer.Normalize();
-
-            rotationincrements = -2.5f;
-            viewer.transform.RotateAround(viewer.transform.position, upcoreplayer, rotationincrements);
 
         }
         //* Time.deltaTime
         if (Input.GetKey(KeyCode.D))
         {
-            
-            Vector3 upcoreplayer = viewer.transform.position - theplanet.transform.position;
-            upcoreplayer.Normalize();
+            if (theplanet != null)
+            {
+                Vector3 upcoreplayer = viewer.transform.position - theplanet.transform.position;
+                upcoreplayer.Normalize();
 
-            rotationincrements = +2.5f;
-            viewer.transform.RotateAround(viewer.transform.position, upcoreplayer, rotationincrements);
+                rotationincrements = +2.5f;
+                viewer.transform.RotateAround(viewer.transform.position, upcoreplayer, rotationincrements);
 
+            }
+            else
+            {
+                Debug.Log("the planet is null");
+
+            }
+
+          
 
         }
 

@@ -51,9 +51,9 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
     public Material mat;
 
 
-    public int threadmulx = 1;
-    public int threadmuly = 1;
-    public int threadmulz = 1;
+    int threadmulx = 1;
+    int threadmuly = 1;
+    int threadmulz = 1;
 
 
     int reducedverttrigswtc = 0;
@@ -620,6 +620,9 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
 
 
 
+                                    threadmulx = 2;
+                                    threadmuly = 2;
+                                    threadmulz = 2;
 
 
                                     computeVertexesALLFACES.SetBuffer(0, "themap", maps0buffer);

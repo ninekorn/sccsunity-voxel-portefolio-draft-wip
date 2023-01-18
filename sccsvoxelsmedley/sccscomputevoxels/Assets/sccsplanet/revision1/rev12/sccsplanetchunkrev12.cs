@@ -82,6 +82,8 @@ public class sccsplanetchunkrev12 : MonoBehaviour
 
     public Vector3 chunkpos;
 
+    public Vector3 planetchunkpos;
+
     public sccsproceduralplanetbuilderrev12.mainChunk buildchunkmap(sccsproceduralplanetbuilderrev12.mainChunk mainChunk)
     {
 
@@ -145,7 +147,11 @@ public class sccsplanetchunkrev12 : MonoBehaviour
         //seed = 0;
         //checkBytePos();
         int radius = 5;
-        Vector3 center = Vector3.zero;
+        Vector3 center = mainChunk.worldPosition;// Vector3.zero;
+
+
+        planetchunkpos = mainChunk.worldPosition;
+        chunkpos = planetchunkpos;
 
         //if (chunkpos.y >= 3)
         //{
@@ -169,23 +175,23 @@ public class sccsplanetchunkrev12 : MonoBehaviour
         this.gameObject.GetComponent<MeshFilter>().sharedMesh = mesh;
         */
 
-        int swtcfullvoxel = 0;
+        int swtcfullvoxel = 1;
 
         for (int x = 0; x < width; x++)
         {
-            float noiseX = Mathf.Abs(((float)(x * planeSize + chunkpos.x) / detailScale) * heightScale);
+            float noiseX = Mathf.Abs(((float)(x * planeSize + planetchunkpos.x) / detailScale) * heightScale);
 
             for (int y = 0; y < height; y++)
             {
-                float noiseY = Mathf.Abs(((float)(y * planeSize + chunkpos.y) / detailScale) * heightScale);
+                float noiseY = Mathf.Abs(((float)(y * planeSize + planetchunkpos.y) / detailScale) * heightScale);
 
                 for (int z = 0; z < depth; z++)
                 {
-                    float noiseZ = Mathf.Abs(((float)(z * planeSize + chunkpos.z) / detailScale) * heightScale);
+                    float noiseZ = Mathf.Abs(((float)(z * planeSize + planetchunkpos.z) / detailScale) * heightScale);
 
-                    float posX = x * planeSize + chunkpos.x;
-                    float posY = y * planeSize + chunkpos.y;
-                    float posZ = z * planeSize + chunkpos.z;
+                    float posX = x * planeSize + planetchunkpos.x;
+                    float posY = y * planeSize + planetchunkpos.y;
+                    float posZ = z * planeSize + planetchunkpos.z;
 
                     Vector3 position = new Vector3(posX, posY, posZ);
 
@@ -611,7 +617,12 @@ public class sccsplanetchunkrev12 : MonoBehaviour
     {
 
 
+
+
         mesh = new Mesh();
+        mainChunk.planetchunk.gameObject.GetComponent<MeshFilter>().mesh.Clear();
+        mainChunk.planetchunk.gameObject.GetComponent<MeshFilter>().mesh = null;
+
         mainChunk.planetchunk.gameObject.GetComponent<MeshFilter>().mesh = mesh;
         mainChunk.planetchunk.GetComponent<MeshFilter>().sharedMesh = mesh;
 
@@ -778,8 +789,8 @@ public class sccsplanetchunkrev12 : MonoBehaviour
 
 
 
-
         /*
+        
         //RIGHTFACE
         if (IsTransparent(x + 1, y, z, mainChunk))
         {
@@ -821,15 +832,823 @@ public class sccsplanetchunkrev12 : MonoBehaviour
             offset1 = Vector3.right * planeSize;
             offset2 = Vector3.forward * planeSize;
             mainChunk = DrawFace(start, offset1, offset2, mainChunk);
-        }*/
+        }
+        */
+
+
+
+        //sccsplanetdivbuilder.getplanetdiv()
+
+
+        //sccsplanetdivbuilder.Getpla()
 
 
 
 
 
+
+        var planetdivleft = sccsplanetdivbuilder.currentsccsplanetbuilder.getplanetdiv((int)(mainChunk.mindexposx - 1), (int)(mainChunk.mindexposy), (int)(mainChunk.mindexposz));
+
+        var planetdivtop = sccsplanetdivbuilder.currentsccsplanetbuilder.getplanetdiv((int)(mainChunk.mindexposx), (int)(mainChunk.mindexposy + 1), (int)(mainChunk.mindexposz));
+        var planetdivbottom = sccsplanetdivbuilder.currentsccsplanetbuilder.getplanetdiv((int)(mainChunk.mindexposx), (int)(mainChunk.mindexposy - 1), (int)(mainChunk.mindexposz));
+
+        var planetdivfront = sccsplanetdivbuilder.currentsccsplanetbuilder.getplanetdiv((int)(mainChunk.mindexposx), (int)(mainChunk.mindexposy), (int)(mainChunk.mindexposz + 1));
+        var planetdivback = sccsplanetdivbuilder.currentsccsplanetbuilder.getplanetdiv((int)(mainChunk.mindexposx), (int)(mainChunk.mindexposy), (int)(mainChunk.mindexposz - 1));
 
 
         //RIGHTFACE
+        //RIGHTFACE
+        //RIGHTFACE
+        if (mainChunk.extremitywr == 1)
+        {
+
+            var planetdivright = sccsplanetdivbuilder.currentsccsplanetbuilder.getplanetdiv((int)(mainChunk.mindexposx + 1), (int)(mainChunk.mindexposy), (int)(mainChunk.mindexposz));
+
+            if (planetdivright != null)
+            {
+                float xx = (Mathf.Floor(start.x * fraction) / fraction) + chunkRadius;
+                float yy = (Mathf.Floor(start.y * fraction) / fraction) + chunkRadius;
+                float zz = (Mathf.Floor(start.z * fraction) / fraction) + chunkRadius;
+
+
+                //var planetdivchunk = planetdivright.getChunk();
+
+                var chunkdata = planetdivright.getChunk((int)(0), (int)(mainChunk.indexposy), (int)(mainChunk.indexposz));
+                if (chunkdata != null)
+                {
+                    var comp = chunkdata.sccsplanetchunkrev12;
+
+                    if (comp != null)
+                    {
+                        if (comp.IsTransparent(0, y, z, chunkdata))
+                        {
+                            offset1 = Vector3.up * planeSize;
+                            offset2 = Vector3.forward * planeSize;
+                            mainChunk = DrawFace(start + Vector3.right * planeSize, offset1, offset2, mainChunk);
+                        }
+                    }
+                }
+                else
+                {
+                    //RIGHTFACE
+                    if (IsTransparent(x + 1, y, z, mainChunk))
+                    {
+                        offset1 = Vector3.up * planeSize;
+                        offset2 = Vector3.forward * planeSize;
+                        mainChunk = DrawFace(start + Vector3.right * planeSize, offset1, offset2, mainChunk);
+                    }
+                }
+
+
+            }
+            else
+            {
+                var planetdiv = sccsplanetdivbuilder.currentsccsplanetbuilder.getplanetdiv((int)(mainChunk.mindexposx), (int)(mainChunk.mindexposy), (int)(mainChunk.mindexposz));
+
+                var chunkdata = planetdiv.getChunk((int)(mainChunk.indexposx + 1), (int)(mainChunk.indexposy), (int)(mainChunk.indexposz));
+                if (chunkdata != null)
+                {
+                    var comp = chunkdata.sccsplanetchunkrev12;
+
+                    if (comp != null)
+                    {
+                        if (comp.IsTransparent(0, y, z, chunkdata))
+                        {
+                            offset1 = Vector3.up * planeSize;
+                            offset2 = Vector3.forward * planeSize;
+                            mainChunk = DrawFace(start + Vector3.right * planeSize, offset1, offset2, mainChunk);
+                        }
+                    }
+                }
+                else
+                {
+                    //RIGHTFACE
+                    if (IsTransparent(x + 1, y, z, mainChunk))
+                    {
+                        offset1 = Vector3.up * planeSize;
+                        offset2 = Vector3.forward * planeSize;
+                        mainChunk = DrawFace(start + Vector3.right * planeSize, offset1, offset2, mainChunk);
+                    }
+                }
+            }
+
+
+        }
+        else
+        {
+
+            var planetdiv = sccsplanetdivbuilder.currentsccsplanetbuilder.getplanetdiv((int)(mainChunk.mindexposx), (int)(mainChunk.mindexposy), (int)(mainChunk.mindexposz));
+
+            if (planetdiv != null)
+            {
+                float xx = (Mathf.Floor(start.x * fraction) / fraction) + chunkRadius;
+                float yy = (Mathf.Floor(start.y * fraction) / fraction) + chunkRadius;
+                float zz = (Mathf.Floor(start.z * fraction) / fraction) + chunkRadius;
+
+
+                //var planetdivchunk = planetdivright.getChunk();
+
+                var chunkdata = planetdiv.getChunk((int)(mainChunk.indexposx +1), (int)(mainChunk.indexposy), (int)(mainChunk.indexposz));
+                if (chunkdata != null)
+                {
+                    var comp = chunkdata.sccsplanetchunkrev12;
+
+                    if (comp != null)
+                    {
+                        if (comp.IsTransparent(0, y, z, chunkdata))
+                        {
+                            offset1 = Vector3.up * planeSize;
+                            offset2 = Vector3.forward * planeSize;
+                            mainChunk = DrawFace(start + Vector3.right * planeSize, offset1, offset2, mainChunk);
+                        }
+                    }
+                }
+                else
+                {
+                    //RIGHTFACE
+                    if (IsTransparent(x + 1, y, z, mainChunk))
+                    {
+                        offset1 = Vector3.up * planeSize;
+                        offset2 = Vector3.forward * planeSize;
+                        mainChunk = DrawFace(start + Vector3.right * planeSize, offset1, offset2, mainChunk);
+                    }
+                }
+            }
+        }
+        //RIGHTFACE
+        //RIGHTFACE
+        //RIGHTFACE
+
+
+
+        //LEFTFACE
+        //LEFTFACE
+        //LEFTFACE
+        if (mainChunk.extremitywl == 1)
+        {
+
+            var planetdivright = sccsplanetdivbuilder.currentsccsplanetbuilder.getplanetdiv((int)(mainChunk.mindexposx - 1), (int)(mainChunk.mindexposy), (int)(mainChunk.mindexposz));
+
+            if (planetdivright != null)
+            {
+                float xx = (Mathf.Floor(start.x * fraction) / fraction) + chunkRadius;
+                float yy = (Mathf.Floor(start.y * fraction) / fraction) + chunkRadius;
+                float zz = (Mathf.Floor(start.z * fraction) / fraction) + chunkRadius;
+
+
+                //var planetdivchunk = planetdivright.getChunk();
+
+                var chunkdata = planetdivright.getChunk((int)(sccsproceduralplanetbuilderrev12.sccsproceduralplanetbuilderrev12script.ChunkWidth_R), (int)(mainChunk.indexposy), (int)(mainChunk.indexposz));
+                if (chunkdata != null)
+                {
+                    var comp = chunkdata.sccsplanetchunkrev12;
+
+                    if (comp != null)
+                    {
+                        if (comp.IsTransparent(width-1, y, z, chunkdata))
+                        {
+                            offset1 = Vector3.back * planeSize;
+                            offset2 = Vector3.down * planeSize;
+                            mainChunk = DrawFace(start + Vector3.up * planeSize + Vector3.forward * planeSize, offset1, offset2, mainChunk);
+                        }
+                    }
+                }
+                else
+                {
+                    //RIGHTFACE
+                    if (IsTransparent(x - 1, y, z, mainChunk))
+                    {
+                        offset1 = Vector3.back * planeSize;
+                        offset2 = Vector3.down * planeSize;
+                        mainChunk = DrawFace(start + Vector3.up * planeSize + Vector3.forward * planeSize, offset1, offset2, mainChunk);
+                    }
+                }
+
+
+            }
+            else
+            {
+                var planetdiv = sccsplanetdivbuilder.currentsccsplanetbuilder.getplanetdiv((int)(mainChunk.mindexposx), (int)(mainChunk.mindexposy), (int)(mainChunk.mindexposz));
+
+                var chunkdata = planetdiv.getChunk((int)(mainChunk.indexposx - 1), (int)(mainChunk.indexposy), (int)(mainChunk.indexposz));
+                if (chunkdata != null)
+                {
+                    var comp = chunkdata.sccsplanetchunkrev12;
+
+                    if (comp != null)
+                    {
+                        if (comp.IsTransparent(width-1, y, z, chunkdata))
+                        {
+                            offset1 = Vector3.back * planeSize;
+                            offset2 = Vector3.down * planeSize;
+                            mainChunk = DrawFace(start + Vector3.up * planeSize + Vector3.forward * planeSize, offset1, offset2, mainChunk);
+                        }
+                    }
+                }
+                else
+                {
+                    //LEFTFACE
+                    if (IsTransparent(x - 1, y, z, mainChunk))
+                    {
+                        offset1 = Vector3.back * planeSize;
+                        offset2 = Vector3.down * planeSize;
+                        mainChunk = DrawFace(start + Vector3.up * planeSize + Vector3.forward * planeSize, offset1, offset2, mainChunk);
+                    }
+                }
+            }
+
+
+        }
+        else
+        {
+
+            var planetdiv = sccsplanetdivbuilder.currentsccsplanetbuilder.getplanetdiv((int)(mainChunk.mindexposx), (int)(mainChunk.mindexposy), (int)(mainChunk.mindexposz));
+
+            if (planetdiv != null)
+            {
+                float xx = (Mathf.Floor(start.x * fraction) / fraction) + chunkRadius;
+                float yy = (Mathf.Floor(start.y * fraction) / fraction) + chunkRadius;
+                float zz = (Mathf.Floor(start.z * fraction) / fraction) + chunkRadius;
+
+
+                //var planetdivchunk = planetdivright.getChunk();
+
+                var chunkdata = planetdiv.getChunk((int)(mainChunk.indexposx - 1), (int)(mainChunk.indexposy), (int)(mainChunk.indexposz));
+                if (chunkdata != null)
+                {
+                    var comp = chunkdata.sccsplanetchunkrev12;
+
+                    if (comp != null)
+                    {
+                        if (comp.IsTransparent(width - 1, y, z, chunkdata))
+                        {
+                            offset1 = Vector3.back * planeSize;
+                            offset2 = Vector3.down * planeSize;
+                            mainChunk = DrawFace(start + Vector3.up * planeSize + Vector3.forward * planeSize, offset1, offset2, mainChunk);
+                        }
+                    }
+                }
+                else
+                {
+                    //LEFTFACE
+                    if (IsTransparent(x - 1, y, z, mainChunk))
+                    {
+                        offset1 = Vector3.back * planeSize;
+                        offset2 = Vector3.down * planeSize;
+                        mainChunk = DrawFace(start + Vector3.up * planeSize + Vector3.forward * planeSize, offset1, offset2, mainChunk);
+                    }
+                }
+            }
+        }
+        //LEFTFACE
+        //LEFTFACE
+        //LEFTFACE
+
+
+
+
+        //FRONTFACE
+        //FRONTFACE
+        //FRONTFACE
+        if (mainChunk.extremitydl == 1)
+        {
+
+            var planetdivright = sccsplanetdivbuilder.currentsccsplanetbuilder.getplanetdiv((int)(mainChunk.mindexposx), (int)(mainChunk.mindexposy), (int)(mainChunk.mindexposz-1));
+
+            if (planetdivright != null)
+            {
+                float xx = (Mathf.Floor(start.x * fraction) / fraction) + chunkRadius;
+                float yy = (Mathf.Floor(start.y * fraction) / fraction) + chunkRadius;
+                float zz = (Mathf.Floor(start.z * fraction) / fraction) + chunkRadius;
+
+
+                //var planetdivchunk = planetdivright.getChunk();
+                sccsproceduralplanetbuilderrev12.mainChunk chunkdata = sccsproceduralplanetbuilderrev12.sccsproceduralplanetbuilderrev12script.getChunk((int)(mainChunk.indexposx), (int)(mainChunk.indexposy), (int)(sccsproceduralplanetbuilderrev12.sccsproceduralplanetbuilderrev12script.ChunkDepth_R));
+
+                if (chunkdata != null)
+                {
+                    var comp = chunkdata.sccsplanetchunkrev12;
+
+                    if (comp != null)
+                    {
+                        if (comp.IsTransparent(x, y, depth - 1, chunkdata))
+                        {
+                            offset1 = Vector3.left * planeSize;
+                            offset2 = Vector3.up * planeSize;
+                            mainChunk = DrawFace(start + Vector3.right * planeSize, offset1, offset2, mainChunk);
+                        }
+                    }
+                    else
+                    {
+                        //FRONTFACE
+                        if (IsTransparent(x, y, z - 1, mainChunk))
+                        {
+                            offset1 = Vector3.left * planeSize;
+                            offset2 = Vector3.up * planeSize;
+                            mainChunk = DrawFace(start + Vector3.right * planeSize, offset1, offset2, mainChunk);
+                        }
+                    }
+                }
+                else
+                {
+                    //FRONTFACE
+                    if (IsTransparent(x, y, z - 1, mainChunk))
+                    {
+                        offset1 = Vector3.left * planeSize;
+                        offset2 = Vector3.up * planeSize;
+                        mainChunk = DrawFace(start + Vector3.right * planeSize, offset1, offset2, mainChunk);
+                    }
+                }
+
+
+            }
+            else
+            {
+                var planetdiv = sccsplanetdivbuilder.currentsccsplanetbuilder.getplanetdiv((int)(mainChunk.mindexposx), (int)(mainChunk.mindexposy), (int)(mainChunk.mindexposz));
+                sccsproceduralplanetbuilderrev12.mainChunk chunkdata = sccsproceduralplanetbuilderrev12.sccsproceduralplanetbuilderrev12script.getChunk((int)(mainChunk.indexposx), (int)(mainChunk.indexposy), (int)(mainChunk.indexposz - 1));
+
+                if (chunkdata != null)
+                {
+                    var comp = chunkdata.sccsplanetchunkrev12;
+
+                    if (comp != null)
+                    {
+                        if (comp.IsTransparent(x, y, depth - 1, chunkdata))
+                        {
+                            offset1 = Vector3.left * planeSize;
+                            offset2 = Vector3.up * planeSize;
+                            mainChunk = DrawFace(start + Vector3.right * planeSize, offset1, offset2, mainChunk);
+                        }
+                    }
+                    else
+                    {
+                        //FRONTFACE
+                        if (IsTransparent(x, y, z - 1, mainChunk))
+                        {
+                            offset1 = Vector3.left * planeSize;
+                            offset2 = Vector3.up * planeSize;
+                            mainChunk = DrawFace(start + Vector3.right * planeSize, offset1, offset2, mainChunk);
+                        }
+                    }
+                }
+                else
+                {
+                    //FRONTFACE
+                    if (IsTransparent(x, y, z - 1, mainChunk))
+                    {
+                        offset1 = Vector3.left * planeSize;
+                        offset2 = Vector3.up * planeSize;
+                        mainChunk = DrawFace(start + Vector3.right * planeSize, offset1, offset2, mainChunk);
+                    }
+                }
+            }
+
+
+        }
+        else
+        {
+
+            var planetdiv = sccsplanetdivbuilder.currentsccsplanetbuilder.getplanetdiv((int)(mainChunk.mindexposx), (int)(mainChunk.mindexposy), (int)(mainChunk.mindexposz));
+            sccsproceduralplanetbuilderrev12.mainChunk chunkdata = sccsproceduralplanetbuilderrev12.sccsproceduralplanetbuilderrev12script.getChunk((int)(mainChunk.indexposx), (int)(mainChunk.indexposy), (int)(mainChunk.indexposz - 1));
+
+            if (planetdiv != null)
+            {
+                float xx = (Mathf.Floor(start.x * fraction) / fraction) + chunkRadius;
+                float yy = (Mathf.Floor(start.y * fraction) / fraction) + chunkRadius;
+                float zz = (Mathf.Floor(start.z * fraction) / fraction) + chunkRadius;
+
+
+                //var planetdivchunk = planetdivright.getChunk();
+
+                if (chunkdata != null)
+                {
+                    var comp = chunkdata.sccsplanetchunkrev12;
+
+                    if (comp != null)
+                    {
+                        if (comp.IsTransparent(x, y, depth - 1, chunkdata))
+                        {
+                            offset1 = Vector3.left * planeSize;
+                            offset2 = Vector3.up * planeSize;
+                            mainChunk = DrawFace(start + Vector3.right * planeSize, offset1, offset2, mainChunk);
+                        }
+                    }
+                    else
+                    {
+                        //FRONTFACE
+                        if (IsTransparent(x, y, z - 1, mainChunk))
+                        {
+                            offset1 = Vector3.left * planeSize;
+                            offset2 = Vector3.up * planeSize;
+                            mainChunk = DrawFace(start + Vector3.right * planeSize, offset1, offset2, mainChunk);
+                        }
+                    }
+                }
+                else
+                {
+                    //FRONTFACE
+                    if (IsTransparent(x, y, z - 1, mainChunk))
+                    {
+                        offset1 = Vector3.left * planeSize;
+                        offset2 = Vector3.up * planeSize;
+                        mainChunk = DrawFace(start + Vector3.right * planeSize, offset1, offset2, mainChunk);
+                    }
+                }
+            }
+        }
+        //FRONTFACE
+        //FRONTFACE
+        //FRONTFACE
+
+
+
+
+        //BACKFACE
+        //BACKFACE
+        //BACKFACE
+        if (mainChunk.extremitydr == 1)
+        {
+            var planetdivright = sccsplanetdivbuilder.currentsccsplanetbuilder.getplanetdiv((int)(mainChunk.mindexposx), (int)(mainChunk.mindexposy), (int)(mainChunk.mindexposz+1));
+
+            if (planetdivright != null)
+            {
+                float xx = (Mathf.Floor(start.x * fraction) / fraction) + chunkRadius;
+                float yy = (Mathf.Floor(start.y * fraction) / fraction) + chunkRadius;
+                float zz = (Mathf.Floor(start.z * fraction) / fraction) + chunkRadius;
+
+
+                //var planetdivchunk = planetdivright.getChunk();
+
+                var chunkdata = planetdivright.getChunk((int)(mainChunk.indexposx), (int)(mainChunk.indexposy), (int)(0));
+                if (chunkdata != null)
+                {
+                    var comp = chunkdata.sccsplanetchunkrev12;
+
+                    if (comp != null)
+                    {
+                        if (comp.IsTransparent(x, y, 0, chunkdata))
+                        {
+                            offset1 = Vector3.right * planeSize;
+                            offset2 = Vector3.up * planeSize;
+                            mainChunk = DrawFace(start + Vector3.forward * planeSize, offset1, offset2, mainChunk);
+                        }
+                    }
+                }
+                else
+                {
+                    //RIGHTFACE
+                    if (IsTransparent(x, y, z+1, mainChunk))
+                    {
+                        offset1 = Vector3.right * planeSize;
+                        offset2 = Vector3.up * planeSize;
+                        mainChunk = DrawFace(start + Vector3.forward * planeSize, offset1, offset2, mainChunk);
+                    }
+                }
+
+
+            }
+            else
+            {
+                var planetdiv = sccsplanetdivbuilder.currentsccsplanetbuilder.getplanetdiv((int)(mainChunk.mindexposx), (int)(mainChunk.mindexposy), (int)(mainChunk.mindexposz));
+
+                var chunkdata = planetdiv.getChunk((int)(mainChunk.indexposx), (int)(mainChunk.indexposy), (int)(mainChunk.indexposz+1));
+                if (chunkdata != null)
+                {
+                    var comp = chunkdata.sccsplanetchunkrev12;
+
+                    if (comp != null)
+                    {
+                        if (comp.IsTransparent(x, y, 0, chunkdata))
+                        {
+                            offset1 = Vector3.right * planeSize;
+                            offset2 = Vector3.up * planeSize;
+                            mainChunk = DrawFace(start + Vector3.forward * planeSize, offset1, offset2, mainChunk);
+                        }
+                    }
+                }
+                else
+                {
+                    //RIGHTFACE
+                    if (IsTransparent(x, y, z+1, mainChunk))
+                    {
+                        offset1 = Vector3.right * planeSize;
+                        offset2 = Vector3.up * planeSize;
+                        mainChunk = DrawFace(start + Vector3.forward * planeSize, offset1, offset2, mainChunk);
+                    }
+                }
+            }
+
+
+        }
+        else
+        {
+
+            var planetdiv = sccsplanetdivbuilder.currentsccsplanetbuilder.getplanetdiv((int)(mainChunk.mindexposx), (int)(mainChunk.mindexposy), (int)(mainChunk.mindexposz));
+
+            if (planetdiv != null)
+            {
+                float xx = (Mathf.Floor(start.x * fraction) / fraction) + chunkRadius;
+                float yy = (Mathf.Floor(start.y * fraction) / fraction) + chunkRadius;
+                float zz = (Mathf.Floor(start.z * fraction) / fraction) + chunkRadius;
+
+                //var planetdivchunk = planetdivright.getChunk();
+
+                var chunkdata = planetdiv.getChunk((int)(mainChunk.indexposx), (int)(mainChunk.indexposy), (int)(mainChunk.indexposz+1));
+                if (chunkdata != null)
+                {
+                    var comp = chunkdata.sccsplanetchunkrev12;
+
+                    if (comp != null)
+                    {
+                        if (comp.IsTransparent(x, y, 0, chunkdata))
+                        {
+                            offset1 = Vector3.right * planeSize;
+                            offset2 = Vector3.up * planeSize;
+                            mainChunk = DrawFace(start + Vector3.forward * planeSize, offset1, offset2, mainChunk);
+                        }
+                    }
+                }
+                else
+                {
+                    //RIGHTFACE
+                    if (IsTransparent(x, y, z + 1, mainChunk))
+                    {
+                        offset1 = Vector3.right * planeSize;
+                        offset2 = Vector3.up * planeSize;
+                        mainChunk = DrawFace(start + Vector3.forward * planeSize, offset1, offset2, mainChunk);
+                    }
+                }
+            }
+        }
+        //BACKFACE
+        //BACKFACE
+        //BACKFACE
+
+
+
+
+
+
+
+
+
+        ////TOPFACE
+        ////TOPFACE
+        ////TOPFACE
+        if (mainChunk.extremityhr == 1)
+        {
+            var planetdivright = sccsplanetdivbuilder.currentsccsplanetbuilder.getplanetdiv((int)(mainChunk.mindexposx), (int)(mainChunk.mindexposy+1), (int)(mainChunk.mindexposz));
+
+            if (planetdivright != null)
+            {
+                float xx = (Mathf.Floor(start.x * fraction) / fraction) + chunkRadius;
+                float yy = (Mathf.Floor(start.y * fraction) / fraction) + chunkRadius;
+                float zz = (Mathf.Floor(start.z * fraction) / fraction) + chunkRadius;
+
+
+                //var planetdivchunk = planetdivright.getChunk();
+
+                var chunkdata = planetdivright.getChunk((int)(mainChunk.indexposx), (int)(0), (int)(mainChunk.indexposz));
+                if (chunkdata != null)
+                {
+                    var comp = chunkdata.sccsplanetchunkrev12;
+
+                    if (comp != null)
+                    {
+                        if (comp.IsTransparent(x, 0, z, chunkdata))
+                        {
+                            offset1 = Vector3.forward * planeSize;
+                            offset2 = Vector3.right * planeSize;
+                            mainChunk = DrawFace(start + Vector3.up * planeSize, offset1, offset2, mainChunk);
+                        }
+                    }
+                }
+                else
+                {
+                    //RIGHTFACE
+                    if (IsTransparent(x, y+1, z, mainChunk))
+                    {
+                        offset1 = Vector3.forward * planeSize;
+                        offset2 = Vector3.right * planeSize;
+                        mainChunk = DrawFace(start + Vector3.up * planeSize, offset1, offset2, mainChunk);
+                    }
+                }
+
+
+            }
+            else
+            {
+                var planetdiv = sccsplanetdivbuilder.currentsccsplanetbuilder.getplanetdiv((int)(mainChunk.mindexposx), (int)(mainChunk.mindexposy), (int)(mainChunk.mindexposz));
+
+                var chunkdata = planetdiv.getChunk((int)(mainChunk.indexposx), (int)(mainChunk.indexposy+1), (int)(mainChunk.indexposz));
+                if (chunkdata != null)
+                {
+                    var comp = chunkdata.sccsplanetchunkrev12;
+
+                    if (comp != null)
+                    {
+                        if (comp.IsTransparent(x, 0, z, chunkdata))
+                        {
+                            offset1 = Vector3.forward * planeSize;
+                            offset2 = Vector3.right * planeSize;
+                            mainChunk = DrawFace(start + Vector3.up * planeSize, offset1, offset2, mainChunk);
+                        }
+                    }
+                }
+                else
+                {
+                    //RIGHTFACE
+                    if (IsTransparent(x, y+1, z, mainChunk))
+                    {
+                        offset1 = Vector3.forward * planeSize;
+                        offset2 = Vector3.right * planeSize;
+                        mainChunk = DrawFace(start + Vector3.up * planeSize, offset1, offset2, mainChunk);
+                    }
+                }
+            }
+
+
+        }
+        else
+        {
+
+            var planetdiv = sccsplanetdivbuilder.currentsccsplanetbuilder.getplanetdiv((int)(mainChunk.mindexposx), (int)(mainChunk.mindexposy), (int)(mainChunk.mindexposz));
+
+            if (planetdiv != null)
+            {
+                float xx = (Mathf.Floor(start.x * fraction) / fraction) + chunkRadius;
+                float yy = (Mathf.Floor(start.y * fraction) / fraction) + chunkRadius;
+                float zz = (Mathf.Floor(start.z * fraction) / fraction) + chunkRadius;
+
+                //var planetdivchunk = planetdivright.getChunk();
+
+                var chunkdata = planetdiv.getChunk((int)(mainChunk.indexposx), (int)(mainChunk.indexposy+1), (int)(mainChunk.indexposz));
+                if (chunkdata != null)
+                {
+                    var comp = chunkdata.sccsplanetchunkrev12;
+
+                    if (comp != null)
+                    {
+                        if (comp.IsTransparent(x, 0, z, chunkdata))
+                        {
+                            offset1 = Vector3.forward * planeSize;
+                            offset2 = Vector3.right * planeSize;
+                            mainChunk = DrawFace(start + Vector3.up * planeSize, offset1, offset2, mainChunk);
+                        }
+                    }
+                }
+                else
+                {
+                    //RIGHTFACE
+                    if (IsTransparent(x, y+1, z, mainChunk))
+                    {
+                        offset1 = Vector3.forward * planeSize;
+                        offset2 = Vector3.right * planeSize;
+                        mainChunk = DrawFace(start + Vector3.up * planeSize, offset1, offset2, mainChunk);
+                    }
+                }
+            }
+        }
+        ////TOPFACE
+        ////TOPFACE
+        ////TOPFACE
+
+
+
+
+
+
+
+        ////BOTTOMFACE
+        ////BOTTOMFACE
+        ////BOTTOMFACE
+        if (mainChunk.extremityhl == 1)
+        {
+
+            var planetdivright = sccsplanetdivbuilder.currentsccsplanetbuilder.getplanetdiv((int)(mainChunk.mindexposx), (int)(mainChunk.mindexposy-1), (int)(mainChunk.mindexposz));
+
+            if (planetdivright != null)
+            {
+                float xx = (Mathf.Floor(start.x * fraction) / fraction) + chunkRadius;
+                float yy = (Mathf.Floor(start.y * fraction) / fraction) + chunkRadius;
+                float zz = (Mathf.Floor(start.z * fraction) / fraction) + chunkRadius;
+
+
+                //var planetdivchunk = planetdivright.getChunk();
+
+                var chunkdata = planetdivright.getChunk((int)(mainChunk.indexposx), (int)(sccsproceduralplanetbuilderrev12.sccsproceduralplanetbuilderrev12script.ChunkHeight_R), (int)(mainChunk.indexposz));
+                if (chunkdata != null)
+                {
+                    var comp = chunkdata.sccsplanetchunkrev12;
+
+                    if (comp != null)
+                    {
+                        if (comp.IsTransparent(x, height - 1, z, chunkdata))
+                        {
+                            offset1 = Vector3.right * planeSize;
+                            offset2 = Vector3.forward * planeSize;
+                            mainChunk = DrawFace(start, offset1, offset2, mainChunk);
+                        }
+                    }
+                }
+                else
+                {
+                    //RIGHTFACE
+                    if (IsTransparent(x, y - 1, z, mainChunk))
+                    {
+                        offset1 = Vector3.right * planeSize;
+                        offset2 = Vector3.forward * planeSize;
+                        mainChunk = DrawFace(start, offset1, offset2, mainChunk);
+                    }
+                }
+
+
+            }
+            else
+            {
+                var planetdiv = sccsplanetdivbuilder.currentsccsplanetbuilder.getplanetdiv((int)(mainChunk.mindexposx), (int)(mainChunk.mindexposy), (int)(mainChunk.mindexposz));
+
+                var chunkdata = planetdiv.getChunk((int)(mainChunk.indexposx), (int)(mainChunk.indexposy - 1), (int)(mainChunk.indexposz));
+                if (chunkdata != null)
+                {
+                    var comp = chunkdata.sccsplanetchunkrev12;
+
+                    if (comp != null)
+                    {
+                        if (comp.IsTransparent(x, height - 1, z, chunkdata))
+                        {
+                            offset1 = Vector3.right * planeSize;
+                            offset2 = Vector3.forward * planeSize;
+                            mainChunk = DrawFace(start, offset1, offset2, mainChunk);
+                        }
+                    }
+                }
+                else
+                {
+                    //LEFTFACE
+                    if (IsTransparent(x , y - 1, z, mainChunk))
+                    {
+                        offset1 = Vector3.right * planeSize;
+                        offset2 = Vector3.forward * planeSize;
+                        mainChunk = DrawFace(start, offset1, offset2, mainChunk);
+                    }
+                }
+            }
+
+
+        }
+        else
+        {
+
+            var planetdiv = sccsplanetdivbuilder.currentsccsplanetbuilder.getplanetdiv((int)(mainChunk.mindexposx), (int)(mainChunk.mindexposy), (int)(mainChunk.mindexposz));
+
+            if (planetdiv != null)
+            {
+                float xx = (Mathf.Floor(start.x * fraction) / fraction) + chunkRadius;
+                float yy = (Mathf.Floor(start.y * fraction) / fraction) + chunkRadius;
+                float zz = (Mathf.Floor(start.z * fraction) / fraction) + chunkRadius;
+
+
+                //var planetdivchunk = planetdivright.getChunk();
+
+                var chunkdata = planetdiv.getChunk((int)(mainChunk.indexposx ), (int)(mainChunk.indexposy - 1), (int)(mainChunk.indexposz));
+                if (chunkdata != null)
+                {
+                    var comp = chunkdata.sccsplanetchunkrev12;
+
+                    if (comp != null)
+                    {
+                        if (comp.IsTransparent(x, height - 1, z, chunkdata))
+                        {
+                            offset1 = Vector3.right * planeSize;
+                            offset2 = Vector3.forward * planeSize;
+                            mainChunk = DrawFace(start, offset1, offset2, mainChunk);
+                        }
+                    }
+                }
+                else
+                {
+                    //LEFTFACE
+                    if (IsTransparent(x, y - 1, z, mainChunk))
+                    {
+                        offset1 = Vector3.right * planeSize;
+                        offset2 = Vector3.forward * planeSize;
+                        mainChunk = DrawFace(start, offset1, offset2, mainChunk);
+                    }
+                }
+            }
+        }
+        ////BOTTOMFACE
+        ////BOTTOMFACE
+        ////BOTTOMFACE
+
+
+
+
+
+
+
+        /*//RIGHTFACE
         if (x != width - 1)
         {
             //RIGHTFACE
@@ -876,11 +1695,9 @@ public class sccsplanetchunkrev12 : MonoBehaviour
                     mainChunk = DrawFace(start + Vector3.right * planeSize, offset1, offset2, mainChunk);
                 }
             }
-        }
+        }*/
 
-
-
-
+        /*
         //LEFTFACE
         if (x != 0)
         {
@@ -1167,7 +1984,7 @@ public class sccsplanetchunkrev12 : MonoBehaviour
                 offset2 = Vector3.forward * planeSize;
                 mainChunk = DrawFace(start, offset1, offset2, mainChunk);
             }
-        }
+        }*/
 
         return mainChunk;
     }

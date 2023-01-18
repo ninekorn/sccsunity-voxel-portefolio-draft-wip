@@ -169,9 +169,6 @@ public class sccscomputevoxel //: MonoBehaviour
         vertices = new List<Vector3>();
         triangles = new List<int>();
 
-
-
-
         mapdata = new mapbytes[levelsizex * levelsizey * levelsizez][];
         datamapfirstvertxtop = new mapofints[levelsizex * levelsizey * levelsizez][];
         datamapfirstvertytop = new mapofints[levelsizex * levelsizey * levelsizez][];
@@ -179,7 +176,6 @@ public class sccscomputevoxel //: MonoBehaviour
         datawidthdimtop = new mapofints[levelsizex * levelsizey * levelsizez][];
         dataheightdimtop = new mapofints[levelsizex * levelsizey * levelsizez][];
         datadepthdimtop = new mapofints[levelsizex * levelsizey * levelsizez][];
-
 
         //emptyobjectparent0 = parentobject;
         //GameObject emptyobjectparent0 = new GameObject();
@@ -203,7 +199,6 @@ public class sccscomputevoxel //: MonoBehaviour
                     int mindex = mx + levelsizex * (my + levelsizey * mz);
 
                     chunkpos = new Vector3(mx * mapx * 0.1f, my * mapy * 0.1f, mz * mapz * 0.1f);
-
 
                     //int totalSize = mapx * mapy * mapz;
                     mapdata[mindex] = new mapbytes[mapx * mapy * mapz];
@@ -331,7 +326,15 @@ public class sccscomputevoxel //: MonoBehaviour
 
                     if (reducedverttrigswtc == 0)
                     {
+
+                        /*
+                        threadmulx = 8;
+                        threadmuly = 8;
+                        threadmulz = 8;*/
+
+
                         computeVertexesTOP.SetBuffer(0, "themap", maps0buffer);
+
                         computeVertexesTOP.SetBuffer(0, "mapfirstvertxtop", mapvertlocbufferx);
                         computeVertexesTOP.SetBuffer(0, "mapfirstvertytop", mapvertlocbuffery);
                         computeVertexesTOP.SetBuffer(0, "mapfirstvertztop", mapvertlocbufferz);

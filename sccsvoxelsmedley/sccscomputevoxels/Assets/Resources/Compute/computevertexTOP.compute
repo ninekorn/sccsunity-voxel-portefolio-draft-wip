@@ -9,6 +9,12 @@ struct mapofints
     int thebyte;
 };
 
+struct mapofvertints
+{
+    float4 vertpos;
+};
+
+
 struct mapbytes
 {    
     int ix;
@@ -18,18 +24,31 @@ struct mapbytes
     float3 position;
 };
 
+
 static const int width = 10;
 static const int height = 10;
 static const int depth = 10;
 
 
+
 RWStructuredBuffer<mapbytes> themap;
+
+
+RWStructuredBuffer<mapofvertints> mapfirstvertxyztop;
+
+/*
 RWStructuredBuffer<mapofints> mapfirstvertxtop;
 //RWStructuredBuffer<mapofints> mapfirstvertytop;
-RWStructuredBuffer<mapofints> mapfirstvertztop;
+RWStructuredBuffer<mapofints> mapfirstvertztop;*/
+
+
+
+RWStructuredBuffer<mapofvertints> dims;
+
+/*
 RWStructuredBuffer<mapofints> widthdimtop;
 RWStructuredBuffer<mapofints> heightdimtop;
-RWStructuredBuffer<mapofints> depthdimtop;
+RWStructuredBuffer<mapofints> depthdimtop;*/
  
 int blockExistsInArray(int _x, int _y, int _z)
 {
@@ -194,14 +213,24 @@ void main(uint3 Gid : SV_GroupID,
                 float3 vert2 = float3(threeVertIndexX , threeVertIndexY , threeVertIndexZ );
                 float3 vert3 = float3(fourVertIndexX , fourVertIndexY , fourVertIndexZ );
 
-                mapfirstvertxtop[theindex].thebyte = oneVertIndexX;
+                //mapfirstvertxtop[theindex].thebyte = oneVertIndexX;
                 //mapfirstvertytop[someindextop].thebyte = oneVertIndexY;
-                mapfirstvertztop[theindex].thebyte = oneVertIndexZ;
+                //mapfirstvertztop[theindex].thebyte = oneVertIndexZ;
 
-                widthdimtop[theindex].thebyte = twoVertIndexX - oneVertIndexX;//(int)(vert2.x - vert0.x);//(int)abs(abs(vert0.x) - abs(vert2.x));  
+                mapfirstvertxyztop[theindex].vertpos = float4(oneVertIndexX,0,oneVertIndexZ,1.0);
+
+
+                /*widthdimtop[theindex].thebyte = twoVertIndexX - oneVertIndexX;//(int)(vert2.x - vert0.x);//(int)abs(abs(vert0.x) - abs(vert2.x));  
                 heightdimtop[theindex].thebyte = oneVertIndexY;// (int)abs(abs(vert0.Y) - abs(vert2.Y));
                 depthdimtop[theindex].thebyte = threeVertIndexZ - oneVertIndexZ;//(int)(vert1.z - vert0.z);//(int)abs(abs(vert0.z) - abs(vert1.z));
-                            
+                      
+                */
+
+
+                dims[theindex].vertpos = float4(twoVertIndexX - oneVertIndexX,oneVertIndexY,threeVertIndexZ - oneVertIndexZ,1.0);
+
+
+
                 int index0 = oneVertIndexX + vertexlistWidth * ((oneVertIndexY) + vertexlistHeight * oneVertIndexZ);
                 int index1 = twoVertIndexX + vertexlistWidth * ((twoVertIndexY) + vertexlistHeight * twoVertIndexZ);
                 int index2 = threeVertIndexX + vertexlistWidth * ((threeVertIndexY) + vertexlistHeight * threeVertIndexZ);

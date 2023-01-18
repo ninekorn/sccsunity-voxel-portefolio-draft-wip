@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Runtime.InteropServices.ComTypes;
 using UnityEngine;
 
 public class sccscomputevoxelTOP: MonoBehaviour
@@ -19,21 +20,38 @@ public class sccscomputevoxelTOP: MonoBehaviour
     {
         public int thebyte;
     };
+    public struct mapofvertints
+    {
+        public Vector4 vertpos;
+    };
 
     private mapbytes[][] mapdata;
-    private mapofints[][] datamapfirstvertxtop;
-    private mapofints[][] datamapfirstvertytop;
-    private mapofints[][] datamapfirstvertztop;
-    private mapofints[][] datawidthdimtop;
-    private mapofints[][] dataheightdimtop;
-    private mapofints[][] datadepthdimtop;
 
-    public int levelsizex = 2;
+    private mapofvertints[][] datamapfirstvertxyztop;
+
+    /*private mapofints[][] datamapfirstvertxtop;
+    private mapofints[][] datamapfirstvertytop;
+    private mapofints[][] datamapfirstvertztop;*/
+
+   /* private mapofints[][] datawidthdimtop;
+    private mapofints[][] dataheightdimtop;
+    private mapofints[][] datadepthdimtop;*/
+
+    private mapofvertints[][] datadims;
+
+
+
+
+
+
+
+    public int levelsizex = 1;
     public int levelsizey = 1;
-    public int levelsizez = 2;
-    public int mapx = 40;
-    public int mapy = 40;
-    public int mapz = 40;
+    public int levelsizez = 1;
+
+    public int mapx = 10;
+    public int mapy = 10;
+    public int mapz = 10;
 
     public ComputeShader computeShaderForMap;
     public ComputeShader computeVertexesfacetype;
@@ -48,9 +66,9 @@ public class sccscomputevoxelTOP: MonoBehaviour
     public Material mat1;*/
     public Material mat;
 
-    public int threadmulx = 2;
-    public int threadmuly = 2;
-    public int threadmulz = 2;
+    public int threadmulx = 1;
+    public int threadmuly = 1;
+    public int threadmulz = 1;
 
 
 
@@ -60,12 +78,18 @@ public class sccscomputevoxelTOP: MonoBehaviour
     void Start()
     {
         mapdata = new mapbytes[levelsizex * levelsizey * levelsizez][];
-        datamapfirstvertxtop = new mapofints[levelsizex * levelsizey * levelsizez][];
+
+        datamapfirstvertxyztop = new mapofvertints[levelsizex * levelsizey * levelsizez][];
+
+        /*datamapfirstvertxtop = new mapofints[levelsizex * levelsizey * levelsizez][];
         datamapfirstvertytop = new mapofints[levelsizex * levelsizey * levelsizez][];
-        datamapfirstvertztop = new mapofints[levelsizex * levelsizey * levelsizez][];
-        datawidthdimtop = new mapofints[levelsizex * levelsizey * levelsizez][];
+        datamapfirstvertztop = new mapofints[levelsizex * levelsizey * levelsizez][];*/
+        /*datawidthdimtop = new mapofints[levelsizex * levelsizey * levelsizez][];
         dataheightdimtop = new mapofints[levelsizex * levelsizey * levelsizez][];
-        datadepthdimtop = new mapofints[levelsizex * levelsizey * levelsizez][];
+        datadepthdimtop = new mapofints[levelsizex * levelsizey * levelsizez][];*/
+
+
+        datadims = new mapofvertints[levelsizex * levelsizey * levelsizez][];
 
 
         GameObject emptyobjectparent0 = this.transform.gameObject;
@@ -98,12 +122,19 @@ public class sccscomputevoxelTOP: MonoBehaviour
 
                     //int totalSize = mapx * mapy * mapz;
                     mapdata[mindex] = new mapbytes[mapx * mapy * mapz];
-                    datamapfirstvertxtop[mindex] = new mapofints[mapx * mapy * mapz];
+
+                    datamapfirstvertxyztop[mindex] = new mapofvertints[mapx * mapy * mapz];
+
+                    /*datamapfirstvertxtop[mindex] = new mapofints[mapx * mapy * mapz];
                     datamapfirstvertytop[mindex] = new mapofints[mapx * mapy * mapz];
-                    datamapfirstvertztop[mindex] = new mapofints[mapx * mapy * mapz];
-                    datawidthdimtop[mindex] = new mapofints[mapx * mapy * mapz];
+                    datamapfirstvertztop[mindex] = new mapofints[mapx * mapy * mapz];*/
+                    /*datawidthdimtop[mindex] = new mapofints[mapx * mapy * mapz];
                     dataheightdimtop[mindex] = new mapofints[mapx * mapy * mapz];
-                    datadepthdimtop[mindex] = new mapofints[mapx * mapy * mapz];
+                    datadepthdimtop[mindex] = new mapofints[mapx * mapy * mapz];*/
+
+                    datadims[mindex] = new mapofvertints[mapx * mapy * mapz];
+                    
+
 
                     for (int x = 0; x < mapx; x++)
                     {
@@ -120,7 +151,17 @@ public class sccscomputevoxelTOP: MonoBehaviour
                                 mapdata[mindex][index].iy = y;
                                 mapdata[mindex][index].iz = z;
 
-                                datamapfirstvertxtop[mindex][index] = new mapofints();
+
+
+
+                                datamapfirstvertxyztop[mindex][index] = new mapofvertints();
+                                //datamapfirstvertxyztop[mindex][index].thebyte = 0;
+
+                                datamapfirstvertxyztop[mindex][index].vertpos = new Vector4(0,0,0,0);
+
+
+
+                                /*datamapfirstvertxtop[mindex][index] = new mapofints();
                                 datamapfirstvertxtop[mindex][index].thebyte = 0;
 
                                 datamapfirstvertytop[mindex][index] = new mapofints();
@@ -128,8 +169,8 @@ public class sccscomputevoxelTOP: MonoBehaviour
 
                                 datamapfirstvertztop[mindex][index] = new mapofints();
                                 datamapfirstvertztop[mindex][index].thebyte = 0;
-
-                                datawidthdimtop[mindex][index] = new mapofints();
+                                */
+                                /*datawidthdimtop[mindex][index] = new mapofints();
                                 datawidthdimtop[mindex][index].thebyte = 0;
 
                                 dataheightdimtop[mindex][index] = new mapofints();
@@ -137,6 +178,13 @@ public class sccscomputevoxelTOP: MonoBehaviour
 
                                 datadepthdimtop[mindex][index] = new mapofints();
                                 datadepthdimtop[mindex][index].thebyte = 0;
+                                */
+
+
+                                datadims[mindex][index] = new mapofvertints();
+                                datadims[mindex][index].vertpos = new Vector4(0, 0, 0, 0);
+
+
                             }
                         }
                     }
@@ -181,20 +229,27 @@ public class sccscomputevoxelTOP: MonoBehaviour
 
 
 
+                    ComputeBuffer mapvertlocbufferxyz = new ComputeBuffer(datamapfirstvertxyztop[mindex].Length, 16);
+                    mapvertlocbufferxyz.SetData(datamapfirstvertxyztop[mindex]);
+
+
+
 
 
                     ComputeBuffer maps0buffer = new ComputeBuffer(mapdata[mindex].Length, totalSize);
                     maps0buffer.SetData(mapdata[mindex]);
 
-                    ComputeBuffer mapvertlocbufferx = new ComputeBuffer(datamapfirstvertxtop[mindex].Length, 4);
+
+                    /*ComputeBuffer mapvertlocbufferx = new ComputeBuffer(datamapfirstvertxtop[mindex].Length, 4);
                     mapvertlocbufferx.SetData(datamapfirstvertxtop[mindex]);
 
                     ComputeBuffer mapvertlocbuffery = new ComputeBuffer(datamapfirstvertytop[mindex].Length, 4);
                     mapvertlocbuffery.SetData(datamapfirstvertytop[mindex]);
 
                     ComputeBuffer mapvertlocbufferz = new ComputeBuffer(datamapfirstvertztop[mindex].Length, 4);
-                    mapvertlocbufferz.SetData(datamapfirstvertztop[mindex]);
+                    mapvertlocbufferz.SetData(datamapfirstvertztop[mindex]);*/
 
+                    /*
                     ComputeBuffer mapwidthdimtop = new ComputeBuffer(datawidthdimtop[mindex].Length, 4);
                     mapwidthdimtop.SetData(datawidthdimtop[mindex]);
 
@@ -203,22 +258,32 @@ public class sccscomputevoxelTOP: MonoBehaviour
 
                     ComputeBuffer mapdepthdimtop = new ComputeBuffer(datadepthdimtop[mindex].Length, 4);
                     mapdepthdimtop.SetData(datadepthdimtop[mindex]);
+                    */
 
-
-
+                    ComputeBuffer mapdims= new ComputeBuffer(datadims[mindex].Length, 16);
+                    mapdims.SetData(datadims[mindex]);
 
 
 
                     if (reducedverttrigswtc == 0)
                     {
                         computeVertexesfacetype.SetBuffer(0, "themap", maps0buffer);
-                        computeVertexesfacetype.SetBuffer(0, "mapfirstvertxtop", mapvertlocbufferx);
-                        computeVertexesfacetype.SetBuffer(0, "mapfirstvertytop", mapvertlocbuffery);
-                        computeVertexesfacetype.SetBuffer(0, "mapfirstvertztop", mapvertlocbufferz);
 
+                        computeVertexesfacetype.SetBuffer(0, "mapfirstvertxyztop", mapvertlocbufferxyz);
+
+                        /*computeVertexesfacetype.SetBuffer(0, "mapfirstvertxtop", mapvertlocbufferx);
+                        computeVertexesfacetype.SetBuffer(0, "mapfirstvertytop", mapvertlocbuffery);
+                        computeVertexesfacetype.SetBuffer(0, "mapfirstvertztop", mapvertlocbufferz);*/
+                        /*
                         computeVertexesfacetype.SetBuffer(0, "widthdimtop", mapwidthdimtop);
                         computeVertexesfacetype.SetBuffer(0, "heightdimtop", mapheightdimtop);
-                        computeVertexesfacetype.SetBuffer(0, "depthdimtop", mapdepthdimtop);
+                        computeVertexesfacetype.SetBuffer(0, "depthdimtop", mapdepthdimtop);*/
+
+
+                        computeVertexesfacetype.SetBuffer(0, "dims", mapdims);
+
+
+
 
                         computeVertexesfacetype.Dispatch(0, threadmulx, threadmuly, threadmulz);
 
@@ -251,14 +316,22 @@ public class sccscomputevoxelTOP: MonoBehaviour
 
                     }
 
-
+                    /*
                     mapvertlocbufferx.GetData(datamapfirstvertxtop[mindex]);
                     mapvertlocbuffery.GetData(datamapfirstvertytop[mindex]);
-                    mapvertlocbufferz.GetData(datamapfirstvertztop[mindex]);
+                    mapvertlocbufferz.GetData(datamapfirstvertztop[mindex]);*/
 
+                    mapvertlocbufferxyz.GetData(datamapfirstvertxyztop[mindex]);
+
+
+                    mapdims.GetData(datadims[mindex]);
+
+
+
+                    /*
                     mapwidthdimtop.GetData(datawidthdimtop[mindex]);
                     mapheightdimtop.GetData(dataheightdimtop[mindex]);
-                    mapdepthdimtop.GetData(datadepthdimtop[mindex]);
+                    mapdepthdimtop.GetData(datadepthdimtop[mindex]);*/
 
 
 
@@ -280,7 +353,7 @@ public class sccscomputevoxelTOP: MonoBehaviour
 
 
 
-                                if (dataheightdimtop[mindex][index].thebyte == 0)//datamapfirstvertxtop[mindex][index].thebyte == 0 && datamapfirstvertytop[mindex][index].thebyte == 0 && datamapfirstvertztop[mindex][index].thebyte == 0)
+                                if (datadims[mindex][index].vertpos.y == 0)//datamapfirstvertxtop[mindex][index].thebyte == 0 && datamapfirstvertytop[mindex][index].thebyte == 0 && datamapfirstvertztop[mindex][index].thebyte == 0)
                                 {
 
                                 }
@@ -289,7 +362,68 @@ public class sccscomputevoxelTOP: MonoBehaviour
 
                                     //if (mapint[index] == 1)//IsTransparent(x, y+1,z, originalmapdata[mindex]) && blockExistsInArray(x, y - 1 ,z) == 1)// mapint[index] == 1) //mapdata[mindex]
                                     {
+
+
+
                                         int indexofvert0 = vertices.Count;
+                                        Vector3 firstvertofface = new Vector3(datamapfirstvertxyztop[mindex][index].vertpos.x, datadims[mindex][index].vertpos.y, datamapfirstvertxyztop[mindex][index].vertpos.z);
+
+                                        int indexofvert1 = vertices.Count + 1;
+                                        Vector3 secondvertofface = new Vector3(datamapfirstvertxyztop[mindex][index].vertpos.x + (datadims[mindex][index].vertpos.x), datadims[mindex][index].vertpos.y, datamapfirstvertxyztop[mindex][index].vertpos.z);
+
+                                        int indexofvert2 = vertices.Count + 2;
+                                        Vector3 thirdvertofface = new Vector3(datamapfirstvertxyztop[mindex][index].vertpos.x, datadims[mindex][index].vertpos.y, datamapfirstvertxyztop[mindex][index].vertpos.z + (datadims[mindex][index].vertpos.z));
+
+                                        int indexofvert3 = vertices.Count + 3;
+                                        Vector3 fourthvertofface = new Vector3(datamapfirstvertxyztop[mindex][index].vertpos.x + (datadims[mindex][index].vertpos.x), datadims[mindex][index].vertpos.y, datamapfirstvertxyztop[mindex][index].vertpos.z + (datadims[mindex][index].vertpos.z));
+
+
+                                        vertices.Add(firstvertofface);
+                                        vertices.Add(secondvertofface);
+                                        vertices.Add(thirdvertofface);
+                                        vertices.Add(fourthvertofface);
+
+                                        triangles.Add(indexofvert2);
+                                        triangles.Add(indexofvert1);
+                                        triangles.Add(indexofvert0);
+                                        triangles.Add(indexofvert1);
+                                        triangles.Add(indexofvert2);
+                                        triangles.Add(indexofvert3);
+
+
+
+
+                                        /*
+                                        int indexofvert0 = vertices.Count;
+                                        Vector3 firstvertofface = new Vector3(datamapfirstvertxyztop[mindex][index].vertpos.x, dataheightdimtop[mindex][index].thebyte, datamapfirstvertxyztop[mindex][index].vertpos.z);
+
+                                        int indexofvert1 = vertices.Count + 1;
+                                        Vector3 secondvertofface = new Vector3(datamapfirstvertxyztop[mindex][index].vertpos.x + (datawidthdimtop[mindex][index].thebyte), dataheightdimtop[mindex][index].thebyte, datamapfirstvertxyztop[mindex][index].vertpos.z);
+
+                                        int indexofvert2 = vertices.Count + 2;
+                                        Vector3 thirdvertofface = new Vector3(datamapfirstvertxyztop[mindex][index].vertpos.x, dataheightdimtop[mindex][index].thebyte, datamapfirstvertxyztop[mindex][index].vertpos.z + (datadepthdimtop[mindex][index].thebyte));
+
+                                        int indexofvert3 = vertices.Count + 3;
+                                        Vector3 fourthvertofface = new Vector3(datamapfirstvertxyztop[mindex][index].vertpos.x + (datawidthdimtop[mindex][index].thebyte), dataheightdimtop[mindex][index].thebyte, datamapfirstvertxyztop[mindex][index].vertpos.z + (datadepthdimtop[mindex][index].thebyte));
+
+
+                                        vertices.Add(firstvertofface);
+                                        vertices.Add(secondvertofface);
+                                        vertices.Add(thirdvertofface);
+                                        vertices.Add(fourthvertofface);
+
+                                        triangles.Add(indexofvert2);
+                                        triangles.Add(indexofvert1);
+                                        triangles.Add(indexofvert0);
+                                        triangles.Add(indexofvert1);
+                                        triangles.Add(indexofvert2);
+                                        triangles.Add(indexofvert3);
+                                        */
+
+
+
+
+                                        /*int indexofvert0 = vertices.Count;
                                         Vector3 firstvertofface = new Vector3(datamapfirstvertxtop[mindex][index].thebyte, dataheightdimtop[mindex][index].thebyte, datamapfirstvertztop[mindex][index].thebyte);
 
                                         int indexofvert1 = vertices.Count + 1;
@@ -312,7 +446,22 @@ public class sccscomputevoxelTOP: MonoBehaviour
                                         triangles.Add(indexofvert0);
                                         triangles.Add(indexofvert1);
                                         triangles.Add(indexofvert2);
-                                        triangles.Add(indexofvert3);
+                                        triangles.Add(indexofvert3);*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
                                         //Instantiate(visualobject0, firstvertofface * 0.1f, Quaternion.identity);
@@ -372,12 +521,32 @@ public class sccscomputevoxelTOP: MonoBehaviour
                     var meshfilt = emptyobject.AddComponent<MeshFilter>();
                     var meshrend = emptyobject.AddComponent<MeshRenderer>();
 
-                    Mesh thenewmesh = new Mesh();
+                    /*Mesh thenewmesh = new Mesh();
                     thenewmesh.vertices = vertices.ToArray();
                     thenewmesh.triangles = triangles.ToArray();
 
                     emptyobject.GetComponent<MeshFilter>().mesh = thenewmesh;
-                    //_testChunk.GetComponent<MeshRenderer>().material = _mat;
+                    *///_testChunk.GetComponent<MeshRenderer>().material = _mat;
+
+
+
+                    Mesh mesh = new Mesh();
+                    emptyobject.gameObject.GetComponent<MeshFilter>().mesh.Clear();
+                    emptyobject.gameObject.GetComponent<MeshFilter>().mesh = null;
+
+                    emptyobject.gameObject.GetComponent<MeshFilter>().mesh = mesh;
+                    emptyobject.GetComponent<MeshFilter>().sharedMesh = mesh;
+
+
+                    emptyobject.GetComponent<MeshFilter>().mesh.Clear();
+                    emptyobject.GetComponent<MeshFilter>().mesh.vertices = vertices.ToArray();
+                    emptyobject.GetComponent<MeshFilter>().mesh.triangles = triangles.ToArray();
+                    //meshCollider.sharedMesh = null;
+                    //meshCollider.sharedMesh = mesh;
+                    emptyobject.GetComponent<MeshFilter>().mesh.RecalculateBounds();
+                    emptyobject.GetComponent<MeshFilter>().mesh.RecalculateNormals();
+
+                    Debug.Log("sccscomputevoxelTOP:" + "/triangles:" + triangles.Count);
 
                     emptyobject.transform.position = chunkmainpos;
                     emptyobject.transform.rotation = Quaternion.identity;
@@ -388,8 +557,21 @@ public class sccscomputevoxelTOP: MonoBehaviour
                     emptyobject.transform.parent = emptyobjectparent0.transform;
                     emptyobject.gameObject.name = "top faces";
                     emptyobject.transform.name = "top faces";
+                    emptyobject.tag = "collisionObject";
+                    emptyobject.layer = 8;
+                    
 
+                    if (emptyobject.gameObject.GetComponent<MeshCollider>() == null)
+                    {
+                        emptyobject.gameObject.AddComponent<MeshCollider>();
+                    }
+                    else
+                    {
+                        Destroy(emptyobject.gameObject.GetComponent<MeshCollider>());
+                        emptyobject.gameObject.AddComponent<MeshCollider>();
 
+                    }
+                  
 
 
 
@@ -1245,22 +1427,22 @@ if (vertices.Count > 0)
 
 
                     maps0buffer.Release();
-                    mapvertlocbufferx.Release();
+                    /*mapvertlocbufferx.Release();
                     mapvertlocbuffery.Release();
-                    mapvertlocbufferz.Release();
-                    mapwidthdimtop.Release();
+                    mapvertlocbufferz.Release();*/
+                    /*mapwidthdimtop.Release();
                     mapheightdimtop.Release();
                     mapdepthdimtop.Release();
-
+                    */
 
 
                     maps0buffer.Dispose();
-                    mapvertlocbufferx.Dispose();
+                    /*mapvertlocbufferx.Dispose();
                     mapvertlocbuffery.Dispose();
-                    mapvertlocbufferz.Dispose();
-                    mapwidthdimtop.Dispose();
+                    mapvertlocbufferz.Dispose();*/
+                    /*mapwidthdimtop.Dispose();
                     mapheightdimtop.Dispose();
-                    mapdepthdimtop.Dispose();
+                    mapdepthdimtop.Dispose();*/
                     // _tempChunkArraybuffer.Dispose();
 
 
@@ -1318,12 +1500,19 @@ if (vertices.Count > 0)
 
 
 
-
+    public GameObject theplayer;
 
 
     // Update is called once per frame
     void Update()
     {
+        /*if (theplayer == null)
+        {
+            theplayer = GameObject.FindGameObjectWithTag("Player");
 
+            theplayer.GetComponent<sccsplayer>().theplanet = this.gameObject;
+
+
+        }*/
     }
 }

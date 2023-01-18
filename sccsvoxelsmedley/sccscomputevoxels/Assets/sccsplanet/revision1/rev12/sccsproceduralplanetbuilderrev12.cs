@@ -17,6 +17,11 @@ using Unity;
 
 public class sccsproceduralplanetbuilderrev12 : MonoBehaviour
 {
+    public int mindexposx;
+    public int mindexposy;
+    public int mindexposz;
+
+
 
     public static sccsproceduralplanetbuilderrev12 sccsproceduralplanetbuilderrev12script;
 
@@ -30,6 +35,19 @@ public class sccsproceduralplanetbuilderrev12 : MonoBehaviour
 
     public class mainChunk
     {
+        public int extremitywl;
+        public int extremitywr;
+
+        public int extremityhl;
+        public int extremityhr;
+
+        public int extremitydl;
+        public int extremitydr;
+  
+        public int mindexposx;
+        public int mindexposy;
+        public int mindexposz;
+
         public List<Vector3> verts;
         public List<int> tris;
         public int xindex;
@@ -50,10 +68,10 @@ public class sccsproceduralplanetbuilderrev12 : MonoBehaviour
 
         public int indexposz;
 
-        public mainChunk(Vector3 worldPos, GameObject planetchunk_, int swtc_, sccsplanetchunkrev12 sccsplanetchunkrev12_,
-            byte[] bytemap, Vector3 parentPosition, int xindex, int yindex, int zindex, List<Vector3> verts, List<int> tris,Vector3 gridbasedposition,int indexposx, int indexposy, int indexposz)
+        public mainChunk(Vector3 worldPosition, GameObject planetchunk_, int swtc_, sccsplanetchunkrev12 sccsplanetchunkrev12_,
+            byte[] bytemap, Vector3 parentPosition, int xindex, int yindex, int zindex, List<Vector3> verts, List<int> tris,Vector3 gridbasedposition,int indexposx, int indexposy, int indexposz, int mindexposx, int mindexposy, int mindexposz)
         {
-            worldPosition = worldPos;
+            this.worldPosition = worldPosition;
             planetchunk = planetchunk_;
             swtc = swtc_;
             sccsplanetchunkrev12 = sccsplanetchunkrev12_;
@@ -68,6 +86,13 @@ public class sccsproceduralplanetbuilderrev12 : MonoBehaviour
             this.indexposx = indexposx;
             this.indexposy = indexposy;
             this.indexposz = indexposz;
+
+            this.mindexposx = mindexposx;
+            this.mindexposy = mindexposy;
+            this.mindexposz = mindexposz;
+            
+
+
         }
 
         /*public mainChunk getChunk(int x, int y, int z)
@@ -121,7 +146,7 @@ public class sccsproceduralplanetbuilderrev12 : MonoBehaviour
 
     }
     //byte[,,] blocks;
-    public static mainChunk[] blockers;
+    public mainChunk[] blockers;
 
     //byte block;
     int realplanetwidth = 4;
@@ -187,7 +212,14 @@ public class sccsproceduralplanetbuilderrev12 : MonoBehaviour
 
     int blocksize = 1;
 
-    void Awake()
+    //void Awake()
+
+    public int forwaitplanetchunkshavebuiltswtc = 0;
+    public int forwaitplanetchunkshavebuiltswtccounter = 0;
+    public int forwaitplanetchunkshavebuiltswtcmain = 0;
+
+
+    public void StartScript()
     {
         /*width = 16;
         width = 16;
@@ -445,7 +477,7 @@ public class sccsproceduralplanetbuilderrev12 : MonoBehaviour
                     }
 
 
-                    if (queueofmapdatacallbacktwocounterswtc == 1)
+                    if (queueofmapdatacallbacktwocounterswtc == 1 && forwaitplanetchunkshavebuiltswtc == 1)
                     {
                         //Debug.Log("finished counting that all maps have been built sent here");
                         if (queueofmeshdatacallback.Count > 0)
@@ -513,10 +545,9 @@ public class sccsproceduralplanetbuilderrev12 : MonoBehaviour
                         if (queueofmeshdatacallbacktwocounter >= othermaxx * othermaxy * othermaxz)
                         {
                             //Debug.Log("queueofmeshdatacallbacktwocounter:" + queueofmeshdatacallbacktwocounter);
-
                             for (int i = 0; i < iterateloopmesh; i++)
                             {
-                                buildplanetchunkvertex();
+                                buildplanetchunkfinalmesh();
                             }
                             //queueofmapdatacallbacktwocounterswtc = 3;
                             //queueofmeshdatacallbacktwocounter = 0;
@@ -577,12 +608,13 @@ public class sccsproceduralplanetbuilderrev12 : MonoBehaviour
 
         for (int m = 0; m < 1; m++) // leaving it at 1 so that i ask myself the question wtf later. ive coded this already. im not doing it again. i need to find where i put it. peace of shit code. for brain grinders only
         {
+        
         }
 
         //blockers = new mainChunk[(planetwidth * planetheight * planetdepth) + (planetwidth * planetheight * planetdepth)];
         //blockers = new mainChunk[(planetwidth + planetwidth) * (planetheight + planetheight) * (planetdepth + planetdepth)];
 
-        Vector3 center = Vector3.zero;
+        Vector3 center = this.transform.position;// Vector3.zero;
 
         /*int x = ix;
         int y = iy;
@@ -691,7 +723,7 @@ public class sccsproceduralplanetbuilderrev12 : MonoBehaviour
 
 
 
-                    Vector3 planetchunkpos = new Vector3(xi, yi, zi);
+                    Vector3 planetchunkpos = new Vector3(xi, yi, zi) + center;
 
 
 
@@ -721,8 +753,55 @@ public class sccsproceduralplanetbuilderrev12 : MonoBehaviour
 
                         Vector3 gridposition = new Vector3(x, y, z) + center;
                         //objectfrompool.GetComponent<sccsplanetchunkrev12>().buildchunkmap();
-                        blockers[_index] = new mainChunk(planetchunkpos, objectfrompool.gameObject, 0, sccsplanetchunkrev12script, new byte[width * height * depth], this.transform.position, xxi, yyi, zzi, new List<Vector3>(), new List<int>(), gridposition, x, y, z);
+                        blockers[_index] = new mainChunk(planetchunkpos, objectfrompool.gameObject, 0, sccsplanetchunkrev12script, new byte[width * height * depth], this.transform.position, xxi, yyi, zzi, new List<Vector3>(), new List<int>(), gridposition, x, y, z, mindexposx, mindexposy, mindexposz);
                         blockers[_index].sccsplanetchunkrev12 = sccsplanetchunkrev12script;// objectfrompool.GetComponent<sccsplanetchunkrev12>();
+
+
+
+                        if (x == -ChunkWidth_L)
+                        {
+                            blockers[_index].extremitywl = 1;
+
+                        }
+
+                        if (x == ChunkWidth_R)
+                        {
+                            blockers[_index].extremitywr = 1;
+                        }
+
+
+
+                        if (y == -ChunkHeight_L)
+                        {
+                            blockers[_index].extremityhl = 1;
+
+                        }
+
+                        if (y == ChunkHeight_R)
+                        {
+                            blockers[_index].extremityhr = 1;
+                        }
+
+
+
+                        if (z == -ChunkDepth_L)
+                        {
+                            blockers[_index].extremitydl = 1;
+
+                        }
+
+                        if (z == ChunkDepth_R)
+                        {
+                            blockers[_index].extremitydr = 1;
+                        }
+
+
+                        /*
+                        blockers[_index].extremityhl = 0;
+                        blockers[_index].extremityhr = 0;
+                        blockers[_index].extremitydl = 0;
+                        blockers[_index].extremitydr = 0;*/
+
 
 
                         //TO OPTIMIZE LATER
@@ -855,7 +934,7 @@ public class sccsproceduralplanetbuilderrev12 : MonoBehaviour
 
         Thread test = new Thread(threadStart);//
         test.Start();
-        test.Join();
+        //test.Join();
 
 
         //listofthreadmapworker.Add(test);
@@ -871,7 +950,6 @@ public class sccsproceduralplanetbuilderrev12 : MonoBehaviour
     sccsproceduralplanetbuilderrev12.mainChunk mapData;
     void MapDataThread(mainChunk mapData, Action<mainChunk> callback)
     {
-
         ////Debug.Log("MapDataThread");
 
         if (mapData.swtc == 0)
@@ -985,7 +1063,7 @@ public class sccsproceduralplanetbuilderrev12 : MonoBehaviour
 
 
     int canstopcounting = 0;
-    void buildplanetchunkvertex()
+    void buildplanetchunkfinalmesh()
     {
 
 
@@ -1089,7 +1167,7 @@ public class sccsproceduralplanetbuilderrev12 : MonoBehaviour
                     float posY = (y);
                     float posZ = (z);
 
-                    Vector3 planetchunkpos = new Vector3(posX, posY, posZ);
+                    //Vector3 planetchunkpos = new Vector3(posX, posY, posZ);
 
                     var xx = x;
                     var yy = y;

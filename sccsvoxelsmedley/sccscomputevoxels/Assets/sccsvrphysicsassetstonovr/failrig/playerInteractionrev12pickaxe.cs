@@ -4,7 +4,7 @@ using System.Collections;
 
 public class playerInteractionrev12pickaxe : MonoBehaviour
 {
-
+    public Transform pickaxetip;
 
     public Transform upperleg;
     public Transform lowerleg;
@@ -594,7 +594,7 @@ public class playerInteractionrev12pickaxe : MonoBehaviour
         counterForByteChange++;
     }*/
 
-
+    int checkforbytedestruction = 0;
 
     Ray ray;
     Vector3 positionThisObject;
@@ -604,7 +604,7 @@ public class playerInteractionrev12pickaxe : MonoBehaviour
     {
 
 
-        if (swtcForTypeOfInteract == 0)
+        if (swtcForTypeOfInteract == 0 && checkforbytedestruction == 1)
         {
             ray = new Ray(transform.position, transform.forward);//ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
@@ -632,6 +632,232 @@ public class playerInteractionrev12pickaxe : MonoBehaviour
             {
                 //if (buttonPressedLeft || buttonPressedRight)// Input.GetMouseButton(0))
                 {
+
+
+                    float pickaxetipposx = (transform.position.x);
+                    float pickaxetipposy = (transform.position.y);
+                    float pickaxetipposz = (transform.position.z);
+
+                    var chunkX = (int)(Mathf.Floor(pickaxetipposx * tileSize) / tileSize);
+                    var chunkY = (int)(Mathf.Floor(pickaxetipposy * tileSize) / tileSize);
+                    var chunkZ = (int)(Mathf.Floor(pickaxetipposz * tileSize) / tileSize);
+
+                    //Debug.Log("x: " + chunkX + " y: " + chunkY + " z: " + chunkZ);
+
+                    if (planetmanager.GetComponent<sccsproceduralplanetbuilderrev12>().getChunk(chunkX, chunkY, chunkZ) != null)//(int)hit.transform.position.x, (int)hit.transform.position.y, (int)hit.transform.position.z) != null)
+                    {
+                        sccsproceduralplanetbuilderrev12.mainChunk currentChunk = planetmanager.GetComponent<sccsproceduralplanetbuilderrev12>().getChunk(chunkX, chunkY, chunkZ);//(int)hit.transform.position.x, (int)hit.transform.position.y, (int)hit.transform.position.z);
+
+                        //Debug.Log("chunk found" + "/x:" + chunkX + "/y:" + chunkY + "/z:" + chunkZ );
+
+                        float somevaldiv = 1.0f / ((0.1f));
+
+                        float somepostipx = (((float)Mathf.Floor(pickaxetipposx * somevaldiv) / somevaldiv));
+                        float somepostipy = (((float)Mathf.Floor(pickaxetipposy * somevaldiv) / somevaldiv));
+                        float somepostipz = (((float)Mathf.Floor(pickaxetipposz * somevaldiv) / somevaldiv));
+
+                        //Debug.Log("/x:" + somepostipx + "/y:" + somepostipy + "/z:" + somepostipz);
+
+                        float totalTimesx = 0;
+                        float totalTimesy = 0;
+                        float totalTimesz = 0;
+
+
+                        if (pickaxetipposx < 0)
+                        {
+                            totalTimesx = (float)((chunkX - somepostipx) / 0.1f);
+                            //totalTimesx = (10 - 1) - totalTimesx;
+                            totalTimesx *= -1;
+                            //totalTimesx = (10 - 1) - totalTimesx;
+                        }
+                        else
+                        {
+                            totalTimesx = (float)((somepostipx - (float)chunkX) / 0.1f);
+                        }
+
+                        if (pickaxetipposy < 0)
+                        {
+                            //somepostipy *= -1;
+                            totalTimesy = (float)((chunkY - somepostipy) / 0.1f); // -2 - -1.6 = -0.4f
+                            
+                            
+                            
+                            
+                            //totalTimesy = (10 - 1) - totalTimesy;
+
+                            totalTimesy *= -1;
+                            //totalTimesy = (10 - 1) - totalTimesy;
+                        }
+                        else
+                        {
+                            totalTimesy = (float)((somepostipy - (float)chunkY) / 0.1f);
+                        }
+
+                        if (pickaxetipposz < 0)
+                        {
+                            totalTimesz = (float)((chunkZ - somepostipz) / 0.1f);
+                            //totalTimesz = (10 - 1) - totalTimesz;
+                            totalTimesz *= -1;
+                            //totalTimesz = (10 - 1) - totalTimesz;
+                        }
+                        else
+                        {
+                            totalTimesz = (float)((somepostipz - (float)chunkZ) / 0.1f);//1.7-1.0 = 0.7 * 10 = 7
+
+                        }
+
+
+                        /*
+                        if (totalTimesx < 0)
+                        {
+                            totalTimesx *= -1;
+                        }
+
+                        if (totalTimesy < 0)
+                        {
+                            totalTimesy *= -1;
+                        }
+                        if (totalTimesz < 0)
+                        {
+                            totalTimesz *= -1;
+                        }*/
+
+
+
+
+
+
+
+                        /* if (somepostipx < 0)
+                         {
+                             //somepostipx *= -1;
+                         }
+
+                         if (somepostipy < 0)
+                         {
+                             //somepostipy *= -1;
+                         }
+
+                         if (somepostipz < 0)
+                         {
+                             //somepostipz *= -1;
+                         }
+                         */
+
+                        /*
+                        int somebytetestx = somepostipx - chunkX;
+                        int somebytetesty = somepostipy - chunkY;
+                        int somebytetestz = somepostipz - chunkZ;
+                        */
+                        /*
+                        int totalTimesx = somepostipx / 10;
+                        int totalTimesy = somepostipy / 10;
+                        int totalTimesz = somepostipz / 10;
+                        */
+
+
+
+
+                        /*
+                        float someremainsx = 0;
+                        float someremainsy = 0;
+                        float someremainsz = 0;
+
+                        int totalTimesx = 0;
+                        int totalTimesy = 0;
+                        int totalTimesz = 0;
+
+
+                        if (pickaxetip.transform.position.x >= 0)
+                        {
+                            someremainsx = (int)Mathf.Floor((somepostipx / 10.0f)) * 10;
+                            totalTimesx = (int)(somepostipx - someremainsx);
+                        }
+                        else
+                        {
+                            someremainsx = (int)Mathf.Floor((somepostipx / 10.0f)) * 10;
+                            totalTimesx = -10 + (int)(someremainsx - somepostipx) + 10;
+                            totalTimesx *= -1;
+                        }
+
+                        if (pickaxetip.transform.position.y >= 0)
+                        {
+                            someremainsy = (int)Mathf.Floor((somepostipy / 10.0f)) * 10;
+                            totalTimesy = (int)(somepostipy - someremainsy);
+                        }
+                        else
+                        {
+                            someremainsy = (int)Mathf.Floor((somepostipy / 10.0f)) * 10;
+                            totalTimesy = -10 + (int)(someremainsy - somepostipy) + 10;
+                            totalTimesy *= -1;
+                        }
+
+                        if (pickaxetip.transform.position.z >= 0)
+                        {
+                            someremainsz = (int)Mathf.Floor((somepostipz / 10.0f)) * 10;
+                            totalTimesz = (int)(somepostipz - someremainsz);
+                        }
+                        else
+                        {
+                            someremainsz = (int)Mathf.Floor((somepostipz / 10.0f)) * 10;
+                            //Console.WriteLine(someremainsz);
+
+                            totalTimesz = -10 + (int)(someremainsz - somepostipz) + 10;
+                            totalTimesz *= -1;
+                        }*/
+
+
+
+
+
+
+
+
+
+
+                        /*
+                        somepostipx = somepostipx - (totalTimesx * 10);
+                        somepostipy = somepostipy - (totalTimesy * 10);
+                        somepostipz = somepostipz - (totalTimesz * 10);
+                        */
+
+
+                        var theblock = currentChunk.planetchunk.GetComponent<sccsplanetchunkrev12>().GetByte((int)totalTimesx, (int)totalTimesy, (int)totalTimesz, currentChunk);
+
+                        Debug.Log("theblock:" + theblock + "/indexx:" + totalTimesx + "/indexy:" + totalTimesy + "/indexz:" + totalTimesz);
+
+                        if (theblock == 1)
+                        {
+                            currentChunk.planetchunk.GetComponent<sccsplanetchunkrev12>().SetByte((int)totalTimesx, (int)totalTimesy, (int)totalTimesz, activeBlockType, currentChunk);
+                            currentChunk.planetchunk.GetComponent<sccsplanetchunkrev12>().Regenerate(currentChunk);
+                            currentChunk.planetchunk.GetComponent<sccsplanetchunkrev12>().buildMesh(currentChunk);
+                        }
+
+                        
+                        
+                        //setAdjacentChunks(currentChunk, hit.transform.position, somepostipx, somepostipy, somepostipz);
+
+
+
+
+                    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                     if (Physics.Raycast(ray, out hit, 0.1f))
                     {
                         if (hit.transform.tag == "collisionObject")
@@ -642,16 +868,24 @@ public class playerInteractionrev12pickaxe : MonoBehaviour
                             }
                             else
                             {
-                                var chunkX = (int)(Mathf.Round(hit.transform.position.x * tileSize) / tileSize);
-                                var chunkY = (int)(Mathf.Round(hit.transform.position.y * tileSize) / tileSize);
-                                var chunkZ = (int)(Mathf.Round(hit.transform.position.z * tileSize) / tileSize);
 
-                                //Debug.Log("x: " + chunkX + " y: " + chunkY + " z: " + chunkZ);
 
-                                if (planetmanager.GetComponent<sccsproceduralplanetbuilderrev12>().getChunk((int)hit.transform.position.x, (int)hit.transform.position.y, (int)hit.transform.position.z) != null)
+
+                                
+
+
+
+
+
+
+
+
+
+                                /*
+                                if (planetmanager.GetComponent<sccsproceduralplanetbuilderrev12>().getChunk(chunkX, chunkY, chunkZ) != null )//(int)hit.transform.position.x, (int)hit.transform.position.y, (int)hit.transform.position.z) != null)
                                 {
                                     //Debug.Log("==count==");
-                                    sccsproceduralplanetbuilderrev12.mainChunk currentChunk = planetmanager.GetComponent<sccsproceduralplanetbuilderrev12>().getChunk((int)hit.transform.position.x, (int)hit.transform.position.y, (int)hit.transform.position.z);
+                                    sccsproceduralplanetbuilderrev12.mainChunk currentChunk = planetmanager.GetComponent<sccsproceduralplanetbuilderrev12>().getChunk(chunkX, chunkY, chunkZ);//(int)hit.transform.position.x, (int)hit.transform.position.y, (int)hit.transform.position.z);
 
                                     ////Debug.Log("x: " + hit.normal.x + " y: " + hit.normal.y + " z: " + hit.normal.z);
                                     if (hit.normal.x == 0 && hit.normal.y == 0 && hit.normal.z == -1) //FRONT FACE
@@ -716,7 +950,7 @@ public class playerInteractionrev12pickaxe : MonoBehaviour
                                         currentChunk.planetchunk.GetComponent<sccsplanetchunkrev12>().buildMesh(currentChunk);
 
                                         setAdjacentChunks(currentChunk, hit.transform.position, indexX, indexY, indexZ);
-
+                                        /*
                                         var unityTutorialObjectPool = this.gameObject.GetComponent<NewObjectPoolerScript>();
                                         var UnityTutorialPooledObject = unityTutorialObjectPool.GetPooledObject();
                                         UnityTutorialPooledObject.transform.position = retAddPos;
@@ -785,7 +1019,7 @@ public class playerInteractionrev12pickaxe : MonoBehaviour
 
                                         setAdjacentChunks(currentChunk, hit.transform.position, indexX, indexY, indexZ);
 
-
+                                        /*
                                         var unityTutorialObjectPool = this.gameObject.GetComponent<NewObjectPoolerScript>();
                                         var UnityTutorialPooledObject = unityTutorialObjectPool.GetPooledObject();
                                         UnityTutorialPooledObject.transform.position = retAddPos;
@@ -854,7 +1088,7 @@ public class playerInteractionrev12pickaxe : MonoBehaviour
 
                                         setAdjacentChunks(currentChunk, hit.transform.position, indexX, indexY, indexZ);
 
-                                        var unityTutorialObjectPool = this.gameObject.GetComponent<NewObjectPoolerScript>();
+                                        /*var unityTutorialObjectPool = this.gameObject.GetComponent<NewObjectPoolerScript>();
                                         var UnityTutorialPooledObject = unityTutorialObjectPool.GetPooledObject();
                                         UnityTutorialPooledObject.transform.position = retAddPos;
 
@@ -922,7 +1156,7 @@ public class playerInteractionrev12pickaxe : MonoBehaviour
 
                                         setAdjacentChunks(currentChunk, hit.transform.position, indexX, indexY, indexZ);
 
-                                        var unityTutorialObjectPool = this.gameObject.GetComponent<NewObjectPoolerScript>();
+                                        /*var unityTutorialObjectPool = this.gameObject.GetComponent<NewObjectPoolerScript>();
                                         var UnityTutorialPooledObject = unityTutorialObjectPool.GetPooledObject();
                                         UnityTutorialPooledObject.transform.position = retAddPos;
 
@@ -990,7 +1224,7 @@ public class playerInteractionrev12pickaxe : MonoBehaviour
 
                                         setAdjacentChunks(currentChunk, hit.transform.position, indexX, indexY, indexZ);
 
-                                        var unityTutorialObjectPool = this.gameObject.GetComponent<NewObjectPoolerScript>();
+                                        /*var unityTutorialObjectPool = this.gameObject.GetComponent<NewObjectPoolerScript>();
                                         var UnityTutorialPooledObject = unityTutorialObjectPool.GetPooledObject();
                                         UnityTutorialPooledObject.transform.position = retAddPos;
 
@@ -1061,7 +1295,7 @@ public class playerInteractionrev12pickaxe : MonoBehaviour
 
                                         setAdjacentChunks(currentChunk, hit.transform.position, indexX, indexY, indexZ);
 
-                                        var unityTutorialObjectPool = this.gameObject.GetComponent<NewObjectPoolerScript>();
+                                        /*var unityTutorialObjectPool = this.gameObject.GetComponent<NewObjectPoolerScript>();
                                         var UnityTutorialPooledObject = unityTutorialObjectPool.GetPooledObject();
                                         UnityTutorialPooledObject.transform.position = retAddPos;
 
@@ -1072,7 +1306,7 @@ public class playerInteractionrev12pickaxe : MonoBehaviour
                                 else
                                 {
 
-                                }
+                                }*/
                             }
                         }
                     }

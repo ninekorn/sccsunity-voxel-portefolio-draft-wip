@@ -27,14 +27,6 @@ public class scterrainrev2 : MonoBehaviour
 
     // Start is called before the first frame update
 
-
-
-
-
-
-
-
-
     chunkdata[][] chunkarray;
 
     void Start()
@@ -151,9 +143,21 @@ public class scterrainrev2 : MonoBehaviour
 
     }
 
+
+    public GameObject theplayer;
+
+
     // Update is called once per frame
     void Update()
     {
 
+        if (theplayer == null)
+        {
+            theplayer = GameObject.FindGameObjectWithTag("Player");
+
+            theplayer.GetComponent<sccsplayer>().theplanet = this.gameObject;
+
+
+        }
     }
 }
