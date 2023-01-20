@@ -52,7 +52,11 @@ public class sccschunkfacesbuilder : MonoBehaviour
 
             arrayofchunkdivs[f].CreateTheShaders(f);
             arrayofchunkdivs[f].CreateTheArrays(f);
+
             arrayofchunkdivs[f].CreateTheMaps(f);
+
+
+
             arrayofchunkdivs[f].ComputeTheVertexes();
             arrayofchunkdivs[f].CreateTheVerticesAndTriangles(f, out listofchunkdata[f].vertices, out listofchunkdata[f].triangles);
             arrayofchunkdivs[f].CreateTheMesh(f, listofchunkdata[f].vertices, listofchunkdata[f].triangles);

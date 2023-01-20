@@ -318,9 +318,6 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
 
                     Vector3 chunkmainpos = new Vector3(mx * mapx * planesize, my * mapy * planesize, mz * mapz * planesize);
 
-
-
-
                     int thebytesize = sizeof(int) * 4;
                     int vector3Size = sizeof(float) * 3;
                     int totalSize = thebytesize + vector3Size;
@@ -510,7 +507,6 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
 
 
 
-
                     /*
                     mapwidthdimtop.GetData(datawidthdimtop[mindex]);
                     mapheightdimtop.GetData(dataheightdimtop[mindex]);
@@ -521,6 +517,8 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
                     /*List<Vector3> vertices = new List<Vector3>();
                     List<int> triangles = new List<int>();
                     */
+
+
 
                     vertices[mindex] = new List<Vector3>();
                     triangles[mindex] = new List<int>();

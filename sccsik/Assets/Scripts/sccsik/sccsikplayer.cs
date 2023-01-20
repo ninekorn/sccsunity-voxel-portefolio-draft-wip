@@ -32,16 +32,19 @@ public class sccsikplayer : MonoBehaviour
         pelvisrenderer.transform.position = pelvisemptygameobject.transform.position;// new Vector3(0, 0, 0.0f);
         //pelvisrenderer.transform.parent = pelvisemptygameobject.transform;
         pelvisrenderer.transform.name = "pelvisrenderer";
+        pelvisrenderer.GetComponent<Renderer>().material.color = Color.black;
+
+
 
         var torsorenderer = GameObject.CreatePrimitive(PrimitiveType.Cube).transform;
         torsorenderer.localScale = new Vector3(0.35f, 0.45f, 0.15f);
      
         var torsoemptygameobject = new GameObject();
         torsoemptygameobject.transform.name = "torsoemptygameobject";
-        torsoemptygameobject.transform.position = this.transform.position;// new Vector3(0, -0.35f, 0.0f);// this.transform.position;// shoulderoriginpositionoffset;
+        torsoemptygameobject.transform.position = pelvisemptygameobject.transform.position + new Vector3(0, pelvisrenderer.transform.localScale.y * 0.5f, 0);// this.transform.position;// new Vector3(0, -0.35f, 0.0f);// this.transform.position;// shoulderoriginpositionoffset;
         //torsoemptygameobject.transform.parent = this.transform;
 
-        torsorenderer.transform.position = torsoemptygameobject.transform.position;// new Vector3(0, 0, 0.0f);
+        torsorenderer.transform.position = torsoemptygameobject.transform.position+ new Vector3(0, pelvisrenderer.transform.localScale.y * 0.5f + torsorenderer.transform.localScale.y * 0.5f);// new Vector3(0, 0, 0.0f);
         //torsorenderer.transform.parent = torsoemptygameobject.transform;
         torsorenderer.transform.name = "torsorenderer";
 
@@ -59,11 +62,11 @@ public class sccsikplayer : MonoBehaviour
         headrenderer.localScale = new Vector3(0.15f, 0.15f, 0.15f);
         var heademptygameobject = new GameObject();
         heademptygameobject.transform.name = "heademptygameobject";
-        heademptygameobject.transform.position = torsorenderer.transform.position + new Vector3(0, torsorenderer.transform.localScale.y * 0.5f + (headrenderer.localScale.y * 0.5f), 0);// new Vector3(0, -0.35f, 0.0f);// this.transform.position;// shoulderoriginpositionoffset;
-        //heademptygameobject.transform.parent = torsoemptygameobject.transform;
+        heademptygameobject.transform.position = torsorenderer.transform.position + new Vector3(0, torsorenderer.transform.localScale.y * 0.5f, 0);// new Vector3(0, -0.35f, 0.0f);// this.transform.position;// shoulderoriginpositionoffset;                                                                                                                                                                                      //heademptygameobject.transform.parent = torsoemptygameobject.transform;
 
-    
-        headrenderer.transform.position = heademptygameobject.transform.position;
+        headrenderer.GetComponent<Renderer>().material.color = Color.black;
+
+        headrenderer.transform.position = torsorenderer.transform.position + new Vector3(0, torsorenderer.transform.localScale.y * 0.5f + (headrenderer.localScale.y * 0.5f), 0); //heademptygameobject.transform.position;
         //headrenderer.transform.parent = heademptygameobject.transform;
 
 
@@ -81,7 +84,7 @@ public class sccsikplayer : MonoBehaviour
         themovementplayerscript.originalcamerapivot.transform.parent = this.transform;
 
         themovementplayerscript.originalcamerapivot.transform.position = themovementplayerscript.camera.transform.position;
-        themovementplayerscript.upperbodypivot = torsorenderer.transform.gameObject;
+        themovementplayerscript.upperbodypivot = torsoemptygameobject.transform.gameObject;//torsorenderer.transform.gameObject;
         themovementplayerscript.headpivotpoint = heademptygameobject.transform.gameObject;
 
 
@@ -108,7 +111,7 @@ public class sccsikplayer : MonoBehaviour
 
 
 
-       
+
 
 
 
@@ -303,18 +306,36 @@ public class sccsikplayer : MonoBehaviour
 
 
 
+
         this.transform.position = themovementplayerscript.pointertarget.transform.position;
 
+        themovementplayerscript.camera.transform.position = heademptygameobject.transform.position + new Vector3(0,headrenderer.transform.localScale.y * 2.75f,0);
+        themovementplayerscript.camera.transform.position += new Vector3(0, 0, -headrenderer.transform.localScale.z * 2.75f);
 
 
         themovementplayerscript.isgroundedpivotpoint.transform.parent = this.transform;
+
+
+        var copyrotscript = heademptygameobject.transform.gameObject.AddComponent<copyRotation>();
+
+        copyrotscript.parent = themovementplayerscript.camera;
+
+
 
         pelvisemptygameobject.transform.parent = this.transform;
         pelvisrenderer.transform.parent = pelvisemptygameobject.transform;
         torsoemptygameobject.transform.parent = this.transform;
         torsorenderer.transform.parent = torsoemptygameobject.transform;
-        heademptygameobject.transform.parent = torsoemptygameobject.transform;
+
+        themovementplayerscript.camera.transform.parent = torsoemptygameobject.transform;
+
+
+heademptygameobject.transform.parent = torsoemptygameobject.transform;
+        //headrenderer.transform.parent = torsoemptygameobject.transform;
         headrenderer.transform.parent = heademptygameobject.transform;
+
+
+
     }
 
     // Update is called once per frame

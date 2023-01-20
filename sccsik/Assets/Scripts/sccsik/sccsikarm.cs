@@ -129,7 +129,7 @@ public class sccsikarm : MonoBehaviour
         shoulderrenderer.transform.position = prefabgameobjectempty.transform.position +  new Vector3(0, 0, 0.0f);
         shoulderrenderer.transform.parent = shoulder.transform;
         shoulderrenderer.transform.name = "shoulderrenderer";
-
+        shoulderrenderer.GetComponent<Renderer>().material.color = Color.black;
 
 
 
@@ -183,6 +183,7 @@ public class sccsikarm : MonoBehaviour
         handrenderer.transform.position = hand.transform.position;// new Vector3(-0.1f, -0.1f, 0.35f + (0.25f) + 0.075f);
         handrenderer.transform.parent = hand.transform;
         handrenderer.transform.name = "handrenderer";
+
 
 
         endForeArm = new GameObject();

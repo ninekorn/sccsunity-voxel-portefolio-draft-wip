@@ -233,6 +233,8 @@ public class sccsplayer : MonoBehaviour
 
             Quaternion rot = new Quaternion();
             rot.SetLookRotation(forwarddirtopointfrontplayer, -(theplanet.transform.position - viewer.transform.position).normalized);
+            //rot.SetLookRotation(forwarddirtopointfrontplayer, -(theouthit).normalized);
+
             viewer.transform.rotation = Quaternion.Lerp(viewer.transform.rotation, rot, rotate_speed * Time.deltaTime);
 
 
@@ -1221,7 +1223,7 @@ public class sccsplayer : MonoBehaviour
             float roll = (RotationZ) * 0.0174532925f;
 
 
-            camera.transform.rotation = viewer.transform.rotation * Quaternion.Euler(pitch, yaw, roll);
+            camera.transform.rotation = upperbodypivot.transform.rotation * Quaternion.Euler(pitch, yaw, roll);
 
             Cursor.visible = false;
 
@@ -1264,7 +1266,7 @@ public class sccsplayer : MonoBehaviour
                 //camera.transform.rotation = Quaternion.Lerp(camera.transform.rotation, beforemouselookrot,0.1f * Time.deltaTime);
 
                 //camera.transform.rotation = beforemouselookrot;
-                camera.transform.rotation = originalcamerapivot.transform.rotation;// Quaternion.Euler(pitch, yaw, roll);// Quaternion.Lerp(camera.transform.rotation, Quaternion.Euler(pitch, yaw, roll), 0.1f);
+                camera.transform.rotation = upperbodypivot.transform.rotation;// Quaternion.Euler(pitch, yaw, roll);// Quaternion.Lerp(camera.transform.rotation, Quaternion.Euler(pitch, yaw, roll), 0.1f);
                 //camera.transform.rotation = Quaternion.Lerp(viewer.transform.rotation, Quaternion.Euler(pitch, yaw, roll), 0.1f);
                 
                 MouseRotationX = 0;
@@ -1406,10 +1408,13 @@ public class sccsplayer : MonoBehaviour
             float pitch = upperbodypivotRotationX * 0.0174532925f;
             float yaw = RotationY * 0.0174532925f;  // float yaw = RotationY * (float)Math.PI / 180.0f;
             float roll = upperbodypivotRotationZ * 0.0174532925f;
-           
+
 
             //Vector3 up = transform.TransformPoint(Vector3.up, rotationMatrix);
-            upperbodypivot.transform.rotation = Quaternion.Euler(pitch, yaw, roll);
+            //upperbodypivot.transform.rotation = Quaternion.Euler(pitch, yaw, roll);
+            upperbodypivot.transform.rotation = viewer.transform.rotation * Quaternion.Euler(pitch, yaw, roll);
+
+
             //Matrix4x4.Rotate
         }
 
@@ -1424,8 +1429,10 @@ public class sccsplayer : MonoBehaviour
             
 
             //Vector3 up = transform.TransformPoint(Vector3.up, rotationMatrix);
-            upperbodypivot.transform.rotation = Quaternion.Euler(pitch, yaw, roll);
+            //upperbodypivot.transform.rotation = Quaternion.Euler(pitch, yaw, roll);
             //Matrix4x4.Rotate
+            upperbodypivot.transform.rotation = viewer.transform.rotation * Quaternion.Euler(pitch, yaw, roll);
+
         }
 
         //getPan
