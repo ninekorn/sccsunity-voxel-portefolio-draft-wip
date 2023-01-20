@@ -1,0 +1,1881 @@
+#pragma kernel main
+ 
+#define GROUP_SIZE_X 10
+
+
+struct ResultStructSwitches
+{
+    int swtc;
+    int tindex;
+    int cx;
+    int cy;
+    int cz;
+    int ti;
+};
+
+struct mapofints
+{
+    int thebyte;
+};
+
+struct MapStruct
+{    
+    int extrabyte;
+    int cx;
+    int cy;
+    int cz;
+
+    int ix;
+    int iy;
+    int iz;
+    int thebyte;
+    float3 position;
+};
+
+static const int width = 10;
+static const int height = 10;
+static const int depth = 10;
+
+//RWStructuredBuffer<uint> _Results;
+RWStructuredBuffer<ResultStructSwitches> ResultStructSwitchesBuffer;
+
+
+RWStructuredBuffer<mapofints> _tempChunkArray;
+RWStructuredBuffer<MapStruct> themap;
+RWStructuredBuffer<mapofints> mapfirstvertxtop;
+//RWStructuredBuffer<mapofints> mapfirstvertytop;
+RWStructuredBuffer<mapofints> mapfirstvertztop;
+RWStructuredBuffer<mapofints> widthdimtop;
+RWStructuredBuffer<mapofints> heightdimtop;
+RWStructuredBuffer<mapofints> depthdimtop;
+
+groupshared uint data[GROUP_SIZE_X];
+
+static int initvars = 0;
+
+int blockExistsInArray(int _x, int _y, int _z)
+{
+    if ((_x < 0) || (_y < 0) || (_z < 0) || (_x >= width) || (_y >= height) || (_z >= depth))
+    {
+        return 0;
+    }
+    /*else if (_chunkArray[_x + width * (_y + height * _z)]==0)
+    {
+        return false;
+    }*/
+    else
+    {
+        return 1;
+    }
+    //return _chunkArray[_x + width * (_y + height * _z)] == 0;
+}
+
+
+/*int IsTransparent(int _x, int _y, int _z)
+{
+    if ((_x < 0) || (_y < 0) || (_z < 0) || (_x >= width) || (_y >= height) || (_z >= depth)) return 1;
+    return themap[_x + width * (_y + height * _z)].thebyte == 0;
+}*/
+
+int IsTransparent(int _x, int _y, int _z)
+{
+    if ((_x < 0) || (_y < 0) || (_z < 0) || (_x >= width) || (_y >= height) || (_z >= depth))
+    {
+        return -1;
+    }
+    else
+    {
+        return themap[_x + width * (_y + height * _z)].thebyte;
+    }
+
+
+    
+}
+
+int getbyte(int x, int y, int z)
+{
+    if ((x < 0) || (y < 0) || (z < 0) || (x >= width) || (y >= height) || (z >= depth))
+    {
+        return -1;
+    }
+    else
+    {
+        return themap[x + width * (y + height * z)].thebyte;
+    }
+}
+
+
+
+
+static int ti = 0;
+static int tix = 0;
+static int tiy = 0;
+static int tiz = 0;
+
+int rowIterateX = 0;
+int rowIterateY= 0;
+int rowIterateZ= 0;
+
+int _maxWidth= 0;
+int _maxDepth= 0;
+int _maxHeight= 0;
+ 
+int foundVertOne= 0;
+int foundVertTwo= 0;
+int foundVertThree= 0;
+int foundVertFour= 0;
+
+int _newVertzCounter= 0;
+
+int oneVertIndexX = 0;
+int oneVertIndexY = 0;
+int oneVertIndexZ = 0;
+
+int twoVertIndexX = 0;
+int twoVertIndexY = 0;
+int twoVertIndexZ = 0;
+
+int threeVertIndexX = 0;
+int threeVertIndexY = 0;
+int threeVertIndexZ = 0;
+
+int fourVertIndexX = 0;
+int fourVertIndexY = 0;
+int fourVertIndexZ = 0;
+
+static const int widthflat = 10;
+static const int heightflat = 10;
+static const int depthflat = 10;
+
+
+
+[numthreads(GROUP_SIZE_X,1,1)]
+void main(uint3 Gid : SV_GroupID,
+	uint3 DTid : SV_DispatchThreadID,
+	uint3 GTid : SV_GroupThreadID,
+	uint GI : SV_GroupIndex)
+{
+
+    _maxWidth = width;
+    _maxHeight = height;
+    _maxDepth = depth ;
+
+    /*
+    foundVertOne = 0;
+    foundVertTwo = 0;
+    foundVertThree = 0;
+    foundVertFour = 0;*/
+
+    rowIterateX = 0;
+    rowIterateY = 0;
+    rowIterateZ = 0;
+
+
+
+
+    int total = width * height * depth;
+
+    for(ti = 0; ti < total; ti++)
+    { 
+        int xi = tix;
+        int yi = tiy;
+        int zi = tiz;
+
+        int theindex = xi + width * (yi + height * zi);
+
+        int _block =  themap[xi + width * (yi + height * zi)].thebyte; //_tempChunkArray[xi + width * (yi + height * zi)].thebyte;//_tempChunkArray[xi + width * (yi + height * zi)].thebyte;//
+        
+        
+        //yi = height-1;
+
+
+        if (_block == 1) //|| _block == 2
+        {         
+            if (IsTransparent(xi, yi + 1, zi) == -1|| IsTransparent(xi, yi + 1, zi) == 0)
+            {
+
+                rowIterateX = 0;
+                rowIterateY = 0;
+                rowIterateZ = 0;
+
+                _maxWidth = width;
+                _maxHeight = height;
+                _maxDepth = depth;
+
+                int thetotal = _maxWidth * _maxDepth;        
+                
+                int _xx = 0;
+                int _zz = 0;
+                
+                for(int i = 0;i < thetotal; i++)
+                {
+                    rowIterateX = xi + _xx;
+                    rowIterateZ = zi + _zz;
+                    
+
+
+                    if(_xx == 0 && _zz == 0)
+                    {
+                        if(foundVertOne == 0 || foundVertOne == 2)
+                        {
+                            oneVertIndexX = xi;
+                            oneVertIndexY = yi + 1;
+                            oneVertIndexZ = zi;
+
+                            if(foundVertOne == 0)
+                            {
+                                foundVertOne = 1;
+                            }
+                            else if( foundVertOne == 2)
+                            {
+                                foundVertOne = 3;
+                            }
+                        }
+                    }
+
+
+
+
+                    /*
+                      int currentblock = getbyte(rowIterateX,yi,rowIterateZ);//themap[rowIterateX + width * (yi + height * rowIterateZ)].thebyte;
+
+                    int thetopfrontblockexists = blockExistsInArray(rowIterateX,yi+1,rowIterateZ+1);
+
+
+                    if(thetopfrontblockexists == -1) //block is out of range - ou
+                    {
+
+                    }
+                    else
+                    {
+
+                    }
+                    */
+
+                    /*
+                    int frontblock = getbyte(rowIterateX,yi,rowIterateZ+1);// themap[(rowIterateX) + width * ((yi) + height * (rowIterateZ+1))].thebyte;
+                    int topfrontblock = getbyte(rowIterateX,yi+1,rowIterateZ+1);//
+                    int topblock = getbyte(rowIterateX,yi+1,rowIterateZ);//
+
+
+                    int istrtop = IsTransparent(rowIterateX, yi + 1, rowIterateZ);
+
+                    //int theotherblock0 = getbyte(rowIterateX,yi+1,rowIterateZ+1);
+                    //int theotherblockexists = blockExistsInArray(rowIterateX,yi+1,rowIterateZ+1);
+                    //int theotherblock2 = blockExistsInArray(rowIterateX,yi+1,rowIterateZ+1);
+                    //int thetopblockexists = blockExistsInArray(rowIterateX,yi+1,rowIterateZ+1);*/
+
+
+
+
+
+
+
+
+
+
+
+                    /*
+                    int firstvertblock = themap[xi + width * (yi + height * zi)].thebyte;
+                    */
+
+
+
+
+                    int currentblock = themap[rowIterateX + width * (yi + height * rowIterateZ)].thebyte;
+
+                    int frontblock = themap[(rowIterateX) + width * ((yi) + height * (rowIterateZ+1))].thebyte;
+                    int topfrontblock = themap[(rowIterateX) + width * ((yi+1) + height * (rowIterateZ+1))].thebyte;
+
+
+                    if(currentblock == 1 && frontblock == 0 || currentblock == 1 && topfrontblock == 1) //&& IsTransparent(rowIterateX, yi + 1, rowIterateZ + 1) == 1) // && IsTransparent(rowIterateX, yi + 1, rowIterateZ + 1) == 1
+                    {
+                        //|| currentblock == 1 && getbyte(rowIterateX, yi, rowIterateZ +1) == -1
+                        if(currentblock == 1 && frontblock == 0  || currentblock == 1 && frontblock == 1 )
+                        {
+                             //if(IsTransparent(rowIterateX, yi, rowIterateZ) == 1)//IsTransparent(rowIterateX, yi + 1, rowIterateZ) == -1
+                            {
+                                if(foundVertThree == 0 || foundVertThree == 2)
+                                {
+                                    threeVertIndexX = rowIterateX;
+                                    threeVertIndexY = yi + 1;
+                                    threeVertIndexZ = rowIterateZ + 1;
+
+                                    _maxDepth = _zz + 1;
+                                    //_zz = _maxDepth;
+
+                                    if(foundVertThree == 0)
+                                    {
+                                        foundVertThree = 1;
+                                    }
+                                    else if( foundVertThree == 2)
+                                    {
+                                        foundVertThree = 3;
+                                    }
+                                }
+                            }  
+                        }
+                    }   
+                    
+
+
+
+
+
+                    //currentblock = themap[rowIterateX + width * (yi + height * rowIterateZ)].thebyte;
+                    //int currentblockforrightcheck = themap[rowIterateX + width * (yi + height * rowIterateZ)].thebyte;
+
+                    int rightblock = getbyte(rowIterateX + 1, yi, rowIterateZ);//themap[(rowIterateX + 1) + width * ((yi) + height * (rowIterateZ))].thebyte;
+
+                    //&& getbyte(rowIterateX, yi + 1, rowIterateZ ) == 1 && IsTransparent(rowIterateX, yi + 1, rowIterateZ) == 1
+                    if(currentblock == 1 && rightblock == 0 || currentblock == 1 && getbyte(rowIterateX + 1 , yi, rowIterateZ ) == 1 && getbyte(rowIterateX + 1, yi + 1, rowIterateZ ) == 1 && getbyte(rowIterateX, yi + 1, rowIterateZ ) == 0 ||
+                       //(@-@ currentblock == 1 && getbyte(rowIterateX + 1 , yi, rowIterateZ ) == 1 && getbyte(rowIterateX + 1, yi + 1, rowIterateZ ) == 1 && getbyte(rowIterateX, yi + 1, rowIterateZ ) == -1 ||
+                       currentblock == 1 && getbyte(rowIterateX + 1, yi, rowIterateZ ) == -1) //&& IsTransparent(rowIterateX, yi + 1, rowIterateZ + 1) == 1) // && IsTransparent(rowIterateX, yi + 1, rowIterateZ + 1) == 1 //|| currentblock == 1 && rightblock == -1  ||currentblock == 1 &&  IsTransparent(rowIterateX + 1, yi + 1, rowIterateZ) == 1 && rightblock == -1 
+                    {
+                        //if(IsTransparent(rowIterateX, yi, rowIterateZ) == 1)//IsTransparent(rowIterateX, yi + 1, rowIterateZ) == -1
+                        {
+                            if(foundVertFour == 0|| foundVertFour == 2)
+                            {
+                                fourVertIndexX = rowIterateX + 1;
+                                fourVertIndexY = yi + 1;
+                                fourVertIndexZ = rowIterateZ;
+
+                                _maxWidth = _xx + 1;
+                                
+                                if(foundVertFour == 0)
+                                {
+                                    foundVertFour = 1;
+                                }
+                                else if( foundVertFour == 2)
+                                {
+                                    foundVertFour = 3;
+                                }
+                            }
+                        }  
+                    }
+
+
+
+
+                   
+
+
+                    if(foundVertOne == 1 && foundVertThree == 1 && foundVertFour == 1)
+                    {
+                        if(foundVertTwo == 0)
+                        {
+                            twoVertIndexX = fourVertIndexX;
+                            twoVertIndexY = yi + 1;
+                            twoVertIndexZ = fourVertIndexZ;
+
+                            foundVertTwo = 1;
+                        }
+                    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    themap[(rowIterateX) + width * ((yi) + height * (rowIterateZ))].thebyte = 2;
+                        
+
+
+
+
+
+                    /*
+                    if(ResultStructSwitchesBuffer[0].swtc == 0)
+                    {
+                        ResultStructSwitchesBuffer[0].tindex = rowIterateX;
+                        ResultStructSwitchesBuffer[0].swtc = 1;
+                    }*/
+                    
+
+                    if(_xx == 0 && _zz == 0)
+                    {
+                        /*if(foundVertOne == 0)
+                        {
+                            oneVertIndexX = xi;
+                            oneVertIndexY = yi + 1;
+                            oneVertIndexZ = zi;
+
+                            foundVertOne = 1;
+                        }
+
+                        int currentblock = themap[rowIterateX + width * (yi + height * rowIterateZ)].thebyte;
+
+                        int frontblock = themap[(rowIterateX) + width * ((yi) + height * (rowIterateZ+1))].thebyte;
+
+                        if(currentblock == 1 && frontblock == 0) //&& IsTransparent(rowIterateX, yi + 1, rowIterateZ + 1) == 1) // && IsTransparent(rowIterateX, yi + 1, rowIterateZ + 1) == 1
+                        {
+                            //if(IsTransparent(rowIterateX, yi, rowIterateZ) == 1)//IsTransparent(rowIterateX, yi + 1, rowIterateZ) == -1
+                            {
+                                if(foundVertThree == 0)
+                                {
+                                    threeVertIndexX = rowIterateX;
+                                    threeVertIndexY = yi + 1;
+                                    threeVertIndexZ = rowIterateZ + 1;
+
+                                    //_maxDepth = rowIterateZ;
+                                    foundVertThree = 1;
+                                }
+                            }  
+                        }*/
+
+
+
+
+
+                    }
+                    else  if(_xx == 0 && _zz > 0)
+                    {    
+                        /*if(foundVertOne == 0)
+                        {
+                            oneVertIndexX = xi;
+                            oneVertIndexY = yi + 1;
+                            oneVertIndexZ = zi;
+
+                            foundVertOne = 1;
+                        }
+
+                        int currentblock = themap[rowIterateX + width * (yi + height * rowIterateZ)].thebyte;
+
+                        int frontblock = themap[(rowIterateX) + width * ((yi) + height * (rowIterateZ+1))].thebyte;
+
+                        if(currentblock == 1 && frontblock == 0) //&& IsTransparent(rowIterateX, yi + 1, rowIterateZ + 1) == 1) // && IsTransparent(rowIterateX, yi + 1, rowIterateZ + 1) == 1
+                        {
+                            //if(IsTransparent(rowIterateX, yi, rowIterateZ) == 1)//IsTransparent(rowIterateX, yi + 1, rowIterateZ) == -1
+                            {
+                                if(foundVertThree == 0)
+                                {
+                                    threeVertIndexX = rowIterateX;
+                                    threeVertIndexY = yi + 1;
+                                    threeVertIndexZ = rowIterateZ + 1;
+
+                                    //_maxDepth = rowIterateZ;
+                                    foundVertThree = 1;
+                                }
+                            }  
+                        }*/
+
+                    }
+
+
+                    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    /*int currentblock = themap[(rowIterateX) + width * ((yi) + height * (rowIterateZ))].thebyte;
+
+                    int frontblock = themap[(rowIterateX) + width * ((yi) + height * (rowIterateZ+1))].thebyte;
+
+                    if(currentblock == 1 && blockExistsInArray(rowIterateX, yi, rowIterateZ + 1) == 0 || currentblock == 1 && frontblock == 0) //&& IsTransparent(rowIterateX, yi + 1, rowIterateZ + 1) == 1) // && IsTransparent(rowIterateX, yi + 1, rowIterateZ + 1) == 1
+                    {
+                        if(IsTransparent(rowIterateX, yi + 1, rowIterateZ + 1) == 1)
+                        {
+                            if(foundVertThree == 0)
+                            {
+                                threeVertIndexX = rowIterateX;
+                                threeVertIndexY = yi + 1;
+                                threeVertIndexZ = rowIterateZ + 1;
+
+                                //_maxDepth = rowIterateZ;
+                                foundVertThree = 1;
+                            }
+                        }
+                        
+                    }*/
+
+
+
+
+
+
+
+
+
+                    /*
+                    if(_xx == 0 && _zz == 0)
+                    {
+                        if(foundVertOne == 0)
+                        {
+                            oneVertIndexX = xi;
+                            oneVertIndexY = yi + 1;
+                            oneVertIndexZ = zi;
+
+                            foundVertOne = 1;
+                        }
+                    }
+                    else  if(_xx == 0 && _zz > 0)
+                    {                    
+                        int _blockfront = themap[(rowIterateX) + width * ((yi) + height * (rowIterateZ + 1))].thebyte;
+
+
+
+
+
+
+
+                        
+                        /*int _blockfront = themap[(rowIterateX) + width * ((yi) + height * (_zz + 1))].thebyte;
+
+                        if(_blockfront == 0 && blockExistsInArray(rowIterateX, yi, _zz + 1) == 1) //&& IsTransparent(rowIterateX, yi + 1, rowIterateZ + 1) == 1) // && IsTransparent(rowIterateX, yi + 1, rowIterateZ + 1) == 1
+                        {
+                            if(foundVertThree == 0)
+                            {
+                                threeVertIndexX = rowIterateX;
+                                threeVertIndexY = yi + 1;
+                                threeVertIndexZ = _zz + 1;
+
+                                //_maxDepth = rowIterateZ;
+                                foundVertThree = 1;
+                            }
+                        }*/
+                        
+                        
+                        
+                        /*int _blockfront = themap[(rowIterateX) + width * ((yi) + height * (rowIterateZ + 1))].thebyte;
+
+                        if(_blockfront == 0 && blockExistsInArray(rowIterateX, yi, rowIterateZ) == 1) //&& IsTransparent(rowIterateX, yi + 1, rowIterateZ + 1) == 1) // && IsTransparent(rowIterateX, yi + 1, rowIterateZ + 1) == 1
+                        {
+                            if(foundVertThree == 0)
+                            {
+                                threeVertIndexX = rowIterateX;
+                                threeVertIndexY = yi + 1;
+                                threeVertIndexZ = rowIterateZ + 1;
+
+                                //_maxDepth = rowIterateZ;
+                                foundVertThree = 1;
+                            }
+                        }*/
+
+
+
+
+                        /*
+                        int _blockfront = themap[(rowIterateX) + width * ((yi) + height * (rowIterateZ + 1))].thebyte;
+                        int currentblock = themap[(rowIterateX) + width * ((yi) + height * (rowIterateZ))].thebyte;
+                    
+                        if(_blockfront == 0 && currentblock == 1) //&& IsTransparent(rowIterateX, yi + 1, rowIterateZ + 1) == 1) // && IsTransparent(rowIterateX, yi + 1, rowIterateZ + 1) == 1
+                        {
+                            if(foundVertThree == 0)
+                            {
+                                threeVertIndexX = rowIterateX;
+                                threeVertIndexY = yi + 1;
+                                threeVertIndexZ = rowIterateZ + 1;
+
+                                //_maxDepth = rowIterateZ;
+                                foundVertThree = 1;
+                            }
+                        }
+                    }*/
+
+
+                    
+
+                    /*int _blockfront = themap[(rowIterateX) + width * ((yi) + height * (rowIterateZ + 1))].thebyte;
+
+                    if(_blockfront == 0) // && IsTransparent(rowIterateX, yi + 1, rowIterateZ + 1) == 1
+                    {
+                        if(foundVertThree == 0)
+                        {
+                            threeVertIndexX = rowIterateX;
+                            threeVertIndexY = yi + 1;
+                            threeVertIndexZ = rowIterateZ + 1;
+
+                            //_maxDepth = rowIterateZ;
+                            foundVertThree = 1;
+                        }
+                    }*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    //TORETEST
+                    //TORETEST
+                    //TORETEST
+                    /*int _blockfront = _tempChunkArray[(rowIterateX) + width * ((yi) + height * (rowIterateZ + 1))].thebyte;
+
+                    if(_blockfront == 0)
+                    {
+                        if(foundVertThree == 0)
+                        {
+                            threeVertIndexX = rowIterateX;
+                            threeVertIndexY = yi + 1;
+                            threeVertIndexZ = rowIterateZ + 1;
+
+                            //_maxDepth = rowIterateZ;
+
+                            foundVertThree = 1;
+                        }
+                    }*/
+                    //TORETEST
+                    //TORETEST
+                    //TORETEST
+
+                    /*int _blockfront = _tempChunkArray[(rowIterateX) + width * ((yi) + height * (rowIterateZ + 1))].thebyte;
+                    if (blockExistsInArray(rowIterateX, yi, rowIterateZ + 1) == 0 || _blockfront == 1)
+                    {
+                        if(foundVertThree == 0)
+                        {
+                            threeVertIndexX = rowIterateX;
+                            threeVertIndexY = yi + 1;
+                            threeVertIndexZ = rowIterateZ;
+
+                            //_maxDepth = rowIterateZ;
+
+                            foundVertThree = 1;
+                        }
+                    }*/
+
+
+                    /*if (blockExistsInArray(rowIterateX, yi, rowIterateZ + 1) == 1)
+                    {             
+                        int _blockfront = _tempChunkArray[(rowIterateX) + width * ((yi) + height * (rowIterateZ + 1))].thebyte;
+                        _block = _tempChunkArray[(rowIterateX) + width * ((yi) + height * (rowIterateZ))].thebyte;
+                        
+                        if(_block == 1 && _blockfront == 0) // && IsTransparent(rowIterateX, yi + 1, rowIterateZ + 1) == 1
+                        {
+                            threeVertIndexX = rowIterateX;
+                            threeVertIndexY = yi + 1;
+                            threeVertIndexZ = rowIterateZ;
+
+                            //_maxDepth = rowIterateZ;
+
+                            foundVertThree = 1;
+                        }
+                    }*/
+
+
+
+
+
+                    /*
+                    if (blockExistsInArray(rowIterateX, yi, rowIterateZ + 1) == 1)
+                    {             
+                        _block = _tempChunkArray[(rowIterateX) + width * ((yi) + height * (rowIterateZ + 1))].thebyte;
+                        
+                        if(_block == 0 && IsTransparent(rowIterateX, yi + 1, rowIterateZ + 1) == 1)
+                        {
+                            threeVertIndexX = rowIterateX;
+                            threeVertIndexY = yi + 1;
+                            threeVertIndexZ = rowIterateZ + 1;
+
+                            //_maxDepth = rowIterateZ;
+
+                            foundVertThree = 1;
+                        }
+                    }
+                    */
+
+                    /*if (blockExistsInArray(rowIterateX + 1, yi, rowIterateZ) == 1)
+                    {
+                        _block = _tempChunkArray[(rowIterateX + 1) + width * ((yi) + height * (rowIterateZ))].thebyte;
+
+                        if (_block == 0 && IsTransparent(xi, yi + 1, zi) == 1)
+                        {
+                            threeVertIndexX = rowIterateX + 1;
+                            threeVertIndexY = yi + 1;
+                            threeVertIndexZ = rowIterateZ;
+                            _maxWidth = _xx;
+                            
+                            foundVertThree = 1;
+                            ////////Instantiate(_sphereVisualOtherColorBlack, new Vector3(rowIterateX+1, y+1, rowIterateZ) * planeSize + chunkPos, Quaternion.identity);
+                        }
+                    }*/
+                    
+                    
+                    /*
+                    if(_xx == 0 && _zz == 0)
+                    {
+
+                    }*/
+                    
+
+
+                    /*
+                    if (blockExistsInArray(rowIterateX + 1, yi, rowIterateZ) == 1)
+                    {
+                        _block = _tempChunkArray[(rowIterateX + 1) + width * ((yi) + height * (rowIterateZ))].thebyte;
+
+                        if (_block == 0)
+                        {
+                            threeVertIndexX = rowIterateX + 1;
+                            threeVertIndexY = yi + 1;
+                            threeVertIndexZ = rowIterateZ;
+                            _maxWidth = _xx;
+                            foundVertThree = 1;
+                            ////////Instantiate(_sphereVisualOtherColorBlack, new Vector3(rowIterateX+1, y+1, rowIterateZ) * planeSize + chunkPos, Quaternion.identity);
+
+                        }
+                        else if (_block == 1 || _block == 2)
+                        {
+                            if (blockExistsInArray(rowIterateX + 1, yi + 1, rowIterateZ)== 1)
+                            {
+                                _block = _tempChunkArray[(rowIterateX + 1) + width * ((yi + 1) + height * (rowIterateZ))].thebyte;
+
+                                if (_block == 1 || _block == 2)
+                                {
+                                    threeVertIndexX = rowIterateX + 1;
+                                    threeVertIndexY = yi + 1;
+                                    threeVertIndexZ = rowIterateZ;
+                                    _maxWidth = _xx;
+                                    foundVertThree = 1;
+                                    ////////Instantiate(_sphereVisualOtherColorBlack, new Vector3(rowIterateX + 1, y + 1, rowIterateZ) * planeSize + chunkPos, Quaternion.identity);
+                                }
+                            }
+                        }
+                    }*/
+
+
+                    _zz++;
+                    if(_zz >= _maxDepth )
+                    {
+                        _xx++;
+                        _zz = 0;
+                    }
+                    if(_xx >= _maxWidth )
+                    {
+                        _xx = 0;
+                    }
+                    thetotal = _maxWidth * _maxDepth;
+                }
+
+
+
+
+                //if(foundVertOne == 1 && foundVertThree == 1|| foundVertOne == 3 && foundVertThree == 3) //
+                if(foundVertOne == 1 && foundVertThree == 1 && foundVertFour == 1) //|| foundVertOne == 3 && foundVertThree == 3 && foundVertFour == 3
+                {
+                    /*int twoVertIndexX = xi+1;
+                    int twoVertIndexY = yi+1;
+                    int twoVertIndexZ = zi;
+                    */
+                    /*int threeVertIndexX = xi;
+                    int threeVertIndexY = yi+1;
+                    int threeVertIndexZ = zi+1;*/
+
+                    /*int fourVertIndexX = xi+1;
+                    int fourVertIndexY = yi+1;
+                    int fourVertIndexZ = zi+1;
+                    */
+                    //int someindextop = map.cx + width * ((map.cy) + height * (map.cz));
+                
+                    //mapofints mapfirstvertxtops = mapfirstvertxtop[theindex];
+                    //mapofints mapfirstvertztops = mapfirstvertztop[theindex];
+
+                    //mapofints widthdimtops = widthdimtop[theindex];
+                    //mapofints heightdimtops = heightdimtop[theindex];
+                    //mapofints depthdimtops = depthdimtop[theindex];
+
+                    float3 vert0 = float3(oneVertIndexX , oneVertIndexY , oneVertIndexZ );
+                    float3 vert1 = float3(twoVertIndexX , twoVertIndexY , twoVertIndexZ );
+                    float3 vert2 = float3(threeVertIndexX , threeVertIndexY , threeVertIndexZ );
+                    float3 vert3 = float3(fourVertIndexX , fourVertIndexY , fourVertIndexZ );
+
+                    mapfirstvertxtop[theindex].thebyte = oneVertIndexX;
+                    //mapfirstvertytop[someindextop].thebyte = oneVertIndexY;
+                    mapfirstvertztop[theindex].thebyte = oneVertIndexZ;
+
+                    widthdimtop[theindex].thebyte = fourVertIndexX - threeVertIndexX;//(int)(vert2.x - vert0.x);//(int)abs(abs(vert0.x) - abs(vert2.x)); //0  3 == 3 
+                    heightdimtop[theindex].thebyte = oneVertIndexY;// (int)abs(abs(vert0.Y) - abs(vert2.Y));
+                    depthdimtop[theindex].thebyte = threeVertIndexZ - oneVertIndexZ;//(int)(vert1.z - vert0.z);//(int)abs(abs(vert0.z) - abs(vert1.z));
+
+                   /* foundVertOne = 0;
+                    foundVertThree = 0;
+                    foundVertFour = 0;*/
+
+                    if(foundVertOne == 1 && foundVertThree == 1  && foundVertFour == 1)
+                    {
+                        foundVertOne = 0;
+                        foundVertThree = 0;
+                        foundVertFour = 0;
+                    }
+
+
+                   /*   thetotal = 0;
+                    if(foundVertOne == 1 && foundVertThree == 1  && foundVertFour == 1)
+                    {
+                        foundVertOne = 2;
+                        foundVertThree = 2;
+                        foundVertFour = 2;
+                    }
+                    else if(foundVertOne == 3 && foundVertThree == 3 && foundVertFour == 3)
+                    {
+                        foundVertOne = 4;
+                        foundVertThree = 4;
+                        foundVertFour = 4;
+                    }*/
+
+
+
+
+
+                    /*thetotal = 0;
+                    if(foundVertOne == 1 && foundVertThree == 1) //  && foundVertFour == 1
+                    {
+                        foundVertOne = 2;
+                        foundVertThree = 2;
+                        foundVertFour = 2;
+                    }
+                    else if(foundVertOne == 3 && foundVertThree == 3)// && foundVertFour == 3
+                    {
+                        foundVertOne = 4;
+                        foundVertThree = 4;
+                        foundVertFour = 4;
+                    }*/
+
+                    
+                }
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                /*for (int _xx = 0; _xx < _maxWidth; _xx++)
+                {
+                    //[unroll]
+                    //for(int i = 0;i < thetotal; i++)
+                    //{
+                    rowIterateX = xi + _xx;
+                    //[unroll]
+                    for (int _zz = 0; _zz < _maxDepth; _zz++)
+                    {
+
+                        rowIterateZ = zi + _zz;
+
+                        if (rowIterateX < width && rowIterateZ < depth)
+                        {
+                            //if (someswtc == 1)
+                            {
+                                if (_xx == 0 && _zz == 0)
+                                {
+                                    oneVertIndexX = rowIterateX;
+                                    oneVertIndexY = yi + 1;
+                                    oneVertIndexZ = rowIterateZ;
+                                    ////////Instantiate(_sphereVisualOtherColorBlack, new Vector3(rowIterateX, y + 1, rowIterateZ) * planeSize + chunkPos, Quaternion.identity);
+                                    foundVertOne = 1;
+
+                                    if (blockExistsInArray(rowIterateX + 1, yi, rowIterateZ) == 1)
+                                    {
+                                        _block = _tempChunkArray[(rowIterateX + 1) + width * ((yi) + height * (rowIterateZ))].thebyte;
+
+                                        if (_block == 0)
+                                        {
+                                            threeVertIndexX = rowIterateX + 1;
+                                            threeVertIndexY = yi + 1;
+                                            threeVertIndexZ = rowIterateZ;
+                                            _maxWidth = _xx;
+                                            foundVertThree = 1;
+                                            ////////Instantiate(_sphereVisualOtherColorBlack, new Vector3(rowIterateX+1, y+1, rowIterateZ) * planeSize + chunkPos, Quaternion.identity);
+
+                                        }
+                                        else if (_block == 1 || _block == 2)
+                                        {
+                                            if (blockExistsInArray(rowIterateX + 1, yi + 1, rowIterateZ)== 1)
+                                            {
+                                                _block = _tempChunkArray[(rowIterateX + 1) + width * ((yi + 1) + height * (rowIterateZ))].thebyte;
+
+                                                if (_block == 1 || _block == 2)
+                                                {
+                                                    threeVertIndexX = rowIterateX + 1;
+                                                    threeVertIndexY = yi + 1;
+                                                    threeVertIndexZ = rowIterateZ;
+                                                    _maxWidth = _xx;
+                                                    foundVertThree = 1;
+                                                    ////////Instantiate(_sphereVisualOtherColorBlack, new Vector3(rowIterateX + 1, y + 1, rowIterateZ) * planeSize + chunkPos, Quaternion.identity);
+                                                }
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        threeVertIndexX = rowIterateX + 1;
+                                        threeVertIndexY = yi + 1;
+                                        threeVertIndexZ = rowIterateZ;
+                                        _maxWidth = _xx;
+                                        foundVertThree = 1;
+                                        ////////Instantiate(_sphereVisualOtherColorBlack, new Vector3(rowIterateX + 1, y + 1, rowIterateZ) * planeSize + chunkPos, Quaternion.identity);
+
+                                        if (rowIterateZ + 1 == twoVertIndexZ && rowIterateX + 1 == threeVertIndexX)
+                                        {
+                                            fourVertIndexX = threeVertIndexX;
+                                            fourVertIndexY = yi + 1;
+                                            fourVertIndexZ = twoVertIndexZ;
+                                                foundVertFour = 1;
+                                            ////////Instantiate(_sphereVisualOtherColor, new Vector3(rowIterateX + 1, y + 1, twoVertIndexZ) * planeSize + chunkPos, Quaternion.identity);
+                                        }
+                                    }
+
+                                    if (blockExistsInArray(rowIterateX, yi, rowIterateZ + 1)== 1)
+                                    {
+                                        _block = _tempChunkArray[(rowIterateX) + width * ((yi) + height * (rowIterateZ + 1))].thebyte;
+
+                                        if (_block == 0)
+                                        {
+                                            twoVertIndexX = rowIterateX;
+                                            twoVertIndexY = yi + 1;
+                                            twoVertIndexZ = rowIterateZ + 1;
+                                            _maxDepth = _zz + 1;
+                                            foundVertTwo = 1;
+                                            ////////Instantiate(_sphereVisualOtherColorBlack, new Vector3(rowIterateX, y + 1, rowIterateZ + 1) * planeSize + chunkPos, Quaternion.identity);
+
+                                            if (rowIterateZ + 1 == twoVertIndexZ && rowIterateX + 1 == threeVertIndexX)
+                                            {
+                                                fourVertIndexX = threeVertIndexX;
+                                                fourVertIndexY = yi + 1;
+                                                fourVertIndexZ = twoVertIndexZ;
+                                                    foundVertFour = 1;
+                                                ////////Instantiate(_sphereVisualOtherColor, new Vector3(rowIterateX + 1, y + 1, twoVertIndexZ) * planeSize + chunkPos, Quaternion.identity);
+                                            }
+                                        }
+                                        else if (_block == 1 || _block == 2) //_block == 1||
+                                        {
+                                            if (_block == 1)
+                                            {
+                                                if (blockExistsInArray(rowIterateX, yi + 1, rowIterateZ + 1)== 1)
+                                                {
+                                                    _block = _tempChunkArray[(rowIterateX) + width * ((yi + 1) + height * (rowIterateZ + 1))].thebyte;
+
+                                                    if (_block == 1 || _block == 2)
+                                                    {
+                                                        twoVertIndexX = rowIterateX;
+                                                        twoVertIndexY = yi + 1;
+                                                        twoVertIndexZ = rowIterateZ + 1;
+                                                        _maxDepth = _zz + 1;
+                                                        foundVertTwo = 1;
+                                                        ////////Instantiate(_sphereVisualOtherColor, new Vector3(rowIterateX, y + 1, rowIterateZ + 1) * planeSize + chunkPos, Quaternion.identity);
+
+                                                        if (rowIterateZ + 1 == twoVertIndexZ && rowIterateX + 1 == threeVertIndexX)
+                                                        {
+                                                            fourVertIndexX = threeVertIndexX;
+                                                            fourVertIndexY = yi + 1;
+                                                            fourVertIndexZ = twoVertIndexZ;
+                                                                foundVertFour = 1;
+                                                            ////////Instantiate(_sphereVisualOtherColor, new Vector3(rowIterateX + 1, y + 1, twoVertIndexZ) * planeSize + chunkPos, Quaternion.identity);
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            else if (_block == 2)
+                                            {
+                                                twoVertIndexX = rowIterateX;
+                                                twoVertIndexY = yi + 1;
+                                                twoVertIndexZ = rowIterateZ + 1;
+                                                _maxDepth = _zz + 1;
+                                                foundVertTwo = 1;
+                                                ////////Instantiate(_sphereVisualOtherColor, new Vector3(rowIterateX, y + 1, rowIterateZ + 1) * planeSize + chunkPos, Quaternion.identity);
+
+                                                if (rowIterateZ + 1 == twoVertIndexZ && rowIterateX + 1 == threeVertIndexX)
+                                                {
+                                                    fourVertIndexX = threeVertIndexX;
+                                                    fourVertIndexY = yi + 1;
+                                                    fourVertIndexZ = twoVertIndexZ;
+                                                        foundVertFour = 1;
+                                                    ////////Instantiate(_sphereVisualOtherColor, new Vector3(rowIterateX + 1, y + 1, twoVertIndexZ) * planeSize + chunkPos, Quaternion.identity);
+                                                }
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        twoVertIndexX = rowIterateX;
+                                        twoVertIndexY = yi + 1;
+                                        twoVertIndexZ = rowIterateZ + 1;
+                                        _maxDepth = _zz + 1;
+                                        foundVertTwo = 1;
+                                        ////////Instantiate(_sphereVisualOtherColorBlack, new Vector3(rowIterateX, y + 1, rowIterateZ + 1) * planeSize + chunkPos, Quaternion.identity);
+
+                                        if (rowIterateZ + 1 == twoVertIndexZ && rowIterateX + 1 == threeVertIndexX)
+                                        {
+                                            fourVertIndexX = threeVertIndexX;
+                                            fourVertIndexY = yi + 1;
+                                            fourVertIndexZ = twoVertIndexZ;
+                                                foundVertFour = 1;
+                                            ////////Instantiate(_sphereVisualOtherColor, new Vector3(rowIterateX + 1, y + 1, twoVertIndexZ) * planeSize + chunkPos, Quaternion.identity);
+                                        }
+                                    }
+                                }
+
+                                else if (_xx == 0 && _zz > 0)
+                                {
+                                    if (blockExistsInArray(rowIterateX, yi, rowIterateZ + 1)== 1)
+                                    {
+                                        _block = _tempChunkArray[(rowIterateX) + width * ((yi) + height * (rowIterateZ + 1))].thebyte;
+
+                                        if (_block == 0)
+                                        {
+                                            twoVertIndexX = rowIterateX;
+                                            twoVertIndexY = yi + 1;
+                                            twoVertIndexZ = rowIterateZ + 1;
+                                            _maxDepth = _zz + 1;
+                                            foundVertTwo = 1;
+                                            ////////Instantiate(_sphereVisualOtherColorBlack, new Vector3(rowIterateX, y + 1, rowIterateZ + 1) * planeSize + chunkPos, Quaternion.identity);
+
+                                            if (rowIterateZ + 1 == twoVertIndexZ && rowIterateX + 1 == threeVertIndexX)
+                                            {
+                                                fourVertIndexX = threeVertIndexX;
+                                                fourVertIndexY = yi + 1;
+                                                fourVertIndexZ = twoVertIndexZ;
+                                                    foundVertFour = 1;
+                                                ////////Instantiate(_sphereVisualOtherColor, new Vector3(rowIterateX + 1, y + 1, twoVertIndexZ) * planeSize + chunkPos, Quaternion.identity);
+                                            }
+
+
+                                        }
+                                        else if (_block == 1 || _block == 2) //_block == 1||
+                                        {
+                                            if (_block == 1)
+                                            {
+                                                if (blockExistsInArray(rowIterateX, yi + 1, rowIterateZ + 1)== 1)
+                                                {
+                                                    _block = _tempChunkArray[(rowIterateX) + width * ((yi + 1) + height * (rowIterateZ + 1))].thebyte;
+                                                    if (_block == 1 || _block == 2)
+                                                    {
+                                                        twoVertIndexX = rowIterateX;
+                                                        twoVertIndexY = yi + 1;
+                                                        twoVertIndexZ = rowIterateZ + 1;
+                                                        _maxDepth = _zz + 1;
+                                                        foundVertTwo = 1;
+                                                        ////////Instantiate(_sphereVisualOtherColor, new Vector3(rowIterateX, y + 1, rowIterateZ + 1) * planeSize + chunkPos, Quaternion.identity);
+
+                                                        if (rowIterateZ + 1 == twoVertIndexZ && rowIterateX + 1 == threeVertIndexX)
+                                                        {
+                                                            fourVertIndexX = threeVertIndexX;
+                                                            fourVertIndexY = yi + 1;
+                                                            fourVertIndexZ = twoVertIndexZ;
+                                                                foundVertFour = 1;
+                                                            ////////Instantiate(_sphereVisualOtherColor, new Vector3(rowIterateX + 1, y + 1, twoVertIndexZ) * planeSize + chunkPos, Quaternion.identity);
+                                                        }
+                                                    }
+                                                }
+                                                else //continue??
+                                                {
+
+                                                }
+                                            }
+                                            else if (_block == 2)
+                                            {
+                                                twoVertIndexX = rowIterateX;
+                                                twoVertIndexY = yi + 1;
+                                                twoVertIndexZ = rowIterateZ + 1;
+                                                _maxDepth = _zz + 1;
+                                                foundVertTwo = 1;
+                                                ////////Instantiate(_sphereVisualOtherColor, new Vector3(rowIterateX, y + 1, rowIterateZ + 1) * planeSize + chunkPos, Quaternion.identity);
+
+                                                if (rowIterateZ + 1 == twoVertIndexZ && rowIterateX + 1 == threeVertIndexX)
+                                                {
+                                                    fourVertIndexX = threeVertIndexX;
+                                                    fourVertIndexY = yi + 1;
+                                                    fourVertIndexZ = twoVertIndexZ;
+                                                        foundVertFour = 1;
+                                                    ////////Instantiate(_sphereVisualOtherColor, new Vector3(rowIterateX + 1, y + 1, twoVertIndexZ) * planeSize + chunkPos, Quaternion.identity);
+                                                }
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        twoVertIndexX = rowIterateX;
+                                        twoVertIndexY = yi + 1;
+                                        twoVertIndexZ = rowIterateZ + 1;
+                                        _maxDepth = _zz + 1;
+                                        foundVertTwo = 1;
+
+                                        if (rowIterateZ + 1 == twoVertIndexZ && rowIterateX + 1 == threeVertIndexX)
+                                        {
+                                            fourVertIndexX = threeVertIndexX;
+                                            fourVertIndexY = yi + 1;
+                                            fourVertIndexZ = twoVertIndexZ;
+                                                foundVertFour = 1;
+                                            ////////Instantiate(_sphereVisualOtherColor, new Vector3(rowIterateX + 1, y + 1, twoVertIndexZ) * planeSize + chunkPos, Quaternion.identity);
+                                        }
+                                        ////////Instantiate(_sphereVisualOtherColorBlack, new Vector3(rowIterateX, y + 1, rowIterateZ + 1) * planeSize + chunkPos, Quaternion.identity);
+                                    }
+
+                                    if (blockExistsInArray(rowIterateX + 1, yi, rowIterateZ)== 1)
+                                    {
+                                        _block = _tempChunkArray[(rowIterateX + 1) + width * ((yi) + height * (rowIterateZ))].thebyte;
+
+                                        if (_block == 0)
+                                        {
+                                            threeVertIndexX = rowIterateX + 1;
+                                            threeVertIndexY = yi + 1;
+                                            threeVertIndexZ = rowIterateZ - _zz;
+                                            _maxWidth = _xx;
+                                            foundVertThree = 1;
+                                            ////////Instantiate(_sphereVisualOtherColorBlack, new Vector3(rowIterateX + 1, y + 1, rowIterateZ - _zz) * planeSize + chunkPos, Quaternion.identity);
+
+                                            if (rowIterateZ + 1 == twoVertIndexZ && rowIterateX + 1 == threeVertIndexX)
+                                            {
+                                                fourVertIndexX = threeVertIndexX;
+                                                fourVertIndexY = yi + 1;
+                                                fourVertIndexZ = twoVertIndexZ;
+                                                    foundVertFour = 1;
+                                                ////////Instantiate(_sphereVisualOtherColor, new Vector3(rowIterateX + 1, y + 1, twoVertIndexZ) * planeSize + chunkPos, Quaternion.identity);
+                                            }
+                                        }
+                                        else if (_block == 1 || _block == 2)
+                                        {
+                                            //********************************************************
+                                            if (blockExistsInArray(rowIterateX + 1, yi + 1, rowIterateZ)== 1)
+                                            {
+                                                _block = _tempChunkArray[(rowIterateX + 1) + width * ((yi + 1) + height * (rowIterateZ))].thebyte;
+                                                if (_block == 1 || _block == 2)
+                                                {
+                                                    threeVertIndexX = rowIterateX + 1;
+                                                    threeVertIndexY = yi + 1;
+                                                    threeVertIndexZ = rowIterateZ - _zz;
+                                                    _maxWidth = _xx;
+                                                    foundVertThree = 1;
+                                                    ////////Instantiate(_sphereVisualOtherColor, new Vector3(rowIterateX + 1, y + 1, rowIterateZ - _zz) * planeSize + chunkPos, Quaternion.identity);
+
+                                                    if (rowIterateZ + 1 == twoVertIndexZ && rowIterateX + 1 == threeVertIndexX)
+                                                    {
+                                                        fourVertIndexX = threeVertIndexX;
+                                                        fourVertIndexY = yi + 1;
+                                                        fourVertIndexZ = twoVertIndexZ;
+                                                            foundVertFour = 1;
+                                                        ////////Instantiate(_sphereVisualOtherColor, new Vector3(rowIterateX + 1, y + 1, twoVertIndexZ) * planeSize + chunkPos, Quaternion.identity);
+                                                    }
+                                                }
+                                            }
+                                            //************************************************************
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (rowIterateZ + 1 == twoVertIndexZ && rowIterateX + 1 == threeVertIndexX)
+                                        {
+                                            fourVertIndexX = threeVertIndexX;
+                                            fourVertIndexY = yi + 1;
+                                            fourVertIndexZ = twoVertIndexZ;
+                                                foundVertFour = 1;
+                                            ////////Instantiate(_sphereVisualOtherColor, new Vector3(rowIterateX + 1, y + 1, twoVertIndexZ) * planeSize + chunkPos, Quaternion.identity);
+                                        }
+                                    }
+                                }
+                                else if (_xx > 0 && _zz == 0)
+                                {
+                                    if (blockExistsInArray(rowIterateX + 1, yi, rowIterateZ)== 1)
+                                    {
+                                        _block = _tempChunkArray[(rowIterateX + 1) + width * ((yi) + height * (rowIterateZ))].thebyte;
+
+                                        if (_block == 0)
+                                        {
+                                            //UnityEngine.Debug.Log("test");
+                                            threeVertIndexX = rowIterateX + 1;
+                                            threeVertIndexY = yi + 1;
+                                            threeVertIndexZ = rowIterateZ - _zz;
+                                            _maxWidth = _xx;
+                                            foundVertThree = 1;
+                                            ////////Instantiate(_sphereVisualOtherColorBlack, new Vector3(rowIterateX + 1, y + 1, rowIterateZ - _zz) * planeSize + chunkPos, Quaternion.identity);
+
+                                            if (foundVertTwo == 1)
+                                            {
+                                                if (foundVertThree == 1)
+                                                {
+                                                    fourVertIndexX = threeVertIndexX;
+                                                    fourVertIndexY = yi + 1;
+                                                    fourVertIndexZ = twoVertIndexZ;
+                                                        foundVertFour = 1;
+                                                    ////////Instantiate(_sphereVisualOtherColor, new Vector3(rowIterateX + 1, y + 1, twoVertIndexZ) * planeSize + chunkPos, Quaternion.identity);
+                                                }
+                                            }
+                                        }
+                                        else if (_block == 1 || _block == 2)
+                                        {
+                                            if (blockExistsInArray(rowIterateX + 1, yi + 1, rowIterateZ)== 1)
+                                            {
+                                                _block = _tempChunkArray[(rowIterateX + 1) + width * ((yi + 1) + height * (rowIterateZ))].thebyte;
+                                                if (_block == 1 || _block == 2)
+                                                {
+                                                    threeVertIndexX = rowIterateX + 1;
+                                                    threeVertIndexY = yi + 1;
+                                                    threeVertIndexZ = rowIterateZ - _zz;
+                                                    _maxWidth = _xx;
+                                                    foundVertThree = 1;
+                                                    ////////Instantiate(_sphereVisualOtherColorBlack, new Vector3(rowIterateX + 1, y + 1, rowIterateZ - _zz) * planeSize + chunkPos, Quaternion.identity);
+
+                                                    fourVertIndexX = threeVertIndexX;
+                                                    fourVertIndexY = yi + 1;
+                                                    fourVertIndexZ = twoVertIndexZ;
+                                                        foundVertFour = 1;
+                                                    ////////Instantiate(_sphereVisualOtherColor, new Vector3(rowIterateX + 1, y + 1, twoVertIndexZ) * planeSize + chunkPos, Quaternion.identity);
+                                                }
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        threeVertIndexX = rowIterateX + 1;
+                                        threeVertIndexY = yi + 1;
+                                        threeVertIndexZ = rowIterateZ - _zz;
+                                        _maxWidth = _xx;
+                                        foundVertThree = 1;
+                                        ////////Instantiate(_sphereVisualOtherColorBlack, new Vector3(rowIterateX + 1, y + 1, rowIterateZ - _zz) * planeSize + chunkPos, Quaternion.identity);
+
+                                        if (rowIterateZ + 1 == twoVertIndexZ && rowIterateX + 1 == threeVertIndexX)
+                                        {
+                                            fourVertIndexX = threeVertIndexX;
+                                            fourVertIndexY = yi + 1;
+                                            fourVertIndexZ = twoVertIndexZ;
+                                                foundVertFour = 1;
+                                            ////////Instantiate(_sphereVisualOtherColor, new Vector3(rowIterateX + 1, y + 1, twoVertIndexZ) * planeSize + chunkPos, Quaternion.identity);
+                                        }
+                                    }
+
+                                    if (blockExistsInArray(rowIterateX, yi, rowIterateZ + 1)== 1)
+                                    {
+                                        _block = _tempChunkArray[(rowIterateX) + width * ((yi) + height * (rowIterateZ + 1))].thebyte;
+
+                                        if (_block == 1 || _block == 2)
+                                        {
+                                            if (rowIterateZ + 1 == twoVertIndexZ && rowIterateX + 1 == threeVertIndexX)
+                                            {
+                                                fourVertIndexX = threeVertIndexX;
+                                                fourVertIndexY = yi + 1;
+                                                fourVertIndexZ = twoVertIndexZ;
+                                                    foundVertFour = 1;
+                                                ////////Instantiate(_sphereVisualOtherColor, new Vector3(rowIterateX + 1, y + 1, twoVertIndexZ) * planeSize + chunkPos, Quaternion.identity);
+                                            }
+                                        }
+
+                                        if (blockExistsInArray(rowIterateX, yi + 1, rowIterateZ + 1)== 1)
+                                        {
+                                            //*****************************************************************************
+                                            _block = _tempChunkArray[(rowIterateX) + width * ((yi + 1) + height * (rowIterateZ + 1))].thebyte;
+                                            if (_block == 1 || _block == 2)
+                                            {
+                                                if (rowIterateZ + 1 == twoVertIndexZ && rowIterateX + 1 == threeVertIndexX)
+                                                {
+                                                    fourVertIndexX = threeVertIndexX;
+                                                    fourVertIndexY = yi + 1;
+                                                    fourVertIndexZ = twoVertIndexZ;
+                                                        foundVertFour = 1;
+                                                    ////////Instantiate(_sphereVisualOtherColor, new Vector3(rowIterateX + 1, y + 1, twoVertIndexZ) * planeSize + chunkPos, Quaternion.identity);
+                                                }
+                                            }
+                                            //*****************************************************************************
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (rowIterateZ + 1 == twoVertIndexZ && rowIterateX + 1 == threeVertIndexX)
+                                        {
+                                            fourVertIndexX = threeVertIndexX;
+                                            fourVertIndexY = yi + 1;
+                                            fourVertIndexZ = twoVertIndexZ;
+                                                foundVertFour = 1;
+                                            ////////Instantiate(_sphereVisualOtherColor, new Vector3(rowIterateX + 1, y + 1, twoVertIndexZ) * planeSize + chunkPos, Quaternion.identity);
+                                        }
+                                    }
+                                }
+
+                                else if (_xx > 0 && _zz > 0)
+                                {
+                                    if (blockExistsInArray(rowIterateX + 1, yi, rowIterateZ)== 1)
+                                    {
+                                        _block = _tempChunkArray[(rowIterateX + 1) + width * ((yi) + height * (rowIterateZ))].thebyte;
+
+                                        if (_block == 0)
+                                        {
+                                            //UnityEngine.Debug.Log("test");
+                                            threeVertIndexX = rowIterateX + 1;
+                                            threeVertIndexY = yi + 1;
+                                            threeVertIndexZ = rowIterateZ - _zz;
+                                            _maxWidth = _xx;
+                                            foundVertThree = 1;
+                                            ////////Instantiate(_sphereVisualOtherColorBlack, new Vector3(rowIterateX+1, y + 1, rowIterateZ - _zz) * planeSize + chunkPos, Quaternion.identity);
+
+                                            fourVertIndexX = threeVertIndexX;
+                                            fourVertIndexY = yi + 1;
+                                            fourVertIndexZ = twoVertIndexZ;
+                                                foundVertFour = 1;
+                                            ////////Instantiate(_sphereVisualOtherColor, new Vector3(rowIterateX + 1, y + 1, twoVertIndexZ) * planeSize + chunkPos, Quaternion.identity);
+                                        }
+                                        else if (_block == 1 || _block == 2)
+                                        {
+                                            if (rowIterateZ + 1 == twoVertIndexZ && rowIterateX + 1 == threeVertIndexX)
+                                            {
+                                                fourVertIndexX = threeVertIndexX;
+                                                fourVertIndexY = yi + 1;
+                                                fourVertIndexZ = twoVertIndexZ;
+                                                    foundVertFour = 1;
+                                                ////////Instantiate(_sphereVisualOtherColorOrange, new Vector3(rowIterateX + 1, y + 1, twoVertIndexZ) * planeSize + chunkPos, Quaternion.identity);
+                                            }
+
+                                            //***********************************************************
+                                            if (blockExistsInArray(rowIterateX + 1, yi + 1, rowIterateZ)== 1)
+                                            {
+                                                _block = _tempChunkArray[(rowIterateX + 1) + width * ((yi + 1) + height * (rowIterateZ))].thebyte;
+                                                if (_block == 1 || _block == 2)
+                                                {
+                                                    threeVertIndexX = rowIterateX + 1;
+                                                    threeVertIndexY = yi + 1;
+                                                    threeVertIndexZ = rowIterateZ - _zz;
+                                                    _maxWidth = _xx;
+
+                                                    foundVertThree = 1;
+                                                    ////////Instantiate(_sphereVisualOtherColor, new Vector3(rowIterateX + 1, y + 1, rowIterateZ - _zz) * planeSize + chunkPos, Quaternion.identity);
+
+                                                    if (rowIterateZ + 1 == twoVertIndexZ && rowIterateX + 1 == threeVertIndexX)
+                                                    {
+                                                        fourVertIndexX = threeVertIndexX;
+                                                        fourVertIndexY = yi + 1;
+                                                        fourVertIndexZ = twoVertIndexZ;
+                                                            foundVertFour = 1;
+                                                        ////////Instantiate(_sphereVisualOtherColorOrange, new Vector3(rowIterateX + 1, y + 1, twoVertIndexZ) * planeSize + chunkPos, Quaternion.identity);
+                                                    }
+                                                }
+                                            }
+                                            //*******************************************************
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (rowIterateZ + 1 == twoVertIndexZ && rowIterateX + 1 == threeVertIndexX)
+                                        {
+                                            fourVertIndexX = threeVertIndexX;
+                                            fourVertIndexY = yi + 1;
+                                            fourVertIndexZ = twoVertIndexZ;
+                                            foundVertFour = 1;
+                                            ////////Instantiate(_sphereVisualOtherColor, new Vector3(rowIterateX + 1, y + 1, twoVertIndexZ) * planeSize + chunkPos, Quaternion.identity);
+                                        }
+                                    }
+
+                                    if (blockExistsInArray(rowIterateX, yi, rowIterateZ + 1) == 0)
+                                    {
+                                        if (rowIterateZ + 1 == twoVertIndexZ && rowIterateX + 1 == threeVertIndexX)
+                                        {
+                                            fourVertIndexX = threeVertIndexX;
+                                            fourVertIndexY = yi + 1;
+                                            fourVertIndexZ = twoVertIndexZ;
+                                            foundVertFour = 1;
+                                            ////////Instantiate(_sphereVisualOtherColor, new Vector3(rowIterateX + 1, y + 1, twoVertIndexZ) * planeSize + chunkPos, Quaternion.identity);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        if (blockExistsInArray(rowIterateX, yi, rowIterateZ)== 1)
+                        {
+                            //mapofints _tempChunkArrays = _tempChunkArray[id.x];
+
+                            //_tempChunkArrays.thebyte = 2;
+                            //_tempChunkArray[id.x] = _tempChunkArrays;
+
+                            _tempChunkArray[(rowIterateX) + width * (yi + height * (rowIterateZ))].thebyte = 2;
+                            ////////Instantiate(_blockZero, new Vector3(rowIterateX + 0.5f, y, rowIterateZ + 0.5f) * planeSize + chunkPos, Quaternion.identity);
+                        }
+
+
+                        /*_zz++;
+                        if(_zz >= _maxDepth )
+                        {
+                            _xx++;
+                            _zz = 0;
+                        }
+                        if(_xx >= _maxWidth )
+                        {
+                            _xx = 0;
+                        }
+                        thetotal = _maxWidth * _maxDepth;
+                        }
+                    }
+
+
+
+
+
+                if(foundVertOne == 1 && foundVertTwo == 1 && foundVertThree == 1 && foundVertFour == 1) // && foundVertTwo == 1 && foundVertThree == 1 && foundVertFour == 1
+                {
+
+
+                    //int someindextop = map.cx + width * ((map.cy) + height * (map.cz));
+                
+                    /*mapofints mapfirstvertxtops = mapfirstvertxtop[theindex];
+                    mapofints mapfirstvertztops = mapfirstvertztop[theindex];
+
+                    mapofints widthdimtops = widthdimtop[theindex];
+                    mapofints heightdimtops = heightdimtop[theindex];
+                    mapofints depthdimtops = depthdimtop[theindex];*/
+
+                    /*float3 vert0 = float3(oneVertIndexX , oneVertIndexY , oneVertIndexZ );
+                    float3 vert1 = float3(twoVertIndexX , twoVertIndexY , twoVertIndexZ );
+                    float3 vert2 = float3(threeVertIndexX , threeVertIndexY , threeVertIndexZ );
+                    float3 vert3 = float3(fourVertIndexX , fourVertIndexY , fourVertIndexZ );
+
+                    mapfirstvertxtop[theindex].thebyte = oneVertIndexX;
+                    //mapfirstvertytop[someindextop].thebyte = oneVertIndexY;
+                    mapfirstvertztop[theindex].thebyte = oneVertIndexZ;
+
+                    widthdimtop[theindex].thebyte = twoVertIndexX - oneVertIndexX;//(int)(vert2.x - vert0.x);//(int)abs(abs(vert0.x) - abs(vert2.x)); //0  3 == 3 
+                    heightdimtop[theindex].thebyte = oneVertIndexY;// (int)abs(abs(vert0.Y) - abs(vert2.Y));
+                    depthdimtop[theindex].thebyte = threeVertIndexZ - oneVertIndexZ;//(int)(vert1.z - vert0.z);//(int)abs(abs(vert0.z) - abs(vert1.z));
+                */
+
+
+                    /*map.cz++;
+                    if (map.cz == depth)
+                    {
+                        map.cy++;
+                        map.cz = 0;
+                    }
+                    if (map.cy == height)
+                    {
+                        map.cx++;
+                        map.cy = 0;
+                    }
+                    if (map.cx == width)
+                    {
+                        map.cx = 0;
+                    }*/
+                    /*
+                    widthdimtop[theindex] = widthdimtops;
+                    heightdimtop[theindex] = heightdimtops;
+                    depthdimtop[theindex] = depthdimtops;
+
+                    mapfirstvertxtop[theindex] = mapfirstvertxtops;
+                    mapfirstvertztop[theindex] = mapfirstvertztops;*/
+
+
+                    /*mapofints mapfirstvertxtops = mapfirstvertxtop[id.x];
+                    mapofints mapfirstvertztops = mapfirstvertztop[id.x];
+
+                    mapofints widthdimtops = widthdimtop[id.x];
+                    mapofints heightdimtops = heightdimtop[id.x];
+                    mapofints depthdimtops = depthdimtop[id.x];
+
+
+                    int someindextop = someixtop + width * ((someiytop) + height * (someiztop));
+
+                    float3 vert0 = float3(oneVertIndexX * planeSize, oneVertIndexY * planeSize, oneVertIndexZ * planeSize);
+                    float3 vert1 = float3(twoVertIndexX * planeSize, twoVertIndexY * planeSize, twoVertIndexZ * planeSize);
+                    float3 vert2 = float3(threeVertIndexX * planeSize, threeVertIndexY * planeSize, threeVertIndexZ * planeSize);
+                    float3 vert3 = float3(fourVertIndexX * planeSize, fourVertIndexY * planeSize, fourVertIndexZ * planeSize);
+                
+                    mapfirstvertxtops.thebyte = oneVertIndexX;
+                    //mapfirstvertytop[someindextop].thebyte = oneVertIndexY;
+                    mapfirstvertztops.thebyte = oneVertIndexZ;
+
+                    widthdimtops.thebyte = twoVertIndexX - oneVertIndexX;//(int)(vert2.x - vert0.x);//(int)abs(abs(vert0.x) - abs(vert2.x)); //0  3 == 3 
+                    heightdimtops.thebyte = oneVertIndexY;// (int)abs(abs(vert0.Y) - abs(vert2.Y));
+                    depthdimtops.thebyte = threeVertIndexZ - oneVertIndexZ;//(int)(vert1.z - vert0.z);//(int)abs(abs(vert0.z) - abs(vert1.z));
+
+                    map.cz++;
+                    if (map.cz == depth)
+                    {
+                        map.cy++;
+                        map.cz = 0;
+                    }
+                    if (map.cy == height)
+                    {
+                        map.cx++;
+                        map.cy = 0;
+                    }
+                    if (map.cx == width)
+                    {
+                        map.cx = 0;
+                    }
+
+                    widthdimtop[id.x] = widthdimtops;
+                    heightdimtop[id.x] =heightdimtops;
+                    depthdimtop[id.x] = depthdimtops;
+
+                    mapfirstvertxtop[id.x] = mapfirstvertxtops;
+                    mapfirstvertztop[id.x] = mapfirstvertztops;
+
+                    int oneVertIndexX = xi;
+                    int oneVertIndexY = yi+1;
+                    int oneVertIndexZ = zi;
+
+                    int twoVertIndexX = xi+1;
+                    int twoVertIndexY = yi+1;
+                    int twoVertIndexZ = zi;
+
+                    int threeVertIndexX = xi;
+                    int threeVertIndexY = yi+1;
+                    int threeVertIndexZ = zi+1;
+
+                    int fourVertIndexX = xi+1;
+                    int fourVertIndexY = yi+1;
+                    int fourVertIndexZ = zi+1;
+
+                    //int someindextop = map.cx + width * ((map.cy) + height * (map.cz));
+                
+                    /*mapofints mapfirstvertxtops = mapfirstvertxtop[theindex];
+                    mapofints mapfirstvertztops = mapfirstvertztop[theindex];
+
+                    mapofints widthdimtops = widthdimtop[theindex];
+                    mapofints heightdimtops = heightdimtop[theindex];
+                    mapofints depthdimtops = depthdimtop[theindex];
+
+                    float3 vert0 = float3(oneVertIndexX , oneVertIndexY , oneVertIndexZ );
+                    float3 vert1 = float3(twoVertIndexX , twoVertIndexY , twoVertIndexZ );
+                    float3 vert2 = float3(threeVertIndexX , threeVertIndexY , threeVertIndexZ );
+                    float3 vert3 = float3(fourVertIndexX , fourVertIndexY , fourVertIndexZ );
+
+                    mapfirstvertxtop[theindex].thebyte = oneVertIndexX;
+                    //mapfirstvertytop[someindextop].thebyte = oneVertIndexY;
+                    mapfirstvertztop[theindex].thebyte = oneVertIndexZ;
+
+                    widthdimtop[theindex].thebyte = twoVertIndexX - oneVertIndexX;//(int)(vert2.x - vert0.x);//(int)abs(abs(vert0.x) - abs(vert2.x)); //0  3 == 3 
+                    heightdimtop[theindex].thebyte = oneVertIndexY;// (int)abs(abs(vert0.Y) - abs(vert2.Y));
+                    depthdimtop[theindex].thebyte = threeVertIndexZ - oneVertIndexZ;//(int)(vert1.z - vert0.z);//(int)abs(abs(vert0.z) - abs(vert1.z));
+                    
+
+                    /*
+                    widthdimtop[theindex] = widthdimtops;
+                    heightdimtop[theindex] = heightdimtops;
+                    depthdimtop[theindex] = depthdimtops;
+
+                    mapfirstvertxtop[theindex] = mapfirstvertxtops;
+                    mapfirstvertztop[theindex] = mapfirstvertztops;
+                    
+
+                    foundVertOne = 0;
+                    foundVertTwo = 0;
+                    foundVertThree = 0;
+                    foundVertFour = 0;
+                }*/
+
+
+
+
+
+
+
+
+                /*
+                //if(ResultStructSwitchesBuffer[0].swtc == 0)
+                {
+
+                
+                
+                
+                
+                    int oneVertIndexX = xi;
+                    int oneVertIndexY = yi+1;
+                    int oneVertIndexZ = zi;
+
+                    int twoVertIndexX = xi+1;
+                    int twoVertIndexY = yi+1;
+                    int twoVertIndexZ = zi;
+
+                    int threeVertIndexX = xi;
+                    int threeVertIndexY = yi+1;
+                    int threeVertIndexZ = zi+1;
+
+                    int fourVertIndexX = xi+1;
+                    int fourVertIndexY = yi+1;
+                    int fourVertIndexZ = zi+1;
+
+                    //int someindextop = map.cx + width * ((map.cy) + height * (map.cz));
+                
+                    mapofints mapfirstvertxtops = mapfirstvertxtop[theindex];
+                    mapofints mapfirstvertztops = mapfirstvertztop[theindex];
+
+                    mapofints widthdimtops = widthdimtop[theindex];
+                    mapofints heightdimtops = heightdimtop[theindex];
+                    mapofints depthdimtops = depthdimtop[theindex];
+
+                    float3 vert0 = float3(oneVertIndexX , oneVertIndexY , oneVertIndexZ );
+                    float3 vert1 = float3(twoVertIndexX , twoVertIndexY , twoVertIndexZ );
+                    float3 vert2 = float3(threeVertIndexX , threeVertIndexY , threeVertIndexZ );
+                    float3 vert3 = float3(fourVertIndexX , fourVertIndexY , fourVertIndexZ );
+
+                    mapfirstvertxtop[theindex].thebyte = oneVertIndexX;
+                    //mapfirstvertytop[someindextop].thebyte = oneVertIndexY;
+                    mapfirstvertztop[theindex].thebyte = oneVertIndexZ;
+
+                    widthdimtop[theindex].thebyte = twoVertIndexX - oneVertIndexX;//(int)(vert2.x - vert0.x);//(int)abs(abs(vert0.x) - abs(vert2.x)); //0  3 == 3 
+                    heightdimtop[theindex].thebyte = oneVertIndexY;// (int)abs(abs(vert0.Y) - abs(vert2.Y));
+                    depthdimtop[theindex].thebyte = threeVertIndexZ - oneVertIndexZ;//(int)(vert1.z - vert0.z);//(int)abs(abs(vert0.z) - abs(vert1.z));
+                    
+                    /*
+                    widthdimtop[theindex] = widthdimtops;
+                    heightdimtop[theindex] = heightdimtops;
+                    depthdimtop[theindex] = depthdimtops;
+
+                    mapfirstvertxtop[theindex] = mapfirstvertxtops;
+                    mapfirstvertztop[theindex] = mapfirstvertztops;
+
+                        //GroupMemoryBarrierWithGroupSync();
+                    //ResultStructSwitchesBuffer[0].tindex++; //DTid.x
+                    //ResultStructSwitchesBuffer[0].swtc = 1;
+
+                    ResultStructSwitchesBuffer[0].swtc = 1;
+                }*/
+            }
+        }
+
+        /*tiz++;
+        if (tiz == depth)
+        {
+            tiy++;
+            tiz = 0;
+        }
+        if (tiy == height)
+        {
+            tix++;
+            tiy = 0;
+        }
+        if (tix == width)
+        {
+            tix = 0;
+        }*/
+
+        tiz++;
+        if (tiz == depth)
+        {
+            tix++;
+            tiz = 0;
+        }      
+        if (tix == width)
+        {
+            tiy++;
+            tix = 0;
+        }
+        if (tiy == height)
+        {          
+            tiy = 0;
+        }
+
+    }
+
+
+
+    //ResultStructSwitchesBuffer[0].tindex = ti;
+
+
+
+
+
+    /*if(ResultStructSwitchesBuffer[GI].swtc == 0)
+    {
+        data[0] = 0;
+        ResultStructSwitchesBuffer[GI].swtc = 1;
+    }*/
+
+    //GroupMemoryBarrierWithGroupSync();
+    //ResultStructSwitchesBuffer[0].tindex++;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //data[GI] = GI;
+ 
+    // Firstly you need to know that threads in group execute same instruction one by one.
+    // However every GPU has the maximum number of threads in the group and
+    // If this number is exceeded in compute shader it gets split into multiple waves.
+    // So this is where we do sync if this case happens, if not compiler will remove it.
+    // https://msdn.microsoft.com/en-us/library/windows/desktop/ff471404(v=vs.85).aspx
+    //GroupMemoryBarrierWithGroupSync();
+ 
+    // Here we force the race condition
+    //_Results[GI] = data[GROUP_SIZE_X - 1 - GI];
+
+
+
+
+    
+    //MapStruct map = themap[DTid.x];
+
+    /*int xi = map.ix;
+    int yi = map.iy;
+    int zi = map.iz;*/
+
+
+  
+
+    
+
+    //int themindex = DTid.x;
+    //for(ResultStructSwitchesBuffer[DTid.x].ti = 0; ResultStructSwitchesBuffer[DTid.x].ti < total; ResultStructSwitchesBuffer[DTid.x].ti++)
+
+
+    /*//for(ti = 0; ti < total; ti++)
+    { 
+        int itx = ResultStructSwitchesBuffer[GI].cx;
+        int ity = ResultStructSwitchesBuffer[GI].cy;
+        int itz = ResultStructSwitchesBuffer[GI].cz;
+
+        int xi = themap[itx + width * (ity + height * itz)].ix;//ResultStructSwitchesBuffer[GI].cx;
+        int yi = themap[itx + width * (ity + height * itz)].iy;//ResultStructSwitchesBuffer[GI].cy;
+        int zi = themap[itx + width * (ity + height * itz)].iz;//ResultStructSwitchesBuffer[GI].cz;
+
+        int theindex = xi + width * (yi + height * zi);
+
+        //_Results[DTid.x] = DTid.x;
+        //int theresult = _Results[DTid.x];
+ 
+        //if(ResultStructSwitchesBuffer[0].swtc == 0)//initvars == 0)//
+        {
+
+            int _block =  themap[xi + width * (yi + height * zi)].thebyte; //_tempChunkArray[xi + width * (yi + height * zi)].thebyte;//_tempChunkArray[xi + width * (yi + height * zi)].thebyte;//
+
+            if (_block == 1) //|| _block == 2
+            {         
+                if (IsTransparent(xi, yi + 1, zi) == 1)
+                {
+                    int oneVertIndexX = xi;
+                    int oneVertIndexY = yi+1;
+                    int oneVertIndexZ = zi;
+
+                    int twoVertIndexX = xi+1;
+                    int twoVertIndexY = yi+1;
+                    int twoVertIndexZ = zi;
+
+                    int threeVertIndexX = xi;
+                    int threeVertIndexY = yi+1;
+                    int threeVertIndexZ = zi+1;
+
+                    int fourVertIndexX = xi+1;
+                    int fourVertIndexY = yi+1;
+                    int fourVertIndexZ = zi+1;
+
+                    //int someindextop = map.cx + width * ((map.cy) + height * (map.cz));
+                
+                    /*mapofints mapfirstvertxtops = mapfirstvertxtop[theindex];
+                    mapofints mapfirstvertztops = mapfirstvertztop[theindex];
+
+                    mapofints widthdimtops = widthdimtop[theindex];
+                    mapofints heightdimtops = heightdimtop[theindex];
+                    mapofints depthdimtops = depthdimtop[theindex];
+
+                    float3 vert0 = float3(oneVertIndexX , oneVertIndexY , oneVertIndexZ );
+                    float3 vert1 = float3(twoVertIndexX , twoVertIndexY , twoVertIndexZ );
+                    float3 vert2 = float3(threeVertIndexX , threeVertIndexY , threeVertIndexZ );
+                    float3 vert3 = float3(fourVertIndexX , fourVertIndexY , fourVertIndexZ );
+
+                    mapfirstvertxtop[GI].thebyte = oneVertIndexX;
+                    //mapfirstvertytop[someindextop].thebyte = oneVertIndexY;
+                    mapfirstvertztop[GI].thebyte = oneVertIndexZ;
+
+                    widthdimtop[GI].thebyte = twoVertIndexX - oneVertIndexX;//(int)(vert2.x - vert0.x);//(int)abs(abs(vert0.x) - abs(vert2.x)); //0  3 == 3 
+                    heightdimtop[GI].thebyte = oneVertIndexY;// (int)abs(abs(vert0.Y) - abs(vert2.Y));
+                    depthdimtop[GI].thebyte = threeVertIndexZ - oneVertIndexZ;//(int)(vert1.z - vert0.z);//(int)abs(abs(vert0.z) - abs(vert1.z));
+                    
+
+                    /*
+                    widthdimtop[theindex] = widthdimtops;
+                    heightdimtop[theindex] = heightdimtops;
+                    depthdimtop[theindex] = depthdimtops;
+
+                    mapfirstvertxtop[theindex] = mapfirstvertxtops;
+                    mapfirstvertztop[theindex] = mapfirstvertztops;
+
+                     //GroupMemoryBarrierWithGroupSync();
+                    //ResultStructSwitchesBuffer[0].tindex++; //DTid.x
+                    //ResultStructSwitchesBuffer[0].swtc = 1;
+                }
+            }
+        }
+
+
+        
+        ResultStructSwitchesBuffer[GI].cz++;
+        if (ResultStructSwitchesBuffer[GI].cz == depth)
+        {
+            ResultStructSwitchesBuffer[GI].cy++;
+            ResultStructSwitchesBuffer[GI].cz = 0;
+        }
+        if (ResultStructSwitchesBuffer[GI].cy == height)
+        {
+            ResultStructSwitchesBuffer[GI].cx++;
+            ResultStructSwitchesBuffer[GI].cy = 0;
+        }
+        if (ResultStructSwitchesBuffer[GI].cx == width)
+        {
+            ResultStructSwitchesBuffer[GI].cx = 0;
+        }
+
+    }*/
+    
+
+
+    /*
+    if(ResultStructSwitchesBuffer[GI].swtc == 0)
+    {
+        data[0] = 0;
+        ResultStructSwitchesBuffer[GI].swtc = 1;
+    }
+
+    //theresult = 1;
+
+
+   
+
+    //_Results[GI] = ResultStructSwitchesBuffer[GI].swtc;
+    
+
+    //ResultStructSwitchesBuffer[0].tindex = data[GROUP_SIZE_X - 1 - groupIndex];
+
+    //_Results[0] = 1;
+    //ti++;
+    data[GI]++;//ResultStructSwitchesBuffer[GI].ti++;
+    _Results[GI] = data[0];*/
+}
