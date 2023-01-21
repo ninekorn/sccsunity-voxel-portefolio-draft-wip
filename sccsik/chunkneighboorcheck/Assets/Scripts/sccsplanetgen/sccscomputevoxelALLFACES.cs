@@ -352,7 +352,7 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
 
                                 mapdata[indexflat][index] = new mapbytes();
                                 mapdata[indexflat][index].thebyte = 0;
-                                mapdata[indexflat][index].position = new Vector3(x * mapx * planesize, y * mapy * planesize, z * mapz * planesize) + chunkmainpos;
+                                mapdata[indexflat][index].position = new Vector3(x * mapx * planesize, y * mapy * planesize, z * mapz * planesize) ;
                                 mapdata[indexflat][index].ix = xmap;
                                 mapdata[indexflat][index].iy = ymap;
                                 mapdata[indexflat][index].iz = zmap;
@@ -671,12 +671,37 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
        */
 
 
+
+
+        int sextremityxl = 0;
+        int sextremityxr = 0;
+
+        int sextremityyl = 0;
+        int sextremityyr = 0;
+
+        int sextremityzl = 0;
+        int sextremityzr = 0;
+
+
+
         for (int x = -schunkwl; x <= schunkwr; x++)
         {
             for (int y = -schunkhl; y <= schunkhr; y++)
             {
                 for (int z = -schunkdl; z <= schunkdr; z++)
                 {
+
+
+                    sextremityxl = 0;
+                    sextremityxr = 0;
+
+                    sextremityyl = 0;
+                    sextremityyr = 0;
+
+                    sextremityzl = 0;
+                    sextremityzr = 0;
+
+
                     int xx = x;
                     int yy = y;
                     int zz = z;
@@ -700,6 +725,35 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
                     int indexflat = xx + (schunkwl + schunkwr + 1) * (yy + (schunkhl + schunkhr + 1) * zz);
 
                     Vector3 chunkmainpos = new Vector3(x * mapx * planesize, y * mapy * planesize, z * mapz * planesize);
+
+
+                    if (x == -schunkwl)
+                    {
+                        sextremityxl = 1;
+                    }
+
+                    if (x == schunkwr)
+                    {
+                        sextremityxr = 1;
+                    }
+
+                    if (y == -schunkhl)
+                    {
+                        sextremityyl = 1;
+                    }
+                    if (y == schunkhr)
+                    {
+                        sextremityyr = 1;
+                    }
+
+                    if (z == -schunkdl)
+                    {
+                        sextremityzl = 1;
+                    }
+                    if (z == schunkdr)
+                    {
+                        sextremityzr = 1;
+                    }
 
 
 
@@ -742,15 +796,16 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
                                 else
                                 {
 
-
-
+                                    //TOPFACE
+                                    //TOPFACE
+                                    //TOPFACE
                                     if (extremityishr == 1)
                                     {
                                         var planetdivtothetop = sccschunkfacesbuilder.instance.getplanetdiv((int)(mindexx), (int)(mindexy + 1), (int)(mindexz));
 
                                         if (planetdivtothetop != null)
                                         {
-                                            var planetdivchunk = planetdivtothetop.getChunk(x, 0, z);
+                                            var planetdivchunk = planetdivtothetop.getChunk(x, -schunkhl, z);
 
                                             if (planetdivchunk != null)
                                             {
@@ -823,38 +878,110 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
                                         {
 
 
-                                            var planetdivchunk = getChunk(x, y + 1, z);
-
-                                            if (planetdivchunk != null)
+                                            if (sextremityyr == 1)
                                             {
-                                                if (IsTransparent(xmap, 0, zmap, planetdivchunk.thebytemap))
+                                                if (ymap == mapy - 1)
                                                 {
-                                                    if (facetype == 0)
+                                                    var planetdivchunk = getChunk(x, y + 1, z);
+
+                                                    if (planetdivchunk != null)
                                                     {
-                                                        int indexofvert00 = vertices[indexflat].Count;
-                                                        Vector3 firstvertofface0 = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
+                                                        if (IsTransparent(xmap, 0, zmap, planetdivchunk.thebytemap))
+                                                        {
+                                                            if (facetype == 0)
+                                                            {
+                                                                int indexofvert00 = vertices[indexflat].Count;
+                                                                Vector3 firstvertofface0 = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
 
-                                                        int indexofvert10 = vertices[indexflat].Count + 1;
-                                                        Vector3 secondvertofface0 = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
+                                                                int indexofvert10 = vertices[indexflat].Count + 1;
+                                                                Vector3 secondvertofface0 = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
 
-                                                        int indexofvert20 = vertices[indexflat].Count + 2;
-                                                        Vector3 thirdvertofface0 = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+                                                                int indexofvert20 = vertices[indexflat].Count + 2;
+                                                                Vector3 thirdvertofface0 = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
 
-                                                        int indexofvert30 = vertices[indexflat].Count + 3;
-                                                        Vector3 fourthvertofface0 = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+                                                                int indexofvert30 = vertices[indexflat].Count + 3;
+                                                                Vector3 fourthvertofface0 = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
 
 
-                                                        vertices[indexflat].Add(firstvertofface0);
-                                                        vertices[indexflat].Add(secondvertofface0);
-                                                        vertices[indexflat].Add(thirdvertofface0);
-                                                        vertices[indexflat].Add(fourthvertofface0);
+                                                                vertices[indexflat].Add(firstvertofface0);
+                                                                vertices[indexflat].Add(secondvertofface0);
+                                                                vertices[indexflat].Add(thirdvertofface0);
+                                                                vertices[indexflat].Add(fourthvertofface0);
 
-                                                        triangles[indexflat].Add(indexofvert20);
-                                                        triangles[indexflat].Add(indexofvert10);
-                                                        triangles[indexflat].Add(indexofvert00);
-                                                        triangles[indexflat].Add(indexofvert10);
-                                                        triangles[indexflat].Add(indexofvert20);
-                                                        triangles[indexflat].Add(indexofvert30);
+                                                                triangles[indexflat].Add(indexofvert20);
+                                                                triangles[indexflat].Add(indexofvert10);
+                                                                triangles[indexflat].Add(indexofvert00);
+                                                                triangles[indexflat].Add(indexofvert10);
+                                                                triangles[indexflat].Add(indexofvert20);
+                                                                triangles[indexflat].Add(indexofvert30);
+                                                            }
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        if (IsTransparent(xmap, ymap + 1, zmap, null))
+                                                        {
+                                                            if (facetype == 0)
+                                                            {
+                                                                int indexofvert00 = vertices[indexflat].Count;
+                                                                Vector3 firstvertofface0 = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
+
+                                                                int indexofvert10 = vertices[indexflat].Count + 1;
+                                                                Vector3 secondvertofface0 = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
+
+                                                                int indexofvert20 = vertices[indexflat].Count + 2;
+                                                                Vector3 thirdvertofface0 = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+
+                                                                int indexofvert30 = vertices[indexflat].Count + 3;
+                                                                Vector3 fourthvertofface0 = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+
+
+                                                                vertices[indexflat].Add(firstvertofface0);
+                                                                vertices[indexflat].Add(secondvertofface0);
+                                                                vertices[indexflat].Add(thirdvertofface0);
+                                                                vertices[indexflat].Add(fourthvertofface0);
+
+                                                                triangles[indexflat].Add(indexofvert20);
+                                                                triangles[indexflat].Add(indexofvert10);
+                                                                triangles[indexflat].Add(indexofvert00);
+                                                                triangles[indexflat].Add(indexofvert10);
+                                                                triangles[indexflat].Add(indexofvert20);
+                                                                triangles[indexflat].Add(indexofvert30);
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    if (IsTransparent(xmap, ymap + 1, zmap, null))
+                                                    {
+                                                        if (facetype == 0)
+                                                        {
+                                                            int indexofvert00 = vertices[indexflat].Count;
+                                                            Vector3 firstvertofface0 = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
+
+                                                            int indexofvert10 = vertices[indexflat].Count + 1;
+                                                            Vector3 secondvertofface0 = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
+
+                                                            int indexofvert20 = vertices[indexflat].Count + 2;
+                                                            Vector3 thirdvertofface0 = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+
+                                                            int indexofvert30 = vertices[indexflat].Count + 3;
+                                                            Vector3 fourthvertofface0 = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+
+
+                                                            vertices[indexflat].Add(firstvertofface0);
+                                                            vertices[indexflat].Add(secondvertofface0);
+                                                            vertices[indexflat].Add(thirdvertofface0);
+                                                            vertices[indexflat].Add(fourthvertofface0);
+
+                                                            triangles[indexflat].Add(indexofvert20);
+                                                            triangles[indexflat].Add(indexofvert10);
+                                                            triangles[indexflat].Add(indexofvert00);
+                                                            triangles[indexflat].Add(indexofvert10);
+                                                            triangles[indexflat].Add(indexofvert20);
+                                                            triangles[indexflat].Add(indexofvert30);
+                                                        }
                                                     }
                                                 }
                                             }
@@ -891,52 +1018,94 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
                                                     }
                                                 }
                                             }
-
                                         }
                                     }
                                     else if (extremityishr == 0)
                                     {
 
-
-
                                         var planetdivtothetop = sccschunkfacesbuilder.instance.getplanetdiv((int)(mindexx), (int)(mindexy + 1), (int)(mindexz));
 
-                                        if (planetdivtothetop != null)
+                                        if (planetdivtothetop!= null)
                                         {
-                                            var planetdivchunk = planetdivtothetop.getChunk(x, 0, z);
 
-                                            if (planetdivchunk != null)
+
+
+                                            if (sextremityyr == 1)
                                             {
-                                                if (IsTransparent(xmap, 0, zmap, planetdivchunk.thebytemap))
+                                                if (ymap == mapy - 1)
                                                 {
-                                                    if (facetype == 0)
+                                                    var planetdivchunk = planetdivtothetop.getChunk(x, -schunkhl, z);
+
+                                                    if (planetdivchunk != null)
                                                     {
-                                                        int indexofvert00 = vertices[indexflat].Count;
-                                                        Vector3 firstvertofface0 = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
+                                                        if (IsTransparent(xmap, 0, zmap, planetdivchunk.thebytemap))
+                                                        {
+                                                            if (facetype == 0)
+                                                            {
+                                                                int indexofvert00 = vertices[indexflat].Count;
+                                                                Vector3 firstvertofface0 = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
 
-                                                        int indexofvert10 = vertices[indexflat].Count + 1;
-                                                        Vector3 secondvertofface0 = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
+                                                                int indexofvert10 = vertices[indexflat].Count + 1;
+                                                                Vector3 secondvertofface0 = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
 
-                                                        int indexofvert20 = vertices[indexflat].Count + 2;
-                                                        Vector3 thirdvertofface0 = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+                                                                int indexofvert20 = vertices[indexflat].Count + 2;
+                                                                Vector3 thirdvertofface0 = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
 
-                                                        int indexofvert30 = vertices[indexflat].Count + 3;
-                                                        Vector3 fourthvertofface0 = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+                                                                int indexofvert30 = vertices[indexflat].Count + 3;
+                                                                Vector3 fourthvertofface0 = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
 
 
-                                                        vertices[indexflat].Add(firstvertofface0);
-                                                        vertices[indexflat].Add(secondvertofface0);
-                                                        vertices[indexflat].Add(thirdvertofface0);
-                                                        vertices[indexflat].Add(fourthvertofface0);
+                                                                vertices[indexflat].Add(firstvertofface0);
+                                                                vertices[indexflat].Add(secondvertofface0);
+                                                                vertices[indexflat].Add(thirdvertofface0);
+                                                                vertices[indexflat].Add(fourthvertofface0);
 
-                                                        triangles[indexflat].Add(indexofvert20);
-                                                        triangles[indexflat].Add(indexofvert10);
-                                                        triangles[indexflat].Add(indexofvert00);
-                                                        triangles[indexflat].Add(indexofvert10);
-                                                        triangles[indexflat].Add(indexofvert20);
-                                                        triangles[indexflat].Add(indexofvert30);
+                                                                triangles[indexflat].Add(indexofvert20);
+                                                                triangles[indexflat].Add(indexofvert10);
+                                                                triangles[indexflat].Add(indexofvert00);
+                                                                triangles[indexflat].Add(indexofvert10);
+                                                                triangles[indexflat].Add(indexofvert20);
+                                                                triangles[indexflat].Add(indexofvert30);
+                                                            }
+                                                        }
                                                     }
                                                 }
+                                                else
+                                                {
+                                                    if (IsTransparent(xmap, ymap + 1, zmap, null))
+                                                    {
+                                                        if (facetype == 0)
+                                                        {
+                                                            int indexofvert00 = vertices[indexflat].Count;
+                                                            Vector3 firstvertofface0 = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
+
+                                                            int indexofvert10 = vertices[indexflat].Count + 1;
+                                                            Vector3 secondvertofface0 = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
+
+                                                            int indexofvert20 = vertices[indexflat].Count + 2;
+                                                            Vector3 thirdvertofface0 = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+
+                                                            int indexofvert30 = vertices[indexflat].Count + 3;
+                                                            Vector3 fourthvertofface0 = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+
+
+                                                            vertices[indexflat].Add(firstvertofface0);
+                                                            vertices[indexflat].Add(secondvertofface0);
+                                                            vertices[indexflat].Add(thirdvertofface0);
+                                                            vertices[indexflat].Add(fourthvertofface0);
+
+                                                            triangles[indexflat].Add(indexofvert20);
+                                                            triangles[indexflat].Add(indexofvert10);
+                                                            triangles[indexflat].Add(indexofvert00);
+                                                            triangles[indexflat].Add(indexofvert10);
+                                                            triangles[indexflat].Add(indexofvert20);
+                                                            triangles[indexflat].Add(indexofvert30);
+                                                        }
+                                                    }
+                                                }
+                                               
+                                                //Destroy(planetdivtothetop.transform.gameObject);
+                                                //planetdivtothetop.transform.gameObject.GetComponent<MeshRenderer>().material.color = Color.red;
                                             }
                                             else
                                             {
@@ -971,80 +1140,6 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
                                                     }
                                                 }
                                             }
-                                        }
-                                        else
-                                        {
-
-
-                                            var planetdivchunk = getChunk(x, y + 1, z);
-
-                                            if (planetdivchunk != null)
-                                            {
-                                                if (IsTransparent(xmap, 0, zmap, planetdivchunk.thebytemap))
-                                                {
-                                                    if (facetype == 0)
-                                                    {
-                                                        int indexofvert00 = vertices[indexflat].Count;
-                                                        Vector3 firstvertofface0 = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
-
-                                                        int indexofvert10 = vertices[indexflat].Count + 1;
-                                                        Vector3 secondvertofface0 = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
-
-                                                        int indexofvert20 = vertices[indexflat].Count + 2;
-                                                        Vector3 thirdvertofface0 = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
-
-                                                        int indexofvert30 = vertices[indexflat].Count + 3;
-                                                        Vector3 fourthvertofface0 = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
-
-
-                                                        vertices[indexflat].Add(firstvertofface0);
-                                                        vertices[indexflat].Add(secondvertofface0);
-                                                        vertices[indexflat].Add(thirdvertofface0);
-                                                        vertices[indexflat].Add(fourthvertofface0);
-
-                                                        triangles[indexflat].Add(indexofvert20);
-                                                        triangles[indexflat].Add(indexofvert10);
-                                                        triangles[indexflat].Add(indexofvert00);
-                                                        triangles[indexflat].Add(indexofvert10);
-                                                        triangles[indexflat].Add(indexofvert20);
-                                                        triangles[indexflat].Add(indexofvert30);
-                                                    }
-                                                }
-                                            }
-                                            else
-                                            {
-                                                if (IsTransparent(xmap, ymap + 1, zmap, null))
-                                                {
-                                                    if (facetype == 0)
-                                                    {
-                                                        int indexofvert00 = vertices[indexflat].Count;
-                                                        Vector3 firstvertofface0 = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
-
-                                                        int indexofvert10 = vertices[indexflat].Count + 1;
-                                                        Vector3 secondvertofface0 = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
-
-                                                        int indexofvert20 = vertices[indexflat].Count + 2;
-                                                        Vector3 thirdvertofface0 = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
-
-                                                        int indexofvert30 = vertices[indexflat].Count + 3;
-                                                        Vector3 fourthvertofface0 = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
-
-
-                                                        vertices[indexflat].Add(firstvertofface0);
-                                                        vertices[indexflat].Add(secondvertofface0);
-                                                        vertices[indexflat].Add(thirdvertofface0);
-                                                        vertices[indexflat].Add(fourthvertofface0);
-
-                                                        triangles[indexflat].Add(indexofvert20);
-                                                        triangles[indexflat].Add(indexofvert10);
-                                                        triangles[indexflat].Add(indexofvert00);
-                                                        triangles[indexflat].Add(indexofvert10);
-                                                        triangles[indexflat].Add(indexofvert20);
-                                                        triangles[indexflat].Add(indexofvert30);
-                                                    }
-                                                }
-                                            }
-
                                         }
                                     }
                                     //TOPFACE
@@ -1082,7 +1177,7 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
 
                                             if (planetdivchunk != null)
                                             {
-                                                if (IsTransparent(xmap, mapy - 1, zmap, planetdivchunk.thebytemap))
+                                                if (IsTransparent(xmap, mapy-1, zmap, planetdivchunk.thebytemap))
                                                 {
                                                     if (facetype == 5)
                                                     {
@@ -1096,14 +1191,6 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
 
                                                         firstvertofface.y -= (1 * 1.0f);
 
-                                                        //firstvertofface.x = swapy;
-                                                        //firstvertofface.y = datawidthdimtop[indexflat][index].thebyte;
-
-                                                        /*firstvertofface.z -= (1 * 1.0f);
-                                                        firstvertofface.y -= (1 * 1.0f);*/
-                                                        //firstvertofface.z = swapy;
-                                                        //firstvertofface.y = swapz;
-
                                                         int indexofvert1 = vertices[indexflat].Count + 1;
                                                         Vector3 secondvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
                                                         swapx = secondvertofface.x;
@@ -1111,12 +1198,7 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
                                                         swapz = secondvertofface.z;
 
                                                         secondvertofface.y -= (1 * 1.0f);
-                                                        /*secondvertofface.x = swapy;
-                                                        secondvertofface.y = datawidthdimtop[indexflat][index].thebyte; ///swapx;*/
-                                                        /*secondvertofface.x -= (1 * 1.0f);
-                                                        secondvertofface.y -= (1 * 1.0f);*/
-
-
+                                                      
                                                         int indexofvert2 = vertices[indexflat].Count + 2;
                                                         Vector3 thirdvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
                                                         //thirdvertofface.z -= (1 * 1.0f);
@@ -1125,15 +1207,12 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
                                                         swapy = thirdvertofface.y;
                                                         swapz = thirdvertofface.z;
 
-                                                        /*thirdvertofface.z = swapy;
-                                                        thirdvertofface.y = swapz;*/
-
+                                 
                                                         int indexofvert3 = vertices[indexflat].Count + 3;
                                                         Vector3 fourthvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
 
                                                         //fourthvertofface.z -= (1 * 1.0f);
                                                         fourthvertofface.y -= (1 * 1.0f);
-
 
                                                         swapx = fourthvertofface.x;
                                                         swapy = fourthvertofface.y;
@@ -1160,7 +1239,6 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
                                                 {
                                                     if (facetype == 5)
                                                     {
-
                                                         int indexofvert0 = vertices[indexflat].Count;
                                                         Vector3 firstvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
 
@@ -1170,14 +1248,6 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
 
                                                         firstvertofface.y -= (1 * 1.0f);
 
-                                                        //firstvertofface.x = swapy;
-                                                        //firstvertofface.y = datawidthdimtop[indexflat][index].thebyte;
-
-                                                        /*firstvertofface.z -= (1 * 1.0f);
-                                                        firstvertofface.y -= (1 * 1.0f);*/
-                                                        //firstvertofface.z = swapy;
-                                                        //firstvertofface.y = swapz;
-
                                                         int indexofvert1 = vertices[indexflat].Count + 1;
                                                         Vector3 secondvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
                                                         swapx = secondvertofface.x;
@@ -1185,11 +1255,6 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
                                                         swapz = secondvertofface.z;
 
                                                         secondvertofface.y -= (1 * 1.0f);
-                                                        /*secondvertofface.x = swapy;
-                                                        secondvertofface.y = datawidthdimtop[indexflat][index].thebyte; ///swapx;*/
-                                                        /*secondvertofface.x -= (1 * 1.0f);
-                                                        secondvertofface.y -= (1 * 1.0f);*/
-
 
                                                         int indexofvert2 = vertices[indexflat].Count + 2;
                                                         Vector3 thirdvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
@@ -1199,15 +1264,12 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
                                                         swapy = thirdvertofface.y;
                                                         swapz = thirdvertofface.z;
 
-                                                        /*thirdvertofface.z = swapy;
-                                                        thirdvertofface.y = swapz;*/
 
                                                         int indexofvert3 = vertices[indexflat].Count + 3;
                                                         Vector3 fourthvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
 
                                                         //fourthvertofface.z -= (1 * 1.0f);
                                                         fourthvertofface.y -= (1 * 1.0f);
-
 
                                                         swapx = fourthvertofface.x;
                                                         swapy = fourthvertofface.y;
@@ -1233,79 +1295,182 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
                                         {
 
 
-                                            var planetdivchunk = getChunk(x, y - 1, z);
-
-                                            if (planetdivchunk != null)
+                                            if (sextremityyl == 1)
                                             {
-                                                if (IsTransparent(xmap, mapy-1, zmap, planetdivchunk.thebytemap))
+                                                if (ymap == 0) //mapy - 1
                                                 {
-                                                    if (facetype == 5)
+                                                    var planetdivchunk = getChunk(x, y - 1, z);
+
+                                                    if (planetdivchunk != null)
                                                     {
+                                                        if (IsTransparent(xmap, mapy-1, zmap, planetdivchunk.thebytemap))
+                                                        {
+                                                            if (facetype == 5)
+                                                            {
+                                                                int indexofvert0 = vertices[indexflat].Count;
+                                                                Vector3 firstvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
 
-                                                        int indexofvert0 = vertices[indexflat].Count;
-                                                        Vector3 firstvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
+                                                                float swapx = firstvertofface.x;
+                                                                float swapy = firstvertofface.y;
+                                                                float swapz = firstvertofface.z;
 
-                                                        float swapx = firstvertofface.x;
-                                                        float swapy = firstvertofface.y;
-                                                        float swapz = firstvertofface.z;
+                                                                firstvertofface.y -= (1 * 1.0f);
 
-                                                        firstvertofface.y -= (1 * 1.0f);
+                                                                int indexofvert1 = vertices[indexflat].Count + 1;
+                                                                Vector3 secondvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
+                                                                swapx = secondvertofface.x;
+                                                                swapy = secondvertofface.y;
+                                                                swapz = secondvertofface.z;
 
-                                                        //firstvertofface.x = swapy;
-                                                        //firstvertofface.y = datawidthdimtop[indexflat][index].thebyte;
+                                                                secondvertofface.y -= (1 * 1.0f);
 
-                                                        /*firstvertofface.z -= (1 * 1.0f);
-                                                        firstvertofface.y -= (1 * 1.0f);*/
-                                                        //firstvertofface.z = swapy;
-                                                        //firstvertofface.y = swapz;
-
-                                                        int indexofvert1 = vertices[indexflat].Count + 1;
-                                                        Vector3 secondvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
-                                                        swapx = secondvertofface.x;
-                                                        swapy = secondvertofface.y;
-                                                        swapz = secondvertofface.z;
-
-                                                        secondvertofface.y -= (1 * 1.0f);
-                                                        /*secondvertofface.x = swapy;
-                                                        secondvertofface.y = datawidthdimtop[indexflat][index].thebyte; ///swapx;*/
-                                                        /*secondvertofface.x -= (1 * 1.0f);
-                                                        secondvertofface.y -= (1 * 1.0f);*/
-
-
-                                                        int indexofvert2 = vertices[indexflat].Count + 2;
-                                                        Vector3 thirdvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
-                                                        //thirdvertofface.z -= (1 * 1.0f);
-                                                        thirdvertofface.y -= (1 * 1.0f);
-                                                        swapx = thirdvertofface.x;
-                                                        swapy = thirdvertofface.y;
-                                                        swapz = thirdvertofface.z;
-
-                                                        /*thirdvertofface.z = swapy;
-                                                        thirdvertofface.y = swapz;*/
-
-                                                        int indexofvert3 = vertices[indexflat].Count + 3;
-                                                        Vector3 fourthvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
-
-                                                        //fourthvertofface.z -= (1 * 1.0f);
-                                                        fourthvertofface.y -= (1 * 1.0f);
+                                                                int indexofvert2 = vertices[indexflat].Count + 2;
+                                                                Vector3 thirdvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+                                                                //thirdvertofface.z -= (1 * 1.0f);
+                                                                thirdvertofface.y -= (1 * 1.0f);
+                                                                swapx = thirdvertofface.x;
+                                                                swapy = thirdvertofface.y;
+                                                                swapz = thirdvertofface.z;
 
 
-                                                        swapx = fourthvertofface.x;
-                                                        swapy = fourthvertofface.y;
-                                                        swapz = fourthvertofface.z;
+                                                                int indexofvert3 = vertices[indexflat].Count + 3;
+                                                                Vector3 fourthvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+
+                                                                //fourthvertofface.z -= (1 * 1.0f);
+                                                                fourthvertofface.y -= (1 * 1.0f);
+
+                                                                swapx = fourthvertofface.x;
+                                                                swapy = fourthvertofface.y;
+                                                                swapz = fourthvertofface.z;
 
 
-                                                        vertices[indexflat].Add(firstvertofface);
-                                                        vertices[indexflat].Add(secondvertofface);
-                                                        vertices[indexflat].Add(thirdvertofface);
-                                                        vertices[indexflat].Add(fourthvertofface);
+                                                                vertices[indexflat].Add(firstvertofface);
+                                                                vertices[indexflat].Add(secondvertofface);
+                                                                vertices[indexflat].Add(thirdvertofface);
+                                                                vertices[indexflat].Add(fourthvertofface);
 
-                                                        triangles[indexflat].Add(indexofvert0);
-                                                        triangles[indexflat].Add(indexofvert1);
-                                                        triangles[indexflat].Add(indexofvert2);
-                                                        triangles[indexflat].Add(indexofvert3);
-                                                        triangles[indexflat].Add(indexofvert2);
-                                                        triangles[indexflat].Add(indexofvert1);
+                                                                triangles[indexflat].Add(indexofvert0);
+                                                                triangles[indexflat].Add(indexofvert1);
+                                                                triangles[indexflat].Add(indexofvert2);
+                                                                triangles[indexflat].Add(indexofvert3);
+                                                                triangles[indexflat].Add(indexofvert2);
+                                                                triangles[indexflat].Add(indexofvert1);
+                                                            }
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        if (IsTransparent(xmap, ymap - 1, zmap, null))
+                                                        {
+                                                            if (facetype == 5)
+                                                            {
+                                                                int indexofvert0 = vertices[indexflat].Count;
+                                                                Vector3 firstvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
+
+                                                                float swapx = firstvertofface.x;
+                                                                float swapy = firstvertofface.y;
+                                                                float swapz = firstvertofface.z;
+
+                                                                firstvertofface.y -= (1 * 1.0f);
+
+                                                                int indexofvert1 = vertices[indexflat].Count + 1;
+                                                                Vector3 secondvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
+                                                                swapx = secondvertofface.x;
+                                                                swapy = secondvertofface.y;
+                                                                swapz = secondvertofface.z;
+
+                                                                secondvertofface.y -= (1 * 1.0f);
+
+                                                                int indexofvert2 = vertices[indexflat].Count + 2;
+                                                                Vector3 thirdvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+                                                                //thirdvertofface.z -= (1 * 1.0f);
+                                                                thirdvertofface.y -= (1 * 1.0f);
+                                                                swapx = thirdvertofface.x;
+                                                                swapy = thirdvertofface.y;
+                                                                swapz = thirdvertofface.z;
+
+
+                                                                int indexofvert3 = vertices[indexflat].Count + 3;
+                                                                Vector3 fourthvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+
+                                                                //fourthvertofface.z -= (1 * 1.0f);
+                                                                fourthvertofface.y -= (1 * 1.0f);
+
+                                                                swapx = fourthvertofface.x;
+                                                                swapy = fourthvertofface.y;
+                                                                swapz = fourthvertofface.z;
+
+
+                                                                vertices[indexflat].Add(firstvertofface);
+                                                                vertices[indexflat].Add(secondvertofface);
+                                                                vertices[indexflat].Add(thirdvertofface);
+                                                                vertices[indexflat].Add(fourthvertofface);
+
+                                                                triangles[indexflat].Add(indexofvert0);
+                                                                triangles[indexflat].Add(indexofvert1);
+                                                                triangles[indexflat].Add(indexofvert2);
+                                                                triangles[indexflat].Add(indexofvert3);
+                                                                triangles[indexflat].Add(indexofvert2);
+                                                                triangles[indexflat].Add(indexofvert1);
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    if (IsTransparent(xmap, ymap - 1, zmap, null))
+                                                    {
+                                                        if (facetype == 5)
+                                                        {
+                                                            int indexofvert0 = vertices[indexflat].Count;
+                                                            Vector3 firstvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
+
+                                                            float swapx = firstvertofface.x;
+                                                            float swapy = firstvertofface.y;
+                                                            float swapz = firstvertofface.z;
+
+                                                            firstvertofface.y -= (1 * 1.0f);
+
+                                                            int indexofvert1 = vertices[indexflat].Count + 1;
+                                                            Vector3 secondvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
+                                                            swapx = secondvertofface.x;
+                                                            swapy = secondvertofface.y;
+                                                            swapz = secondvertofface.z;
+
+                                                            secondvertofface.y -= (1 * 1.0f);
+
+                                                            int indexofvert2 = vertices[indexflat].Count + 2;
+                                                            Vector3 thirdvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+                                                            //thirdvertofface.z -= (1 * 1.0f);
+                                                            thirdvertofface.y -= (1 * 1.0f);
+                                                            swapx = thirdvertofface.x;
+                                                            swapy = thirdvertofface.y;
+                                                            swapz = thirdvertofface.z;
+
+
+                                                            int indexofvert3 = vertices[indexflat].Count + 3;
+                                                            Vector3 fourthvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+
+                                                            //fourthvertofface.z -= (1 * 1.0f);
+                                                            fourthvertofface.y -= (1 * 1.0f);
+
+                                                            swapx = fourthvertofface.x;
+                                                            swapy = fourthvertofface.y;
+                                                            swapz = fourthvertofface.z;
+
+
+                                                            vertices[indexflat].Add(firstvertofface);
+                                                            vertices[indexflat].Add(secondvertofface);
+                                                            vertices[indexflat].Add(thirdvertofface);
+                                                            vertices[indexflat].Add(fourthvertofface);
+
+                                                            triangles[indexflat].Add(indexofvert0);
+                                                            triangles[indexflat].Add(indexofvert1);
+                                                            triangles[indexflat].Add(indexofvert2);
+                                                            triangles[indexflat].Add(indexofvert3);
+                                                            triangles[indexflat].Add(indexofvert2);
+                                                            triangles[indexflat].Add(indexofvert1);
+                                                        }
                                                     }
                                                 }
                                             }
@@ -1315,7 +1480,6 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
                                                 {
                                                     if (facetype == 5)
                                                     {
-
                                                         int indexofvert0 = vertices[indexflat].Count;
                                                         Vector3 firstvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
 
@@ -1325,14 +1489,6 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
 
                                                         firstvertofface.y -= (1 * 1.0f);
 
-                                                        //firstvertofface.x = swapy;
-                                                        //firstvertofface.y = datawidthdimtop[indexflat][index].thebyte;
-
-                                                        /*firstvertofface.z -= (1 * 1.0f);
-                                                        firstvertofface.y -= (1 * 1.0f);*/
-                                                        //firstvertofface.z = swapy;
-                                                        //firstvertofface.y = swapz;
-
                                                         int indexofvert1 = vertices[indexflat].Count + 1;
                                                         Vector3 secondvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
                                                         swapx = secondvertofface.x;
@@ -1340,11 +1496,6 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
                                                         swapz = secondvertofface.z;
 
                                                         secondvertofface.y -= (1 * 1.0f);
-                                                        /*secondvertofface.x = swapy;
-                                                        secondvertofface.y = datawidthdimtop[indexflat][index].thebyte; ///swapx;*/
-                                                        /*secondvertofface.x -= (1 * 1.0f);
-                                                        secondvertofface.y -= (1 * 1.0f);*/
-
 
                                                         int indexofvert2 = vertices[indexflat].Count + 2;
                                                         Vector3 thirdvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
@@ -1354,15 +1505,12 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
                                                         swapy = thirdvertofface.y;
                                                         swapz = thirdvertofface.z;
 
-                                                        /*thirdvertofface.z = swapy;
-                                                        thirdvertofface.y = swapz;*/
 
                                                         int indexofvert3 = vertices[indexflat].Count + 3;
                                                         Vector3 fourthvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
 
                                                         //fourthvertofface.z -= (1 * 1.0f);
                                                         fourthvertofface.y -= (1 * 1.0f);
-
 
                                                         swapx = fourthvertofface.x;
                                                         swapy = fourthvertofface.y;
@@ -1383,93 +1531,142 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
                                                     }
                                                 }
                                             }
-
                                         }
                                     }
                                     else if (extremityishl == 0)
                                     {
 
-
-
                                         var planetdivtothetop = sccschunkfacesbuilder.instance.getplanetdiv((int)(mindexx), (int)(mindexy - 1), (int)(mindexz));
 
                                         if (planetdivtothetop != null)
                                         {
-                                            var planetdivchunk = planetdivtothetop.getChunk(x, schunkhr, z);
 
-                                            if (planetdivchunk != null)
+
+
+                                            if (sextremityyl == 1)
                                             {
-                                                if (IsTransparent(xmap, mapy -1, zmap, planetdivchunk.thebytemap))
+                                                if (ymap == 0) //mapy - 1
                                                 {
-                                                    if (facetype == 5)
+                                                    var planetdivchunk = planetdivtothetop.getChunk(x, schunkhr, z);
+
+                                                    if (planetdivchunk != null)
                                                     {
+                                                        if (IsTransparent(xmap, mapy-1, zmap, planetdivchunk.thebytemap))
+                                                        {
+                                                            if (facetype == 5)
+                                                            {
+                                                                int indexofvert0 = vertices[indexflat].Count;
+                                                                Vector3 firstvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
 
-                                                        int indexofvert0 = vertices[indexflat].Count;
-                                                        Vector3 firstvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
+                                                                float swapx = firstvertofface.x;
+                                                                float swapy = firstvertofface.y;
+                                                                float swapz = firstvertofface.z;
 
-                                                        float swapx = firstvertofface.x;
-                                                        float swapy = firstvertofface.y;
-                                                        float swapz = firstvertofface.z;
+                                                                firstvertofface.y -= (1 * 1.0f);
 
-                                                        firstvertofface.y -= (1 * 1.0f);
+                                                                int indexofvert1 = vertices[indexflat].Count + 1;
+                                                                Vector3 secondvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
+                                                                swapx = secondvertofface.x;
+                                                                swapy = secondvertofface.y;
+                                                                swapz = secondvertofface.z;
 
-                                                        //firstvertofface.x = swapy;
-                                                        //firstvertofface.y = datawidthdimtop[indexflat][index].thebyte;
+                                                                secondvertofface.y -= (1 * 1.0f);
 
-                                                        /*firstvertofface.z -= (1 * 1.0f);
-                                                        firstvertofface.y -= (1 * 1.0f);*/
-                                                        //firstvertofface.z = swapy;
-                                                        //firstvertofface.y = swapz;
-
-                                                        int indexofvert1 = vertices[indexflat].Count + 1;
-                                                        Vector3 secondvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
-                                                        swapx = secondvertofface.x;
-                                                        swapy = secondvertofface.y;
-                                                        swapz = secondvertofface.z;
-
-                                                        secondvertofface.y -= (1 * 1.0f);
-                                                        /*secondvertofface.x = swapy;
-                                                        secondvertofface.y = datawidthdimtop[indexflat][index].thebyte; ///swapx;*/
-                                                        /*secondvertofface.x -= (1 * 1.0f);
-                                                        secondvertofface.y -= (1 * 1.0f);*/
-
-
-                                                        int indexofvert2 = vertices[indexflat].Count + 2;
-                                                        Vector3 thirdvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
-                                                        //thirdvertofface.z -= (1 * 1.0f);
-                                                        thirdvertofface.y -= (1 * 1.0f);
-                                                        swapx = thirdvertofface.x;
-                                                        swapy = thirdvertofface.y;
-                                                        swapz = thirdvertofface.z;
-
-                                                        /*thirdvertofface.z = swapy;
-                                                        thirdvertofface.y = swapz;*/
-
-                                                        int indexofvert3 = vertices[indexflat].Count + 3;
-                                                        Vector3 fourthvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
-
-                                                        //fourthvertofface.z -= (1 * 1.0f);
-                                                        fourthvertofface.y -= (1 * 1.0f);
+                                                                int indexofvert2 = vertices[indexflat].Count + 2;
+                                                                Vector3 thirdvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+                                                                //thirdvertofface.z -= (1 * 1.0f);
+                                                                thirdvertofface.y -= (1 * 1.0f);
+                                                                swapx = thirdvertofface.x;
+                                                                swapy = thirdvertofface.y;
+                                                                swapz = thirdvertofface.z;
 
 
-                                                        swapx = fourthvertofface.x;
-                                                        swapy = fourthvertofface.y;
-                                                        swapz = fourthvertofface.z;
+                                                                int indexofvert3 = vertices[indexflat].Count + 3;
+                                                                Vector3 fourthvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+
+                                                                //fourthvertofface.z -= (1 * 1.0f);
+                                                                fourthvertofface.y -= (1 * 1.0f);
+
+                                                                swapx = fourthvertofface.x;
+                                                                swapy = fourthvertofface.y;
+                                                                swapz = fourthvertofface.z;
 
 
-                                                        vertices[indexflat].Add(firstvertofface);
-                                                        vertices[indexflat].Add(secondvertofface);
-                                                        vertices[indexflat].Add(thirdvertofface);
-                                                        vertices[indexflat].Add(fourthvertofface);
+                                                                vertices[indexflat].Add(firstvertofface);
+                                                                vertices[indexflat].Add(secondvertofface);
+                                                                vertices[indexflat].Add(thirdvertofface);
+                                                                vertices[indexflat].Add(fourthvertofface);
 
-                                                        triangles[indexflat].Add(indexofvert0);
-                                                        triangles[indexflat].Add(indexofvert1);
-                                                        triangles[indexflat].Add(indexofvert2);
-                                                        triangles[indexflat].Add(indexofvert3);
-                                                        triangles[indexflat].Add(indexofvert2);
-                                                        triangles[indexflat].Add(indexofvert1);
+                                                                triangles[indexflat].Add(indexofvert0);
+                                                                triangles[indexflat].Add(indexofvert1);
+                                                                triangles[indexflat].Add(indexofvert2);
+                                                                triangles[indexflat].Add(indexofvert3);
+                                                                triangles[indexflat].Add(indexofvert2);
+                                                                triangles[indexflat].Add(indexofvert1);
+                                                            }
+                                                        }
                                                     }
                                                 }
+                                                else
+                                                {
+                                                    if (IsTransparent(xmap, ymap - 1, zmap, null))
+                                                    {
+                                                        if (facetype == 5)
+                                                        {
+                                                            int indexofvert0 = vertices[indexflat].Count;
+                                                            Vector3 firstvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
+
+                                                            float swapx = firstvertofface.x;
+                                                            float swapy = firstvertofface.y;
+                                                            float swapz = firstvertofface.z;
+
+                                                            firstvertofface.y -= (1 * 1.0f);
+
+                                                            int indexofvert1 = vertices[indexflat].Count + 1;
+                                                            Vector3 secondvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
+                                                            swapx = secondvertofface.x;
+                                                            swapy = secondvertofface.y;
+                                                            swapz = secondvertofface.z;
+
+                                                            secondvertofface.y -= (1 * 1.0f);
+
+                                                            int indexofvert2 = vertices[indexflat].Count + 2;
+                                                            Vector3 thirdvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+                                                            //thirdvertofface.z -= (1 * 1.0f);
+                                                            thirdvertofface.y -= (1 * 1.0f);
+                                                            swapx = thirdvertofface.x;
+                                                            swapy = thirdvertofface.y;
+                                                            swapz = thirdvertofface.z;
+
+
+                                                            int indexofvert3 = vertices[indexflat].Count + 3;
+                                                            Vector3 fourthvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+
+                                                            //fourthvertofface.z -= (1 * 1.0f);
+                                                            fourthvertofface.y -= (1 * 1.0f);
+
+                                                            swapx = fourthvertofface.x;
+                                                            swapy = fourthvertofface.y;
+                                                            swapz = fourthvertofface.z;
+
+
+                                                            vertices[indexflat].Add(firstvertofface);
+                                                            vertices[indexflat].Add(secondvertofface);
+                                                            vertices[indexflat].Add(thirdvertofface);
+                                                            vertices[indexflat].Add(fourthvertofface);
+
+                                                            triangles[indexflat].Add(indexofvert0);
+                                                            triangles[indexflat].Add(indexofvert1);
+                                                            triangles[indexflat].Add(indexofvert2);
+                                                            triangles[indexflat].Add(indexofvert3);
+                                                            triangles[indexflat].Add(indexofvert2);
+                                                            triangles[indexflat].Add(indexofvert1);
+                                                        }
+                                                    }
+                                                }
+
+                                                //Destroy(planetdivtothetop.transform.gameObject);
+                                                //planetdivtothetop.transform.gameObject.GetComponent<MeshRenderer>().material.color = Color.red;
                                             }
                                             else
                                             {
@@ -1477,7 +1674,6 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
                                                 {
                                                     if (facetype == 5)
                                                     {
-
                                                         int indexofvert0 = vertices[indexflat].Count;
                                                         Vector3 firstvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
 
@@ -1487,14 +1683,6 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
 
                                                         firstvertofface.y -= (1 * 1.0f);
 
-                                                        //firstvertofface.x = swapy;
-                                                        //firstvertofface.y = datawidthdimtop[indexflat][index].thebyte;
-
-                                                        /*firstvertofface.z -= (1 * 1.0f);
-                                                        firstvertofface.y -= (1 * 1.0f);*/
-                                                        //firstvertofface.z = swapy;
-                                                        //firstvertofface.y = swapz;
-
                                                         int indexofvert1 = vertices[indexflat].Count + 1;
                                                         Vector3 secondvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
                                                         swapx = secondvertofface.x;
@@ -1502,11 +1690,6 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
                                                         swapz = secondvertofface.z;
 
                                                         secondvertofface.y -= (1 * 1.0f);
-                                                        /*secondvertofface.x = swapy;
-                                                        secondvertofface.y = datawidthdimtop[indexflat][index].thebyte; ///swapx;*/
-                                                        /*secondvertofface.x -= (1 * 1.0f);
-                                                        secondvertofface.y -= (1 * 1.0f);*/
-
 
                                                         int indexofvert2 = vertices[indexflat].Count + 2;
                                                         Vector3 thirdvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
@@ -1516,15 +1699,12 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
                                                         swapy = thirdvertofface.y;
                                                         swapz = thirdvertofface.z;
 
-                                                        /*thirdvertofface.z = swapy;
-                                                        thirdvertofface.y = swapz;*/
 
                                                         int indexofvert3 = vertices[indexflat].Count + 3;
                                                         Vector3 fourthvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
 
                                                         //fourthvertofface.z -= (1 * 1.0f);
                                                         fourthvertofface.y -= (1 * 1.0f);
-
 
                                                         swapx = fourthvertofface.x;
                                                         swapy = fourthvertofface.y;
@@ -1545,162 +1725,6 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
                                                     }
                                                 }
                                             }
-                                        }
-                                        else
-                                        {
-
-
-                                            var planetdivchunk = getChunk(x, y - 1, z);
-
-                                            if (planetdivchunk != null)
-                                            {
-                                                if (IsTransparent(xmap, mapy-1, zmap, planetdivchunk.thebytemap))
-                                                {
-                                                    if (facetype == 5)
-                                                    {
-
-                                                        int indexofvert0 = vertices[indexflat].Count;
-                                                        Vector3 firstvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
-
-                                                        float swapx = firstvertofface.x;
-                                                        float swapy = firstvertofface.y;
-                                                        float swapz = firstvertofface.z;
-
-                                                        firstvertofface.y -= (1 * 1.0f);
-
-                                                        //firstvertofface.x = swapy;
-                                                        //firstvertofface.y = datawidthdimtop[indexflat][index].thebyte;
-
-                                                        /*firstvertofface.z -= (1 * 1.0f);
-                                                        firstvertofface.y -= (1 * 1.0f);*/
-                                                        //firstvertofface.z = swapy;
-                                                        //firstvertofface.y = swapz;
-
-                                                        int indexofvert1 = vertices[indexflat].Count + 1;
-                                                        Vector3 secondvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
-                                                        swapx = secondvertofface.x;
-                                                        swapy = secondvertofface.y;
-                                                        swapz = secondvertofface.z;
-
-                                                        secondvertofface.y -= (1 * 1.0f);
-                                                        /*secondvertofface.x = swapy;
-                                                        secondvertofface.y = datawidthdimtop[indexflat][index].thebyte; ///swapx;*/
-                                                        /*secondvertofface.x -= (1 * 1.0f);
-                                                        secondvertofface.y -= (1 * 1.0f);*/
-
-
-                                                        int indexofvert2 = vertices[indexflat].Count + 2;
-                                                        Vector3 thirdvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
-                                                        //thirdvertofface.z -= (1 * 1.0f);
-                                                        thirdvertofface.y -= (1 * 1.0f);
-                                                        swapx = thirdvertofface.x;
-                                                        swapy = thirdvertofface.y;
-                                                        swapz = thirdvertofface.z;
-
-                                                        /*thirdvertofface.z = swapy;
-                                                        thirdvertofface.y = swapz;*/
-
-                                                        int indexofvert3 = vertices[indexflat].Count + 3;
-                                                        Vector3 fourthvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
-
-                                                        //fourthvertofface.z -= (1 * 1.0f);
-                                                        fourthvertofface.y -= (1 * 1.0f);
-
-
-                                                        swapx = fourthvertofface.x;
-                                                        swapy = fourthvertofface.y;
-                                                        swapz = fourthvertofface.z;
-
-
-                                                        vertices[indexflat].Add(firstvertofface);
-                                                        vertices[indexflat].Add(secondvertofface);
-                                                        vertices[indexflat].Add(thirdvertofface);
-                                                        vertices[indexflat].Add(fourthvertofface);
-
-                                                        triangles[indexflat].Add(indexofvert0);
-                                                        triangles[indexflat].Add(indexofvert1);
-                                                        triangles[indexflat].Add(indexofvert2);
-                                                        triangles[indexflat].Add(indexofvert3);
-                                                        triangles[indexflat].Add(indexofvert2);
-                                                        triangles[indexflat].Add(indexofvert1);
-                                                    }
-                                                }
-                                            }
-                                            else
-                                            {
-                                                if (IsTransparent(xmap, ymap - 1, zmap, null))
-                                                {
-                                                    if (facetype == 5)
-                                                    {
-
-                                                        int indexofvert0 = vertices[indexflat].Count;
-                                                        Vector3 firstvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
-
-                                                        float swapx = firstvertofface.x;
-                                                        float swapy = firstvertofface.y;
-                                                        float swapz = firstvertofface.z;
-
-                                                        firstvertofface.y -= (1 * 1.0f);
-
-                                                        //firstvertofface.x = swapy;
-                                                        //firstvertofface.y = datawidthdimtop[indexflat][index].thebyte;
-
-                                                        /*firstvertofface.z -= (1 * 1.0f);
-                                                        firstvertofface.y -= (1 * 1.0f);*/
-                                                        //firstvertofface.z = swapy;
-                                                        //firstvertofface.y = swapz;
-
-                                                        int indexofvert1 = vertices[indexflat].Count + 1;
-                                                        Vector3 secondvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
-                                                        swapx = secondvertofface.x;
-                                                        swapy = secondvertofface.y;
-                                                        swapz = secondvertofface.z;
-
-                                                        secondvertofface.y -= (1 * 1.0f);
-                                                        /*secondvertofface.x = swapy;
-                                                        secondvertofface.y = datawidthdimtop[indexflat][index].thebyte; ///swapx;*/
-                                                        /*secondvertofface.x -= (1 * 1.0f);
-                                                        secondvertofface.y -= (1 * 1.0f);*/
-
-
-                                                        int indexofvert2 = vertices[indexflat].Count + 2;
-                                                        Vector3 thirdvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
-                                                        //thirdvertofface.z -= (1 * 1.0f);
-                                                        thirdvertofface.y -= (1 * 1.0f);
-                                                        swapx = thirdvertofface.x;
-                                                        swapy = thirdvertofface.y;
-                                                        swapz = thirdvertofface.z;
-
-                                                        /*thirdvertofface.z = swapy;
-                                                        thirdvertofface.y = swapz;*/
-
-                                                        int indexofvert3 = vertices[indexflat].Count + 3;
-                                                        Vector3 fourthvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
-
-                                                        //fourthvertofface.z -= (1 * 1.0f);
-                                                        fourthvertofface.y -= (1 * 1.0f);
-
-
-                                                        swapx = fourthvertofface.x;
-                                                        swapy = fourthvertofface.y;
-                                                        swapz = fourthvertofface.z;
-
-
-                                                        vertices[indexflat].Add(firstvertofface);
-                                                        vertices[indexflat].Add(secondvertofface);
-                                                        vertices[indexflat].Add(thirdvertofface);
-                                                        vertices[indexflat].Add(fourthvertofface);
-
-                                                        triangles[indexflat].Add(indexofvert0);
-                                                        triangles[indexflat].Add(indexofvert1);
-                                                        triangles[indexflat].Add(indexofvert2);
-                                                        triangles[indexflat].Add(indexofvert3);
-                                                        triangles[indexflat].Add(indexofvert2);
-                                                        triangles[indexflat].Add(indexofvert1);
-                                                    }
-                                                }
-                                            }
-
                                         }
                                     }
                                     //BOTTOMFACE
@@ -1743,11 +1767,11 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
                                     //RIGHTFACE
                                     if (extremityiswr == 1)
                                     {
-                                        var planetdivtothetop = sccschunkfacesbuilder.instance.getplanetdiv((int)(mindexx + 1), (int)(mindexy), (int)(mindexz));
+                                        var planetdivtothetop = sccschunkfacesbuilder.instance.getplanetdiv((int)(mindexx + 1), (int)(mindexy ), (int)(mindexz));
 
                                         if (planetdivtothetop != null)
                                         {
-                                            var planetdivchunk = planetdivtothetop.getChunk(0, y, z);
+                                            var planetdivchunk = planetdivtothetop.getChunk(-schunkwl, y, z);
 
                                             if (planetdivchunk != null)
                                             {
@@ -1764,19 +1788,20 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
 
                                                         int indexofvert1 = vertices[indexflat].Count + 1;
                                                         Vector3 secondvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
-                                                      
+
                                                         secondvertofface.x -= (1 * 1.0f);
                                                         secondvertofface.y -= (1 * 1.0f);
 
 
                                                         int indexofvert2 = vertices[indexflat].Count + 2;
                                                         Vector3 thirdvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
-                                                     
+
                                                         int indexofvert3 = vertices[indexflat].Count + 3;
                                                         Vector3 fourthvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
 
                                                         fourthvertofface.x -= (1 * 1.0f);
                                                         fourthvertofface.y -= (1 * 1.0f);
+
                                                         vertices[indexflat].Add(firstvertofface);
                                                         vertices[indexflat].Add(secondvertofface);
                                                         vertices[indexflat].Add(thirdvertofface);
@@ -1819,6 +1844,7 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
 
                                                         fourthvertofface.x -= (1 * 1.0f);
                                                         fourthvertofface.y -= (1 * 1.0f);
+
                                                         vertices[indexflat].Add(firstvertofface);
                                                         vertices[indexflat].Add(secondvertofface);
                                                         vertices[indexflat].Add(thirdvertofface);
@@ -1838,11 +1864,146 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
                                         {
 
 
-                                            var planetdivchunk = getChunk(x + 1, y, z);
-
-                                            if (planetdivchunk != null)
+                                            if (sextremityxr == 1)
                                             {
-                                                if (IsTransparent(0, ymap, zmap, planetdivchunk.thebytemap))
+                                                if (xmap == mapx - 1)
+                                                {
+                                                    var planetdivchunk = getChunk(x + 1, y , z);
+
+                                                    if (planetdivchunk != null)
+                                                    {
+                                                        if (IsTransparent(0, ymap, zmap, planetdivchunk.thebytemap))
+                                                        {
+                                                            if (facetype == 2)
+                                                            {
+                                                                int indexofvert0 = vertices[indexflat].Count;
+                                                                Vector3 firstvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
+
+                                                                float swapx = firstvertofface.x;
+                                                                float swapy = firstvertofface.y;
+                                                                float swapz = firstvertofface.z;
+
+                                                                int indexofvert1 = vertices[indexflat].Count + 1;
+                                                                Vector3 secondvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
+
+                                                                secondvertofface.x -= (1 * 1.0f);
+                                                                secondvertofface.y -= (1 * 1.0f);
+
+
+                                                                int indexofvert2 = vertices[indexflat].Count + 2;
+                                                                Vector3 thirdvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+
+                                                                int indexofvert3 = vertices[indexflat].Count + 3;
+                                                                Vector3 fourthvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+
+                                                                fourthvertofface.x -= (1 * 1.0f);
+                                                                fourthvertofface.y -= (1 * 1.0f);
+
+                                                                vertices[indexflat].Add(firstvertofface);
+                                                                vertices[indexflat].Add(secondvertofface);
+                                                                vertices[indexflat].Add(thirdvertofface);
+                                                                vertices[indexflat].Add(fourthvertofface);
+
+                                                                triangles[indexflat].Add(indexofvert2);
+                                                                triangles[indexflat].Add(indexofvert1);
+                                                                triangles[indexflat].Add(indexofvert0);
+                                                                triangles[indexflat].Add(indexofvert1);
+                                                                triangles[indexflat].Add(indexofvert2);
+                                                                triangles[indexflat].Add(indexofvert3);
+                                                            }
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        if (IsTransparent(xmap + 1, ymap , zmap, null))
+                                                        {
+                                                            if (facetype == 2)
+                                                            {
+                                                                int indexofvert0 = vertices[indexflat].Count;
+                                                                Vector3 firstvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
+
+                                                                float swapx = firstvertofface.x;
+                                                                float swapy = firstvertofface.y;
+                                                                float swapz = firstvertofface.z;
+
+                                                                int indexofvert1 = vertices[indexflat].Count + 1;
+                                                                Vector3 secondvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
+
+                                                                secondvertofface.x -= (1 * 1.0f);
+                                                                secondvertofface.y -= (1 * 1.0f);
+
+
+                                                                int indexofvert2 = vertices[indexflat].Count + 2;
+                                                                Vector3 thirdvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+
+                                                                int indexofvert3 = vertices[indexflat].Count + 3;
+                                                                Vector3 fourthvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+
+                                                                fourthvertofface.x -= (1 * 1.0f);
+                                                                fourthvertofface.y -= (1 * 1.0f);
+
+                                                                vertices[indexflat].Add(firstvertofface);
+                                                                vertices[indexflat].Add(secondvertofface);
+                                                                vertices[indexflat].Add(thirdvertofface);
+                                                                vertices[indexflat].Add(fourthvertofface);
+
+                                                                triangles[indexflat].Add(indexofvert2);
+                                                                triangles[indexflat].Add(indexofvert1);
+                                                                triangles[indexflat].Add(indexofvert0);
+                                                                triangles[indexflat].Add(indexofvert1);
+                                                                triangles[indexflat].Add(indexofvert2);
+                                                                triangles[indexflat].Add(indexofvert3);
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    if (IsTransparent(xmap + 1, ymap , zmap, null))
+                                                    {
+                                                        if (facetype == 2)
+                                                        {
+                                                            int indexofvert0 = vertices[indexflat].Count;
+                                                            Vector3 firstvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
+
+                                                            float swapx = firstvertofface.x;
+                                                            float swapy = firstvertofface.y;
+                                                            float swapz = firstvertofface.z;
+
+                                                            int indexofvert1 = vertices[indexflat].Count + 1;
+                                                            Vector3 secondvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
+
+                                                            secondvertofface.x -= (1 * 1.0f);
+                                                            secondvertofface.y -= (1 * 1.0f);
+
+
+                                                            int indexofvert2 = vertices[indexflat].Count + 2;
+                                                            Vector3 thirdvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+
+                                                            int indexofvert3 = vertices[indexflat].Count + 3;
+                                                            Vector3 fourthvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+
+                                                            fourthvertofface.x -= (1 * 1.0f);
+                                                            fourthvertofface.y -= (1 * 1.0f);
+
+                                                            vertices[indexflat].Add(firstvertofface);
+                                                            vertices[indexflat].Add(secondvertofface);
+                                                            vertices[indexflat].Add(thirdvertofface);
+                                                            vertices[indexflat].Add(fourthvertofface);
+
+                                                            triangles[indexflat].Add(indexofvert2);
+                                                            triangles[indexflat].Add(indexofvert1);
+                                                            triangles[indexflat].Add(indexofvert0);
+                                                            triangles[indexflat].Add(indexofvert1);
+                                                            triangles[indexflat].Add(indexofvert2);
+                                                            triangles[indexflat].Add(indexofvert3);
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            else
+                                            {
+                                                if (IsTransparent(xmap + 1, ymap , zmap, null))
                                                 {
                                                     if (facetype == 2)
                                                     {
@@ -1868,6 +2029,7 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
 
                                                         fourthvertofface.x -= (1 * 1.0f);
                                                         fourthvertofface.y -= (1 * 1.0f);
+
                                                         vertices[indexflat].Add(firstvertofface);
                                                         vertices[indexflat].Add(secondvertofface);
                                                         vertices[indexflat].Add(thirdvertofface);
@@ -1881,6 +2043,115 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
                                                         triangles[indexflat].Add(indexofvert3);
                                                     }
                                                 }
+                                            }
+                                        }
+                                    }
+                                    else if (extremityiswr == 0)
+                                    {
+
+                                        var planetdivtothetop = sccschunkfacesbuilder.instance.getplanetdiv((int)(mindexx + 1), (int)(mindexy ), (int)(mindexz));
+
+                                        if (planetdivtothetop != null)
+                                        {
+
+
+
+                                            if (sextremityxr == 1)
+                                            {
+                                                if (xmap == mapx - 1)
+                                                {
+                                                    var planetdivchunk = planetdivtothetop.getChunk(-schunkwl, y, z);
+
+                                                    if (planetdivchunk != null)
+                                                    {
+                                                        if (IsTransparent(0, ymap, zmap, planetdivchunk.thebytemap))
+                                                        {
+                                                            if (facetype == 2)
+                                                            {
+                                                                int indexofvert0 = vertices[indexflat].Count;
+                                                                Vector3 firstvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
+
+                                                                float swapx = firstvertofface.x;
+                                                                float swapy = firstvertofface.y;
+                                                                float swapz = firstvertofface.z;
+
+                                                                int indexofvert1 = vertices[indexflat].Count + 1;
+                                                                Vector3 secondvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
+
+                                                                secondvertofface.x -= (1 * 1.0f);
+                                                                secondvertofface.y -= (1 * 1.0f);
+
+
+                                                                int indexofvert2 = vertices[indexflat].Count + 2;
+                                                                Vector3 thirdvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+
+                                                                int indexofvert3 = vertices[indexflat].Count + 3;
+                                                                Vector3 fourthvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+
+                                                                fourthvertofface.x -= (1 * 1.0f);
+                                                                fourthvertofface.y -= (1 * 1.0f);
+
+                                                                vertices[indexflat].Add(firstvertofface);
+                                                                vertices[indexflat].Add(secondvertofface);
+                                                                vertices[indexflat].Add(thirdvertofface);
+                                                                vertices[indexflat].Add(fourthvertofface);
+
+                                                                triangles[indexflat].Add(indexofvert2);
+                                                                triangles[indexflat].Add(indexofvert1);
+                                                                triangles[indexflat].Add(indexofvert0);
+                                                                triangles[indexflat].Add(indexofvert1);
+                                                                triangles[indexflat].Add(indexofvert2);
+                                                                triangles[indexflat].Add(indexofvert3);
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    if (IsTransparent(xmap + 1, ymap , zmap, null))
+                                                    {
+                                                        if (facetype == 2)
+                                                        {
+                                                            int indexofvert0 = vertices[indexflat].Count;
+                                                            Vector3 firstvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
+
+                                                            float swapx = firstvertofface.x;
+                                                            float swapy = firstvertofface.y;
+                                                            float swapz = firstvertofface.z;
+
+                                                            int indexofvert1 = vertices[indexflat].Count + 1;
+                                                            Vector3 secondvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
+
+                                                            secondvertofface.x -= (1 * 1.0f);
+                                                            secondvertofface.y -= (1 * 1.0f);
+
+
+                                                            int indexofvert2 = vertices[indexflat].Count + 2;
+                                                            Vector3 thirdvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+
+                                                            int indexofvert3 = vertices[indexflat].Count + 3;
+                                                            Vector3 fourthvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+
+                                                            fourthvertofface.x -= (1 * 1.0f);
+                                                            fourthvertofface.y -= (1 * 1.0f);
+
+                                                            vertices[indexflat].Add(firstvertofface);
+                                                            vertices[indexflat].Add(secondvertofface);
+                                                            vertices[indexflat].Add(thirdvertofface);
+                                                            vertices[indexflat].Add(fourthvertofface);
+
+                                                            triangles[indexflat].Add(indexofvert2);
+                                                            triangles[indexflat].Add(indexofvert1);
+                                                            triangles[indexflat].Add(indexofvert0);
+                                                            triangles[indexflat].Add(indexofvert1);
+                                                            triangles[indexflat].Add(indexofvert2);
+                                                            triangles[indexflat].Add(indexofvert3);
+                                                        }
+                                                    }
+                                                }
+
+                                                //Destroy(planetdivtothetop.transform.gameObject);
+                                                //planetdivtothetop.transform.gameObject.GetComponent<MeshRenderer>().material.color = Color.red;
                                             }
                                             else
                                             {
@@ -1910,6 +2181,7 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
 
                                                         fourthvertofface.x -= (1 * 1.0f);
                                                         fourthvertofface.y -= (1 * 1.0f);
+
                                                         vertices[indexflat].Add(firstvertofface);
                                                         vertices[indexflat].Add(secondvertofface);
                                                         vertices[indexflat].Add(thirdvertofface);
@@ -1924,196 +2196,6 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
                                                     }
                                                 }
                                             }
-
-                                        }
-                                    }
-                                    else if (extremityiswr == 0)
-                                    {
-
-
-
-                                        var planetdivtothetop = sccschunkfacesbuilder.instance.getplanetdiv((int)(mindexx + 1), (int)(mindexy ), (int)(mindexz));
-
-                                        if (planetdivtothetop != null)
-                                        {
-                                            var planetdivchunk = planetdivtothetop.getChunk(0, y, z);
-
-                                            if (planetdivchunk != null)
-                                            {
-                                                if (IsTransparent(0, ymap, zmap, planetdivchunk.thebytemap))
-                                                {
-                                                    if (facetype == 2)
-                                                    {
-                                                        int indexofvert0 = vertices[indexflat].Count;
-                                                        Vector3 firstvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
-
-                                                        float swapx = firstvertofface.x;
-                                                        float swapy = firstvertofface.y;
-                                                        float swapz = firstvertofface.z;
-
-                                                        int indexofvert1 = vertices[indexflat].Count + 1;
-                                                        Vector3 secondvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
-
-                                                        secondvertofface.x -= (1 * 1.0f);
-                                                        secondvertofface.y -= (1 * 1.0f);
-
-
-                                                        int indexofvert2 = vertices[indexflat].Count + 2;
-                                                        Vector3 thirdvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
-
-                                                        int indexofvert3 = vertices[indexflat].Count + 3;
-                                                        Vector3 fourthvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
-
-                                                        fourthvertofface.x -= (1 * 1.0f);
-                                                        fourthvertofface.y -= (1 * 1.0f);
-                                                        vertices[indexflat].Add(firstvertofface);
-                                                        vertices[indexflat].Add(secondvertofface);
-                                                        vertices[indexflat].Add(thirdvertofface);
-                                                        vertices[indexflat].Add(fourthvertofface);
-
-                                                        triangles[indexflat].Add(indexofvert2);
-                                                        triangles[indexflat].Add(indexofvert1);
-                                                        triangles[indexflat].Add(indexofvert0);
-                                                        triangles[indexflat].Add(indexofvert1);
-                                                        triangles[indexflat].Add(indexofvert2);
-                                                        triangles[indexflat].Add(indexofvert3);
-                                                    }
-                                                }
-                                            }
-                                            else
-                                            {
-                                                if (IsTransparent(xmap + 1, ymap , zmap, null))
-                                                {
-                                                    if (facetype == 2)
-                                                    {
-                                                        int indexofvert0 = vertices[indexflat].Count;
-                                                        Vector3 firstvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
-
-                                                        float swapx = firstvertofface.x;
-                                                        float swapy = firstvertofface.y;
-                                                        float swapz = firstvertofface.z;
-
-                                                        int indexofvert1 = vertices[indexflat].Count + 1;
-                                                        Vector3 secondvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
-
-                                                        secondvertofface.x -= (1 * 1.0f);
-                                                        secondvertofface.y -= (1 * 1.0f);
-
-
-                                                        int indexofvert2 = vertices[indexflat].Count + 2;
-                                                        Vector3 thirdvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
-
-                                                        int indexofvert3 = vertices[indexflat].Count + 3;
-                                                        Vector3 fourthvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
-
-                                                        fourthvertofface.x -= (1 * 1.0f);
-                                                        fourthvertofface.y -= (1 * 1.0f);
-                                                        vertices[indexflat].Add(firstvertofface);
-                                                        vertices[indexflat].Add(secondvertofface);
-                                                        vertices[indexflat].Add(thirdvertofface);
-                                                        vertices[indexflat].Add(fourthvertofface);
-
-                                                        triangles[indexflat].Add(indexofvert2);
-                                                        triangles[indexflat].Add(indexofvert1);
-                                                        triangles[indexflat].Add(indexofvert0);
-                                                        triangles[indexflat].Add(indexofvert1);
-                                                        triangles[indexflat].Add(indexofvert2);
-                                                        triangles[indexflat].Add(indexofvert3);
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        else
-                                        {
-
-
-                                            var planetdivchunk = getChunk(x + 1, y , z);
-
-                                            if (planetdivchunk != null)
-                                            {
-                                                if (IsTransparent(0, ymap, zmap, planetdivchunk.thebytemap))
-                                                {
-                                                    if (facetype == 2)
-                                                    {
-                                                        int indexofvert0 = vertices[indexflat].Count;
-                                                        Vector3 firstvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
-
-                                                        float swapx = firstvertofface.x;
-                                                        float swapy = firstvertofface.y;
-                                                        float swapz = firstvertofface.z;
-
-                                                        int indexofvert1 = vertices[indexflat].Count + 1;
-                                                        Vector3 secondvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
-
-                                                        secondvertofface.x -= (1 * 1.0f);
-                                                        secondvertofface.y -= (1 * 1.0f);
-
-
-                                                        int indexofvert2 = vertices[indexflat].Count + 2;
-                                                        Vector3 thirdvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
-
-                                                        int indexofvert3 = vertices[indexflat].Count + 3;
-                                                        Vector3 fourthvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
-
-                                                        fourthvertofface.x -= (1 * 1.0f);
-                                                        fourthvertofface.y -= (1 * 1.0f);
-                                                        vertices[indexflat].Add(firstvertofface);
-                                                        vertices[indexflat].Add(secondvertofface);
-                                                        vertices[indexflat].Add(thirdvertofface);
-                                                        vertices[indexflat].Add(fourthvertofface);
-
-                                                        triangles[indexflat].Add(indexofvert2);
-                                                        triangles[indexflat].Add(indexofvert1);
-                                                        triangles[indexflat].Add(indexofvert0);
-                                                        triangles[indexflat].Add(indexofvert1);
-                                                        triangles[indexflat].Add(indexofvert2);
-                                                        triangles[indexflat].Add(indexofvert3);
-                                                    }
-                                                }
-                                            }
-                                            else
-                                            {
-                                                if (IsTransparent(xmap + 1, ymap , zmap, null))
-                                                {
-                                                    if (facetype == 2)
-                                                    {
-                                                        int indexofvert0 = vertices[indexflat].Count;
-                                                        Vector3 firstvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
-
-                                                        float swapx = firstvertofface.x;
-                                                        float swapy = firstvertofface.y;
-                                                        float swapz = firstvertofface.z;
-
-                                                        int indexofvert1 = vertices[indexflat].Count + 1;
-                                                        Vector3 secondvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
-
-                                                        secondvertofface.x -= (1 * 1.0f);
-                                                        secondvertofface.y -= (1 * 1.0f);
-
-
-                                                        int indexofvert2 = vertices[indexflat].Count + 2;
-                                                        Vector3 thirdvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
-
-                                                        int indexofvert3 = vertices[indexflat].Count + 3;
-                                                        Vector3 fourthvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
-
-                                                        fourthvertofface.x -= (1 * 1.0f);
-                                                        fourthvertofface.y -= (1 * 1.0f);
-                                                        vertices[indexflat].Add(firstvertofface);
-                                                        vertices[indexflat].Add(secondvertofface);
-                                                        vertices[indexflat].Add(thirdvertofface);
-                                                        vertices[indexflat].Add(fourthvertofface);
-
-                                                        triangles[indexflat].Add(indexofvert2);
-                                                        triangles[indexflat].Add(indexofvert1);
-                                                        triangles[indexflat].Add(indexofvert0);
-                                                        triangles[indexflat].Add(indexofvert1);
-                                                        triangles[indexflat].Add(indexofvert2);
-                                                        triangles[indexflat].Add(indexofvert3);
-                                                    }
-                                                }
-                                            }
-
                                         }
                                     }
                                     //RIGHTFACE
@@ -2151,7 +2233,7 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
                                     //LEFTFACE
                                     if (extremityiswl == 1)
                                     {
-                                        var planetdivtothetop = sccschunkfacesbuilder.instance.getplanetdiv((int)(mindexx - 1), (int)(mindexy), (int)(mindexz));
+                                        var planetdivtothetop = sccschunkfacesbuilder.instance.getplanetdiv((int)(mindexx - 1), (int)(mindexy ), (int)(mindexz));
 
                                         if (planetdivtothetop != null)
                                         {
@@ -2159,7 +2241,7 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
 
                                             if (planetdivchunk != null)
                                             {
-                                                if (IsTransparent(mapx-1, ymap, zmap, planetdivchunk.thebytemap))
+                                                if (IsTransparent(mapx - 1, ymap, zmap, planetdivchunk.thebytemap))
                                                 {
                                                     if (facetype == 1)
                                                     {
@@ -2170,13 +2252,11 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
                                                         float swapy = firstvertofface.y;
                                                         float swapz = firstvertofface.z;
 
-
                                                         int indexofvert1 = vertices[indexflat].Count + 1;
                                                         Vector3 secondvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
 
                                                         secondvertofface.x -= (1 * 1.0f);
                                                         secondvertofface.y -= (1 * 1.0f);
-
 
                                                         int indexofvert2 = vertices[indexflat].Count + 2;
                                                         Vector3 thirdvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
@@ -2186,8 +2266,6 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
 
                                                         fourthvertofface.x -= (1 * 1.0f);
                                                         fourthvertofface.y -= (1 * 1.0f);
-
-
 
                                                         vertices[indexflat].Add(firstvertofface);
                                                         vertices[indexflat].Add(secondvertofface);
@@ -2216,13 +2294,11 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
                                                         float swapy = firstvertofface.y;
                                                         float swapz = firstvertofface.z;
 
-
                                                         int indexofvert1 = vertices[indexflat].Count + 1;
                                                         Vector3 secondvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
 
                                                         secondvertofface.x -= (1 * 1.0f);
                                                         secondvertofface.y -= (1 * 1.0f);
-
 
                                                         int indexofvert2 = vertices[indexflat].Count + 2;
                                                         Vector3 thirdvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
@@ -2232,8 +2308,6 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
 
                                                         fourthvertofface.x -= (1 * 1.0f);
                                                         fourthvertofface.y -= (1 * 1.0f);
-
-
 
                                                         vertices[indexflat].Add(firstvertofface);
                                                         vertices[indexflat].Add(secondvertofface);
@@ -2254,51 +2328,137 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
                                         {
 
 
-                                            var planetdivchunk = getChunk(x - 1, y, z);
-
-                                            if (planetdivchunk != null)
+                                            if (sextremityxl == 1)
                                             {
-                                                if (IsTransparent(mapx-1, ymap, zmap, planetdivchunk.thebytemap))
+                                                if (xmap == 0) //mapy - 1
                                                 {
-                                                    if (facetype == 1)
+                                                    var planetdivchunk = getChunk(x - 1, y , z);
+
+                                                    if (planetdivchunk != null)
                                                     {
-                                                        int indexofvert0 = vertices[indexflat].Count;
-                                                        Vector3 firstvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
+                                                        if (IsTransparent(mapx - 1, ymap, zmap, planetdivchunk.thebytemap))
+                                                        {
+                                                            if (facetype == 1)
+                                                            {
+                                                                int indexofvert0 = vertices[indexflat].Count;
+                                                                Vector3 firstvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
 
-                                                        float swapx = firstvertofface.x;
-                                                        float swapy = firstvertofface.y;
-                                                        float swapz = firstvertofface.z;
+                                                                float swapx = firstvertofface.x;
+                                                                float swapy = firstvertofface.y;
+                                                                float swapz = firstvertofface.z;
 
+                                                                int indexofvert1 = vertices[indexflat].Count + 1;
+                                                                Vector3 secondvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
 
-                                                        int indexofvert1 = vertices[indexflat].Count + 1;
-                                                        Vector3 secondvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
+                                                                secondvertofface.x -= (1 * 1.0f);
+                                                                secondvertofface.y -= (1 * 1.0f);
 
-                                                        secondvertofface.x -= (1 * 1.0f);
-                                                        secondvertofface.y -= (1 * 1.0f);
+                                                                int indexofvert2 = vertices[indexflat].Count + 2;
+                                                                Vector3 thirdvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
 
+                                                                int indexofvert3 = vertices[indexflat].Count + 3;
+                                                                Vector3 fourthvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
 
-                                                        int indexofvert2 = vertices[indexflat].Count + 2;
-                                                        Vector3 thirdvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+                                                                fourthvertofface.x -= (1 * 1.0f);
+                                                                fourthvertofface.y -= (1 * 1.0f);
 
-                                                        int indexofvert3 = vertices[indexflat].Count + 3;
-                                                        Vector3 fourthvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+                                                                vertices[indexflat].Add(firstvertofface);
+                                                                vertices[indexflat].Add(secondvertofface);
+                                                                vertices[indexflat].Add(thirdvertofface);
+                                                                vertices[indexflat].Add(fourthvertofface);
 
-                                                        fourthvertofface.x -= (1 * 1.0f);
-                                                        fourthvertofface.y -= (1 * 1.0f);
+                                                                triangles[indexflat].Add(indexofvert0);
+                                                                triangles[indexflat].Add(indexofvert1);
+                                                                triangles[indexflat].Add(indexofvert2);
+                                                                triangles[indexflat].Add(indexofvert3);
+                                                                triangles[indexflat].Add(indexofvert2);
+                                                                triangles[indexflat].Add(indexofvert1);
+                                                            }
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        if (IsTransparent(xmap - 1, ymap , zmap, null))
+                                                        {
+                                                            if (facetype == 1)
+                                                            {
+                                                                int indexofvert0 = vertices[indexflat].Count;
+                                                                Vector3 firstvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
 
+                                                                float swapx = firstvertofface.x;
+                                                                float swapy = firstvertofface.y;
+                                                                float swapz = firstvertofface.z;
 
+                                                                int indexofvert1 = vertices[indexflat].Count + 1;
+                                                                Vector3 secondvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
 
-                                                        vertices[indexflat].Add(firstvertofface);
-                                                        vertices[indexflat].Add(secondvertofface);
-                                                        vertices[indexflat].Add(thirdvertofface);
-                                                        vertices[indexflat].Add(fourthvertofface);
+                                                                secondvertofface.x -= (1 * 1.0f);
+                                                                secondvertofface.y -= (1 * 1.0f);
 
-                                                        triangles[indexflat].Add(indexofvert0);
-                                                        triangles[indexflat].Add(indexofvert1);
-                                                        triangles[indexflat].Add(indexofvert2);
-                                                        triangles[indexflat].Add(indexofvert3);
-                                                        triangles[indexflat].Add(indexofvert2);
-                                                        triangles[indexflat].Add(indexofvert1);
+                                                                int indexofvert2 = vertices[indexflat].Count + 2;
+                                                                Vector3 thirdvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+
+                                                                int indexofvert3 = vertices[indexflat].Count + 3;
+                                                                Vector3 fourthvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+
+                                                                fourthvertofface.x -= (1 * 1.0f);
+                                                                fourthvertofface.y -= (1 * 1.0f);
+
+                                                                vertices[indexflat].Add(firstvertofface);
+                                                                vertices[indexflat].Add(secondvertofface);
+                                                                vertices[indexflat].Add(thirdvertofface);
+                                                                vertices[indexflat].Add(fourthvertofface);
+
+                                                                triangles[indexflat].Add(indexofvert0);
+                                                                triangles[indexflat].Add(indexofvert1);
+                                                                triangles[indexflat].Add(indexofvert2);
+                                                                triangles[indexflat].Add(indexofvert3);
+                                                                triangles[indexflat].Add(indexofvert2);
+                                                                triangles[indexflat].Add(indexofvert1);
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    if (IsTransparent(xmap - 1, ymap, zmap, null))
+                                                    {
+                                                        if (facetype == 1)
+                                                        {
+                                                            int indexofvert0 = vertices[indexflat].Count;
+                                                            Vector3 firstvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
+
+                                                            float swapx = firstvertofface.x;
+                                                            float swapy = firstvertofface.y;
+                                                            float swapz = firstvertofface.z;
+
+                                                            int indexofvert1 = vertices[indexflat].Count + 1;
+                                                            Vector3 secondvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
+
+                                                            secondvertofface.x -= (1 * 1.0f);
+                                                            secondvertofface.y -= (1 * 1.0f);
+
+                                                            int indexofvert2 = vertices[indexflat].Count + 2;
+                                                            Vector3 thirdvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+
+                                                            int indexofvert3 = vertices[indexflat].Count + 3;
+                                                            Vector3 fourthvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+
+                                                            fourthvertofface.x -= (1 * 1.0f);
+                                                            fourthvertofface.y -= (1 * 1.0f);
+
+                                                            vertices[indexflat].Add(firstvertofface);
+                                                            vertices[indexflat].Add(secondvertofface);
+                                                            vertices[indexflat].Add(thirdvertofface);
+                                                            vertices[indexflat].Add(fourthvertofface);
+
+                                                            triangles[indexflat].Add(indexofvert0);
+                                                            triangles[indexflat].Add(indexofvert1);
+                                                            triangles[indexflat].Add(indexofvert2);
+                                                            triangles[indexflat].Add(indexofvert3);
+                                                            triangles[indexflat].Add(indexofvert2);
+                                                            triangles[indexflat].Add(indexofvert1);
+                                                        }
                                                     }
                                                 }
                                             }
@@ -2315,13 +2475,11 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
                                                         float swapy = firstvertofface.y;
                                                         float swapz = firstvertofface.z;
 
-
                                                         int indexofvert1 = vertices[indexflat].Count + 1;
                                                         Vector3 secondvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
 
                                                         secondvertofface.x -= (1 * 1.0f);
                                                         secondvertofface.y -= (1 * 1.0f);
-
 
                                                         int indexofvert2 = vertices[indexflat].Count + 2;
                                                         Vector3 thirdvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
@@ -2331,8 +2489,6 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
 
                                                         fourthvertofface.x -= (1 * 1.0f);
                                                         fourthvertofface.y -= (1 * 1.0f);
-
-
 
                                                         vertices[indexflat].Add(firstvertofface);
                                                         vertices[indexflat].Add(secondvertofface);
@@ -2348,69 +2504,116 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
                                                     }
                                                 }
                                             }
-
                                         }
                                     }
                                     else if (extremityiswl == 0)
                                     {
 
-
-
-                                        var planetdivtothetop = sccschunkfacesbuilder.instance.getplanetdiv((int)(mindexx - 1), (int)(mindexy), (int)(mindexz));
+                                        var planetdivtothetop = sccschunkfacesbuilder.instance.getplanetdiv((int)(mindexx - 1), (int)(mindexy ), (int)(mindexz));
 
                                         if (planetdivtothetop != null)
                                         {
-                                            var planetdivchunk = planetdivtothetop.getChunk(schunkwr, y, z);
 
-                                            if (planetdivchunk != null)
+
+
+                                            if (sextremityxl == 1)
                                             {
-                                                if (IsTransparent(mapx-1, ymap, zmap, planetdivchunk.thebytemap))
+                                                if (xmap == 0) //mapy - 1
                                                 {
-                                                    if (facetype == 1)
+                                                    var planetdivchunk = planetdivtothetop.getChunk(schunkwr,y , z);
+
+                                                    if (planetdivchunk != null)
                                                     {
-                                                        int indexofvert0 = vertices[indexflat].Count;
-                                                        Vector3 firstvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
+                                                        if (IsTransparent(mapx - 1, ymap, zmap, planetdivchunk.thebytemap))
+                                                        {
+                                                            if (facetype == 1)
+                                                            {
+                                                                int indexofvert0 = vertices[indexflat].Count;
+                                                                Vector3 firstvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
 
-                                                        float swapx = firstvertofface.x;
-                                                        float swapy = firstvertofface.y;
-                                                        float swapz = firstvertofface.z;
+                                                                float swapx = firstvertofface.x;
+                                                                float swapy = firstvertofface.y;
+                                                                float swapz = firstvertofface.z;
 
+                                                                int indexofvert1 = vertices[indexflat].Count + 1;
+                                                                Vector3 secondvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
 
-                                                        int indexofvert1 = vertices[indexflat].Count + 1;
-                                                        Vector3 secondvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
+                                                                secondvertofface.x -= (1 * 1.0f);
+                                                                secondvertofface.y -= (1 * 1.0f);
 
-                                                        secondvertofface.x -= (1 * 1.0f);
-                                                        secondvertofface.y -= (1 * 1.0f);
+                                                                int indexofvert2 = vertices[indexflat].Count + 2;
+                                                                Vector3 thirdvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
 
+                                                                int indexofvert3 = vertices[indexflat].Count + 3;
+                                                                Vector3 fourthvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
 
-                                                        int indexofvert2 = vertices[indexflat].Count + 2;
-                                                        Vector3 thirdvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+                                                                fourthvertofface.x -= (1 * 1.0f);
+                                                                fourthvertofface.y -= (1 * 1.0f);
 
-                                                        int indexofvert3 = vertices[indexflat].Count + 3;
-                                                        Vector3 fourthvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+                                                                vertices[indexflat].Add(firstvertofface);
+                                                                vertices[indexflat].Add(secondvertofface);
+                                                                vertices[indexflat].Add(thirdvertofface);
+                                                                vertices[indexflat].Add(fourthvertofface);
 
-                                                        fourthvertofface.x -= (1 * 1.0f);
-                                                        fourthvertofface.y -= (1 * 1.0f);
-
-
-
-                                                        vertices[indexflat].Add(firstvertofface);
-                                                        vertices[indexflat].Add(secondvertofface);
-                                                        vertices[indexflat].Add(thirdvertofface);
-                                                        vertices[indexflat].Add(fourthvertofface);
-
-                                                        triangles[indexflat].Add(indexofvert0);
-                                                        triangles[indexflat].Add(indexofvert1);
-                                                        triangles[indexflat].Add(indexofvert2);
-                                                        triangles[indexflat].Add(indexofvert3);
-                                                        triangles[indexflat].Add(indexofvert2);
-                                                        triangles[indexflat].Add(indexofvert1);
+                                                                triangles[indexflat].Add(indexofvert0);
+                                                                triangles[indexflat].Add(indexofvert1);
+                                                                triangles[indexflat].Add(indexofvert2);
+                                                                triangles[indexflat].Add(indexofvert3);
+                                                                triangles[indexflat].Add(indexofvert2);
+                                                                triangles[indexflat].Add(indexofvert1);
+                                                            }
+                                                        }
                                                     }
                                                 }
+                                                else
+                                                {
+                                                    if (IsTransparent(xmap - 1, ymap , zmap, null))
+                                                    {
+                                                        if (facetype == 1)
+                                                        {
+                                                            int indexofvert0 = vertices[indexflat].Count;
+                                                            Vector3 firstvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
+
+                                                            float swapx = firstvertofface.x;
+                                                            float swapy = firstvertofface.y;
+                                                            float swapz = firstvertofface.z;
+
+                                                            int indexofvert1 = vertices[indexflat].Count + 1;
+                                                            Vector3 secondvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
+
+                                                            secondvertofface.x -= (1 * 1.0f);
+                                                            secondvertofface.y -= (1 * 1.0f);
+
+                                                            int indexofvert2 = vertices[indexflat].Count + 2;
+                                                            Vector3 thirdvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+
+                                                            int indexofvert3 = vertices[indexflat].Count + 3;
+                                                            Vector3 fourthvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+
+                                                            fourthvertofface.x -= (1 * 1.0f);
+                                                            fourthvertofface.y -= (1 * 1.0f);
+
+                                                            vertices[indexflat].Add(firstvertofface);
+                                                            vertices[indexflat].Add(secondvertofface);
+                                                            vertices[indexflat].Add(thirdvertofface);
+                                                            vertices[indexflat].Add(fourthvertofface);
+
+                                                            triangles[indexflat].Add(indexofvert0);
+                                                            triangles[indexflat].Add(indexofvert1);
+                                                            triangles[indexflat].Add(indexofvert2);
+                                                            triangles[indexflat].Add(indexofvert3);
+                                                            triangles[indexflat].Add(indexofvert2);
+                                                            triangles[indexflat].Add(indexofvert1);
+                                                        }
+                                                    }
+                                                }
+
+                                                //Destroy(planetdivtothetop.transform.gameObject);
+                                                //planetdivtothetop.transform.gameObject.GetComponent<MeshRenderer>().material.color = Color.red;
                                             }
                                             else
                                             {
-                                                if (IsTransparent(xmap - 1, ymap, zmap, null))
+                                                if (IsTransparent(xmap - 1, ymap , zmap, null))
                                                 {
                                                     if (facetype == 1)
                                                     {
@@ -2421,13 +2624,11 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
                                                         float swapy = firstvertofface.y;
                                                         float swapz = firstvertofface.z;
 
-
                                                         int indexofvert1 = vertices[indexflat].Count + 1;
                                                         Vector3 secondvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
 
                                                         secondvertofface.x -= (1 * 1.0f);
                                                         secondvertofface.y -= (1 * 1.0f);
-
 
                                                         int indexofvert2 = vertices[indexflat].Count + 2;
                                                         Vector3 thirdvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
@@ -2437,8 +2638,6 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
 
                                                         fourthvertofface.x -= (1 * 1.0f);
                                                         fourthvertofface.y -= (1 * 1.0f);
-
-
 
                                                         vertices[indexflat].Add(firstvertofface);
                                                         vertices[indexflat].Add(secondvertofface);
@@ -2454,106 +2653,6 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
                                                     }
                                                 }
                                             }
-                                        }
-                                        else
-                                        {
-
-
-                                            var planetdivchunk = getChunk(x - 1, y, z);
-
-                                            if (planetdivchunk != null)
-                                            {
-                                                if (IsTransparent(mapx-1, ymap, zmap, planetdivchunk.thebytemap))
-                                                {
-                                                    if (facetype == 1)
-                                                    {
-                                                        int indexofvert0 = vertices[indexflat].Count;
-                                                        Vector3 firstvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
-
-                                                        float swapx = firstvertofface.x;
-                                                        float swapy = firstvertofface.y;
-                                                        float swapz = firstvertofface.z;
-
-
-                                                        int indexofvert1 = vertices[indexflat].Count + 1;
-                                                        Vector3 secondvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
-
-                                                        secondvertofface.x -= (1 * 1.0f);
-                                                        secondvertofface.y -= (1 * 1.0f);
-
-
-                                                        int indexofvert2 = vertices[indexflat].Count + 2;
-                                                        Vector3 thirdvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
-
-                                                        int indexofvert3 = vertices[indexflat].Count + 3;
-                                                        Vector3 fourthvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
-
-                                                        fourthvertofface.x -= (1 * 1.0f);
-                                                        fourthvertofface.y -= (1 * 1.0f);
-
-
-
-                                                        vertices[indexflat].Add(firstvertofface);
-                                                        vertices[indexflat].Add(secondvertofface);
-                                                        vertices[indexflat].Add(thirdvertofface);
-                                                        vertices[indexflat].Add(fourthvertofface);
-
-                                                        triangles[indexflat].Add(indexofvert0);
-                                                        triangles[indexflat].Add(indexofvert1);
-                                                        triangles[indexflat].Add(indexofvert2);
-                                                        triangles[indexflat].Add(indexofvert3);
-                                                        triangles[indexflat].Add(indexofvert2);
-                                                        triangles[indexflat].Add(indexofvert1);
-                                                    }
-                                                }
-                                            }
-                                            else
-                                            {
-                                                if (IsTransparent(xmap - 1, ymap, zmap, null))
-                                                {
-                                                    if (facetype == 1)
-                                                    {
-                                                        int indexofvert0 = vertices[indexflat].Count;
-                                                        Vector3 firstvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
-
-                                                        float swapx = firstvertofface.x;
-                                                        float swapy = firstvertofface.y;
-                                                        float swapz = firstvertofface.z;
-
-
-                                                        int indexofvert1 = vertices[indexflat].Count + 1;
-                                                        Vector3 secondvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
-                                                     
-                                                        secondvertofface.x -= (1 * 1.0f);
-                                                        secondvertofface.y -= (1 * 1.0f);
-
-
-                                                        int indexofvert2 = vertices[indexflat].Count + 2;
-                                                        Vector3 thirdvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
-                                                      
-                                                        int indexofvert3 = vertices[indexflat].Count + 3;
-                                                        Vector3 fourthvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
-
-                                                        fourthvertofface.x -= (1 * 1.0f);
-                                                        fourthvertofface.y -= (1 * 1.0f);
-
-
-
-                                                        vertices[indexflat].Add(firstvertofface);
-                                                        vertices[indexflat].Add(secondvertofface);
-                                                        vertices[indexflat].Add(thirdvertofface);
-                                                        vertices[indexflat].Add(fourthvertofface);
-
-                                                        triangles[indexflat].Add(indexofvert0);
-                                                        triangles[indexflat].Add(indexofvert1);
-                                                        triangles[indexflat].Add(indexofvert2);
-                                                        triangles[indexflat].Add(indexofvert3);
-                                                        triangles[indexflat].Add(indexofvert2);
-                                                        triangles[indexflat].Add(indexofvert1);
-                                                    }
-                                                }
-                                            }
-
                                         }
                                     }
                                     //LEFTFACE
@@ -2590,7 +2689,7 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
 
                                         if (planetdivtothetop != null)
                                         {
-                                            var planetdivchunk = planetdivtothetop.getChunk(x, y, 0);
+                                            var planetdivchunk = planetdivtothetop.getChunk(x, y, -schunkwl);
 
                                             if (planetdivchunk != null)
                                             {
@@ -2598,19 +2697,21 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
                                                 {
                                                     if (facetype == 3)
                                                     {
-
                                                         int indexofvert0 = vertices[indexflat].Count;
                                                         Vector3 firstvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
 
                                                         float swapx = firstvertofface.x;
                                                         float swapy = firstvertofface.y;
-                                                        float swapz = firstvertofface.z;                                  
+                                                        float swapz = firstvertofface.z;
+
 
                                                         int indexofvert1 = vertices[indexflat].Count + 1;
                                                         Vector3 secondvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
                                                         swapx = secondvertofface.x;
                                                         swapy = secondvertofface.y;
-                                                        swapz = secondvertofface.z;                                         
+                                                        swapz = secondvertofface.z;
+
+       
 
                                                         int indexofvert2 = vertices[indexflat].Count + 2;
                                                         Vector3 thirdvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
@@ -2620,16 +2721,17 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
                                                         swapy = thirdvertofface.y;
                                                         swapz = thirdvertofface.z;
 
-                                                       
                                                         int indexofvert3 = vertices[indexflat].Count + 3;
                                                         Vector3 fourthvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
 
                                                         fourthvertofface.z -= (1 * 1.0f);
                                                         fourthvertofface.y -= (1 * 1.0f);
 
+
                                                         swapx = fourthvertofface.x;
                                                         swapy = fourthvertofface.y;
                                                         swapz = fourthvertofface.z;
+
 
                                                         vertices[indexflat].Add(firstvertofface);
                                                         vertices[indexflat].Add(secondvertofface);
@@ -2658,11 +2760,14 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
                                                         float swapy = firstvertofface.y;
                                                         float swapz = firstvertofface.z;
 
+
                                                         int indexofvert1 = vertices[indexflat].Count + 1;
                                                         Vector3 secondvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
                                                         swapx = secondvertofface.x;
                                                         swapy = secondvertofface.y;
                                                         swapz = secondvertofface.z;
+
+
 
                                                         int indexofvert2 = vertices[indexflat].Count + 2;
                                                         Vector3 thirdvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
@@ -2672,16 +2777,17 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
                                                         swapy = thirdvertofface.y;
                                                         swapz = thirdvertofface.z;
 
-
                                                         int indexofvert3 = vertices[indexflat].Count + 3;
                                                         Vector3 fourthvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
 
                                                         fourthvertofface.z -= (1 * 1.0f);
                                                         fourthvertofface.y -= (1 * 1.0f);
 
+
                                                         swapx = fourthvertofface.x;
                                                         swapy = fourthvertofface.y;
                                                         swapz = fourthvertofface.z;
+
 
                                                         vertices[indexflat].Add(firstvertofface);
                                                         vertices[indexflat].Add(secondvertofface);
@@ -2702,57 +2808,179 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
                                         {
 
 
-                                            var planetdivchunk = getChunk(x, y, z + 1);
-
-                                            if (planetdivchunk != null)
+                                            if (sextremityzr == 1)
                                             {
-                                                if (IsTransparent(xmap, ymap, 0, planetdivchunk.thebytemap))
+                                                if (zmap == mapz - 1)
                                                 {
-                                                    if (facetype == 3)
+                                                    var planetdivchunk = getChunk(x, y , z + 1);
+
+                                                    if (planetdivchunk != null)
                                                     {
-                                                        int indexofvert0 = vertices[indexflat].Count;
-                                                        Vector3 firstvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
+                                                        if (IsTransparent(xmap, ymap, 0, planetdivchunk.thebytemap))
+                                                        {
+                                                            if (facetype == 3)
+                                                            {
+                                                                int indexofvert0 = vertices[indexflat].Count;
+                                                                Vector3 firstvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
 
-                                                        float swapx = firstvertofface.x;
-                                                        float swapy = firstvertofface.y;
-                                                        float swapz = firstvertofface.z;
-
-                                                        int indexofvert1 = vertices[indexflat].Count + 1;
-                                                        Vector3 secondvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
-                                                        swapx = secondvertofface.x;
-                                                        swapy = secondvertofface.y;
-                                                        swapz = secondvertofface.z;
-
-                                                        int indexofvert2 = vertices[indexflat].Count + 2;
-                                                        Vector3 thirdvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
-                                                        thirdvertofface.z -= (1 * 1.0f);
-                                                        thirdvertofface.y -= (1 * 1.0f);
-                                                        swapx = thirdvertofface.x;
-                                                        swapy = thirdvertofface.y;
-                                                        swapz = thirdvertofface.z;
+                                                                float swapx = firstvertofface.x;
+                                                                float swapy = firstvertofface.y;
+                                                                float swapz = firstvertofface.z;
 
 
-                                                        int indexofvert3 = vertices[indexflat].Count + 3;
-                                                        Vector3 fourthvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+                                                                int indexofvert1 = vertices[indexflat].Count + 1;
+                                                                Vector3 secondvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
+                                                                swapx = secondvertofface.x;
+                                                                swapy = secondvertofface.y;
+                                                                swapz = secondvertofface.z;
 
-                                                        fourthvertofface.z -= (1 * 1.0f);
-                                                        fourthvertofface.y -= (1 * 1.0f);
 
-                                                        swapx = fourthvertofface.x;
-                                                        swapy = fourthvertofface.y;
-                                                        swapz = fourthvertofface.z;
 
-                                                        vertices[indexflat].Add(firstvertofface);
-                                                        vertices[indexflat].Add(secondvertofface);
-                                                        vertices[indexflat].Add(thirdvertofface);
-                                                        vertices[indexflat].Add(fourthvertofface);
+                                                                int indexofvert2 = vertices[indexflat].Count + 2;
+                                                                Vector3 thirdvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+                                                                thirdvertofface.z -= (1 * 1.0f);
+                                                                thirdvertofface.y -= (1 * 1.0f);
+                                                                swapx = thirdvertofface.x;
+                                                                swapy = thirdvertofface.y;
+                                                                swapz = thirdvertofface.z;
 
-                                                        triangles[indexflat].Add(indexofvert2);
-                                                        triangles[indexflat].Add(indexofvert1);
-                                                        triangles[indexflat].Add(indexofvert0);
-                                                        triangles[indexflat].Add(indexofvert1);
-                                                        triangles[indexflat].Add(indexofvert2);
-                                                        triangles[indexflat].Add(indexofvert3);
+                                                                int indexofvert3 = vertices[indexflat].Count + 3;
+                                                                Vector3 fourthvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+
+                                                                fourthvertofface.z -= (1 * 1.0f);
+                                                                fourthvertofface.y -= (1 * 1.0f);
+
+
+                                                                swapx = fourthvertofface.x;
+                                                                swapy = fourthvertofface.y;
+                                                                swapz = fourthvertofface.z;
+
+
+                                                                vertices[indexflat].Add(firstvertofface);
+                                                                vertices[indexflat].Add(secondvertofface);
+                                                                vertices[indexflat].Add(thirdvertofface);
+                                                                vertices[indexflat].Add(fourthvertofface);
+
+                                                                triangles[indexflat].Add(indexofvert2);
+                                                                triangles[indexflat].Add(indexofvert1);
+                                                                triangles[indexflat].Add(indexofvert0);
+                                                                triangles[indexflat].Add(indexofvert1);
+                                                                triangles[indexflat].Add(indexofvert2);
+                                                                triangles[indexflat].Add(indexofvert3);
+                                                            }
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        if (IsTransparent(xmap, ymap , zmap + 1, null))
+                                                        {
+                                                            if (facetype == 3)
+                                                            {
+                                                                int indexofvert0 = vertices[indexflat].Count;
+                                                                Vector3 firstvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
+
+                                                                float swapx = firstvertofface.x;
+                                                                float swapy = firstvertofface.y;
+                                                                float swapz = firstvertofface.z;
+
+
+                                                                int indexofvert1 = vertices[indexflat].Count + 1;
+                                                                Vector3 secondvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
+                                                                swapx = secondvertofface.x;
+                                                                swapy = secondvertofface.y;
+                                                                swapz = secondvertofface.z;
+
+
+
+                                                                int indexofvert2 = vertices[indexflat].Count + 2;
+                                                                Vector3 thirdvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+                                                                thirdvertofface.z -= (1 * 1.0f);
+                                                                thirdvertofface.y -= (1 * 1.0f);
+                                                                swapx = thirdvertofface.x;
+                                                                swapy = thirdvertofface.y;
+                                                                swapz = thirdvertofface.z;
+
+                                                                int indexofvert3 = vertices[indexflat].Count + 3;
+                                                                Vector3 fourthvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+
+                                                                fourthvertofface.z -= (1 * 1.0f);
+                                                                fourthvertofface.y -= (1 * 1.0f);
+
+
+                                                                swapx = fourthvertofface.x;
+                                                                swapy = fourthvertofface.y;
+                                                                swapz = fourthvertofface.z;
+
+
+                                                                vertices[indexflat].Add(firstvertofface);
+                                                                vertices[indexflat].Add(secondvertofface);
+                                                                vertices[indexflat].Add(thirdvertofface);
+                                                                vertices[indexflat].Add(fourthvertofface);
+
+                                                                triangles[indexflat].Add(indexofvert2);
+                                                                triangles[indexflat].Add(indexofvert1);
+                                                                triangles[indexflat].Add(indexofvert0);
+                                                                triangles[indexflat].Add(indexofvert1);
+                                                                triangles[indexflat].Add(indexofvert2);
+                                                                triangles[indexflat].Add(indexofvert3);
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    if (IsTransparent(xmap, ymap , zmap + 1, null))
+                                                    {
+                                                        if (facetype == 3)
+                                                        {
+                                                            int indexofvert0 = vertices[indexflat].Count;
+                                                            Vector3 firstvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
+
+                                                            float swapx = firstvertofface.x;
+                                                            float swapy = firstvertofface.y;
+                                                            float swapz = firstvertofface.z;
+
+
+                                                            int indexofvert1 = vertices[indexflat].Count + 1;
+                                                            Vector3 secondvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
+                                                            swapx = secondvertofface.x;
+                                                            swapy = secondvertofface.y;
+                                                            swapz = secondvertofface.z;
+
+
+
+                                                            int indexofvert2 = vertices[indexflat].Count + 2;
+                                                            Vector3 thirdvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+                                                            thirdvertofface.z -= (1 * 1.0f);
+                                                            thirdvertofface.y -= (1 * 1.0f);
+                                                            swapx = thirdvertofface.x;
+                                                            swapy = thirdvertofface.y;
+                                                            swapz = thirdvertofface.z;
+
+                                                            int indexofvert3 = vertices[indexflat].Count + 3;
+                                                            Vector3 fourthvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+
+                                                            fourthvertofface.z -= (1 * 1.0f);
+                                                            fourthvertofface.y -= (1 * 1.0f);
+
+
+                                                            swapx = fourthvertofface.x;
+                                                            swapy = fourthvertofface.y;
+                                                            swapz = fourthvertofface.z;
+
+
+                                                            vertices[indexflat].Add(firstvertofface);
+                                                            vertices[indexflat].Add(secondvertofface);
+                                                            vertices[indexflat].Add(thirdvertofface);
+                                                            vertices[indexflat].Add(fourthvertofface);
+
+                                                            triangles[indexflat].Add(indexofvert2);
+                                                            triangles[indexflat].Add(indexofvert1);
+                                                            triangles[indexflat].Add(indexofvert0);
+                                                            triangles[indexflat].Add(indexofvert1);
+                                                            triangles[indexflat].Add(indexofvert2);
+                                                            triangles[indexflat].Add(indexofvert3);
+                                                        }
                                                     }
                                                 }
                                             }
@@ -2769,11 +2997,14 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
                                                         float swapy = firstvertofface.y;
                                                         float swapz = firstvertofface.z;
 
+
                                                         int indexofvert1 = vertices[indexflat].Count + 1;
                                                         Vector3 secondvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
                                                         swapx = secondvertofface.x;
                                                         swapy = secondvertofface.y;
                                                         swapz = secondvertofface.z;
+
+
 
                                                         int indexofvert2 = vertices[indexflat].Count + 2;
                                                         Vector3 thirdvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
@@ -2783,16 +3014,17 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
                                                         swapy = thirdvertofface.y;
                                                         swapz = thirdvertofface.z;
 
-
                                                         int indexofvert3 = vertices[indexflat].Count + 3;
                                                         Vector3 fourthvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
 
                                                         fourthvertofface.z -= (1 * 1.0f);
                                                         fourthvertofface.y -= (1 * 1.0f);
 
+
                                                         swapx = fourthvertofface.x;
                                                         swapy = fourthvertofface.y;
                                                         swapz = fourthvertofface.z;
+
 
                                                         vertices[indexflat].Add(firstvertofface);
                                                         vertices[indexflat].Add(secondvertofface);
@@ -2808,71 +3040,140 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
                                                     }
                                                 }
                                             }
-
                                         }
                                     }
                                     else if (extremityisdr == 0)
                                     {
 
-
-
                                         var planetdivtothetop = sccschunkfacesbuilder.instance.getplanetdiv((int)(mindexx), (int)(mindexy ), (int)(mindexz + 1));
 
                                         if (planetdivtothetop != null)
                                         {
-                                            var planetdivchunk = planetdivtothetop.getChunk(x, y, 0);
 
-                                            if (planetdivchunk != null)
+
+
+                                            if (sextremityzr == 1)
                                             {
-                                                if (IsTransparent(xmap, ymap, 0, planetdivchunk.thebytemap))
+                                                if (zmap == mapz - 1)
                                                 {
-                                                    if (facetype == 3)
+                                                    var planetdivchunk = planetdivtothetop.getChunk(x, y, -schunkdl);
+
+                                                    if (planetdivchunk != null)
                                                     {
-                                                        int indexofvert0 = vertices[indexflat].Count;
-                                                        Vector3 firstvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
+                                                        if (IsTransparent(xmap, ymap, 0, planetdivchunk.thebytemap))
+                                                        {
+                                                            if (facetype == 3)
+                                                            {
+                                                                int indexofvert0 = vertices[indexflat].Count;
+                                                                Vector3 firstvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
 
-                                                        float swapx = firstvertofface.x;
-                                                        float swapy = firstvertofface.y;
-                                                        float swapz = firstvertofface.z;
-
-                                                        int indexofvert1 = vertices[indexflat].Count + 1;
-                                                        Vector3 secondvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
-                                                        swapx = secondvertofface.x;
-                                                        swapy = secondvertofface.y;
-                                                        swapz = secondvertofface.z;
-
-                                                        int indexofvert2 = vertices[indexflat].Count + 2;
-                                                        Vector3 thirdvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
-                                                        thirdvertofface.z -= (1 * 1.0f);
-                                                        thirdvertofface.y -= (1 * 1.0f);
-                                                        swapx = thirdvertofface.x;
-                                                        swapy = thirdvertofface.y;
-                                                        swapz = thirdvertofface.z;
+                                                                float swapx = firstvertofface.x;
+                                                                float swapy = firstvertofface.y;
+                                                                float swapz = firstvertofface.z;
 
 
-                                                        int indexofvert3 = vertices[indexflat].Count + 3;
-                                                        Vector3 fourthvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+                                                                int indexofvert1 = vertices[indexflat].Count + 1;
+                                                                Vector3 secondvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
+                                                                swapx = secondvertofface.x;
+                                                                swapy = secondvertofface.y;
+                                                                swapz = secondvertofface.z;
 
-                                                        fourthvertofface.z -= (1 * 1.0f);
-                                                        fourthvertofface.y -= (1 * 1.0f);
 
-                                                        swapx = fourthvertofface.x;
-                                                        swapy = fourthvertofface.y;
-                                                        swapz = fourthvertofface.z;
 
-                                                        vertices[indexflat].Add(firstvertofface);
-                                                        vertices[indexflat].Add(secondvertofface);
-                                                        vertices[indexflat].Add(thirdvertofface);
-                                                        vertices[indexflat].Add(fourthvertofface);
+                                                                int indexofvert2 = vertices[indexflat].Count + 2;
+                                                                Vector3 thirdvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+                                                                thirdvertofface.z -= (1 * 1.0f);
+                                                                thirdvertofface.y -= (1 * 1.0f);
+                                                                swapx = thirdvertofface.x;
+                                                                swapy = thirdvertofface.y;
+                                                                swapz = thirdvertofface.z;
 
-                                                        triangles[indexflat].Add(indexofvert2);
-                                                        triangles[indexflat].Add(indexofvert1);
-                                                        triangles[indexflat].Add(indexofvert0);
-                                                        triangles[indexflat].Add(indexofvert1);
-                                                        triangles[indexflat].Add(indexofvert2);
-                                                        triangles[indexflat].Add(indexofvert3);
+                                                                int indexofvert3 = vertices[indexflat].Count + 3;
+                                                                Vector3 fourthvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+
+                                                                fourthvertofface.z -= (1 * 1.0f);
+                                                                fourthvertofface.y -= (1 * 1.0f);
+
+
+                                                                swapx = fourthvertofface.x;
+                                                                swapy = fourthvertofface.y;
+                                                                swapz = fourthvertofface.z;
+
+
+                                                                vertices[indexflat].Add(firstvertofface);
+                                                                vertices[indexflat].Add(secondvertofface);
+                                                                vertices[indexflat].Add(thirdvertofface);
+                                                                vertices[indexflat].Add(fourthvertofface);
+
+                                                                triangles[indexflat].Add(indexofvert2);
+                                                                triangles[indexflat].Add(indexofvert1);
+                                                                triangles[indexflat].Add(indexofvert0);
+                                                                triangles[indexflat].Add(indexofvert1);
+                                                                triangles[indexflat].Add(indexofvert2);
+                                                                triangles[indexflat].Add(indexofvert3);
+                                                            }
+                                                        }
                                                     }
                                                 }
+                                                else
+                                                {
+                                                    if (IsTransparent(xmap, ymap , zmap + 1, null))
+                                                    {
+                                                        if (facetype == 3)
+                                                        {
+                                                            int indexofvert0 = vertices[indexflat].Count;
+                                                            Vector3 firstvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
+
+                                                            float swapx = firstvertofface.x;
+                                                            float swapy = firstvertofface.y;
+                                                            float swapz = firstvertofface.z;
+
+
+                                                            int indexofvert1 = vertices[indexflat].Count + 1;
+                                                            Vector3 secondvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
+                                                            swapx = secondvertofface.x;
+                                                            swapy = secondvertofface.y;
+                                                            swapz = secondvertofface.z;
+
+
+
+                                                            int indexofvert2 = vertices[indexflat].Count + 2;
+                                                            Vector3 thirdvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+                                                            thirdvertofface.z -= (1 * 1.0f);
+                                                            thirdvertofface.y -= (1 * 1.0f);
+                                                            swapx = thirdvertofface.x;
+                                                            swapy = thirdvertofface.y;
+                                                            swapz = thirdvertofface.z;
+
+                                                            int indexofvert3 = vertices[indexflat].Count + 3;
+                                                            Vector3 fourthvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+
+                                                            fourthvertofface.z -= (1 * 1.0f);
+                                                            fourthvertofface.y -= (1 * 1.0f);
+
+
+                                                            swapx = fourthvertofface.x;
+                                                            swapy = fourthvertofface.y;
+                                                            swapz = fourthvertofface.z;
+
+
+                                                            vertices[indexflat].Add(firstvertofface);
+                                                            vertices[indexflat].Add(secondvertofface);
+                                                            vertices[indexflat].Add(thirdvertofface);
+                                                            vertices[indexflat].Add(fourthvertofface);
+
+                                                            triangles[indexflat].Add(indexofvert2);
+                                                            triangles[indexflat].Add(indexofvert1);
+                                                            triangles[indexflat].Add(indexofvert0);
+                                                            triangles[indexflat].Add(indexofvert1);
+                                                            triangles[indexflat].Add(indexofvert2);
+                                                            triangles[indexflat].Add(indexofvert3);
+                                                        }
+                                                    }
+                                                }
+
+                                                //Destroy(planetdivtothetop.transform.gameObject);
+                                                //planetdivtothetop.transform.gameObject.GetComponent<MeshRenderer>().material.color = Color.red;
                                             }
                                             else
                                             {
@@ -2887,11 +3188,14 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
                                                         float swapy = firstvertofface.y;
                                                         float swapz = firstvertofface.z;
 
+
                                                         int indexofvert1 = vertices[indexflat].Count + 1;
                                                         Vector3 secondvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
                                                         swapx = secondvertofface.x;
                                                         swapy = secondvertofface.y;
                                                         swapz = secondvertofface.z;
+
+
 
                                                         int indexofvert2 = vertices[indexflat].Count + 2;
                                                         Vector3 thirdvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
@@ -2901,16 +3205,17 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
                                                         swapy = thirdvertofface.y;
                                                         swapz = thirdvertofface.z;
 
-
                                                         int indexofvert3 = vertices[indexflat].Count + 3;
                                                         Vector3 fourthvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
 
                                                         fourthvertofface.z -= (1 * 1.0f);
                                                         fourthvertofface.y -= (1 * 1.0f);
 
+
                                                         swapx = fourthvertofface.x;
                                                         swapy = fourthvertofface.y;
                                                         swapz = fourthvertofface.z;
+
 
                                                         vertices[indexflat].Add(firstvertofface);
                                                         vertices[indexflat].Add(secondvertofface);
@@ -2926,118 +3231,6 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
                                                     }
                                                 }
                                             }
-                                        }
-                                        else
-                                        {
-
-
-                                            var planetdivchunk = getChunk(x, y , z + 1);
-
-                                            if (planetdivchunk != null)
-                                            {
-                                                if (IsTransparent(xmap, ymap, 0, planetdivchunk.thebytemap))
-                                                {
-                                                    if (facetype == 3)
-                                                    {
-                                                        int indexofvert0 = vertices[indexflat].Count;
-                                                        Vector3 firstvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
-
-                                                        float swapx = firstvertofface.x;
-                                                        float swapy = firstvertofface.y;
-                                                        float swapz = firstvertofface.z;
-
-                                                        int indexofvert1 = vertices[indexflat].Count + 1;
-                                                        Vector3 secondvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
-                                                        swapx = secondvertofface.x;
-                                                        swapy = secondvertofface.y;
-                                                        swapz = secondvertofface.z;
-
-                                                        int indexofvert2 = vertices[indexflat].Count + 2;
-                                                        Vector3 thirdvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
-                                                        thirdvertofface.z -= (1 * 1.0f);
-                                                        thirdvertofface.y -= (1 * 1.0f);
-                                                        swapx = thirdvertofface.x;
-                                                        swapy = thirdvertofface.y;
-                                                        swapz = thirdvertofface.z;
-
-
-                                                        int indexofvert3 = vertices[indexflat].Count + 3;
-                                                        Vector3 fourthvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
-
-                                                        fourthvertofface.z -= (1 * 1.0f);
-                                                        fourthvertofface.y -= (1 * 1.0f);
-
-                                                        swapx = fourthvertofface.x;
-                                                        swapy = fourthvertofface.y;
-                                                        swapz = fourthvertofface.z;
-
-                                                        vertices[indexflat].Add(firstvertofface);
-                                                        vertices[indexflat].Add(secondvertofface);
-                                                        vertices[indexflat].Add(thirdvertofface);
-                                                        vertices[indexflat].Add(fourthvertofface);
-
-                                                        triangles[indexflat].Add(indexofvert2);
-                                                        triangles[indexflat].Add(indexofvert1);
-                                                        triangles[indexflat].Add(indexofvert0);
-                                                        triangles[indexflat].Add(indexofvert1);
-                                                        triangles[indexflat].Add(indexofvert2);
-                                                        triangles[indexflat].Add(indexofvert3);
-                                                    }
-                                                }
-                                            }
-                                            else
-                                            {
-                                                if (IsTransparent(xmap, ymap , zmap + 1, null))
-                                                {
-                                                    if (facetype == 3)
-                                                    {
-                                                        int indexofvert0 = vertices[indexflat].Count;
-                                                        Vector3 firstvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
-
-                                                        float swapx = firstvertofface.x;
-                                                        float swapy = firstvertofface.y;
-                                                        float swapz = firstvertofface.z;
-
-                                                        int indexofvert1 = vertices[indexflat].Count + 1;
-                                                        Vector3 secondvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
-                                                        swapx = secondvertofface.x;
-                                                        swapy = secondvertofface.y;
-                                                        swapz = secondvertofface.z;
-
-                                                        int indexofvert2 = vertices[indexflat].Count + 2;
-                                                        Vector3 thirdvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
-                                                        thirdvertofface.z -= (1 * 1.0f);
-                                                        thirdvertofface.y -= (1 * 1.0f);
-                                                        swapx = thirdvertofface.x;
-                                                        swapy = thirdvertofface.y;
-                                                        swapz = thirdvertofface.z;
-
-
-                                                        int indexofvert3 = vertices[indexflat].Count + 3;
-                                                        Vector3 fourthvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
-
-                                                        fourthvertofface.z -= (1 * 1.0f);
-                                                        fourthvertofface.y -= (1 * 1.0f);
-
-                                                        swapx = fourthvertofface.x;
-                                                        swapy = fourthvertofface.y;
-                                                        swapz = fourthvertofface.z;
-
-                                                        vertices[indexflat].Add(firstvertofface);
-                                                        vertices[indexflat].Add(secondvertofface);
-                                                        vertices[indexflat].Add(thirdvertofface);
-                                                        vertices[indexflat].Add(fourthvertofface);
-
-                                                        triangles[indexflat].Add(indexofvert2);
-                                                        triangles[indexflat].Add(indexofvert1);
-                                                        triangles[indexflat].Add(indexofvert0);
-                                                        triangles[indexflat].Add(indexofvert1);
-                                                        triangles[indexflat].Add(indexofvert2);
-                                                        triangles[indexflat].Add(indexofvert3);
-                                                    }
-                                                }
-                                            }
-
                                         }
                                     }
                                     //FRONTFACE
@@ -3094,7 +3287,7 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
                                     //BACKFACE
                                     if (extremityisdl == 1)
                                     {
-                                        var planetdivtothetop = sccschunkfacesbuilder.instance.getplanetdiv((int)(mindexx), (int)(mindexy), (int)(mindexz - 1));
+                                        var planetdivtothetop = sccschunkfacesbuilder.instance.getplanetdiv((int)(mindexx), (int)(mindexy ), (int)(mindexz - 1));
 
                                         if (planetdivtothetop != null)
                                         {
@@ -3102,7 +3295,7 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
 
                                             if (planetdivchunk != null)
                                             {
-                                                if (IsTransparent(xmap, ymap, mapz-1, planetdivchunk.thebytemap))
+                                                if (IsTransparent(xmap, ymap, mapz - 1, planetdivchunk.thebytemap))
                                                 {
                                                     if (facetype == 4)
                                                     {
@@ -3132,6 +3325,7 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
 
                                                         fourthvertofface.z -= (1 * 1.0f);
                                                         fourthvertofface.y -= (1 * 1.0f);
+
 
                                                         swapx = fourthvertofface.x;
                                                         swapy = fourthvertofface.y;
@@ -3153,7 +3347,7 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
                                             }
                                             else
                                             {
-                                                if (IsTransparent(xmap, ymap, zmap - 1, null))
+                                                if (IsTransparent(xmap, ymap , zmap - 1, null))
                                                 {
                                                     if (facetype == 4)
                                                     {
@@ -3183,6 +3377,7 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
 
                                                         fourthvertofface.z -= (1 * 1.0f);
                                                         fourthvertofface.y -= (1 * 1.0f);
+
 
                                                         swapx = fourthvertofface.x;
                                                         swapy = fourthvertofface.y;
@@ -3207,56 +3402,167 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
                                         {
 
 
-                                            var planetdivchunk = getChunk(x, y, z - 1);
-
-                                            if (planetdivchunk != null)
+                                            if (sextremityzl == 1)
                                             {
-                                                if (IsTransparent(xmap, ymap, mapz-1, planetdivchunk.thebytemap))
+                                                if (zmap == 0) //mapy - 1
                                                 {
-                                                    if (facetype == 4)
+                                                    var planetdivchunk = getChunk(x, y , z - 1);
+
+                                                    if (planetdivchunk != null)
                                                     {
-                                                        int indexofvert0 = vertices[indexflat].Count;
-                                                        Vector3 firstvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
+                                                        if (IsTransparent(xmap, ymap, mapz - 1, planetdivchunk.thebytemap))
+                                                        {
+                                                            if (facetype == 4)
+                                                            {
+                                                                int indexofvert0 = vertices[indexflat].Count;
+                                                                Vector3 firstvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
 
-                                                        float swapx = firstvertofface.x;
-                                                        float swapy = firstvertofface.y;
-                                                        float swapz = firstvertofface.z;
+                                                                float swapx = firstvertofface.x;
+                                                                float swapy = firstvertofface.y;
+                                                                float swapz = firstvertofface.z;
 
-                                                        int indexofvert1 = vertices[indexflat].Count + 1;
-                                                        Vector3 secondvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
-                                                        swapx = secondvertofface.x;
-                                                        swapy = secondvertofface.y;
-                                                        swapz = secondvertofface.z;
+                                                                int indexofvert1 = vertices[indexflat].Count + 1;
+                                                                Vector3 secondvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
+                                                                swapx = secondvertofface.x;
+                                                                swapy = secondvertofface.y;
+                                                                swapz = secondvertofface.z;
 
-                                                        int indexofvert2 = vertices[indexflat].Count + 2;
-                                                        Vector3 thirdvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
-                                                        thirdvertofface.z -= (1 * 1.0f);
-                                                        thirdvertofface.y -= (1 * 1.0f);
-                                                        swapx = thirdvertofface.x;
-                                                        swapy = thirdvertofface.y;
-                                                        swapz = thirdvertofface.z;
+                                                                int indexofvert2 = vertices[indexflat].Count + 2;
+                                                                Vector3 thirdvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+                                                                thirdvertofface.z -= (1 * 1.0f);
+                                                                thirdvertofface.y -= (1 * 1.0f);
+                                                                swapx = thirdvertofface.x;
+                                                                swapy = thirdvertofface.y;
+                                                                swapz = thirdvertofface.z;
 
-                                                        int indexofvert3 = vertices[indexflat].Count + 3;
-                                                        Vector3 fourthvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+                                                                int indexofvert3 = vertices[indexflat].Count + 3;
+                                                                Vector3 fourthvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
 
-                                                        fourthvertofface.z -= (1 * 1.0f);
-                                                        fourthvertofface.y -= (1 * 1.0f);
+                                                                fourthvertofface.z -= (1 * 1.0f);
+                                                                fourthvertofface.y -= (1 * 1.0f);
 
-                                                        swapx = fourthvertofface.x;
-                                                        swapy = fourthvertofface.y;
-                                                        swapz = fourthvertofface.z;
 
-                                                        vertices[indexflat].Add(firstvertofface);
-                                                        vertices[indexflat].Add(secondvertofface);
-                                                        vertices[indexflat].Add(thirdvertofface);
-                                                        vertices[indexflat].Add(fourthvertofface);
+                                                                swapx = fourthvertofface.x;
+                                                                swapy = fourthvertofface.y;
+                                                                swapz = fourthvertofface.z;
 
-                                                        triangles[indexflat].Add(indexofvert0);
-                                                        triangles[indexflat].Add(indexofvert1);
-                                                        triangles[indexflat].Add(indexofvert2);
-                                                        triangles[indexflat].Add(indexofvert3);
-                                                        triangles[indexflat].Add(indexofvert2);
-                                                        triangles[indexflat].Add(indexofvert1);
+                                                                vertices[indexflat].Add(firstvertofface);
+                                                                vertices[indexflat].Add(secondvertofface);
+                                                                vertices[indexflat].Add(thirdvertofface);
+                                                                vertices[indexflat].Add(fourthvertofface);
+
+                                                                triangles[indexflat].Add(indexofvert0);
+                                                                triangles[indexflat].Add(indexofvert1);
+                                                                triangles[indexflat].Add(indexofvert2);
+                                                                triangles[indexflat].Add(indexofvert3);
+                                                                triangles[indexflat].Add(indexofvert2);
+                                                                triangles[indexflat].Add(indexofvert1);
+                                                            }
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        if (IsTransparent(xmap, ymap , zmap - 1, null))
+                                                        {
+                                                            if (facetype == 4)
+                                                            {
+                                                                int indexofvert0 = vertices[indexflat].Count;
+                                                                Vector3 firstvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
+
+                                                                float swapx = firstvertofface.x;
+                                                                float swapy = firstvertofface.y;
+                                                                float swapz = firstvertofface.z;
+
+                                                                int indexofvert1 = vertices[indexflat].Count + 1;
+                                                                Vector3 secondvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
+                                                                swapx = secondvertofface.x;
+                                                                swapy = secondvertofface.y;
+                                                                swapz = secondvertofface.z;
+
+                                                                int indexofvert2 = vertices[indexflat].Count + 2;
+                                                                Vector3 thirdvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+                                                                thirdvertofface.z -= (1 * 1.0f);
+                                                                thirdvertofface.y -= (1 * 1.0f);
+                                                                swapx = thirdvertofface.x;
+                                                                swapy = thirdvertofface.y;
+                                                                swapz = thirdvertofface.z;
+
+                                                                int indexofvert3 = vertices[indexflat].Count + 3;
+                                                                Vector3 fourthvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+
+                                                                fourthvertofface.z -= (1 * 1.0f);
+                                                                fourthvertofface.y -= (1 * 1.0f);
+
+
+                                                                swapx = fourthvertofface.x;
+                                                                swapy = fourthvertofface.y;
+                                                                swapz = fourthvertofface.z;
+
+                                                                vertices[indexflat].Add(firstvertofface);
+                                                                vertices[indexflat].Add(secondvertofface);
+                                                                vertices[indexflat].Add(thirdvertofface);
+                                                                vertices[indexflat].Add(fourthvertofface);
+
+                                                                triangles[indexflat].Add(indexofvert0);
+                                                                triangles[indexflat].Add(indexofvert1);
+                                                                triangles[indexflat].Add(indexofvert2);
+                                                                triangles[indexflat].Add(indexofvert3);
+                                                                triangles[indexflat].Add(indexofvert2);
+                                                                triangles[indexflat].Add(indexofvert1);
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    if (IsTransparent(xmap, ymap , zmap - 1, null))
+                                                    {
+                                                        if (facetype == 4)
+                                                        {
+                                                            int indexofvert0 = vertices[indexflat].Count;
+                                                            Vector3 firstvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
+
+                                                            float swapx = firstvertofface.x;
+                                                            float swapy = firstvertofface.y;
+                                                            float swapz = firstvertofface.z;
+
+                                                            int indexofvert1 = vertices[indexflat].Count + 1;
+                                                            Vector3 secondvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
+                                                            swapx = secondvertofface.x;
+                                                            swapy = secondvertofface.y;
+                                                            swapz = secondvertofface.z;
+
+                                                            int indexofvert2 = vertices[indexflat].Count + 2;
+                                                            Vector3 thirdvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+                                                            thirdvertofface.z -= (1 * 1.0f);
+                                                            thirdvertofface.y -= (1 * 1.0f);
+                                                            swapx = thirdvertofface.x;
+                                                            swapy = thirdvertofface.y;
+                                                            swapz = thirdvertofface.z;
+
+                                                            int indexofvert3 = vertices[indexflat].Count + 3;
+                                                            Vector3 fourthvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+
+                                                            fourthvertofface.z -= (1 * 1.0f);
+                                                            fourthvertofface.y -= (1 * 1.0f);
+
+
+                                                            swapx = fourthvertofface.x;
+                                                            swapy = fourthvertofface.y;
+                                                            swapz = fourthvertofface.z;
+
+                                                            vertices[indexflat].Add(firstvertofface);
+                                                            vertices[indexflat].Add(secondvertofface);
+                                                            vertices[indexflat].Add(thirdvertofface);
+                                                            vertices[indexflat].Add(fourthvertofface);
+
+                                                            triangles[indexflat].Add(indexofvert0);
+                                                            triangles[indexflat].Add(indexofvert1);
+                                                            triangles[indexflat].Add(indexofvert2);
+                                                            triangles[indexflat].Add(indexofvert3);
+                                                            triangles[indexflat].Add(indexofvert2);
+                                                            triangles[indexflat].Add(indexofvert1);
+                                                        }
                                                     }
                                                 }
                                             }
@@ -3293,6 +3599,7 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
                                                         fourthvertofface.z -= (1 * 1.0f);
                                                         fourthvertofface.y -= (1 * 1.0f);
 
+
                                                         swapx = fourthvertofface.x;
                                                         swapy = fourthvertofface.y;
                                                         swapz = fourthvertofface.z;
@@ -3311,74 +3618,136 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
                                                     }
                                                 }
                                             }
-
                                         }
                                     }
                                     else if (extremityisdl == 0)
                                     {
 
-
-
                                         var planetdivtothetop = sccschunkfacesbuilder.instance.getplanetdiv((int)(mindexx), (int)(mindexy), (int)(mindexz - 1));
 
                                         if (planetdivtothetop != null)
                                         {
-                                            var planetdivchunk = planetdivtothetop.getChunk(x, y, schunkdr);
 
-                                            if (planetdivchunk != null)
+
+
+                                            if (sextremityzl == 1)
                                             {
-                                                if (IsTransparent(xmap, ymap, mapz-1, planetdivchunk.thebytemap))
+                                                if (zmap == 0) //mapy - 1
                                                 {
-                                                    if (facetype == 4)
+                                                    var planetdivchunk = planetdivtothetop.getChunk(x, y, schunkdr);
+
+                                                    if (planetdivchunk != null)
                                                     {
-                                                        int indexofvert0 = vertices[indexflat].Count;
-                                                        Vector3 firstvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
+                                                        if (IsTransparent(xmap,ymap, mapz - 1, planetdivchunk.thebytemap))
+                                                        {
+                                                            if (facetype == 4)
+                                                            {
+                                                                int indexofvert0 = vertices[indexflat].Count;
+                                                                Vector3 firstvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
 
-                                                        float swapx = firstvertofface.x;
-                                                        float swapy = firstvertofface.y;
-                                                        float swapz = firstvertofface.z;
+                                                                float swapx = firstvertofface.x;
+                                                                float swapy = firstvertofface.y;
+                                                                float swapz = firstvertofface.z;
 
-                                                        int indexofvert1 = vertices[indexflat].Count + 1;
-                                                        Vector3 secondvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
-                                                        swapx = secondvertofface.x;
-                                                        swapy = secondvertofface.y;
-                                                        swapz = secondvertofface.z;
+                                                                int indexofvert1 = vertices[indexflat].Count + 1;
+                                                                Vector3 secondvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
+                                                                swapx = secondvertofface.x;
+                                                                swapy = secondvertofface.y;
+                                                                swapz = secondvertofface.z;
 
-                                                        int indexofvert2 = vertices[indexflat].Count + 2;
-                                                        Vector3 thirdvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
-                                                        thirdvertofface.z -= (1 * 1.0f);
-                                                        thirdvertofface.y -= (1 * 1.0f);
-                                                        swapx = thirdvertofface.x;
-                                                        swapy = thirdvertofface.y;
-                                                        swapz = thirdvertofface.z;
+                                                                int indexofvert2 = vertices[indexflat].Count + 2;
+                                                                Vector3 thirdvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+                                                                thirdvertofface.z -= (1 * 1.0f);
+                                                                thirdvertofface.y -= (1 * 1.0f);
+                                                                swapx = thirdvertofface.x;
+                                                                swapy = thirdvertofface.y;
+                                                                swapz = thirdvertofface.z;
 
-                                                        int indexofvert3 = vertices[indexflat].Count + 3;
-                                                        Vector3 fourthvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+                                                                int indexofvert3 = vertices[indexflat].Count + 3;
+                                                                Vector3 fourthvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
 
-                                                        fourthvertofface.z -= (1 * 1.0f);
-                                                        fourthvertofface.y -= (1 * 1.0f);
+                                                                fourthvertofface.z -= (1 * 1.0f);
+                                                                fourthvertofface.y -= (1 * 1.0f);
 
-                                                        swapx = fourthvertofface.x;
-                                                        swapy = fourthvertofface.y;
-                                                        swapz = fourthvertofface.z;
 
-                                                        vertices[indexflat].Add(firstvertofface);
-                                                        vertices[indexflat].Add(secondvertofface);
-                                                        vertices[indexflat].Add(thirdvertofface);
-                                                        vertices[indexflat].Add(fourthvertofface);
+                                                                swapx = fourthvertofface.x;
+                                                                swapy = fourthvertofface.y;
+                                                                swapz = fourthvertofface.z;
 
-                                                        triangles[indexflat].Add(indexofvert0);
-                                                        triangles[indexflat].Add(indexofvert1);
-                                                        triangles[indexflat].Add(indexofvert2);
-                                                        triangles[indexflat].Add(indexofvert3);
-                                                        triangles[indexflat].Add(indexofvert2);
-                                                        triangles[indexflat].Add(indexofvert1);
+                                                                vertices[indexflat].Add(firstvertofface);
+                                                                vertices[indexflat].Add(secondvertofface);
+                                                                vertices[indexflat].Add(thirdvertofface);
+                                                                vertices[indexflat].Add(fourthvertofface);
+
+                                                                triangles[indexflat].Add(indexofvert0);
+                                                                triangles[indexflat].Add(indexofvert1);
+                                                                triangles[indexflat].Add(indexofvert2);
+                                                                triangles[indexflat].Add(indexofvert3);
+                                                                triangles[indexflat].Add(indexofvert2);
+                                                                triangles[indexflat].Add(indexofvert1);
+                                                            }
+                                                        }
                                                     }
                                                 }
+                                                else
+                                                {
+                                                    if (IsTransparent(xmap, ymap , zmap - 1, null))
+                                                    {
+                                                        if (facetype == 4)
+                                                        {
+                                                            int indexofvert0 = vertices[indexflat].Count;
+                                                            Vector3 firstvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
+
+                                                            float swapx = firstvertofface.x;
+                                                            float swapy = firstvertofface.y;
+                                                            float swapz = firstvertofface.z;
+
+                                                            int indexofvert1 = vertices[indexflat].Count + 1;
+                                                            Vector3 secondvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
+                                                            swapx = secondvertofface.x;
+                                                            swapy = secondvertofface.y;
+                                                            swapz = secondvertofface.z;
+
+                                                            int indexofvert2 = vertices[indexflat].Count + 2;
+                                                            Vector3 thirdvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+                                                            thirdvertofface.z -= (1 * 1.0f);
+                                                            thirdvertofface.y -= (1 * 1.0f);
+                                                            swapx = thirdvertofface.x;
+                                                            swapy = thirdvertofface.y;
+                                                            swapz = thirdvertofface.z;
+
+                                                            int indexofvert3 = vertices[indexflat].Count + 3;
+                                                            Vector3 fourthvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
+
+                                                            fourthvertofface.z -= (1 * 1.0f);
+                                                            fourthvertofface.y -= (1 * 1.0f);
+
+
+                                                            swapx = fourthvertofface.x;
+                                                            swapy = fourthvertofface.y;
+                                                            swapz = fourthvertofface.z;
+
+                                                            vertices[indexflat].Add(firstvertofface);
+                                                            vertices[indexflat].Add(secondvertofface);
+                                                            vertices[indexflat].Add(thirdvertofface);
+                                                            vertices[indexflat].Add(fourthvertofface);
+
+                                                            triangles[indexflat].Add(indexofvert0);
+                                                            triangles[indexflat].Add(indexofvert1);
+                                                            triangles[indexflat].Add(indexofvert2);
+                                                            triangles[indexflat].Add(indexofvert3);
+                                                            triangles[indexflat].Add(indexofvert2);
+                                                            triangles[indexflat].Add(indexofvert1);
+                                                        }
+                                                    }
+                                                }
+
+                                                //Destroy(planetdivtothetop.transform.gameObject);
+                                                //planetdivtothetop.transform.gameObject.GetComponent<MeshRenderer>().material.color = Color.red;
                                             }
                                             else
                                             {
-                                                if (IsTransparent(xmap, ymap, zmap - 1, null))
+                                                if (IsTransparent(xmap, ymap , zmap - 1, null))
                                                 {
                                                     if (facetype == 4)
                                                     {
@@ -3409,63 +3778,6 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
                                                         fourthvertofface.z -= (1 * 1.0f);
                                                         fourthvertofface.y -= (1 * 1.0f);
 
-                                                        swapx = fourthvertofface.x;
-                                                        swapy = fourthvertofface.y;
-                                                        swapz = fourthvertofface.z;
-
-                                                        vertices[indexflat].Add(firstvertofface);
-                                                        vertices[indexflat].Add(secondvertofface);
-                                                        vertices[indexflat].Add(thirdvertofface);
-                                                        vertices[indexflat].Add(fourthvertofface);
-
-                                                        triangles[indexflat].Add(indexofvert0);
-                                                        triangles[indexflat].Add(indexofvert1);
-                                                        triangles[indexflat].Add(indexofvert2);
-                                                        triangles[indexflat].Add(indexofvert3);
-                                                        triangles[indexflat].Add(indexofvert2);
-                                                        triangles[indexflat].Add(indexofvert1);
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        else
-                                        {
-
-
-                                            var planetdivchunk = getChunk(x, y, z - 1);
-
-                                            if (planetdivchunk != null)
-                                            {
-                                                if (IsTransparent(xmap, ymap, mapz-1, planetdivchunk.thebytemap))
-                                                {
-                                                    if (facetype == 4)
-                                                    {
-                                                        int indexofvert0 = vertices[indexflat].Count;
-                                                        Vector3 firstvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
-
-                                                        float swapx = firstvertofface.x;
-                                                        float swapy = firstvertofface.y;
-                                                        float swapz = firstvertofface.z;
-
-                                                        int indexofvert1 = vertices[indexflat].Count + 1;
-                                                        Vector3 secondvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
-                                                        swapx = secondvertofface.x;
-                                                        swapy = secondvertofface.y;
-                                                        swapz = secondvertofface.z;
-
-                                                        int indexofvert2 = vertices[indexflat].Count + 2;
-                                                        Vector3 thirdvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
-                                                        thirdvertofface.z -= (1 * 1.0f);
-                                                        thirdvertofface.y -= (1 * 1.0f);
-                                                        swapx = thirdvertofface.x;
-                                                        swapy = thirdvertofface.y;
-                                                        swapz = thirdvertofface.z;
-
-                                                        int indexofvert3 = vertices[indexflat].Count + 3;
-                                                        Vector3 fourthvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
-
-                                                        fourthvertofface.z -= (1 * 1.0f);
-                                                        fourthvertofface.y -= (1 * 1.0f);
 
                                                         swapx = fourthvertofface.x;
                                                         swapy = fourthvertofface.y;
@@ -3485,58 +3797,6 @@ public class sccscomputevoxelALLFACES : MonoBehaviour
                                                     }
                                                 }
                                             }
-                                            else
-                                            {
-                                                if (IsTransparent(xmap, ymap, zmap - 1, null))
-                                                {
-                                                    if (facetype == 4)
-                                                    {
-                                                        int indexofvert0 = vertices[indexflat].Count;
-                                                        Vector3 firstvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
-
-                                                        float swapx = firstvertofface.x;
-                                                        float swapy = firstvertofface.y;
-                                                        float swapz = firstvertofface.z;
-
-                                                        int indexofvert1 = vertices[indexflat].Count + 1;
-                                                        Vector3 secondvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z);
-                                                        swapx = secondvertofface.x;
-                                                        swapy = secondvertofface.y;
-                                                        swapz = secondvertofface.z;
-
-                                                        int indexofvert2 = vertices[indexflat].Count + 2;
-                                                        Vector3 thirdvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x, datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
-                                                        thirdvertofface.z -= (1 * 1.0f);
-                                                        thirdvertofface.y -= (1 * 1.0f);
-                                                        swapx = thirdvertofface.x;
-                                                        swapy = thirdvertofface.y;
-                                                        swapz = thirdvertofface.z;
-
-                                                        int indexofvert3 = vertices[indexflat].Count + 3;
-                                                        Vector3 fourthvertofface = new Vector3(datamapfirstvertxyztop[indexflat][index].vertpos.x + (datadims[indexflat][index].vertpos.x), datadims[indexflat][index].vertpos.y, datamapfirstvertxyztop[indexflat][index].vertpos.z + (datadims[indexflat][index].vertpos.z));
-
-                                                        fourthvertofface.z -= (1 * 1.0f);
-                                                        fourthvertofface.y -= (1 * 1.0f);
-
-                                                        swapx = fourthvertofface.x;
-                                                        swapy = fourthvertofface.y;
-                                                        swapz = fourthvertofface.z;
-
-                                                        vertices[indexflat].Add(firstvertofface);
-                                                        vertices[indexflat].Add(secondvertofface);
-                                                        vertices[indexflat].Add(thirdvertofface);
-                                                        vertices[indexflat].Add(fourthvertofface);
-
-                                                        triangles[indexflat].Add(indexofvert0);
-                                                        triangles[indexflat].Add(indexofvert1);
-                                                        triangles[indexflat].Add(indexofvert2);
-                                                        triangles[indexflat].Add(indexofvert3);
-                                                        triangles[indexflat].Add(indexofvert2);
-                                                        triangles[indexflat].Add(indexofvert1);
-                                                    }
-                                                }
-                                            }
-
                                         }
                                     }
                                     //BACKFACE
