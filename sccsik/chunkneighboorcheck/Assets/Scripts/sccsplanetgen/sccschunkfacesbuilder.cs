@@ -308,13 +308,8 @@ public class sccschunkfacesbuilder : MonoBehaviour
             }
         }
 
-
-
-
         for (int f = 0; f < 6; f++)
         {
-
-
             /*listofchunkdata[0].vertices = new Vector3[sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.levelsizex * sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.levelsizey * sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.levelsizez][];
             listofchunkdata[0].triangles = new int[sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.levelsizex * sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.levelsizey * sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.levelsizez][];
             */
