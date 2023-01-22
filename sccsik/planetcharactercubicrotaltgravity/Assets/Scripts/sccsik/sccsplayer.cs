@@ -7,6 +7,7 @@ using UnityEngine.XR;
 using System.Security.Cryptography;
 using System.Linq;
 using UnityEngine.SocialPlatforms.Impl;
+using System.Diagnostics;
 
 public class sccsplayer : MonoBehaviour
 {
@@ -139,15 +140,15 @@ public class sccsplayer : MonoBehaviour
         RotationPlayerPivotY = scmaths.RadianToDegree(yawcurrent);// rotationincrements;
         RotationPlayerPivotZ = scmaths.RadianToDegree(rollcurrent);// rotationincrements;
 
-        
+
 
 
         Quaternion cameraq = camera.transform.rotation;
 
-         x = cameraq.x;
-         y = cameraq.y;
-         z = cameraq.z;
-         w = cameraq.w;
+        x = cameraq.x;
+        y = cameraq.y;
+        z = cameraq.z;
+        w = cameraq.w;
 
         //https://answers.unity.com/questions/416169/finding-pitchrollyaw-from-quaternions.html - also found elsewhere
         rollcurrent = Mathf.Atan2(2 * y * w - 2 * x * z, 1 - 2 * y * y - 2 * z * z);
@@ -241,15 +242,12 @@ public class sccsplayer : MonoBehaviour
 
             }
 
-
             Vector3 theplanettopointgravityUP = new Vector3(poscubicgravityvisualx, poscubicgravityvisualy, poscubicgravityvisualz) - theplanet.transform.position;
             theplanettopointgravityUP.Normalize();
             if (indexofmaxvalueofperfacegravitynextdot > indexofmaxvalueofperfacegravitydot * 0.985f)
             {
                 if (indexofmaxvalueofperfacegravity != indexofmaxvalueofperfacegravitynext)
                 {
-
-
                     if (indexofmaxvalueofperfacegravitynext == 0)
                     {
                         theplanettopointgravityUP = Vector3.up;
@@ -292,7 +290,7 @@ public class sccsplayer : MonoBehaviour
 
             Vector3 positioninfrontofplayer = viewer.transform.position + (dirForward * distance);
 
-         
+
             /*if (indexofmaxvalueofperfacegravitynextdot <= indexofmaxvalueofperfacegravitydot * 0.985f)
             {
                 Vector3 diagonaldown = isgroundedpivotpoint.transform.position + isgroundedpivotpoint.transform.forward + -isgroundedpivotpoint.transform.up;// - isgroundedpivotpoint.transform.forward + -isgroundedpivotpoint.transform.up;// new Vector3();
@@ -319,7 +317,7 @@ public class sccsplayer : MonoBehaviour
 
             //Vector3 positioninbackofplayer = viewer.transform.position + (-dirofnormal * distance);
 
-            Vector3 dirplanetcoretoplayer =  viewer.transform.position - theplanet.transform.position; 
+            Vector3 dirplanetcoretoplayer = viewer.transform.position - theplanet.transform.position;
             float distcoretoplayer = dirplanetcoretoplayer.magnitude;
 
             Vector3 dirplanetcoretopointfrontofplayer = positioninfrontofplayer - theplanet.transform.position;
@@ -403,7 +401,7 @@ public class sccsplayer : MonoBehaviour
             if (indexofmaxvalueofperfacegravitynextdot > indexofmaxvalueofperfacegravitydot * 0.985f)
             {
                 if (indexofmaxvalueofperfacegravity != indexofmaxvalueofperfacegravitynext)
-                {                   
+                {
 
                 }
 
@@ -434,8 +432,8 @@ public class sccsplayer : MonoBehaviour
                 {
                     theplanettopointgravityUP = -Vector3.up;
                 }
-                
-                
+
+
                 /*if (indexofmaxvalueofperfacegravitynext == 0)
                 {
                     float max_distance = 360;
@@ -472,7 +470,7 @@ public class sccsplayer : MonoBehaviour
             }
 
 
-            if(indexofmaxvalueofperfacegravitynextdot <= indexofmaxvalueofperfacegravitydot * 0.985f)
+            if (indexofmaxvalueofperfacegravitynextdot <= indexofmaxvalueofperfacegravitydot * 0.985f)
             {
                 //Vector3.Cross();
 
@@ -570,7 +568,7 @@ public class sccsplayer : MonoBehaviour
                 currentforwarddir.y = 0;
                 float max_distance = 360;
                 forwarddirtopointfrontplayer = Vector3.Lerp(forwarddirtopointfrontplayer, currentforwarddir, 10.0f);
-                
+
             }
             else if (indexofmaxvalueofperfacegravity == 1) //l
             {
@@ -638,7 +636,7 @@ public class sccsplayer : MonoBehaviour
 
 
                 //viewer.transform.rotation = Quaternion.Lerp(viewer.transform.rotation, rot, rotate_speed * Time.deltaTime);                                                                                                        //
-               
+
 
                 /*if (indexofmaxvalueofperfacegravitynext == 0&& indexofmaxvalueofperfacegravitynext != indexofmaxvalueofperfacegravity)
                 {
@@ -658,7 +656,7 @@ public class sccsplayer : MonoBehaviour
 
 
 
-
+                /*
                 if (indexofmaxvalueofperfacegravitynext == 0 && indexofmaxvalueofperfacegravitynext != indexofmaxvalueofperfacegravity) //f
                 {
                     //Debug.Log("testing0");
@@ -715,14 +713,14 @@ public class sccsplayer : MonoBehaviour
                 }
 
 
+                */
 
 
 
 
 
 
-
-
+                /*
                 if (indexofmaxvalueofperfacegravitynext == 3 && indexofmaxvalueofperfacegravitynext != indexofmaxvalueofperfacegravity) //f
                 {
                     //Debug.Log("testing0");
@@ -776,7 +774,7 @@ public class sccsplayer : MonoBehaviour
                             viewer.transform.rotation = Quaternion.Lerp(viewer.transform.rotation, eulertobeat, rotate_speed * Time.deltaTime);
                         }
                     }
-                }
+                }*/
                 /*else if (indexofmaxvalueofperfacegravitynext == 4&& indexofmaxvalueofperfacegravitynext != indexofmaxvalueofperfacegravity) //ba
                 {
 
@@ -795,13 +793,13 @@ public class sccsplayer : MonoBehaviour
             {
                 Debug.Log("starting sticking feet to ground and up/forward direction.");
 
-                viewer.transform.rotation = Quaternion.Lerp(viewer.transform.rotation, rot, rotate_speed * Time.deltaTime);
             }
+            viewer.transform.rotation = Quaternion.Lerp(viewer.transform.rotation, rot, rotate_speed * Time.deltaTime);
 
 
             if (indexofmaxvalueofperfacegravity == -1)//&& indexofmaxvalueofperfacegravitynext == -1
             {
-              
+
             }
 
 
@@ -810,7 +808,7 @@ public class sccsplayer : MonoBehaviour
 
 
 
-           // viewer.transform.rotation = Quaternion.Lerp(viewer.transform.rotation, rot, rotate_speed * Time.deltaTime);
+            // viewer.transform.rotation = Quaternion.Lerp(viewer.transform.rotation, rot, rotate_speed * Time.deltaTime);
 
 
 
@@ -1340,7 +1338,7 @@ public class sccsplayer : MonoBehaviour
 
 
                     viewer.transform.rotation = Quaternion.Lerp(viewer.transform.rotation, rot, rotate_speed * Time.deltaTime);
-                    
+
                 }
             }
 
@@ -1431,9 +1429,9 @@ public class sccsplayer : MonoBehaviour
 
 
 
-                    /*
-                    Vector3 crossvec = Vector3.Cross(theplanettopointgravityUP, forwarddirtopointfrontplayer);
-                    Vector3 crossvecForwardOfplanetgravity = Vector3.Cross(theplanettopointgravityUP, crossvec);
+            /*
+            Vector3 crossvec = Vector3.Cross(theplanettopointgravityUP, forwarddirtopointfrontplayer);
+            Vector3 crossvecForwardOfplanetgravity = Vector3.Cross(theplanettopointgravityUP, crossvec);
 
 
 
@@ -1443,7 +1441,7 @@ public class sccsplayer : MonoBehaviour
 
 
 
-                    //Vector3 pointA = 
+            //Vector3 pointA = 
 
 
 
@@ -1453,81 +1451,81 @@ public class sccsplayer : MonoBehaviour
 
 
 
-                    //forwarddirtopointfrontplayer += crossvec;
+            //forwarddirtopointfrontplayer += crossvec;
 
 
 
-                    //Vector3.Cross();
+            //Vector3.Cross();
 
-                    if (indexofmaxvalueofperfacegravity == 0)
-                    {
-                        float max_distance = 360;
+            if (indexofmaxvalueofperfacegravity == 0)
+            {
+                float max_distance = 360;
 
-                        //Vector3 clamped = forwarddirtopointfrontplayer;//hand.transform.position;
-                        /*forwarddirtopointfrontplayer.x = Mathf.Clamp(forwarddirtopointfrontplayer.x, alwaysuppointofplayercomparedtoplayercore.x - max_distance, alwaysuppointofplayercomparedtoplayercore.x + max_distance);
-                        //forwarddirtopointfrontplayer.x = Mathf.Clamp(forwarddirtopointfrontplayer.x, alwaysuppointofplayercomparedtoplayercore.x - max_distance, alwaysuppointofplayercomparedtoplayercore.x + max_distance);
-                        forwarddirtopointfrontplayer.y = 1;
-                        forwarddirtopointfrontplayer.z = Mathf.Clamp(forwarddirtopointfrontplayer.z, alwaysuppointofplayercomparedtoplayercore.z - max_distance, alwaysuppointofplayercomparedtoplayercore.z + max_distance);
+                //Vector3 clamped = forwarddirtopointfrontplayer;//hand.transform.position;
+                /*forwarddirtopointfrontplayer.x = Mathf.Clamp(forwarddirtopointfrontplayer.x, alwaysuppointofplayercomparedtoplayercore.x - max_distance, alwaysuppointofplayercomparedtoplayercore.x + max_distance);
+                //forwarddirtopointfrontplayer.x = Mathf.Clamp(forwarddirtopointfrontplayer.x, alwaysuppointofplayercomparedtoplayercore.x - max_distance, alwaysuppointofplayercomparedtoplayercore.x + max_distance);
+                forwarddirtopointfrontplayer.y = 1;
+                forwarddirtopointfrontplayer.z = Mathf.Clamp(forwarddirtopointfrontplayer.z, alwaysuppointofplayercomparedtoplayercore.z - max_distance, alwaysuppointofplayercomparedtoplayercore.z + max_distance);
 
-                        forwarddirtopointfrontplayer.y = 0;
-
-                    }
-                    else if (indexofmaxvalueofperfacegravity == 1) //l
-                    {
-                        forwarddirtopointfrontplayer.x = 0;
-
-                    }
-                    else if (indexofmaxvalueofperfacegravity == 2) //r
-                    {
-                        forwarddirtopointfrontplayer.x = 0;
-                    }
-
-                    else if (indexofmaxvalueofperfacegravity == 3) //f
-                    {
-                        forwarddirtopointfrontplayer.z = 0;
-                    }
-                    else if (indexofmaxvalueofperfacegravity == 4) //ba
-                    {
-                        forwarddirtopointfrontplayer.z = 0;
-                    }
-                    else if (indexofmaxvalueofperfacegravity == 5) //bo
-                    {
-                        forwarddirtopointfrontplayer.y = 0;
-                    }
-
-
-                    float rotate_speed = 25.0f;
-
-                    Quaternion rot = new Quaternion();
-                    //rot.SetLookRotation(forwarddirtopointfrontplayer, -(viewer.transform.position - theplanet.transform.position).normalized); //+ theouthitgravitychange.normal
-                    rot.SetLookRotation(forwarddirtopointfrontplayer, (theplanettopointgravityUP).normalized); //+ theouthitgravitychange.normal
-
-
-                    viewer.transform.rotation = Quaternion.Lerp(viewer.transform.rotation, rot, rotate_speed * Time.deltaTime);     
-
-                    //
-                }*/
-
-                }
-
-
-
-                //(int)(mainChunk.mindexposx), (int)(mainChunk.mindexposy - 1), (int)(mainChunk.mindexposz)
-                //theplanet = sccsplanetdivbuilder.currentsccsplanetbuilder.getplanetdiv(); 
-
-
-
-
-
-
-
-
-
-
-
-
+                forwarddirtopointfrontplayer.y = 0;
 
             }
+            else if (indexofmaxvalueofperfacegravity == 1) //l
+            {
+                forwarddirtopointfrontplayer.x = 0;
+
+            }
+            else if (indexofmaxvalueofperfacegravity == 2) //r
+            {
+                forwarddirtopointfrontplayer.x = 0;
+            }
+
+            else if (indexofmaxvalueofperfacegravity == 3) //f
+            {
+                forwarddirtopointfrontplayer.z = 0;
+            }
+            else if (indexofmaxvalueofperfacegravity == 4) //ba
+            {
+                forwarddirtopointfrontplayer.z = 0;
+            }
+            else if (indexofmaxvalueofperfacegravity == 5) //bo
+            {
+                forwarddirtopointfrontplayer.y = 0;
+            }
+
+
+            float rotate_speed = 25.0f;
+
+            Quaternion rot = new Quaternion();
+            //rot.SetLookRotation(forwarddirtopointfrontplayer, -(viewer.transform.position - theplanet.transform.position).normalized); //+ theouthitgravitychange.normal
+            rot.SetLookRotation(forwarddirtopointfrontplayer, (theplanettopointgravityUP).normalized); //+ theouthitgravitychange.normal
+
+
+            viewer.transform.rotation = Quaternion.Lerp(viewer.transform.rotation, rot, rotate_speed * Time.deltaTime);     
+
+            //
+        }*/
+
+        }
+
+
+
+        //(int)(mainChunk.mindexposx), (int)(mainChunk.mindexposy - 1), (int)(mainChunk.mindexposz)
+        //theplanet = sccsplanetdivbuilder.currentsccsplanetbuilder.getplanetdiv(); 
+
+
+
+
+
+
+
+
+
+
+
+
+
+    }
 
 
 
@@ -1871,8 +1869,8 @@ public class sccsplayer : MonoBehaviour
             //currentdirtopointclick.Normalize();
 
             Vector3 positioninfrontofplayer = isgroundedpivotpoint.transform.position + (dirForward * distance);
-            
-            
+
+
             /*
             MOVEPOSOFFSET = Vector3.Lerp(MOVEPOSOFFSET, positioninfrontofplayer, movementspeed * Time.deltaTime); // * Time.deltaTime
 
@@ -1904,18 +1902,18 @@ public class sccsplayer : MonoBehaviour
 
                 if (theplanet != null)
                 {
-               
-                pointertarget.transform.position = theouthitpointtoground.point;
 
-                Vector3 currentdirtopointinfrontdir = theouthitpointtoground.point - theouthit.point;
-                currentdirtopointinfrontdir.Normalize();
+                    pointertarget.transform.position = theouthitpointtoground.point;
+
+                    Vector3 currentdirtopointinfrontdir = theouthitpointtoground.point - theouthit.point;
+                    currentdirtopointinfrontdir.Normalize();
 
 
-                Vector3 uppoint = viewer.transform.position - theplanet.transform.position;
-                uppoint.Normalize();
+                    Vector3 uppoint = viewer.transform.position - theplanet.transform.position;
+                    uppoint.Normalize();
 
-                Vector3 pointtobeat = theouthitpointtoground.point + (-uppoint * 0.1f);
-                MOVEPOSOFFSET = Vector3.Lerp(MOVEPOSOFFSET, pointtobeat, movementspeed * Time.deltaTime); // * Time.deltaTime
+                    Vector3 pointtobeat = theouthitpointtoground.point + (-uppoint * 0.1f);
+                    MOVEPOSOFFSET = Vector3.Lerp(MOVEPOSOFFSET, pointtobeat, movementspeed * Time.deltaTime); // * Time.deltaTime
 
 
 
@@ -1997,7 +1995,7 @@ public class sccsplayer : MonoBehaviour
         */
 
         Vector3 topointforward = MOVEPOSOFFSET;
-       
+
         if (Input.GetKey(KeyCode.W))
         {
             //https://answers.unity.com/questions/1397510/converting-mouse-position-to-worldpoint-in-3d.html
@@ -2005,8 +2003,8 @@ public class sccsplayer : MonoBehaviour
             // Cast a ray from screen point
             Ray ray = new Ray(isgroundedpivotpoint.transform.position, isgroundedpivotpoint.transform.forward);
             // isgroundedpivotpoint.transform.position;// Camera.main.ScreenPointToRay(isgroundedpivotpoint.transform.position);//Camera.main.ScreenPointToRay(Input.mousePosition);
-                                                                                                               
-  
+
+
             RaycastHit theouthit;
 
             /* if (swtchastriedmovingplayerwithmouseclick == 0)
@@ -2128,7 +2126,7 @@ public class sccsplayer : MonoBehaviour
                 RaycastHit theouthitgravitychange;
 
                 //Debug.DrawRay(raychangegravity.origin, raychangegravity.direction, Color.red, 10.0f);
-                
+
 
 
                 //Debug.DrawRay(viewer.transform.position, viewer.transform.forward, Color.blue, 10.0f);
@@ -2331,22 +2329,22 @@ public class sccsplayer : MonoBehaviour
                 //if (Physics.Raycast(raypointtoground, out theouthitpointtoground, layerMask))
                 {
                     if (theplanet != null)
-                    { 
-                    pointertarget.transform.position = theouthitpointtoground.point;
+                    {
+                        pointertarget.transform.position = theouthitpointtoground.point;
 
-                    Vector3 currentdirtopointinfrontdir = theouthitpointtoground.point - theouthit.point;
+                        Vector3 currentdirtopointinfrontdir = theouthitpointtoground.point - theouthit.point;
 
-                    //topointforward = theouthitpointtoground.point;
-                    //Debug.DrawRay(positioninfrontofplayer, thepositionupofpoint - positioninfrontofplayer, Color.red, 1.0f);
-                    MOVEPOSOFFSET = MOVEPOSOFFSET + (currentdirtopointinfrontdir * distance);
+                        //topointforward = theouthitpointtoground.point;
+                        //Debug.DrawRay(positioninfrontofplayer, thepositionupofpoint - positioninfrontofplayer, Color.red, 1.0f);
+                        MOVEPOSOFFSET = MOVEPOSOFFSET + (currentdirtopointinfrontdir * distance);
 
 
-                    Vector3 uppoint = viewer.transform.position - theplanet.transform.position;
-                    uppoint.Normalize();
+                        Vector3 uppoint = viewer.transform.position - theplanet.transform.position;
+                        uppoint.Normalize();
 
-                    Vector3 pointtobeat = theouthitpointtoground.point + (-uppoint * 0.1f);
+                        Vector3 pointtobeat = theouthitpointtoground.point + (-uppoint * 0.1f);
 
-                    MOVEPOSOFFSET = Vector3.Lerp(MOVEPOSOFFSET, pointtobeat, movementspeed * Time.deltaTime); // * Time.deltaTime
+                        MOVEPOSOFFSET = Vector3.Lerp(MOVEPOSOFFSET, pointtobeat, movementspeed * Time.deltaTime); // * Time.deltaTime
                     }
                     else
                     {
@@ -2509,23 +2507,23 @@ public class sccsplayer : MonoBehaviour
                 //if (Physics.Raycast(raypointtoground, out theouthitpointtoground, layerMask))
                 {
                     if (theplanet != null)
-                    { 
-                    pointertarget.transform.position = theouthitpointtoground.point;
+                    {
+                        pointertarget.transform.position = theouthitpointtoground.point;
 
-                    Vector3 currentdirtopointinfrontdir = theouthitpointtoground.point - theouthit.point;
+                        Vector3 currentdirtopointinfrontdir = theouthitpointtoground.point - theouthit.point;
 
-                    //topointforward = theouthitpointtoground.point;
-                    //Debug.DrawRay(positioninfrontofplayer, thepositionupofpoint - positioninfrontofplayer, Color.red, 1.0f);
-                    MOVEPOSOFFSET = MOVEPOSOFFSET + (currentdirtopointinfrontdir * distance);
+                        //topointforward = theouthitpointtoground.point;
+                        //Debug.DrawRay(positioninfrontofplayer, thepositionupofpoint - positioninfrontofplayer, Color.red, 1.0f);
+                        MOVEPOSOFFSET = MOVEPOSOFFSET + (currentdirtopointinfrontdir * distance);
 
 
-                    Vector3 uppoint = viewer.transform.position - theplanet.transform.position;
-                    uppoint.Normalize();
+                        Vector3 uppoint = viewer.transform.position - theplanet.transform.position;
+                        uppoint.Normalize();
 
-                    Vector3 pointtobeat = theouthitpointtoground.point + (-uppoint * 0.1f);
+                        Vector3 pointtobeat = theouthitpointtoground.point + (-uppoint * 0.1f);
 
-                    MOVEPOSOFFSET = Vector3.Lerp(MOVEPOSOFFSET, pointtobeat, movementspeed * Time.deltaTime); // * Time.deltaTime
-                    
+                        MOVEPOSOFFSET = Vector3.Lerp(MOVEPOSOFFSET, pointtobeat, movementspeed * Time.deltaTime); // * Time.deltaTime
+
                     }
                     else
                     {
@@ -2682,23 +2680,23 @@ public class sccsplayer : MonoBehaviour
                 {
                     if (theplanet != null)
                     {
-                   
-                    pointertarget.transform.position = theouthitpointtoground.point;
 
-                    Vector3 currentdirtopointinfrontdir = theouthitpointtoground.point - theouthit.point;
+                        pointertarget.transform.position = theouthitpointtoground.point;
 
-                    //topointforward = theouthitpointtoground.point;
-                    //Debug.DrawRay(positioninfrontofplayer, thepositionupofpoint - positioninfrontofplayer, Color.red, 1.0f);
-                    MOVEPOSOFFSET = MOVEPOSOFFSET + (currentdirtopointinfrontdir * distance);
+                        Vector3 currentdirtopointinfrontdir = theouthitpointtoground.point - theouthit.point;
+
+                        //topointforward = theouthitpointtoground.point;
+                        //Debug.DrawRay(positioninfrontofplayer, thepositionupofpoint - positioninfrontofplayer, Color.red, 1.0f);
+                        MOVEPOSOFFSET = MOVEPOSOFFSET + (currentdirtopointinfrontdir * distance);
 
 
-                    Vector3 uppoint = viewer.transform.position - theplanet.transform.position;
-                    uppoint.Normalize();
+                        Vector3 uppoint = viewer.transform.position - theplanet.transform.position;
+                        uppoint.Normalize();
 
-                    Vector3 pointtobeat = theouthitpointtoground.point + (-uppoint * 0.1f);
+                        Vector3 pointtobeat = theouthitpointtoground.point + (-uppoint * 0.1f);
 
-                    MOVEPOSOFFSET = Vector3.Lerp(MOVEPOSOFFSET, pointtobeat, movementspeed * Time.deltaTime); // * Time.deltaTime
-                    
+                        MOVEPOSOFFSET = Vector3.Lerp(MOVEPOSOFFSET, pointtobeat, movementspeed * Time.deltaTime); // * Time.deltaTime
+
                     }
                     else
                     {
@@ -2783,7 +2781,7 @@ public class sccsplayer : MonoBehaviour
     IEnumerator RotatePlayerMouse()
     {
 
-       
+
 
         if (Input.GetMouseButton(1))
         {
@@ -2807,7 +2805,7 @@ public class sccsplayer : MonoBehaviour
             oricursory = mousey;
 
 
-            
+
             Quaternion q = viewer.transform.rotation;
 
             float x = q.x;
@@ -2844,7 +2842,7 @@ public class sccsplayer : MonoBehaviour
 
 
 
-        if(Input.GetMouseButtonUp(1))
+        if (Input.GetMouseButtonUp(1))
         {
 
             if (swtcactivatemouselook == 1)
@@ -2878,8 +2876,8 @@ public class sccsplayer : MonoBehaviour
 
                 //camera.transform.rotation = beforemouselookrot;
                 camera.transform.rotation = upperbodypivot.transform.rotation;// Quaternion.Euler(pitch, yaw, roll);// Quaternion.Lerp(camera.transform.rotation, Quaternion.Euler(pitch, yaw, roll), 0.1f);
-                //camera.transform.rotation = Quaternion.Lerp(viewer.transform.rotation, Quaternion.Euler(pitch, yaw, roll), 0.1f);
-                
+                                                                              //camera.transform.rotation = Quaternion.Lerp(viewer.transform.rotation, Quaternion.Euler(pitch, yaw, roll), 0.1f);
+
                 MouseRotationX = 0;
                 MouseRotationY = 0;
                 MouseRotationZ = 0;
@@ -2916,7 +2914,7 @@ public class sccsplayer : MonoBehaviour
                     // Find the direction to move in
                     Vector3 dir = theouthit.point - camera.transform.position;
 
-                   
+
                     clicktomoveplayerpos = theouthit.point;
                     clicktomoveplayerdirtopos = dir;
                     clicktomoveplayernormalofpos = theouthit.normal;
@@ -3244,7 +3242,7 @@ public class sccsplayer : MonoBehaviour
 
 
 
-            indexofmaxvalueofperfacegravitynextdot = arrayofgravityperfacedot[indexofmaxvalueofperfacegravitynext] ;
+            indexofmaxvalueofperfacegravitynextdot = arrayofgravityperfacedot[indexofmaxvalueofperfacegravitynext];
 
 
 
@@ -3547,12 +3545,12 @@ public class sccsplayer : MonoBehaviour
 
     IEnumerator RotatePlayerWithKeyboard()
     {
-        
+
 
 
         if (canmovecamera == 1)
         {
-           
+
 
         }
 
@@ -3577,7 +3575,7 @@ public class sccsplayer : MonoBehaviour
                 Debug.Log("the planet is null");
 
             }
-            
+
 
         }
         //* Time.deltaTime
@@ -3598,7 +3596,7 @@ public class sccsplayer : MonoBehaviour
 
             }
 
-          
+
 
         }
 
@@ -3606,7 +3604,7 @@ public class sccsplayer : MonoBehaviour
 
         if (Input.GetKey(KeyCode.T))
         {
-            
+
             upperbodypivotRotationX += rotationincrements;
             // Set the yaw (Y axis), pitch (X axis), and roll (Z axis) rotations in radians.
             float pitch = upperbodypivotRotationX * 0.0174532925f;
@@ -3624,13 +3622,13 @@ public class sccsplayer : MonoBehaviour
 
         if (Input.GetKey(KeyCode.G))
         {
-            
+
             upperbodypivotRotationX -= rotationincrements;
             // Set the yaw (Y axis), pitch (X axis), and roll (Z axis) rotations in radians.
             float pitch = upperbodypivotRotationX * 0.0174532925f;
             float yaw = RotationY * 0.0174532925f;  // float yaw = RotationY * (float)Math.PI / 180.0f;
             float roll = upperbodypivotRotationZ * 0.0174532925f;
-            
+
 
             //Vector3 up = transform.TransformPoint(Vector3.up, rotationMatrix);
             //upperbodypivot.transform.rotation = Quaternion.Euler(pitch, yaw, roll);
