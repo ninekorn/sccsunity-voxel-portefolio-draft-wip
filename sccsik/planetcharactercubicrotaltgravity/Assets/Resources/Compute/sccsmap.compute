@@ -79,20 +79,20 @@ void ComputeMap (uint3 id : SV_DispatchThreadID)
     //TOREADD
     //TOREADD
     //TOREADD
-    /*if (floor(noiseXZ) >= 0) //|| (int)Math.Round(noiseXZ) < -y
+    if (floor(noiseXZ) >= 0) //|| (int)Math.Round(noiseXZ) < -y
     {
         map.thebyte = 1;
     }
     else
     {
         map.thebyte = 0;     
-    }*/
+    }
     
     //TOREADD
     //TOREADD
     //TOREADD
-    map.thebyte = 1;
-    
+    /*map.thebyte = 1;
+    */
 
 
     themap[id.x] = map;
