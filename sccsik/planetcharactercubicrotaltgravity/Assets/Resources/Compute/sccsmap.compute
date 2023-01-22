@@ -1,0 +1,99 @@
+//CREATIVE COMMONS LICENSE COMING STRAIGHT FROM THE FIRST MINECRAFT TUTORIAL OF GAMEDEVGUIDE AND SEBASTIAN LAGUE ON YOUTUBE.
+
+// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel ComputeMap
+#include "/Includes/Noise.compute"
+
+//#include "/Includes/Noise.compute"
+// Create a RenderTexture with enableRandomWrite flag and set it
+// with cs.SetTexture
+//RWTexture2D<float4> Result;
+
+//RWStructuredBuffer<int> map;
+struct mapbytes
+{   
+    int ix;
+    int iy;
+    int iz;
+    int thebyte;
+    float3 position;
+};
+
+int width = 10;
+int height = 10;
+int depth = 10;
+
+RWStructuredBuffer<mapbytes> themap;
+
+[numthreads(10,1,1)]
+void ComputeMap (uint3 id : SV_DispatchThreadID)
+{
+    // TODO: insert actual code here!
+    //Result[id.xy] = float4(id.x & id.y, (id.x & 15)/15.0, (id.y & 15)/15.0, 0.0);
+    //int[] map = new int[width*height*depth]
+
+    mapbytes map = themap[id.x];
+    //map.thebyte = 1;
+
+    float levelgenmapsplanesize = 0.1f;
+    float detailScale = 10;
+    float heightScale = 10;
+    int seed = 3420; //0 //3420 //45345
+
+
+    int x = map.ix;
+    int y = map.iy;
+    int z = map.iz;
+
+    int posx = map.position.x;
+    int posy = map.position.y;
+    int posz = map.position.z;
+
+
+    float offsetx = 0.01f;
+    float offsety = 0.01f;
+    float offsetz = 0.01f;
+
+    float prepx = ((((x+offsetx) * levelgenmapsplanesize) + posx + seed) / detailScale) * heightScale;
+    float prepy = ((((y+offsety) * levelgenmapsplanesize) + posy + seed) / detailScale) * heightScale;
+    float prepz = ((((z+offsetz) * levelgenmapsplanesize) + posz + seed) / detailScale) * heightScale;
+
+    float3 noiseprepvec = float3(prepx,prepy,prepz);
+
+    float noiseXZ = snoise(noiseprepvec);
+    //noiseXZ *= OriginalSimplexNoise.SeamlessNoise((((x * levelgenmapsplanesize) + chunkPos[0] + seed) / _detailScale) * _heightScale, (((z * levelgenmapsplanesize) + chunkPos[2] + seed) / _detailScale) * _heightScale, 15, 15, 0);
+    //float noiseXZ = snoise(x,y,z);
+    //float size0 = (1 / 0.1f) * posy;
+    //noiseXZ -= size0;
+
+    /*
+    if (round(noiseXZ) >= y) //|| (int)Math.Round(noiseXZ) < -y
+    {
+        map.thebyte = 1;
+    }
+    else
+    {
+        map.thebyte = 0;     
+    }*/
+
+    //TOREADD
+    //TOREADD
+    //TOREADD
+    /*if (floor(noiseXZ) >= 0) //|| (int)Math.Round(noiseXZ) < -y
+    {
+        map.thebyte = 1;
+    }
+    else
+    {
+        map.thebyte = 0;     
+    }*/
+    
+    //TOREADD
+    //TOREADD
+    //TOREADD
+    map.thebyte = 1;
+    
+
+
+    themap[id.x] = map;
+}
