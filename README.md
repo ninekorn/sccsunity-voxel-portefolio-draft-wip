@@ -68,7 +68,7 @@ so this new version of my third person controller has inverse kinematics but the
 
 The following project is my foot collision with voxels without using unity physics to do so, but only inverse kinematics and fetching bytes by index location:
 
-https://github.com/ninekorn/gif-resources/blob/main/PhotoGIF_1_25_2023_10_13_21_AM.gif
+<img src="https://github.com/ninekorn/gif-resources/blob/main/PhotoGIF_1_25_2023_10_13_21_AM.gif" width="150"/>
 
 the pressure was too big to release on the unity store or not, so despite my portefolio not beeing that cleaned up and not having inquired about how to bring this to the store, when i just have too many bugs that users of my projects would complain too much after purchase anyway since this is an incomplete portefolio, i decided to release it here on github, MIT, and from here, maybe i can keep on piling up my development on top of my development to make better revisions in the future. And how could i be selling to the store when i use so many different MIT license anyway. It feels like a troublesome process which i don't have to go through when i am using github for release. A lot of my projects that i have coded and developed are old and/or with commented out discarded trial/error attempts, and most of my projects are blueprints/templates that can be simplified by anyone anyway, and/or improved upon.
 
