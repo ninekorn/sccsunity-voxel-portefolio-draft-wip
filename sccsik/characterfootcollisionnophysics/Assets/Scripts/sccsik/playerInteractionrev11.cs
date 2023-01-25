@@ -655,6 +655,7 @@ public class playerInteractionrev11 : MonoBehaviour
 
             //UnityEngine.Debug.Log("/rayposition:" + rayposition.x + "/rayposition:" + rayposition.y + "/rayposition:" + rayposition.z);
 
+            //THE RAY LOOP - INCREMENTING THE RAY THE SIZE OF EACH BYTES EVERY FRAMES FROM THE HIP JOINT OF EACH LEGS.
             for (int y = 0; y < 15; y++)
             {
 
@@ -672,15 +673,20 @@ public class playerInteractionrev11 : MonoBehaviour
                 int planetdivsizey = sccschunkfacesbuilder.instance.chunkhl + sccschunkfacesbuilder.instance.chunkhr + 1;
                 int planetdivsizez = sccschunkfacesbuilder.instance.chunkdl + sccschunkfacesbuilder.instance.chunkdr + 1;
 
-                sizex /= planetdivsizex;
-                sizey /= planetdivsizey;
-                sizez /= planetdivsizez;
+                //sizex /= planetdivsizex;
+                //sizey /= planetdivsizey;
+                //sizez /= planetdivsizez;
 
                 int raypositionx = (int)Mathf.Floor(raypositionforward.x / 10.0f) * 10; //((((int)Mathf.Floor(raypositionforward.x * 10) / 10)) / 1);// + sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkwl;// + sccschunkfacesbuilder.instance.chunkwl;// * (sccschunkfacesbuilder.instance.chunkwl + sccschunkfacesbuilder.instance.chunkwr + 1);
                 int raypositiony = (int)Mathf.Floor(raypositionforward.y / 10.0f) * 10; //((((int)Mathf.Floor(raypositionforward.y * 10) / 10)) / 1);// + sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkhl;// + sccschunkfacesbuilder.instance.chunkhl;// * (sccschunkfacesbuilder.instance.chunkhl + sccschunkfacesbuilder.instance.chunkhr + 1);
                 int raypositionz = (int)Mathf.Floor(raypositionforward.z / 10.0f) * 10; //((((int)Mathf.Floor(raypositionforward.z * 10) / 10)) / 1);// + sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkdl;// + sccschunkfacesbuilder.instance.chunkdl;// * (sccschunkfacesbuilder.instance.chunkdl + sccschunkfacesbuilder.instance.chunkdr + 1);
-
-
+                
+                
+                /*
+                int rayposforinnerchunkx = raypositionx; //((((int)Mathf.Floor(raypositionforward.x * 10) / 10)) / 1);// + sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkwl;// + sccschunkfacesbuilder.instance.chunkwl;// * (sccschunkfacesbuilder.instance.chunkwl + sccschunkfacesbuilder.instance.chunkwr + 1);
+                int rayposforinnerchunky = raypositiony; //((((int)Mathf.Floor(raypositionforward.y * 10) / 10)) / 1);// + sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkhl;// + sccschunkfacesbuilder.instance.chunkhl;// * (sccschunkfacesbuilder.instance.chunkhl + sccschunkfacesbuilder.instance.chunkhr + 1);
+                int rayposforinnerchunkz = raypositionz; //((((int)Mathf.Floor(raypositionforward.z * 10) / 10)) / 1);// + sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkdl;// + sccschunkfacesbuilder.instance.chunkdl;// * (sccschunkfacesbuilder.instance.chunkdl + sccschunkfacesbuilder.instance.chunkdr + 1);
+                */
 
 
                 raypositionx /= 4;
@@ -706,7 +712,7 @@ public class playerInteractionrev11 : MonoBehaviour
 
              
 
-                UnityEngine.Debug.Log("/rayposoffsetx:" + rayposoffsetx + "/rayposoffsety:" + rayposoffsety + "/rayposoffsetz:" + rayposoffsetz);
+                //UnityEngine.Debug.Log("/rayposoffsetx:" + rayposoffsetx + "/rayposoffsety:" + rayposoffsety + "/rayposoffsetz:" + rayposoffsetz);
 
 
 
@@ -747,9 +753,9 @@ public class playerInteractionrev11 : MonoBehaviour
                 int rayposforinnerchunkbytesy = ((((int)Mathf.Floor(raypositionforward.y * 100) / 10)) / 1);//
                 int rayposforinnerchunkbytesz = ((((int)Mathf.Floor(raypositionforward.z * 100) / 10)) / 1);//
                 */
-                int rayposforinnerchunkbytesx = (int)Mathf.Floor(raypositionforward.x * 100.0f) / 10; //((((int)Mathf.Floor(raypositionforward.x * 10) / 10)) / 1);// + sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkwl;// + sccschunkfacesbuilder.instance.chunkwl;// * (sccschunkfacesbuilder.instance.chunkwl + sccschunkfacesbuilder.instance.chunkwr + 1);
-                int rayposforinnerchunkbytesy = (int)Mathf.Floor(raypositionforward.y * 100.0f) / 10; //((((int)Mathf.Floor(raypositionforward.y * 10) / 10)) / 1);// + sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkhl;// + sccschunkfacesbuilder.instance.chunkhl;// * (sccschunkfacesbuilder.instance.chunkhl + sccschunkfacesbuilder.instance.chunkhr + 1);
-                int rayposforinnerchunkbytesz = (int)Mathf.Floor(raypositionforward.z * 100.0f) / 10; //((((int)Mathf.Floor(raypositionforward.z * 10) / 10)) / 1);// + sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkdl;// + sccschunkfacesbuilder.instance.chunkdl;// * (sccschunkfacesbuilder.instance.chunkdl + sccschunkfacesbuilder.instance.chunkdr + 1);
+                int rayposforinnerchunkbytesx = (int)(Mathf.Floor(raypositionforward.x * 100.0f) / 10.0f); //((((int)Mathf.Floor(raypositionforward.x * 10) / 10)) / 1);// + sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkwl;// + sccschunkfacesbuilder.instance.chunkwl;// * (sccschunkfacesbuilder.instance.chunkwl + sccschunkfacesbuilder.instance.chunkwr + 1);
+                int rayposforinnerchunkbytesy = (int)(Mathf.Floor(raypositionforward.y * 100.0f) / 10.0f); //((((int)Mathf.Floor(raypositionforward.y * 10) / 10)) / 1);// + sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkhl;// + sccschunkfacesbuilder.instance.chunkhl;// * (sccschunkfacesbuilder.instance.chunkhl + sccschunkfacesbuilder.instance.chunkhr + 1);
+                int rayposforinnerchunkbytesz = (int)(Mathf.Floor(raypositionforward.z * 100.0f) / 10.0f); //((((int)Mathf.Floor(raypositionforward.z * 10) / 10)) / 1);// + sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkdl;// + sccschunkfacesbuilder.instance.chunkdl;// * (sccschunkfacesbuilder.instance.chunkdl + sccschunkfacesbuilder.instance.chunkdr + 1);
 
                 if (raypositionforward.x < 0)
                 {
@@ -1083,7 +1089,7 @@ public class playerInteractionrev11 : MonoBehaviour
                             //sometestx =  rayposoffsetx - rayposforinnerchunkx;
 
                         }
-
+                        
                         if (raypositionforward.y >= 0)
                         {
                             sometesty = rayposforinnerchunky - rayposoffsety;
@@ -1103,15 +1109,50 @@ public class playerInteractionrev11 : MonoBehaviour
                         {
                             //sometestz = rayposoffsetz - rayposforinnerchunkz;
                             sometestz = rayposforinnerchunkz + rayposoffsetz;
+                        }
+
+
+                        /*
+                        if (raypositionforward.x >= 0)
+                        {
+                            sometestx =((int)Mathf.Floor((rayposforinnerchunkx / 10.0f)) * 10) - rayposoffsetx;
+                            //totalTimesx = (int)(rayposforinnerchunkx - someremainsx);
+                        }
+                        else
+                        {
+                        
+                        }
+
+
+
+                        if (raypositionforward.y >= 0)
+                        {
+                            sometesty = ((int)Mathf.Floor((rayposforinnerchunky / 10.0f)) * 10) - rayposoffsety;
 
                         }
-                        
+                        else
+                        {
+                            
+                        }
+
+
+                        if (raypositionforward.z >= 0)
+                        {
+                            sometestz = ((int)Mathf.Floor((rayposforinnerchunkz / 10.0f)) * 10) - rayposoffsetz;
+
+                        }
+                        else
+                        {
+                            
+                        }*/
 
 
 
 
 
-
+                        /*
+                        UnityEngine.Debug.Log("/x:" + sometestx + "/y:" + sometesty + "/z:" + sometestz);
+                        */
 
 
                         /*
@@ -1154,12 +1195,114 @@ public class playerInteractionrev11 : MonoBehaviour
                         } */
 
 
+                        int someremainsx = 0;
+                        int totalTimesx = 0;
+
+                        int someremainsy = 0;
+                        int totalTimesy = 0;
+
+                        int someremainsz = 0;
+                        int totalTimesz = 0;
+
+
+                        int raypositionforwardclampedx = (int)Mathf.Floor(raypositionforward.x * 10.0f) / 10;
+                        int raypositionforwardclampedy = (int)Mathf.Floor(raypositionforward.y * 10.0f) / 10;
+                        int raypositionforwardclampedz = (int)Mathf.Floor(raypositionforward.z * 10.0f) / 10;
 
 
 
+
+                        /*
+                        if (raypositionforward.x >= 0)
+                        {
+                            someremainsx = (int)Mathf.Floor((raypositionforwardclampedx / 10.0f)) * 10;
+                            totalTimesx = (int)(raypositionforwardclampedx - someremainsx);
+                        }
+                        else
+                        {
+                            /*someremainsx = (int)Mathf.Floor((raypositionforwardclampedx / 10.0f)) * 10;
+                            totalTimesx = -10 + (int)(someremainsx - raypositionforwardclampedx) + 10;
+                            totalTimesx *= -1;*/
+
+                            /*someremainsx = (int)(Mathf.Floor(raypositionforward.x / 10.0f) * 10.0f);
+
+                            totalTimesx = ((int)((raypositionforward.x - someremainsx) * 10.0f)) / 10;// (int)Mathf.Floor((raypositionforward.z - (someremainsz)) / 10.0f);// ( * 100.0f)
+                            
+
+                            someremainsx = (raypositionforwardclampedx / 10) - 1;
+                            totalTimesx = (raypositionforwardclampedx - (someremainsx * 10)) - 1;
+                            //totalTimesx = (int)(totalTimesx - rayposoffsetx);
+                        }
+
+
+
+                        if (raypositionforward.y >= 0)
+                        {
+                            someremainsy = (int)Mathf.Floor((raypositionforwardclampedy / 10.0f)) * 10;
+                            totalTimesy = (int)(raypositionforwardclampedy - someremainsy);
+                        }
+                        else
+                        {
+                            /*someremainsy = (int)Mathf.Floor((raypositionforwardclampedy / 10.0f)) * 10;
+                            totalTimesy = -10 + (int)(raypositionforwardclampedy - rayposforinnerchunkbytesy) + 10;
+                            totalTimesy *= -1;*/
+
+
+                            /*someremainsy = (int)(Mathf.Floor(raypositionforward.y / 10.0f) * 10.0f);
+
+                            totalTimesy = ((int)((raypositionforward.y - someremainsy) * 10.0f)) / 10;// (int)Mathf.Floor((raypositionforward.z - (someremainsz)) / 10.0f);// ( * 100.0f)
+                            
+                            someremainsy = (raypositionforwardclampedy / 10) - 1;
+                            totalTimesy = (raypositionforwardclampedy - (someremainsy * 10)) - 1;
+                            //totalTimesy = (int)(totalTimesy - rayposoffsety);
+                        }
+
+
+                        if (raypositionforward.z >= 0)
+                        {
+                            someremainsz = (int)Mathf.Floor((raypositionforwardclampedz / 10.0f)) * 10;
+                            totalTimesz = (int)(raypositionforwardclampedz - someremainsz);
+                        }
+                        else
+                        {
+                            /*
+                             someremainsz = (int)Mathf.Floor((rayposforinnerchunkbytesz / 10.0f)) * 10;
+                             totalTimesz = -10 + (int)(someremainsz - rayposforinnerchunkbytesz) + 10;
+                             totalTimesz *= -1;*/
+                            /*
+                            someremainsz = ((int)Mathf.Floor((rayposforinnerchunkz / 10.0f)) * 10);
+                            totalTimesz = (int)(rayposforinnerchunkz - someremainsz);
+                            totalTimesz *= -1;*/
+
+                            /*someremainsz = (int)(Mathf.Floor(raypositionforward.z / 10.0f) * 10.0f);
+
+                            totalTimesz = ((int)((raypositionforward.z - someremainsz) * 10.0f)) / 10;// (int)Mathf.Floor((raypositionforward.z - (someremainsz)) / 10.0f);// ( * 100.0f)
+                            
+
+                            someremainsz = (raypositionforwardclampedz / 10) - 1;
+                            totalTimesz = (raypositionforwardclampedz - (someremainsz * 10)) - 1;
+
+
+                            //totalTimesz = (int)(totalTimesz - rayposoffsetz);
+                            //totalTimesz = 10 - 1 - totalTimesz;
+
+                        }*/
+
+
+
+
+
+
+
+
+
+                        /*
+                        UnityEngine.Debug.Log("/x:" + raypositionforwardclampedx + "/y:" + raypositionforwardclampedy + "/z:" + raypositionforwardclampedz);
+
+                        UnityEngine.Debug.Log("/someremainsx:" + someremainsx + "/someremainsy:" + someremainsy + "/someremainsz:" + someremainsz);
+                        //UnityEngine.Debug.Log("/totalTimesx:" + totalTimesx + "/totalTimesy:" + totalTimesy + "/totalTimesz:" + totalTimesz);
+                        */
                         UnityEngine.Debug.Log("/x:" + rayposforinnerchunkx + "/y:" + rayposforinnerchunky + "/z:" + rayposforinnerchunkz);
-                        
-                        
                         UnityEngine.Debug.Log("/x:" + sometestx + "/y:" + sometesty + "/z:" + sometestz);
                         
                         //var thechunk = planetdiv.getChunk(rayposforinnerchunkx, rayposforinnerchunky, rayposforinnerchunkz);
@@ -1190,12 +1333,12 @@ public class playerInteractionrev11 : MonoBehaviour
 
                                 int multipleofz = 0;
                                 int remnantsz = 0;
-
+                                /*
                                 if (rayposition.x < 0)
                                 {
                                     //UnityEngine.Debug.Log("rayposition.z < 0");
 
-                                    multipleofx = (rayposforinnerchunkbytesx/ 10);
+                                    /*multipleofx = (rayposforinnerchunkbytesx/ 10);
                                     remnantsx= rayposforinnerchunkbytesx - ((multipleofx * 10));
 
                                     //remnantsz *= -1;
@@ -1213,7 +1356,7 @@ public class playerInteractionrev11 : MonoBehaviour
                                 {
                                     //UnityEngine.Debug.Log("rayposition.z < 0");
 
-                                    multipleofy = (rayposforinnerchunkbytesy / 10);
+                                    /*multipleofy = (rayposforinnerchunkbytesy / 10);
                                     remnantsy = rayposforinnerchunkbytesy - ((multipleofy * 10));
 
                                     //remnantsz *= -1;
@@ -1231,7 +1374,7 @@ public class playerInteractionrev11 : MonoBehaviour
                                 {
                                     //UnityEngine.Debug.Log("rayposition.z < 0");
 
-                                    multipleofz = (rayposforinnerchunkbytesz / 10);
+                                    /*multipleofz = (rayposforinnerchunkbytesz / 10);
                                     remnantsz = rayposforinnerchunkbytesz - ((multipleofz * 10));
 
                                     //remnantsz *= -1;
@@ -1244,9 +1387,223 @@ public class playerInteractionrev11 : MonoBehaviour
                                     remnantsz = rayposforinnerchunkbytesz - ((multipleofz * 10));
 
 
+                                }*/
+
+                                /*
+                                //var someremainstest = (int)Mathf.Floor((-9 / 10.0f)) * 10;
+                                var someremainstest = (int)Mathf.Floor(-0.1f);
+
+                                UnityEngine.Debug.Log("/raypositionforwardclampedz:" + raypositionforwardclampedz + "/someremainsz:" + someremainsz + "/someremainstest:" + someremainstest + "/rayposforinnerchunkbytesz:" + rayposforinnerchunkbytesz + "/raypositionforward.z:" + raypositionforward.z);
+                                */
+
+
+
+
+
+                                 someremainsx = 0;
+                                 totalTimesx = 0;
+
+                                 someremainsy = 0;
+                                 totalTimesy = 0;
+
+                                 someremainsz = 0;
+                                 totalTimesz = 0;
+
+
+                                raypositionforwardclampedx = (int)Mathf.Floor(raypositionforward.x * 100.0f);
+                                raypositionforwardclampedy = (int)Mathf.Floor(raypositionforward.y * 100.0f);
+                                raypositionforwardclampedz = (int)Mathf.Floor(raypositionforward.z * 100.0f);
+
+                                float theremainsz = 0;
+
+
+
+                                if (raypositionforward.x >= 0)
+                                {
+                                    raypositionforwardclampedx = (int)Mathf.Floor(raypositionforward.x * 100.0f) / 10;
+
+                                    someremainsx = (int)Mathf.Floor((raypositionforwardclampedx / 10.0f)) * 10;
+                                    totalTimesx = (int)(raypositionforwardclampedx - someremainsx) ;
+                                }
+                                else
+                                {
+                                    /*someremainsx = (int)Mathf.Floor((raypositionforwardclampedx / 10.0f)) * 10;
+                                    totalTimesx = -10 + (int)(someremainsx - raypositionforwardclampedx) + 10;
+                                    totalTimesx *= -1;*/
+
+                                    /*someremainsx = (int)(Mathf.Floor(raypositionforward.x / 10.0f) * 10.0f);
+
+                                    totalTimesx = ((int)((raypositionforward.x - someremainsx) * 10.0f)) / 10;// (int)Mathf.Floor((raypositionforward.z - (someremainsz)) / 10.0f);// ( * 100.0f)
+                                    */
+
+                                    /*someremainsx = (raypositionforwardclampedx / 10) - 1;
+                                    totalTimesx = (raypositionforwardclampedx - (someremainsx * 10)) - 1;*/
+
+
+
+
+                                    raypositionforwardclampedx = Mathf.FloorToInt((int)Mathf.Floor(raypositionforward.x * 100.0f) / 10.0f);
+
+
+                                    someremainsx = (int)(Mathf.Floor((rayposforinnerchunkbytesx / 10.0f)) * 10.0f);
+
+                                    totalTimesx = (int)(raypositionforwardclampedx - someremainsx);
+
+                                    //totalTimesz *= -1;
+
+                                    if (totalTimesx < 0)
+                                    {
+                                        totalTimesx *= -1;
+                                        totalTimesx = 10 - totalTimesx;
+                                    }
+
                                 }
 
 
+
+                                if (raypositionforward.y >= 0)
+                                {
+                                    raypositionforwardclampedy = (int)Mathf.Floor(raypositionforward.y * 100.0f) / 10;
+                                    someremainsy = (int)Mathf.Floor((raypositionforwardclampedy / 10.0f)) * 10;
+                                    totalTimesy = (int)(raypositionforwardclampedy - someremainsy) ;
+                                }
+                                else
+                                {
+                                    /*someremainsy = (int)Mathf.Floor((raypositionforwardclampedy / 10.0f)) * 10;
+                                    totalTimesy = -10 + (int)(raypositionforwardclampedy - rayposforinnerchunkbytesy) + 10;
+                                    totalTimesy *= -1;*/
+
+
+                                    /*someremainsy = (int)(Mathf.Floor(raypositionforward.y / 10.0f) * 10.0f);
+
+                                    totalTimesy = ((int)((raypositionforward.y - someremainsy) * 10.0f)) / 10;// (int)Mathf.Floor((raypositionforward.z - (someremainsz)) / 10.0f);// ( * 100.0f)
+                                    */
+                                    /* someremainsy = (raypositionforwardclampedy / 10) - 1;
+                                     totalTimesy = (raypositionforwardclampedy - (someremainsy * 10)) - 1;
+                                    */
+
+
+
+                                    raypositionforwardclampedy = Mathf.FloorToInt((int)Mathf.Floor(raypositionforward.y * 100.0f) / 10.0f);
+
+
+                                    someremainsy = (int)(Mathf.Floor((rayposforinnerchunkbytesy / 10.0f)) * 10.0f);
+
+                                    totalTimesy = (int)(raypositionforwardclampedy - someremainsy);
+
+                                    //totalTimesz *= -1;
+
+                                    if (totalTimesy < 0)
+                                    {
+                                        totalTimesy *= -1;
+                                        totalTimesy = 10 - totalTimesy;
+
+                                    }
+
+
+
+                                }
+
+
+                                if (raypositionforward.z >= 0)
+                                {
+                                    raypositionforwardclampedz = (int)Mathf.Floor(raypositionforward.z * 100.0f) / 10;
+                                    someremainsz = (int)Mathf.Floor((raypositionforwardclampedz / 10.0f)) * 10;
+                                    totalTimesz = (int)(raypositionforwardclampedz - someremainsz) ;
+                                }
+                                else
+                                {
+
+                                  
+                                    raypositionforwardclampedz = Mathf.FloorToInt((int)Mathf.Floor(raypositionforward.z * 100.0f) / 10.0f);
+
+
+                                    someremainsz = (int)(Mathf.Floor((rayposforinnerchunkbytesz / 10.0f)) * 10.0f);
+
+                                    totalTimesz = (int)(raypositionforwardclampedz - someremainsz);
+
+                                    //totalTimesz *= -1;
+
+                                    if (totalTimesz < 0)
+                                    {
+                                        totalTimesz *= -1;
+                                        totalTimesz = 10 - totalTimesz;
+
+                                    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                    /*
+                                     someremainsz = (int)Mathf.Floor((rayposforinnerchunkbytesz / 10.0f)) * 10;
+                                     totalTimesz = -10 + (int)(someremainsz - rayposforinnerchunkbytesz) + 10;
+                                     totalTimesz *= -1;*/
+                                    /*
+                                    someremainsz = ((int)Mathf.Floor((raypositionforwardclampedz / 10.0f)) * 10);
+                                    totalTimesz = (int)(raypositionforwardclampedz - someremainsz);
+                                    totalTimesz *= -1;*/
+
+                                    /*someremainsz = (int)(Mathf.Floor(raypositionforward.z / 10.0f) * 10.0f);
+
+                                    totalTimesz = ((int)((raypositionforward.z - someremainsz) * 10.0f)) / 10;// (int)Mathf.Floor((raypositionforward.z - (someremainsz)) / 10.0f);// ( * 100.0f)
+                                    */
+
+                                    /*
+                                    float theresultontop = (Mathf.Floor(raypositionforwardclampedz / 10.0f));
+
+                                    //theremainsz = 10 -(10 - raypositionforwardclampedz - ((raypositionforwardclampedz / 10.0f) - 1) - 10);
+
+                                    theremainsz  = (raypositionforwardclampedz - theresultontop);
+
+                                    theremainsz /= 10;
+                                    float theotherresultontop = (float)Mathf.Floor(theremainsz / 10.0f) - 1;
+
+                                    theremainsz = theremainsz - theotherresultontop;
+
+
+
+                                    theremainsz *= -1;
+                                    //theremainsz = 10 - theremainsz;
+
+                                    //someremainsz = (raypositionforwardclampedz / 10) - 1;
+                                    totalTimesz = (int)(theremainsz);// (raypositionforwardclampedz - (someremainsz * 10)) - 1;
+
+
+                                    UnityEngine.Debug.Log("/theresultontop:" + theresultontop);
+                                    */
+
+
+
+
+
+
+
+
+
+                                    //totalTimesz = 10 - 1 - totalTimesz;
+
+                                }
+
+
+
+
+
+                                UnityEngine.Debug.Log("/totalTimesx:" + totalTimesx + "/totalTimesy:" + totalTimesy + "/totalTimesz:" + totalTimesz + "/theremainsz:" + theremainsz + "/raypositionforwardclampedz:" + raypositionforwardclampedz + "/raypositionforward.z:" + raypositionforward.z);
+
+
+
+                                remnantsx = totalTimesx;
+                                remnantsy = totalTimesy;
+                                remnantsz = totalTimesz;
 
 
 
@@ -1271,9 +1628,8 @@ public class playerInteractionrev11 : MonoBehaviour
 
                                 }*/
 
-                                
-                                UnityEngine.Debug.Log("/bytex:" + remnantsx + "/bytey:" + remnantsy + "/bytez:" + remnantsz);
-                                
+
+
 
                                 /*
                                 UnityEngine.Debug.Log("/chunkposx:" + thechunk.chunkpos.x + "/chunkposy:" + thechunk.chunkpos.y + "/chunkposz:" + thechunk.chunkpos.z);
@@ -1288,8 +1644,51 @@ public class playerInteractionrev11 : MonoBehaviour
 
                                     if (thechunk.thebytemap[indexofchunkbytemap] == 1)
                                     {
+                                        float offsetposx = 0.05f;
+                                        float offsetposy = 0.05f;
+                                        float offsetposz = 0.05f;
+
+                                        offsetposy += 0.10f;
+
+                                        /*if (whichsiderayselect == 0)
+                                        {
+                                            sccsikarmtargetfootl.transform.position = new Vector3(thechunk.chunkpos.x + (remnantsx * planeSize) + offsetposx, thechunk.chunkpos.y + (remnantsy * planeSize) + offsetposy, thechunk.chunkpos.z + (remnantsz * planeSize) + offsetposz);
+                                        }
+                                        else if (whichsiderayselect == 1)
+                                        {
+                                            sccsikarmtargetfootr.transform.position = new Vector3(thechunk.chunkpos.x + (remnantsx * planeSize) + offsetposx, thechunk.chunkpos.y + (remnantsy * planeSize) + offsetposy, thechunk.chunkpos.z + (remnantsz * planeSize) + offsetposz);
+                                        }*/
+
+
+                                        Vector3 position = new Vector3((float)rayposforinnerchunkx + ((float)remnantsx * planeSize) + offsetposx, (float)rayposforinnerchunky + ((float)remnantsy * planeSize) + offsetposy, ((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz);
+                                        //Vector3 position = new Vector3((float)rayposforinnerchunkx, (float)rayposforinnerchunky , ((float)rayposforinnerchunkz));
+
+                                        if (whichsiderayselect == 0)
+                                        {
+                                            sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().handTarget.transform.position = position;// new Vector3(rayposforinnerchunkx + (remnantsx * planeSize) + offsetposx, rayposforinnerchunky + (remnantsy * planeSize) + offsetposy, rayposforinnerchunkz + (remnantsz * planeSize) + offsetposz);
+                                        }
+                                        else if (whichsiderayselect == 1)
+                                        {
+                                            sccsikplayer.currentsccsikplayer.arrayofikarms[3].GetComponent<sccsikarm>().handTarget.transform.position = position;// new Vector3(rayposforinnerchunkx + (remnantsx * planeSize) + offsetposx, rayposforinnerchunky + (remnantsy * planeSize) + offsetposy, rayposforinnerchunkz + (remnantsz * planeSize) + offsetposz);
+
+                                        }
+
+
+                                        UnityEngine.Debug.Log(position + "/z:" + (((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz));
+
+
+                                        break;
+                                        /*
+                                        UnityEngine.Debug.Log("/bytex:" + remnantsx + "/bytey:" + remnantsy + "/bytez:" + remnantsz);
+                                        */
                                         // Debug.Log("/bytex:" + remnantsx + "/bytey:" + remnantsy + "/bytez:" + remnantsz);
 
+
+
+
+
+
+                                        /*
                                         swtcdontlookfurther = 1;
                                         var sccsplayerscript = sccsikplayer.currentsccsikplayer.themovementplayerscript;// arrayofikarms[2].GetComponent<sccsplayer>();
 
@@ -1404,11 +1803,16 @@ public class playerInteractionrev11 : MonoBehaviour
                                             }
 
                                         }
-                                        break;
+                                        break;*/
 
                                     }
                                     else
                                     {
+
+
+
+
+                                        /*
                                         var sccsplayerscript = sccsikplayer.currentsccsikplayer.themovementplayerscript;
 
                                         if (sccsplayerscript != null)
@@ -1442,7 +1846,7 @@ public class playerInteractionrev11 : MonoBehaviour
                                                     {
                                                         foottarget.position = IdleStandingTargetPositionMax;
                                                         //foottarget.position = hit.point + (tempDir * foot.localScale.y);
-                                                    }*/
+                                                    }
 
 
 
@@ -1540,7 +1944,7 @@ public class playerInteractionrev11 : MonoBehaviour
                                                 }
                                             }
 
-                                        }
+                                        }*/
 
                                     }
 
