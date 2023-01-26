@@ -66,7 +66,7 @@ themovementplayerscript.camera.transform.position = heademptygameobject.transfor
 
 so this new version of my third person controller has inverse kinematics but the camera isn't setup right now at the right location. A small chunk is spawned using a compute buffer for the intmap and the first vertex of each face and dimensions of each faces and the cpu works to create the final vertices lists and triangles lists to create the mesh. If you want to change the terrain or type of objects that the ground sticks to, disable the planet generator in the inspector and create a big cube as the scene floor and tag it "terrain" and the sccsik will find the object that it needs the feet to be attached to, then move the character towards the object and the feet and the rotation of the ik character should match the object pivot point.
 
-The following project is my foot collision with voxels without using unity physics to do so, but only inverse kinematics and fetching bytes by index location:
+The following project is my new development for inside of unity of what i was developing in low-level barebone c#, foot collision with voxels without using unity physics to do so, but by fetching bytes by index location and assigning the position of the foot targets to those bytes using inverse kinematics:
 
 <img src="https://github.com/ninekorn/gif-resources/blob/main/PhotoGIF_1_25_2023_10_13_21_AM.gif" width="150"/>
 
