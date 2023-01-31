@@ -1,0 +1,383 @@
+#pragma kernel main
+ 
+#define GROUP_SIZE_X 10
+#define GROUP_SIZE_Y 10
+#define GROUP_SIZE_Z 10
+
+struct mapofints
+{
+    int thebyte;
+};
+
+struct mapofvertints
+{
+    float4 vertpos;
+};
+
+
+struct mapbytes
+{    
+    int ix;
+    int iy;
+    int iz;
+    int thebyte;
+    float3 position;
+};
+
+
+static const int width = 10;
+static const int height = 10;
+static const int depth = 10;
+
+
+RWStructuredBuffer<mapbytes> themap;
+
+
+RWStructuredBuffer<mapofvertints> mapfirstvertxyztop;
+
+/*
+RWStructuredBuffer<mapofints> mapfirstvertxtop;
+//RWStructuredBuffer<mapofints> mapfirstvertytop;
+RWStructuredBuffer<mapofints> mapfirstvertztop;*/
+
+/*
+RWStructuredBuffer<mapofints> widthdimtop;
+RWStructuredBuffer<mapofints> heightdimtop;
+RWStructuredBuffer<mapofints> depthdimtop;*/
+
+RWStructuredBuffer<mapofvertints> dims;
+ 
+int blockExistsInArray(int _x, int _y, int _z)
+{
+    if ((_x < 0) || (_y < 0) || (_z < 0) || (_x >= width) || (_y >= height) || (_z >= depth))
+    {
+        return 0;
+    }
+    else
+    {
+        return 1;
+    }
+}
+
+int IsTransparent(int _x, int _y, int _z)
+{
+    if ((_x < 0) || (_y < 0) || (_z < 0) || (_x >= width) || (_y >= height) || (_z >= depth)) return 1;
+    return themap[_x + width * (_y + height * _z)].thebyte == 0;
+}
+
+int getbyte(int x, int y, int z)
+{
+    if ((x < 0) || (y < 0) || (z < 0) || (x >= width) || (y >= height) || (z >= depth))
+    {
+        return -1;
+    }
+    else
+    {
+        return themap[x + width * (y + height * z)].thebyte;
+    }
+}
+
+int oneVertIndexX = 0;
+int oneVertIndexY = 0;
+int oneVertIndexZ = 0;
+
+int twoVertIndexX = 0;
+int twoVertIndexY = 0;
+int twoVertIndexZ = 0;
+
+int threeVertIndexX = 0;
+int threeVertIndexY = 0;
+int threeVertIndexZ = 0;
+
+int fourVertIndexX = 0;
+int fourVertIndexY = 0;
+int fourVertIndexZ = 0;
+
+int foundvert0 = 0;
+int foundvert1 = 0;
+int foundvert2 = 0;
+int foundvert3 = 0;
+
+int rowIterateX = 0;
+int rowIterateY = 0;
+int rowIterateZ = 0;
+int vertexlistWidth = 0;
+int vertexlistHeight = 0;
+int vertexlistDepth = 0;
+
+[numthreads(GROUP_SIZE_X,GROUP_SIZE_Y,GROUP_SIZE_Z)]
+
+void main(uint3 Gid : SV_GroupID,
+	uint3 DTid : SV_DispatchThreadID,
+	uint3 GTid : SV_GroupThreadID,
+	uint GI : SV_GroupIndex)
+{
+    int total = width * height * depth;
+   
+    int xi = DTid.x;
+    int yi = DTid.y;
+    int zi = DTid.z;
+        
+    int theindex = xi + width * (yi + height * zi);
+    
+    int _block =  themap[xi + width * (yi + height * zi)].thebyte;
+
+    if (_block == 1)
+    {         
+        //if(getbyte(xi,yi+1,zi) == 0 || getbyte(xi,yi+1,zi) == -1)
+        if (IsTransparent(xi , yi , zi+1) == 1)
+        {
+            //int thefrontblock = themap[xi + width * (yi + height * zi)].thebyte
+
+            int maxWidth = width;
+            int maxHeight = height;
+            int maxDepth = depth;
+
+            int thetotal = maxWidth * maxDepth;        
+                
+            int _xx = 0;
+            int _zz = 0;
+                
+            //for(int i = 0;i < thetotal; i++)
+            {
+                rowIterateX = xi + _xx;
+                rowIterateZ = zi + _zz;
+                    
+                if(_xx == 0 && _zz == 0)
+                {
+                    /*if(foundvert0 == 0)
+                    {
+                        oneVertIndexX = xi;
+                        oneVertIndexY = yi;
+                        oneVertIndexZ = zi;
+
+                        foundvert0 = 1;
+                    }*/
+
+                    /*if(themap[xi + width * (yi + height * zi)].thebyte == 1 )
+                    {
+                        if(foundvert2 == 0 )
+                        {
+                            threeVertIndexX = rowIterateX;
+                            threeVertIndexY = yi ;
+                            threeVertIndexZ = rowIterateZ + 1;
+
+                            maxDepth = _zz + 1;
+
+                            foundvert2 = 1;
+                                    
+                        }
+    
+                        if(foundvert3 == 0)
+                        {
+                            fourVertIndexX = rowIterateX + 1;
+                            fourVertIndexY = yi ;
+                            fourVertIndexZ = rowIterateZ + 1;
+
+                            maxWidth = _xx + 1;
+                                
+                            foundvert3 = 1;                                 
+                        }
+                    }*/
+
+                    /*if(foundvert0 == 0)
+                    {
+                        oneVertIndexX = xi;
+                        oneVertIndexY = yi+1;
+                        oneVertIndexZ = zi;
+
+                        foundvert0 = 1;
+                    }
+
+                    if(themap[xi + width * (yi + height * zi)].thebyte == 1 )
+                    {
+                        if(foundvert2 == 0 )
+                        {
+                            threeVertIndexX = rowIterateX;
+                            threeVertIndexY = yi + 1;
+                            threeVertIndexZ = rowIterateZ + 1;
+
+                            maxDepth = _zz + 1;
+
+                            foundvert2 = 1;
+                                    
+                        }
+    
+                        if(foundvert3 == 0)
+                        {
+                            fourVertIndexX = rowIterateX + 1;
+                            fourVertIndexY = yi + 1;
+                            fourVertIndexZ = rowIterateZ + 1;
+
+                            maxWidth = _xx + 1;
+                                
+                            foundvert3 = 1;                                 
+                        }
+                    }*/
+                }
+
+                /*if(themap[rowIterateX + width * (yi + height * rowIterateZ)].thebyte == 1)
+                {
+                    themap[rowIterateX + width * (yi + height * rowIterateZ)].thebyte = 3;
+                }*/
+            }
+
+            //if(foundvert0 == 1 && foundvert2 == 1 && foundvert3 == 1)
+            { 
+                int oneVertIndexX = xi;
+                int oneVertIndexY = yi+1;
+                int oneVertIndexZ = zi+1;
+                
+                int twoVertIndexX = xi+1;
+                int twoVertIndexY = yi+1;
+                int twoVertIndexZ = zi+1;
+
+                int threeVertIndexX = xi;
+                int threeVertIndexY = yi;
+                int threeVertIndexZ = zi+2;
+
+                int fourVertIndexX = xi+1;
+                int fourVertIndexY = yi;
+                int fourVertIndexZ = zi+2;
+                
+
+
+
+
+
+
+
+                /*int oneVertIndexX = xi;
+                int oneVertIndexY = yi+1;
+                int oneVertIndexZ = zi;
+                
+                int twoVertIndexX = xi+1;
+                int twoVertIndexY = yi+1;
+                int twoVertIndexZ = zi;
+
+                int threeVertIndexX = xi;
+                int threeVertIndexY = yi+1;
+                int threeVertIndexZ = zi+1;
+
+                int fourVertIndexX = xi+1;
+                int fourVertIndexY = yi+1;
+                int fourVertIndexZ = zi+1;*/
+
+                /*
+                int oneVertIndexX = xi + 1;
+                int oneVertIndexY = yi;
+                int oneVertIndexZ = zi;
+                
+                int twoVertIndexX = xi;
+                int twoVertIndexY = yi;
+                int twoVertIndexZ = zi;
+
+                int threeVertIndexX = xi+1;
+                int threeVertIndexY = yi;
+                int threeVertIndexZ = zi+1;
+
+                int fourVertIndexX = xi+1;
+                int fourVertIndexY = yi+1;
+                int fourVertIndexZ = zi+1;*/
+
+                /*int oneVertIndexX = xi+1;
+                int oneVertIndexY = yi+1;
+                int oneVertIndexZ = zi;
+                
+                int twoVertIndexX = xi;
+                int twoVertIndexY = yi+1;
+                int twoVertIndexZ = zi;
+
+                int threeVertIndexX = xi+1;
+                int threeVertIndexY = yi;
+                int threeVertIndexZ = zi+1;
+
+                int fourVertIndexX = xi;
+                int fourVertIndexY = yi;
+                int fourVertIndexZ = zi+1;*/
+
+
+                /*int oneVertIndexX = xi;
+                int oneVertIndexY = yi+1;
+                int oneVertIndexZ = zi;
+                
+                int twoVertIndexX = xi+1;
+                int twoVertIndexY = yi+1;
+                int twoVertIndexZ = zi;
+
+                int threeVertIndexX = xi;
+                int threeVertIndexY = yi;
+                int threeVertIndexZ = zi+1;
+
+                int fourVertIndexX = xi+1;
+                int fourVertIndexY = yi;
+                int fourVertIndexZ = zi+1;*/
+
+
+                /*int oneVertIndexX = xi+1;
+                int oneVertIndexY = yi;
+                int oneVertIndexZ = zi;
+                
+                int twoVertIndexX = xi+1;
+                int twoVertIndexY = yi+1;
+                int twoVertIndexZ = zi;
+
+                int threeVertIndexX = xi;
+                int threeVertIndexY = yi+1;
+                int threeVertIndexZ = zi+1;
+
+                int fourVertIndexX = xi;
+                int fourVertIndexY = yi+1;
+                int fourVertIndexZ = zi;*/
+
+                /*int oneVertIndexX = xi;
+                int oneVertIndexY = yi+1;
+                int oneVertIndexZ = zi;
+                
+                int twoVertIndexX = xi;
+                int twoVertIndexY = yi;
+                int twoVertIndexZ = zi+1;
+
+                int threeVertIndexX = xi;
+                int threeVertIndexY = yi+1;
+                int threeVertIndexZ = zi+1;
+
+                int fourVertIndexX = xi;
+                int fourVertIndexY = yi+1;
+                int fourVertIndexZ = zi;*/
+
+
+                float3 vert0 = float3(oneVertIndexX , oneVertIndexY , oneVertIndexZ );
+                float3 vert1 = float3(twoVertIndexX , twoVertIndexY , twoVertIndexZ );
+                float3 vert2 = float3(threeVertIndexX , threeVertIndexY , threeVertIndexZ );
+                float3 vert3 = float3(fourVertIndexX , fourVertIndexY , fourVertIndexZ );
+
+                /*mapfirstvertxtop[theindex].thebyte = oneVertIndexX;
+                //mapfirstvertytop[someindextop].thebyte = oneVertIndexY;
+                mapfirstvertztop[theindex].thebyte = oneVertIndexZ;
+                */
+
+                mapfirstvertxyztop[theindex].vertpos = float4(oneVertIndexX,0,oneVertIndexZ,1.0);
+
+
+              /*widthdimtop[theindex].thebyte = twoVertIndexX - oneVertIndexX;//(int)(vert2.x - vert0.x);//(int)abs(abs(vert0.x) - abs(vert2.x));  
+                heightdimtop[theindex].thebyte = oneVertIndexY;// (int)abs(abs(vert0.Y) - abs(vert2.Y));
+                depthdimtop[theindex].thebyte = threeVertIndexZ - oneVertIndexZ;//(int)(vert1.z - vert0.z);//(int)abs(abs(vert0.z) - abs(vert1.z));
+                */         
+
+                dims[theindex].vertpos = float4(twoVertIndexX - oneVertIndexX,oneVertIndexY,threeVertIndexZ - oneVertIndexZ,1.0);
+
+
+                int index0 = oneVertIndexX + vertexlistWidth * ((oneVertIndexY) + vertexlistHeight * oneVertIndexZ);
+                int index1 = twoVertIndexX + vertexlistWidth * ((twoVertIndexY) + vertexlistHeight * twoVertIndexZ);
+                int index2 = threeVertIndexX + vertexlistWidth * ((threeVertIndexY) + vertexlistHeight * threeVertIndexZ);
+                int index3 = fourVertIndexX + vertexlistWidth * ((fourVertIndexY) + vertexlistHeight * fourVertIndexZ);
+
+                foundvert0 = 0;
+                foundvert1 = 0;
+                foundvert2 = 0;
+                foundvert3 = 0;
+            }              
+        }
+    }
+}
