@@ -279,6 +279,7 @@ public class sccsplayer : MonoBehaviour
         theplanet = GameObject.FindGameObjectWithTag("terrain");
 
         timewatch.Restart();
+        haschangedsidesactivatewatch.Restart();
     }
 
 
@@ -290,11 +291,20 @@ public class sccsplayer : MonoBehaviour
 
     int swtcfordontchangefacegravity = 0;
 
+    int swtchaschangedsidesactivatewatch = 0;
+    Stopwatch haschangedsidesactivatewatch = new Stopwatch();
 
     int timeswtc = 0;
     Stopwatch timewatch = new Stopwatch();
 
 
+    int hasactivateddenygravitychangeswtc = 0;
+
+    int hasgotgravitydot = 0;
+
+    Vector3 pointtobeat;
+
+    float lastdot = 0;
     // Update is called once per frame
     void Update()
     {
@@ -307,7 +317,400 @@ public class sccsplayer : MonoBehaviour
 
         //var planetdivright = sccsplanetdivbuilder.currentsccsplanetbuilder.getplanetdiv((int)(mainChunk.mindexposx), (int)(mainChunk.mindexposy - 1), (int)(mainChunk.mindexposz));
 
-        findgravitygriddots();
+  
+
+
+
+        if (timewatch.ElapsedMilliseconds > 500 && isMoving) // || timeswtc == 0
+        {
+
+            if (lastdot < 0)
+            {
+                findgravitygriddots();
+
+
+
+                if (indexofmaxvalueofperfacegravitynextdot > 0.985f)
+                {
+                    //Debug.Log("has reached this point");
+                }
+
+
+                Vector3 nextfaceposcubic0 = Vector3.zero;
+
+                if (indexofmaxvalueofperfacegravitynext == 0) //t
+                {
+                    nextfaceposcubic0 = Vector3.up;
+                }
+                else if (indexofmaxvalueofperfacegravitynext == 1) //l
+                {
+                    nextfaceposcubic0 = -Vector3.right;
+                }
+                else if (indexofmaxvalueofperfacegravitynext == 2) //r
+                {
+                    nextfaceposcubic0 = Vector3.right;
+                }
+                else if (indexofmaxvalueofperfacegravitynext == 3) //fr
+                {
+                    nextfaceposcubic0 = Vector3.forward;
+                }
+                else if (indexofmaxvalueofperfacegravitynext == 4) //ba
+                {
+                    nextfaceposcubic0 = -Vector3.forward;
+                }
+                else if (indexofmaxvalueofperfacegravitynext == 5) //bo
+                {
+                    nextfaceposcubic0 = -Vector3.up;
+                }
+
+                /*if (indexofmaxvalueofperfacegravity == 0) //t
+                {
+                    nextfaceposcubic0 = Vector3.up;
+                }
+                else if (indexofmaxvalueofperfacegravity == 1) //l
+                {
+                    nextfaceposcubic0 = -Vector3.right;
+                }
+                else if (indexofmaxvalueofperfacegravity == 2) //r
+                {
+                    nextfaceposcubic0 = Vector3.right;
+                }
+                else if (indexofmaxvalueofperfacegravity == 3) //fr
+                {
+                    nextfaceposcubic0 = Vector3.forward;
+                }
+                else if (indexofmaxvalueofperfacegravity == 4) //ba
+                {
+                    nextfaceposcubic0 = -Vector3.forward;
+                }
+                else if (indexofmaxvalueofperfacegravity == 5) //bo
+                {
+                    nextfaceposcubic0 = -Vector3.up;
+                }*/
+
+
+
+
+
+
+                if (indexofmaxvalueofperfacegravitylast != indexofmaxvalueofperfacegravity)
+                {
+
+                    
+                    if (Mathf.Abs(indexofmaxvalueofperfacegravitydot - indexofmaxvalueofperfacegravitynextdot) < 0.15f && indexofmaxvalueofperfacegravitydot > 0.985f)
+                    {
+                        indexofmaxvalueofperfacegravity = indexofmaxvalueofperfacegravitylast;
+
+                        if (indexofmaxvalueofperfacegravity == 0)
+                        {
+                            poscubicgravityvisualx = 0;
+                            poscubicgravityvisualy = 1;
+                            poscubicgravityvisualz = 0;
+                        }
+                        else if (indexofmaxvalueofperfacegravity == 1)
+                        {
+                            poscubicgravityvisualx = -1;
+                            poscubicgravityvisualy = 0;
+                            poscubicgravityvisualz = 0;
+                        }
+                        else if (indexofmaxvalueofperfacegravity == 2)
+                        {
+                            poscubicgravityvisualx = 1;
+                            poscubicgravityvisualy = 0;
+                            poscubicgravityvisualz = 0;
+                        }
+                        else if (indexofmaxvalueofperfacegravity == 3)
+                        {
+                            poscubicgravityvisualx = 0;
+                            poscubicgravityvisualy = 0;
+                            poscubicgravityvisualz = 1;
+                        }
+                        else if (indexofmaxvalueofperfacegravity == 4)
+                        {
+                            poscubicgravityvisualx = 0;
+                            poscubicgravityvisualy = 0;
+                            poscubicgravityvisualz = -1;
+                        }
+                        else if (indexofmaxvalueofperfacegravity == 5)
+                        {
+                            poscubicgravityvisualx = 0;
+                            poscubicgravityvisualy = -1;
+                            poscubicgravityvisualz = 0;
+                        }
+                    }
+
+
+
+
+
+
+
+
+
+
+                    Vector3 playertoplanet0 = viewer.transform.position - theplanet.transform.position;
+                    float magofplayertoplanet0 = playertoplanet0.magnitude;
+
+                    Vector3 pointtofaceofgravity0 = theplanet.transform.position + (nextfaceposcubic0 * magofplayertoplanet0);
+
+                    Vector3 dirplayertomidpointofgravity0 = pointtofaceofgravity0 - viewer.transform.position;
+                    dirplayertomidpointofgravity0.Normalize();
+
+                    float thedotplayertogravityside0 = Vector3.Dot(viewer.transform.forward, dirplayertomidpointofgravity0);
+
+                    if (thedotplayertogravityside0 > 0)
+                    {
+
+                        /**/
+                        //timeswtc = 1;
+
+                    }
+                    else
+                    {
+
+                    }
+
+
+                }
+
+
+
+
+
+
+
+
+
+                //findgravitygriddots();
+
+
+
+                /*
+                if (indexofmaxvalueofperfacegravitylast != indexofmaxvalueofperfacegravity)
+                //if (indexofmaxvalueofperfacegravitylast != indexofmaxvalueofperfacegravity && indexofmaxvalueofperfacegravitynext > 0.985f ||
+                //    indexofmaxvalueofperfacegravitylast != indexofmaxvalueofperfacegravity && indexofmaxvalueofperfacegravity > 0.985f)
+                {
+
+                    Vector3 nextfaceposcubic0 = Vector3.zero;
+
+                    if (indexofmaxvalueofperfacegravitynext == 0) //t
+                    {
+                        nextfaceposcubic0 = Vector3.up;
+                    }
+                    else if (indexofmaxvalueofperfacegravitynext == 1) //l
+                    {
+                        nextfaceposcubic0 = -Vector3.right;
+                    }
+                    else if (indexofmaxvalueofperfacegravitynext == 2) //r
+                    {
+                        nextfaceposcubic0 = Vector3.right;
+                    }
+                    else if (indexofmaxvalueofperfacegravitynext == 3) //fr
+                    {
+                        nextfaceposcubic0 = Vector3.forward;
+                    }
+                    else if (indexofmaxvalueofperfacegravitynext == 4) //ba
+                    {
+                        nextfaceposcubic0 = -Vector3.forward;
+                    }
+                    else if (indexofmaxvalueofperfacegravitynext == 5) //bo
+                    {
+                        nextfaceposcubic0 = -Vector3.up;
+                    }
+
+
+                    //hasactivateddenygravitychangeswtc = 1;
+
+
+                    if (indexofmaxvalueofperfacegravity > 0.985f)
+                    {
+
+                        /*indexofmaxvalueofperfacegravity = indexofmaxvalueofperfacegravitylast;
+
+                        if (indexofmaxvalueofperfacegravity == 0)
+                        {
+                            poscubicgravityvisualx = 0;
+                            poscubicgravityvisualy = 1;
+                            poscubicgravityvisualz = 0;
+                        }
+                        else if (indexofmaxvalueofperfacegravity == 1)
+                        {
+                            poscubicgravityvisualx = -1;
+                            poscubicgravityvisualy = 0;
+                            poscubicgravityvisualz = 0;
+                        }
+                        else if (indexofmaxvalueofperfacegravity == 2)
+                        {
+                            poscubicgravityvisualx = 1;
+                            poscubicgravityvisualy = 0;
+                            poscubicgravityvisualz = 0;
+                        }
+                        else if (indexofmaxvalueofperfacegravity == 3)
+                        {
+                            poscubicgravityvisualx = 0;
+                            poscubicgravityvisualy = 0;
+                            poscubicgravityvisualz = 1;
+                        }
+                        else if (indexofmaxvalueofperfacegravity == 4)
+                        {
+                            poscubicgravityvisualx = 0;
+                            poscubicgravityvisualy = 0;
+                            poscubicgravityvisualz = -1;
+                        }
+                        else if (indexofmaxvalueofperfacegravity == 5)
+                        {
+                            poscubicgravityvisualx = 0;
+                            poscubicgravityvisualy = -1;
+                            poscubicgravityvisualz = 0;
+                        }
+
+
+
+
+                    }
+                    else
+                    {
+
+                        Vector3 playertoplanet0 = viewer.transform.position - theplanet.transform.position;
+                        float magofplayertoplanet0 = playertoplanet0.magnitude;
+
+                        Vector3 pointtofaceofgravity0 = theplanet.transform.position + (nextfaceposcubic0 * magofplayertoplanet0);
+
+                        Vector3 dirplayertomidpointofgravity0 = pointtofaceofgravity0 - viewer.transform.position;
+                        dirplayertomidpointofgravity0.Normalize();
+
+                        float thedotplayertogravityside0 = Vector3.Dot(viewer.transform.forward, dirplayertomidpointofgravity0);
+
+                        if (thedotplayertogravityside0 > 0 && indexofmaxvalueofperfacegravity != indexofmaxvalueofperfacegravitynext)
+                        {
+
+                            indexofmaxvalueofperfacegravity = indexofmaxvalueofperfacegravitylast;
+
+                            if (indexofmaxvalueofperfacegravity == 0)
+                            {
+                                poscubicgravityvisualx = 0;
+                                poscubicgravityvisualy = 1;
+                                poscubicgravityvisualz = 0;
+                            }
+                            else if (indexofmaxvalueofperfacegravity == 1)
+                            {
+                                poscubicgravityvisualx = -1;
+                                poscubicgravityvisualy = 0;
+                                poscubicgravityvisualz = 0;
+                            }
+                            else if (indexofmaxvalueofperfacegravity == 2)
+                            {
+                                poscubicgravityvisualx = 1;
+                                poscubicgravityvisualy = 0;
+                                poscubicgravityvisualz = 0;
+                            }
+                            else if (indexofmaxvalueofperfacegravity == 3)
+                            {
+                                poscubicgravityvisualx = 0;
+                                poscubicgravityvisualy = 0;
+                                poscubicgravityvisualz = 1;
+                            }
+                            else if (indexofmaxvalueofperfacegravity == 4)
+                            {
+                                poscubicgravityvisualx = 0;
+                                poscubicgravityvisualy = 0;
+                                poscubicgravityvisualz = -1;
+                            }
+                            else if (indexofmaxvalueofperfacegravity == 5)
+                            {
+                                poscubicgravityvisualx = 0;
+                                poscubicgravityvisualy = -1;
+                                poscubicgravityvisualz = 0;
+                            }
+                        }
+                        else
+                        {
+
+                        }
+                        /*
+                        indexofmaxvalueofperfacegravity = indexofmaxvalueofperfacegravitylast;
+
+                        if (indexofmaxvalueofperfacegravity == 0)
+                        {
+                            poscubicgravityvisualx = 0;
+                            poscubicgravityvisualy = 1;
+                            poscubicgravityvisualz = 0;
+                        }
+                        else if (indexofmaxvalueofperfacegravity == 1)
+                        {
+                            poscubicgravityvisualx = -1;
+                            poscubicgravityvisualy = 0;
+                            poscubicgravityvisualz = 0;
+                        }
+                        else if (indexofmaxvalueofperfacegravity == 2)
+                        {
+                            poscubicgravityvisualx = 1;
+                            poscubicgravityvisualy = 0;
+                            poscubicgravityvisualz = 0;
+                        }
+                        else if (indexofmaxvalueofperfacegravity == 3)
+                        {
+                            poscubicgravityvisualx = 0;
+                            poscubicgravityvisualy = 0;
+                            poscubicgravityvisualz = 1;
+                        }
+                        else if (indexofmaxvalueofperfacegravity == 4)
+                        {
+                            poscubicgravityvisualx = 0;
+                            poscubicgravityvisualy = 0;
+                            poscubicgravityvisualz = -1;
+                        }
+                        else if (indexofmaxvalueofperfacegravity == 5)
+                        {
+                            poscubicgravityvisualx = 0;
+                            poscubicgravityvisualy = -1;
+                            poscubicgravityvisualz = 0;
+                        }
+
+
+
+                        /// timewatch.Restart();
+
+                        //if (hasactivateddenygravitychangeswtc == 1)
+                        {
+
+
+
+
+                            //hasactivateddenygravitychangeswtc = 0;
+                        }
+
+                    }
+
+
+
+
+
+
+
+                }
+                else
+                {
+
+
+                }*/
+
+
+
+
+
+
+
+            }
+            else
+            {
+                findgravitygriddots();
+            }
+
+
+            //timewatch.Restart();
+        }
+
 
         StartCoroutine(CheckMoving());
         StartCoroutine(RotatePlayerMouse());
@@ -317,20 +720,28 @@ public class sccsplayer : MonoBehaviour
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
         Vector3 theplanettopointgravityUP = new Vector3(poscubicgravityvisualx, poscubicgravityvisualy, poscubicgravityvisualz) - theplanet.transform.position;
         theplanettopointgravityUP.Normalize();
+
+
+        Vector3 playertoplanet = viewer.transform.position - theplanet.transform.position;
+        float magofplayertoplanet = playertoplanet.magnitude;
+
+        Vector3 pointtofaceofgravity = theplanet.transform.position + (theplanettopointgravityUP * magofplayertoplanet);
+
+        Vector3 dirplayertomidpointofgravity = pointtofaceofgravity - viewer.transform.position;
+        dirplayertomidpointofgravity.Normalize();
+
+        float thedotplayertogravityside = Vector3.Dot(viewer.transform.forward, dirplayertomidpointofgravity);
+
+
+        //UnityEngine.Debug.Log("dot:" + thedotplayertogravityside);
+
+
+
+
+        lastdot = thedotplayertogravityside;
+
 
 
         //UnityEngine.//Debug.Log("/cubicx:" + poscubicgravityvisualx + "/cubicy:" + poscubicgravityvisualy + "/cubicz:" + poscubicgravityvisualz);
@@ -800,6 +1211,27 @@ public class sccsplayer : MonoBehaviour
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         /*
 
         if (indexofmaxvalueofperfacegravitynextdot <= indexofmaxvalueofperfacegravitydot * 0.999f)
@@ -875,7 +1307,7 @@ public class sccsplayer : MonoBehaviour
         RotationY = scmaths.RadianToDegree(yawcurrent0);
         RotationZ = scmaths.RadianToDegree(rollcurrent0);
 
-        Debug.Log("/rotx:" + RotationX + "/roty:" + RotationY + "/rotz:" + RotationZ);
+        //Debug.Log("/rotx:" + RotationX + "/roty:" + RotationY + "/rotz:" + RotationZ);
 
 
 
@@ -887,7 +1319,22 @@ public class sccsplayer : MonoBehaviour
         Vector3 planetgravity = -(viewer.transform.position - theplanet.transform.position);
         planetgravity.Normalize();
 
-        if (indexofmaxvalueofperfacegravity != indexofmaxvalueofperfacegravitylast && indexofmaxvalueofperfacegravitylast != -1) // && indexofmaxvalueofperfacegravitydot > 0.985f
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        if (indexofmaxvalueofperfacegravity != indexofmaxvalueofperfacegravitylast && indexofmaxvalueofperfacegravitylast != -1 ) // && indexofmaxvalueofperfacegravitydot > 0.985f
         {
 
             if (indexofmaxvalueofperfacegravitydot > 0.985f)
@@ -926,7 +1373,7 @@ public class sccsplayer : MonoBehaviour
 
 
 
-              
+
 
 
                     /*
@@ -1047,151 +1494,278 @@ public class sccsplayer : MonoBehaviour
 
 
 
-
-                    
-                    timeswtc = 1;
-
-                    
-                    UnityEngine.Debug.Log("has reached the other face");
-
-                    float rotate_speed = 25.0f;
-
-                    //Debug.Log("***********");
-                    Vector3 pointforward = isgroundedpivotpoint.transform.position + (viewer.transform.forward * 0.00125f);
-
-                    float lengthofarm = hiptofloordist * hiptofloordistmul;// sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().totalArmLength + (sccsikplayer.currentsccsikplayer.pelvisrenderer.transform.localScale.y * 0.5f) + (sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().shoulderrenderer.transform.localScale.y * 1.0f) + (sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().handrenderer.transform.localScale.y * 0.5f);
-
-                    //for topface
-                    Vector3 pointforwardnextface = viewer.transform.position + (viewer.transform.forward * lengthofarm) + (-viewer.transform.up * 0.00125f);// + (-viewer.transform.up * 0.1f);
-                    Vector3 pointforwardnextfacenooffset = viewer.transform.position + (-viewer.transform.up * 0.00125f);
-
-
-
-
-
-
-
-                    //Vector3 pointforwardthatway = pointforwardnextface  + (viewer.transform.forward * 0.00125f);
-
-                    Vector3 dirtothatpoint = pointforwardnextface - pointforward;
-                    dirtothatpoint.Normalize();
-
-                    Vector3 crossprod = Vector3.Cross(dirtothatpoint, theplanettopointgravityUP);
-                    crossprod.Normalize();
-
-                    Vector3 crossofcrossprodforward = -Vector3.Cross(crossprod, theplanettopointgravityUP);
-                    crossofcrossprodforward.Normalize();
-
-                    Debug.DrawRay(pointforwardnextface, dirtothatpoint, Color.cyan, 5.0f);
-
-                    Debug.DrawRay(pointforwardnextface, faceposcubic, Color.yellow, 5.0f);
-                    Debug.DrawRay(pointforwardnextface, crossprod, Color.red, 5.0f);
-                    Debug.DrawRay(pointforwardnextface, crossofcrossprodforward, Color.blue, 5.0f);
-                    Debug.DrawRay(pointforwardnextface, theplanettopointgravityUP, Color.green, 5.0f);
-
-                    //crossofcrossprodforward.z = 1;
-
-                    Quaternion rot = new Quaternion();
-                    //rot.SetLookRotation(forwarddirtopointfrontplayer, faceposcubic.normalized);
-                    //rot.SetLookRotation(dirForward, faceposcubic.normalized);
-                    rot.SetLookRotation(crossofcrossprodforward, theplanettopointgravityUP.normalized);
-                    rot.Normalize();
-                    //rot.SetLookRotation(forwarddirtopointfrontplayer, -(theplanet.transform.position - viewer.transform.position).normalized);
-                    //rot.SetLookRotation(forwardplayer, -(theplanet.transform.position - viewer.transform.position).normalized);
-                    //dirForward.z = 0;
-                    //viewer.transform.rotation = Quaternion.LookRotation(forwarddirtopointfrontplayer);// Quaternion.Lerp(viewer.transform.rotation, rot, rotate_speed * Time.deltaTime);
-
-                    //for (int i = 0;i < 10;i++)
+                    if (timewatch.ElapsedMilliseconds > 25)
                     {
-                        viewer.transform.rotation = rot;// Quaternion.Lerp(viewer.transform.rotation, rot, 100.0f * Time.deltaTime);
+
+
+
+                        timeswtc = 1;
+
+
+                        //UnityEngine.Debug.Log("has reached the other face");
+
+                        float rotate_speed = 25.0f;
+
+                        //Debug.Log("***********");
+                        Vector3 pointforward = isgroundedpivotpoint.transform.position + (viewer.transform.forward * 0.00125f);
+
+                        float lengthofarm = hiptofloordist * hiptofloordistmul ;// sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().totalArmLength + (sccsikplayer.currentsccsikplayer.pelvisrenderer.transform.localScale.y * 0.5f) + (sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().shoulderrenderer.transform.localScale.y * 1.0f) + (sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().handrenderer.transform.localScale.y * 0.5f);
+
+                        //for topface
+                        //Vector3 pointforwardnextface = viewer.transform.position + (viewer.transform.forward * lengthofarm) + (-viewer.transform.up * 0.00125f);// + (-viewer.transform.up * 0.1f);
+                        Vector3 pointforwardnextfacenooffset = viewer.transform.position + (-viewer.transform.up * 0.00125f);
+
+                        //Vector3 pointforwardnextface = viewer.transform.position + (viewer.transform.forward * lengthofarm) + (-viewer.transform.up * 0.00125f);
+                        Vector3 pointforwardnextface = viewer.transform.position + (viewer.transform.forward * 0.5f) + (-viewer.transform.up * 0.5f);
+
+
+
+
+
+                        //Vector3 pointforwardthatway = pointforwardnextface  + (viewer.transform.forward * 0.00125f);
+
+                        Vector3 dirtothatpoint = pointforwardnextface - pointforward;
+                        dirtothatpoint.Normalize();
+
+                        Vector3 crossprod = Vector3.Cross(dirtothatpoint, theplanettopointgravityUP);
+                        crossprod.Normalize();
+
+                        Vector3 crossofcrossprodforward = -Vector3.Cross(crossprod, theplanettopointgravityUP);
+                        crossofcrossprodforward.Normalize();
+
+                        Debug.DrawRay(pointforwardnextface, dirtothatpoint, Color.cyan, 5.0f);
+
+                        Debug.DrawRay(pointforwardnextface, faceposcubic, Color.yellow, 5.0f);
+                        Debug.DrawRay(pointforwardnextface, crossprod, Color.red, 5.0f);
+                        Debug.DrawRay(pointforwardnextface, crossofcrossprodforward, Color.blue, 5.0f);
+                        Debug.DrawRay(pointforwardnextface, theplanettopointgravityUP, Color.green, 5.0f);
+
+                        //crossofcrossprodforward.z = 1;
+
+                        Quaternion rot = new Quaternion();
+                        //rot.SetLookRotation(forwarddirtopointfrontplayer, faceposcubic.normalized);
+                        //rot.SetLookRotation(dirForward, faceposcubic.normalized);
+                        rot.SetLookRotation(crossofcrossprodforward, theplanettopointgravityUP.normalized);
+                        rot.Normalize();
+                        //rot.SetLookRotation(forwarddirtopointfrontplayer, -(theplanet.transform.position - viewer.transform.position).normalized);
+                        //rot.SetLookRotation(forwardplayer, -(theplanet.transform.position - viewer.transform.position).normalized);
+                        //dirForward.z = 0;
+                        //viewer.transform.rotation = Quaternion.LookRotation(forwarddirtopointfrontplayer);// Quaternion.Lerp(viewer.transform.rotation, rot, rotate_speed * Time.deltaTime);
+
+                        //for (int i = 0;i < 10;i++)
+                        {
+                            viewer.transform.rotation = rot;// Quaternion.Lerp(viewer.transform.rotation, rot, 100.0f * Time.deltaTime);
+
+                            //viewer.transform.localRotation = Quaternion.Euler(new Vector3(rot.eulerAngles.x, rot.eulerAngles.y, rot.eulerAngles.z));
+
+
+                        }
+
+                        swtchaschangedsidesactivatewatch = 1;
+
+
+
+                        /*var diffx = (rot.eulerAngles.x - viewer.transform.rotation.eulerAngles.x);
+                        var diffy = (rot.eulerAngles.y - viewer.transform.rotation.eulerAngles.y);
+                        var diffz = (rot.eulerAngles.z - viewer.transform.rotation.eulerAngles.z);
+
+                        Vector3 neweulers = new Vector3(diffx,diffy, diffz);
+
+
+                        viewer.transform.Rotate(neweulers, Space.Self);
+                        */
+
+
+
+                        /*
+                        //MOVEPOSOFFSET = viewer.transform.position;
+                        Vector3 playerforward = viewer.transform.rotation * Vector3.forward;
+                        Vector3 uppoint = viewer.transform.position - theplanet.transform.position;
+                        uppoint.Normalize();
+
+                        //Vector3 pointtobeat = pointforwardnextface + (viewer.transform.forward * 0.025f * 1.0f * 50.0f); // + (-uppoint * 0.1f) //10.95f //* movementspeed
+
+                        pointtobeat = pointforwardnextface + (viewer.transform.forward * 0.0125f * 1.0f * 1.0f); // + (-uppoint * 0.1f) //10.95f //* movementspeed
+                        viewer.transform.position = pointtobeat;// Vector3.Lerp(viewer.transform.position, pointtobeat, movementspeed); // * Time.deltaTime //* Time.deltaTime * 100.0f
+                        //viewer.transform.position = MOVEPOSOFFSET;
+                        */
+
+
+
+
+
+
+
+                        /*if (indexofmaxvalueofperfacegravity == 0)
+                        {
+                            /*neweulers.y = 0;
+                            neweulers.z = 0;
+
+                            Vector3 forwardplayerpos = viewer.transform.forward;
+
+                            forwardplayerpos.y = 0;
+                            viewer.transform.forward = forwardplayerpos;
+                        }
+                        else if (indexofmaxvalueofperfacegravity == 1)
+                        {
+
+                        }*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        /*
+                        rot.SetFromToRotation(viewer.transform.forward, crossofcrossprodforward);
+                        rot.Normalize();
+                        */
+                        /*
+                        Matrix4x4 matrot = Matrix4x4.LookAt(viewer.transform.forward.normalized, crossofcrossprodforward.normalized, viewer.transform.up.normalized);
+                        viewer.transform.rotation = matrot.rotation;
+                        */
+
+
+
+
+
+
+
+                        /*if (indexofmaxvalueofperfacegravity == 0)
+                        {
+                            Vector3 forwardplayerpos = viewer.transform.forward;
+
+                            forwardplayerpos.y = 0;
+                            viewer.transform.forward = forwardplayerpos;
+                        }
+                        else if (indexofmaxvalueofperfacegravity == 3)
+                        {
+                            Vector3 forwardplayerpos = viewer.transform.forward;
+
+                            forwardplayerpos.z = 0;
+                            viewer.transform.forward = forwardplayerpos;
+                        }*/
+
+
+
+                        //viewer.transform.rotation = Quaternion.LookRotation(crossofcrossprodforward);
+
+                        /*
+                        if (indexofmaxvalueofperfacegravity == 0)
+                        {
+                            Vector3 forwardplayerpos = viewer.transform.forward;
+
+                            forwardplayerpos.y = 0;
+                            viewer.transform.forward = forwardplayerpos;
+
+
+                            //RotationZ = RotationY;
+                            RotationX = 0;
+                            RotationY = 0;
+                        }
+                        else if (indexofmaxvalueofperfacegravity == 3)
+                        {
+                            Vector3 forwardplayerpos = viewer.transform.forward;
+
+                            forwardplayerpos.z = 0;
+                            viewer.transform.forward = forwardplayerpos;
+                            RotationX = 90;
+                            //RotationY = RotationZ;
+                            RotationZ = 90;
+
+                        }
+                        viewer.transform.rotation = Quaternion.Euler(RotationX, RotationY, RotationZ);
+
+
+                        viewer.transform.rotation = Quaternion.Lerp(viewer.transform.rotation, rot, 100.0f * Time.deltaTime).normalized;
+                        */
+
+
+
+
+
+
+
+                        /*
+                        Vector3 uppoint = viewer.transform.position - theplanet.transform.position;
+                        uppoint.Normalize();
+
+                        Vector3 pointtobeat = viewer.transform.position + (viewer.transform.forward * 0.75f * movementspeed * 50.0f); // + (-uppoint * 0.1f)
+                        MOVEPOSOFFSET = Vector3.Lerp(MOVEPOSOFFSET, pointtobeat, movementspeed * Time.deltaTime); // * Time.deltaTime
+                        viewer.transform.position = MOVEPOSOFFSET;
+                        */
+
+                        //viewer.transform.Translate(MOVEPOSOFFSET,Space.World);
+
+
+
+
+
+                        timewatch.Restart();
+
+
+                        swtcfordontchangefacegravity = 1;
                     }
-
-
-                    /*if (indexofmaxvalueofperfacegravity == 0)
+                    //else
                     {
-                        Vector3 forwardplayerpos = viewer.transform.forward;
 
-                        forwardplayerpos.y = 0;
-                        viewer.transform.forward = forwardplayerpos;
+                        /*//swtcfordontchangefacegravity = 0;
+                        float rotate_speed = 25.0f;
+
+                        //Debug.Log("***********");
+                        Vector3 pointforward = isgroundedpivotpoint.transform.position + (viewer.transform.forward * 0.00125f);
+
+                        float lengthofarm = hiptofloordist * hiptofloordistmul;// sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().totalArmLength + (sccsikplayer.currentsccsikplayer.pelvisrenderer.transform.localScale.y * 0.5f) + (sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().shoulderrenderer.transform.localScale.y * 1.0f) + (sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().handrenderer.transform.localScale.y * 0.5f);
+
+                        //for topface
+                        Vector3 pointforwardnextface = viewer.transform.position + (viewer.transform.forward * lengthofarm) + (-viewer.transform.up * 0.00125f);
+                        Vector3 pointforwardnextfacenooffset = viewer.transform.position + (-viewer.transform.up * 0.00125f);
+
+
+                        //Vector3 pointforwardthatway = pointforwardnextface  + (viewer.transform.forward * 0.00125f);
+
+                        Vector3 dirtothatpoint = pointforwardnextface - pointforward;
+                        dirtothatpoint.Normalize();
+
+                        Vector3 crossprod = Vector3.Cross(dirtothatpoint, theplanettopointgravityUP);
+                        crossprod.Normalize();
+
+                        Vector3 crossofcrossprodforward = -Vector3.Cross(crossprod, theplanettopointgravityUP);
+                        crossofcrossprodforward.Normalize();
+                        /*
+                        Debug.DrawRay(pointforwardnextface, dirtothatpoint, Color.cyan, 100.0f);
+
+                        Debug.DrawRay(pointforwardnextface, faceposcubic, Color.yellow, 100.0f);
+                        Debug.DrawRay(pointforwardnextface, crossprod, Color.red, 100.0f);
+                        Debug.DrawRay(pointforwardnextface, crossofcrossprodforward, Color.blue, 100.0f);
+                        Debug.DrawRay(pointforwardnextface, nextfaceposcubic, Color.green, 100.0f);
+
+                        //crossofcrossprodforward.z = 1;
+                        
+
+                        Quaternion rot = new Quaternion();
+                        //rot.SetLookRotation(forwarddirtopointfrontplayer, faceposcubic.normalized);
+                        //rot.SetLookRotation(dirForward, faceposcubic.normalized);
+                        rot.SetLookRotation(viewer.transform.forward, theplanettopointgravityUP.normalized);
+                        ////rot.Normalize();
+                        //rot.SetLookRotation(forwarddirtopointfrontplayer, -(theplanet.transform.position - viewer.transform.position).normalized);
+                        //rot.SetLookRotation(forwardplayer, -(theplanet.transform.position - viewer.transform.position).normalized);
+                        //dirForward.z = 0;
+                        //viewer.transform.rotation = Quaternion.LookRotation(forwarddirtopointfrontplayer);// Quaternion.Lerp(viewer.transform.rotation, rot, rotate_speed * Time.deltaTime);
+                        viewer.transform.rotation = rot;// Quaternion.Lerp(viewer.transform.rotation, rot, rotate_speed * Time.deltaTime);
+                        */
                     }
-                    else if (indexofmaxvalueofperfacegravity == 3)
-                    {
-                        Vector3 forwardplayerpos = viewer.transform.forward;
-
-                        forwardplayerpos.z = 0;
-                        viewer.transform.forward = forwardplayerpos;
-                    }*/
-
-
-
-                    //viewer.transform.rotation = Quaternion.LookRotation(crossofcrossprodforward);
-
-                    /*
-                    if (indexofmaxvalueofperfacegravity == 0)
-                    {
-                        Vector3 forwardplayerpos = viewer.transform.forward;
-
-                        forwardplayerpos.y = 0;
-                        viewer.transform.forward = forwardplayerpos;
-
-
-                        //RotationZ = RotationY;
-                        RotationX = 0;
-                        RotationY = 0;
-                    }
-                    else if (indexofmaxvalueofperfacegravity == 3)
-                    {
-                        Vector3 forwardplayerpos = viewer.transform.forward;
-
-                        forwardplayerpos.z = 0;
-                        viewer.transform.forward = forwardplayerpos;
-                        RotationX = 90;
-                        //RotationY = RotationZ;
-                        RotationZ = 90;
-
-                    }
-                    viewer.transform.rotation = Quaternion.Euler(RotationX, RotationY, RotationZ);
-
-                    
-                    viewer.transform.rotation = Quaternion.Lerp(viewer.transform.rotation, rot, 100.0f * Time.deltaTime).normalized;
-                    
-
-
-                    MOVEPOSOFFSET = viewer.transform.position;
-                    Vector3 playerforward = viewer.transform.rotation * Vector3.forward;
-                    Vector3 uppoint = viewer.transform.position - theplanet.transform.position;
-                    uppoint.Normalize();
-
-
-                    Vector3 pointtobeat = pointforwardnextface + (viewer.transform.forward * 0.25f * 1.0f * 1.0f); // + (-uppoint * 0.1f) //10.95f //* movementspeed
-                    MOVEPOSOFFSET = Vector3.Lerp(MOVEPOSOFFSET, pointtobeat, movementspeed * Time.deltaTime * 10.0f); // * Time.deltaTime
-                    viewer.transform.position = MOVEPOSOFFSET;
-                    
-
-
-                    */
-
-
-
-
-                    Vector3 uppoint = viewer.transform.position - theplanet.transform.position;
-                    uppoint.Normalize();
-
-                    Vector3 pointtobeat = viewer.transform.position + (viewer.transform.forward * 0.75f * movementspeed * 10.0f); // + (-uppoint * 0.1f)
-                    MOVEPOSOFFSET = Vector3.Lerp(MOVEPOSOFFSET, pointtobeat, movementspeed * Time.deltaTime); // * Time.deltaTime
-                    viewer.transform.position = MOVEPOSOFFSET;
-                    
-
-                    //viewer.transform.Translate(MOVEPOSOFFSET,Space.World);
-
-
-
-
-
-
-
-
-                    swtcfordontchangefacegravity = 1;
                 }
                 //else if(timeswtc == 1)
                 {
@@ -1329,8 +1903,11 @@ public class sccsplayer : MonoBehaviour
                 //viewer.transform.rotation = Quaternion.LookRotation(forwarddirtopointfrontplayer);// Quaternion.Lerp(viewer.transform.rotation, rot, rotate_speed * Time.deltaTime);
                 viewer.transform.rotation = rot;// Quaternion.Lerp(viewer.transform.rotation, rot, rotate_speed * Time.deltaTime);
 
-                
+
                 timeswtc = 0;
+
+
+
             }
             /*else
             {
@@ -1404,9 +1981,8 @@ public class sccsplayer : MonoBehaviour
 
 
 
-
-
             timeswtc = 0;
+
 
             /*
             if (indexofmaxvalueofperfacegravity == 0)
@@ -1436,7 +2012,7 @@ public class sccsplayer : MonoBehaviour
 
 
 
-            
+
             //swtcfordontchangefacegravity = 0;
             float rotate_speed = 25.0f;
 
@@ -1507,6 +2083,35 @@ public class sccsplayer : MonoBehaviour
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         // new Vector3(rayposforinnerchunkx + (remnantsx * planeSize) + offsetposx, rayposforinnerchunky + (remnantsy * planeSize) + offsetposy, rayposforinnerchunkz + (remnantsz * planeSize) + offsetposz);
 
 
@@ -1552,616 +2157,673 @@ public class sccsplayer : MonoBehaviour
         }
         //else
         {
-            Vector3 midpointfoot = currentposofleftfoot - currentposofrightfoot;
-            float magmidpointfoot = midpointfoot.magnitude;
-            magmidpointfoot *= 0.5f;
-            midpointfoot.Normalize();
-
-            Vector3 posofmidpoint = currentposofleftfoot + (midpointfoot * magmidpointfoot);
-            //viewer.transform.position = (posofmidpoint + (viewer.transform.up * (totalarmlength * 0.hiptofloordistmul)));
 
 
 
-
-
-
-
-
-            float planeSize = 0.1f;
-
-
-            //ADJUST POSITION 
-
-            Vector3 rayposition = isgroundedpivotpoint.transform.position;// sccsikplayer.currentsccsikplayer.pelvisemptygameobject.transform.position;
-            Vector3 raypositionforward = rayposition - new Vector3(0, 0, 0);
-            Vector3 raypositionforwardinit = rayposition - new Vector3(0, 0, 0);
-
-            //raypositionforward­.x = Mathf.Floor((raypositionforward.x * 10) / 10);
-            //raypositionforward­.y = Mathf.Floor((raypositionforward.y * 10) / 10);
-            //raypositionforward­.z = Mathf.Floor((raypositionforward.z * 10) / 10);
-            
-
-            Vector3 raydirection = -this.transform.up;
-
-            int swtcdontlookfurther = 0;
-
-            ////UnityEngine.Debug.Log("/rayposition:" + rayposition.x + "/rayposition:" + rayposition.y + "/rayposition:" + rayposition.z);
-
-            int hasfoundblock = 0;
-
-            //THE RAY LOOP - INCREMENTING THE RAY THE SIZE OF EACH BYTES EVERY FRAMES FROM THE HIP JOINT OF EACH LEGS.
-            for (int y = 0; y < 25; y++)
+            if (swtchaschangedsidesactivatewatch == 1)
             {
-                raypositionforward = raypositionforward + (raydirection * planeSize);
+                haschangedsidesactivatewatch.Restart();
+                swtchaschangedsidesactivatewatch = 2;
 
-                //if ((raypositionforwardinit - raypositionforward).magnitude < hiptofloordist * hiptofloordistmul)
+            }
+
+            if (swtchaschangedsidesactivatewatch == 2)
+            {
+                if (haschangedsidesactivatewatch.ElapsedMilliseconds > 150)
                 {
-                    int chunksizex = sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkwl + sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkwr + 1;
-                    int chunksizey = sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkhl + sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkhr + 1;
-                    int chunksizez = sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkdl + sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkdr + 1;
 
-                    int sizex = chunksizex * 10;
-                    int sizey = chunksizey * 10;
-                    int sizez = chunksizez * 10;
+                    swtchaschangedsidesactivatewatch = 0;
+                }
+            }
 
-                    int planetdivsizex = sccschunkfacesbuilder.instance.chunkwl + sccschunkfacesbuilder.instance.chunkwr + 1;
-                    int planetdivsizey = sccschunkfacesbuilder.instance.chunkhl + sccschunkfacesbuilder.instance.chunkhr + 1;
-                    int planetdivsizez = sccschunkfacesbuilder.instance.chunkdl + sccschunkfacesbuilder.instance.chunkdr + 1;
 
-                    //sizex /= planetdivsizex;
-                    //sizey /= planetdivsizey;
-                    //sizez /= planetdivsizez;
 
-                    int raypositionx = (int)Mathf.Floor(raypositionforward.x / 10.0f) * 10; //((((int)Mathf.Floor(raypositionforward.x * 10) / 10)) / 1);// + sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkwl;// + sccschunkfacesbuilder.instance.chunkwl;// * (sccschunkfacesbuilder.instance.chunkwl + sccschunkfacesbuilder.instance.chunkwr + 1);
-                    int raypositiony = (int)Mathf.Floor(raypositionforward.y / 10.0f) * 10; //((((int)Mathf.Floor(raypositionforward.y * 10) / 10)) / 1);// + sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkhl;// + sccschunkfacesbuilder.instance.chunkhl;// * (sccschunkfacesbuilder.instance.chunkhl + sccschunkfacesbuilder.instance.chunkhr + 1);
-                    int raypositionz = (int)Mathf.Floor(raypositionforward.z / 10.0f) * 10; //((((int)Mathf.Floor(raypositionforward.z * 10) / 10)) / 1);// + sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkdl;// + sccschunkfacesbuilder.instance.chunkdl;// * (sccschunkfacesbuilder.instance.chunkdl + sccschunkfacesbuilder.instance.chunkdr + 1);
 
-                    raypositionx /= 4;
-                    raypositiony /= 4;
-                    raypositionz /= 4;
+            if (swtchaschangedsidesactivatewatch == 0) // && hasgotgravitydot == 1
+            {
 
-                    float rayposoffsetx = sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkwl;
-                    float rayposoffsety = sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkhl;
-                    float rayposoffsetz = sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkdl;
 
-                    raypositionx /= 2;
-                    raypositiony /= 2;
-                    raypositionz /= 2;
+                Vector3 midpointfoot = currentposofleftfoot - currentposofrightfoot;
+                float magmidpointfoot = midpointfoot.magnitude;
+                magmidpointfoot *= 0.5f;
+                midpointfoot.Normalize();
 
-                    int rayposforinnerchunkx = (int)Mathf.Floor(raypositionforward.x);
-                    int rayposforinnerchunky = (int)Mathf.Floor(raypositionforward.y);
-                    int rayposforinnerchunkz = (int)Mathf.Floor(raypositionforward.z);
+                Vector3 posofmidpoint = currentposofleftfoot + (midpointfoot * magmidpointfoot);
+                //viewer.transform.position = (posofmidpoint + (viewer.transform.up * (totalarmlength * 0.hiptofloordistmul)));
 
-                    int rayposforinnerchunkbytesx = (int)(Mathf.Floor(raypositionforward.x * 100.0f) / 10.0f); //((((int)Mathf.Floor(raypositionforward.x * 10) / 10)) / 1);// + sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkwl;// + sccschunkfacesbuilder.instance.chunkwl;// * (sccschunkfacesbuilder.instance.chunkwl + sccschunkfacesbuilder.instance.chunkwr + 1);
-                    int rayposforinnerchunkbytesy = (int)(Mathf.Floor(raypositionforward.y * 100.0f) / 10.0f); //((((int)Mathf.Floor(raypositionforward.y * 10) / 10)) / 1);// + sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkhl;// + sccschunkfacesbuilder.instance.chunkhl;// * (sccschunkfacesbuilder.instance.chunkhl + sccschunkfacesbuilder.instance.chunkhr + 1);
-                    int rayposforinnerchunkbytesz = (int)(Mathf.Floor(raypositionforward.z * 100.0f) / 10.0f); //((((int)Mathf.Floor(raypositionforward.z * 10) / 10)) / 1);// + sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkdl;// + sccschunkfacesbuilder.instance.chunkdl;// * (sccschunkfacesbuilder.instance.chunkdl + sccschunkfacesbuilder.instance.chunkdr + 1);
 
-                    if (raypositionforward.x < 0)
+
+
+
+
+
+
+                float planeSize = 0.1f;
+
+
+
+                //ADJUST POSITION 
+                float lengthofarm = hiptofloordist * hiptofloordistmul;// sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().totalArmLength + (sccsikplayer.currentsccsikplayer.pelvisrenderer.transform.localScale.y * 0.5f) + (sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().shoulderrenderer.transform.localScale.y * 1.0f) + (sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().handrenderer.transform.localScale.y * 0.5f);
+
+                Vector3 pointforwardnextface = isgroundedpivotpoint.transform.position + (viewer.transform.forward * lengthofarm) + (-viewer.transform.up * 0.00125f);
+                //Vector3 pointforwardnextface = isgroundedpivotpoint.transform.position + (viewer.transform.forward * 0.1f) + (-viewer.transform.up * 0.1f);
+
+
+                //MOVEPOSOFFSET = viewer.transform.position;
+                //Vector3 playerforward = viewer.transform.rotation * Vector3.forward;
+                //Vector3 uppoint = viewer.transform.position - theplanet.transform.position;
+                //uppoint.Normalize();
+
+                //Vector3 pointtobeat = pointforwardnextface + (viewer.transform.forward * 0.025f * 1.0f * 50.0f); // + (-uppoint * 0.1f) //10.95f //* movementspeed
+
+                Vector3 pointtobeat = Vector3.zero;// pointforwardnextface + (viewer.transform.forward * 0.0125f * 1.0f * 10.0f); // + (-uppoint * 0.1f) //10.95f //* movementspeed
+
+
+                if (timeswtc == 1)
+                {
+                    pointtobeat = pointforwardnextface + (viewer.transform.forward * 0.0125f * 1.0f * 10.0f); // + (-uppoint * 0.1f) //10.95f //* movementspeed
+                }
+                else
+                {
+                    pointtobeat = isgroundedpivotpoint.transform.position;
+                }
+
+
+
+
+                Vector3 rayposition = pointtobeat;// isgroundedpivotpoint.transform.position;// sccsikplayer.currentsccsikplayer.pelvisemptygameobject.transform.position;
+                Vector3 raypositionforward = rayposition - new Vector3(0, 0, 0);
+                Vector3 raypositionforwardinit = rayposition - new Vector3(0, 0, 0);
+
+                //raypositionforward­.x = Mathf.Floor((raypositionforward.x * 10) / 10);
+                //raypositionforward­.y = Mathf.Floor((raypositionforward.y * 10) / 10);
+                //raypositionforward­.z = Mathf.Floor((raypositionforward.z * 10) / 10);
+
+
+                Vector3 raydirection = -viewer.transform.up;
+
+                int swtcdontlookfurther = 0;
+
+                ////UnityEngine.Debug.Log("/rayposition:" + rayposition.x + "/rayposition:" + rayposition.y + "/rayposition:" + rayposition.z);
+
+                int hasfoundblock = 0;
+
+                //THE RAY LOOP - INCREMENTING THE RAY THE SIZE OF EACH BYTES EVERY FRAMES FROM THE HIP JOINT OF EACH LEGS.
+                for (int y = 0; y < 25; y++)
+                {
+                    raypositionforward = raypositionforward + (raydirection * planeSize);
+
+                    //if ((raypositionforwardinit - raypositionforward).magnitude < hiptofloordist * hiptofloordistmul)
                     {
+                        int chunksizex = sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkwl + sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkwr + 1;
+                        int chunksizey = sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkhl + sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkhr + 1;
+                        int chunksizez = sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkdl + sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkdr + 1;
 
-                    }
+                        int sizex = chunksizex * 10;
+                        int sizey = chunksizey * 10;
+                        int sizez = chunksizez * 10;
 
-                    if (raypositionforward.y < 0)
-                    {
+                        int planetdivsizex = sccschunkfacesbuilder.instance.chunkwl + sccschunkfacesbuilder.instance.chunkwr + 1;
+                        int planetdivsizey = sccschunkfacesbuilder.instance.chunkhl + sccschunkfacesbuilder.instance.chunkhr + 1;
+                        int planetdivsizez = sccschunkfacesbuilder.instance.chunkdl + sccschunkfacesbuilder.instance.chunkdr + 1;
 
-                    }
+                        //sizex /= planetdivsizex;
+                        //sizey /= planetdivsizey;
+                        //sizez /= planetdivsizez;
 
-                    if (raypositionforward.z < 0)
-                    {
+                        int raypositionx = (int)Mathf.Floor(raypositionforward.x / 10.0f) * 10; //((((int)Mathf.Floor(raypositionforward.x * 10) / 10)) / 1);// + sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkwl;// + sccschunkfacesbuilder.instance.chunkwl;// * (sccschunkfacesbuilder.instance.chunkwl + sccschunkfacesbuilder.instance.chunkwr + 1);
+                        int raypositiony = (int)Mathf.Floor(raypositionforward.y / 10.0f) * 10; //((((int)Mathf.Floor(raypositionforward.y * 10) / 10)) / 1);// + sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkhl;// + sccschunkfacesbuilder.instance.chunkhl;// * (sccschunkfacesbuilder.instance.chunkhl + sccschunkfacesbuilder.instance.chunkhr + 1);
+                        int raypositionz = (int)Mathf.Floor(raypositionforward.z / 10.0f) * 10; //((((int)Mathf.Floor(raypositionforward.z * 10) / 10)) / 1);// + sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkdl;// + sccschunkfacesbuilder.instance.chunkdl;// * (sccschunkfacesbuilder.instance.chunkdl + sccschunkfacesbuilder.instance.chunkdr + 1);
 
-                    }
+                        raypositionx /= 4;
+                        raypositiony /= 4;
+                        raypositionz /= 4;
 
-                    float somevaldiv = 1.0f / ((0.01f));
+                        float rayposoffsetx = sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkwl;
+                        float rayposoffsety = sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkhl;
+                        float rayposoffsetz = sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkdl;
 
-                    if (swtcdontlookfurther == 0)
-                    {
-                        var planetdiv = sccschunkfacesbuilder.instance.getplanetdiv(raypositionx, raypositiony, raypositionz);
+                        raypositionx /= 2;
+                        raypositiony /= 2;
+                        raypositionz /= 2;
 
-                        if (planetdiv != null)
+                        int rayposforinnerchunkx = (int)Mathf.Floor(raypositionforward.x);
+                        int rayposforinnerchunky = (int)Mathf.Floor(raypositionforward.y);
+                        int rayposforinnerchunkz = (int)Mathf.Floor(raypositionforward.z);
+
+                        int rayposforinnerchunkbytesx = (int)(Mathf.Floor(raypositionforward.x * 100.0f) / 10.0f); //((((int)Mathf.Floor(raypositionforward.x * 10) / 10)) / 1);// + sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkwl;// + sccschunkfacesbuilder.instance.chunkwl;// * (sccschunkfacesbuilder.instance.chunkwl + sccschunkfacesbuilder.instance.chunkwr + 1);
+                        int rayposforinnerchunkbytesy = (int)(Mathf.Floor(raypositionforward.y * 100.0f) / 10.0f); //((((int)Mathf.Floor(raypositionforward.y * 10) / 10)) / 1);// + sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkhl;// + sccschunkfacesbuilder.instance.chunkhl;// * (sccschunkfacesbuilder.instance.chunkhl + sccschunkfacesbuilder.instance.chunkhr + 1);
+                        int rayposforinnerchunkbytesz = (int)(Mathf.Floor(raypositionforward.z * 100.0f) / 10.0f); //((((int)Mathf.Floor(raypositionforward.z * 10) / 10)) / 1);// + sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkdl;// + sccschunkfacesbuilder.instance.chunkdl;// * (sccschunkfacesbuilder.instance.chunkdl + sccschunkfacesbuilder.instance.chunkdr + 1);
+
+                        if (raypositionforward.x < 0)
                         {
-                            float sometestx = 0;
-                            float sometesty = 0;
-                            float sometestz = 0;
 
-                            if (raypositionforward.x >= 0)
+                        }
+
+                        if (raypositionforward.y < 0)
+                        {
+
+                        }
+
+                        if (raypositionforward.z < 0)
+                        {
+
+                        }
+
+                        float somevaldiv = 1.0f / ((0.01f));
+
+                        if (swtcdontlookfurther == 0)
+                        {
+                            var planetdiv = sccschunkfacesbuilder.instance.getplanetdiv(raypositionx, raypositiony, raypositionz);
+
+                            if (planetdiv != null)
                             {
-                                sometestx = rayposforinnerchunkx - rayposoffsetx;
-                            }
-                            else
-                            {
-                                sometestx = rayposforinnerchunkx + rayposoffsetx;
-                            }
+                                float sometestx = 0;
+                                float sometesty = 0;
+                                float sometestz = 0;
 
-                            if (raypositionforward.y >= 0)
-                            {
-                                sometesty = rayposforinnerchunky - rayposoffsety;
-                            }
-                            else
-                            {
-                                sometesty = rayposforinnerchunky + rayposoffsety;
-                            }
-
-                            if (raypositionforward.z >= 0)
-                            {
-                                sometestz = rayposforinnerchunkz - rayposoffsetz;
-                            }
-                            else
-                            {
-                                sometestz = rayposforinnerchunkz + rayposoffsetz;
-                            }
-
-                            int someremainsx = 0;
-                            int totalTimesx = 0;
-
-                            int someremainsy = 0;
-                            int totalTimesy = 0;
-
-                            int someremainsz = 0;
-                            int totalTimesz = 0;
-
-                            int raypositionforwardclampedx = (int)Mathf.Floor(raypositionforward.x * 10.0f) / 10;
-                            int raypositionforwardclampedy = (int)Mathf.Floor(raypositionforward.y * 10.0f) / 10;
-                            int raypositionforwardclampedz = (int)Mathf.Floor(raypositionforward.z * 10.0f) / 10;
-
-                            /*
-                            //UnityEngine.Debug.Log("/x:" + raypositionforwardclampedx + "/y:" + raypositionforwardclampedy + "/z:" + raypositionforwardclampedz);
-
-                            //UnityEngine.Debug.Log("/someremainsx:" + someremainsx + "/someremainsy:" + someremainsy + "/someremainsz:" + someremainsz);
-                            ////UnityEngine.Debug.Log("/totalTimesx:" + totalTimesx + "/totalTimesy:" + totalTimesy + "/totalTimesz:" + totalTimesz);
-                            */
-                            /*
-                            //UnityEngine.Debug.Log("/x:" + rayposforinnerchunkx + "/y:" + rayposforinnerchunky + "/z:" + rayposforinnerchunkz);
-                            //UnityEngine.Debug.Log("/x:" + sometestx + "/y:" + sometesty + "/z:" + sometestz);
-                            */
-                            //var thechunk = planetdiv.getChunk(rayposforinnerchunkx, rayposforinnerchunky, rayposforinnerchunkz);
-                            var thechunk = planetdiv.getChunk((int)sometestx, (int)sometesty, (int)sometestz);
-
-                            if (thechunk != null)
-                            {
-
-                                //targetikfoot.transform.position = new Vector3(thechunk.chunkpos.x, thechunk.chunkpos.y, thechunk.chunkpos.z);
-
-                                if (thechunk.thebytemap != null)
+                                if (raypositionforward.x >= 0)
                                 {
-                                    //Debug.Log("thechunk.thebytemap != null");
+                                    sometestx = rayposforinnerchunkx - rayposoffsetx;
+                                }
+                                else
+                                {
+                                    sometestx = rayposforinnerchunkx + rayposoffsetx;
+                                }
 
-                                    var thebytemap = thechunk.thebytemap;
+                                if (raypositionforward.y >= 0)
+                                {
+                                    sometesty = rayposforinnerchunky - rayposoffsety;
+                                }
+                                else
+                                {
+                                    sometesty = rayposforinnerchunky + rayposoffsety;
+                                }
 
-                                    //rayposforinnerchunkbytesx
-                                    int multipleofx = 0;
-                                    int remnantsx = 0;
+                                if (raypositionforward.z >= 0)
+                                {
+                                    sometestz = rayposforinnerchunkz - rayposoffsetz;
+                                }
+                                else
+                                {
+                                    sometestz = rayposforinnerchunkz + rayposoffsetz;
+                                }
 
-                                    int multipleofy = 0;
-                                    int remnantsy = 0;
+                                int someremainsx = 0;
+                                int totalTimesx = 0;
 
-                                    int multipleofz = 0;
-                                    int remnantsz = 0;
+                                int someremainsy = 0;
+                                int totalTimesy = 0;
 
+                                int someremainsz = 0;
+                                int totalTimesz = 0;
 
-                                    someremainsx = 0;
-                                    totalTimesx = 0;
+                                int raypositionforwardclampedx = (int)Mathf.Floor(raypositionforward.x * 10.0f) / 10;
+                                int raypositionforwardclampedy = (int)Mathf.Floor(raypositionforward.y * 10.0f) / 10;
+                                int raypositionforwardclampedz = (int)Mathf.Floor(raypositionforward.z * 10.0f) / 10;
 
-                                    someremainsy = 0;
-                                    totalTimesy = 0;
+                                /*
+                                //UnityEngine.Debug.Log("/x:" + raypositionforwardclampedx + "/y:" + raypositionforwardclampedy + "/z:" + raypositionforwardclampedz);
 
-                                    someremainsz = 0;
-                                    totalTimesz = 0;
+                                //UnityEngine.Debug.Log("/someremainsx:" + someremainsx + "/someremainsy:" + someremainsy + "/someremainsz:" + someremainsz);
+                                ////UnityEngine.Debug.Log("/totalTimesx:" + totalTimesx + "/totalTimesy:" + totalTimesy + "/totalTimesz:" + totalTimesz);
+                                */
+                                /*
+                                //UnityEngine.Debug.Log("/x:" + rayposforinnerchunkx + "/y:" + rayposforinnerchunky + "/z:" + rayposforinnerchunkz);
+                                //UnityEngine.Debug.Log("/x:" + sometestx + "/y:" + sometesty + "/z:" + sometestz);
+                                */
+                                //var thechunk = planetdiv.getChunk(rayposforinnerchunkx, rayposforinnerchunky, rayposforinnerchunkz);
+                                var thechunk = planetdiv.getChunk((int)sometestx, (int)sometesty, (int)sometestz);
 
+                                if (thechunk != null)
+                                {
 
-                                    raypositionforwardclampedx = (int)Mathf.Floor(raypositionforward.x * 100.0f);
-                                    raypositionforwardclampedy = (int)Mathf.Floor(raypositionforward.y * 100.0f);
-                                    raypositionforwardclampedz = (int)Mathf.Floor(raypositionforward.z * 100.0f);
+                                    //targetikfoot.transform.position = new Vector3(thechunk.chunkpos.x, thechunk.chunkpos.y, thechunk.chunkpos.z);
 
-                                    float theremainsz = 0;
-
-
-
-                                    if (raypositionforward.x >= 0)
+                                    if (thechunk.thebytemap != null)
                                     {
-                                        raypositionforwardclampedx = (int)Mathf.Floor(raypositionforward.x * 100.0f) / 10;
+                                        //Debug.Log("thechunk.thebytemap != null");
 
-                                        someremainsx = (int)Mathf.Floor((raypositionforwardclampedx / 10.0f)) * 10;
-                                        totalTimesx = (int)(raypositionforwardclampedx - someremainsx);
-                                    }
-                                    else
-                                    {
+                                        var thebytemap = thechunk.thebytemap;
 
-                                        raypositionforwardclampedx = Mathf.FloorToInt((int)Mathf.Floor(raypositionforward.x * 100.0f) / 10.0f);
+                                        //rayposforinnerchunkbytesx
+                                        int multipleofx = 0;
+                                        int remnantsx = 0;
+
+                                        int multipleofy = 0;
+                                        int remnantsy = 0;
+
+                                        int multipleofz = 0;
+                                        int remnantsz = 0;
 
 
-                                        someremainsx = (int)(Mathf.Floor((rayposforinnerchunkbytesx / 10.0f)) * 10.0f);
+                                        someremainsx = 0;
+                                        totalTimesx = 0;
 
-                                        totalTimesx = (int)(raypositionforwardclampedx - someremainsx);
+                                        someremainsy = 0;
+                                        totalTimesy = 0;
 
-                                        //totalTimesz *= -1;
+                                        someremainsz = 0;
+                                        totalTimesz = 0;
 
-                                        if (totalTimesx < 0)
+
+                                        raypositionforwardclampedx = (int)Mathf.Floor(raypositionforward.x * 100.0f);
+                                        raypositionforwardclampedy = (int)Mathf.Floor(raypositionforward.y * 100.0f);
+                                        raypositionforwardclampedz = (int)Mathf.Floor(raypositionforward.z * 100.0f);
+
+                                        float theremainsz = 0;
+
+
+
+                                        if (raypositionforward.x >= 0)
                                         {
-                                            totalTimesx *= -1;
-                                            totalTimesx = 10 - totalTimesx;
-                                        }
+                                            raypositionforwardclampedx = (int)Mathf.Floor(raypositionforward.x * 100.0f) / 10;
 
-                                    }
-
-
-
-                                    if (raypositionforward.y >= 0)
-                                    {
-                                        raypositionforwardclampedy = (int)Mathf.Floor(raypositionforward.y * 100.0f) / 10;
-                                        someremainsy = (int)Mathf.Floor((raypositionforwardclampedy / 10.0f)) * 10;
-                                        totalTimesy = (int)(raypositionforwardclampedy - someremainsy);
-                                    }
-                                    else
-                                    {
-
-
-
-                                        raypositionforwardclampedy = Mathf.FloorToInt((int)Mathf.Floor(raypositionforward.y * 100.0f) / 10.0f);
-
-
-                                        someremainsy = (int)(Mathf.Floor((rayposforinnerchunkbytesy / 10.0f)) * 10.0f);
-
-                                        totalTimesy = (int)(raypositionforwardclampedy - someremainsy);
-
-                                        //totalTimesz *= -1;
-
-                                        if (totalTimesy < 0)
-                                        {
-                                            totalTimesy *= -1;
-                                            totalTimesy = 10 - totalTimesy;
-
-                                        }
-
-
-
-                                    }
-
-
-                                    if (raypositionforward.z >= 0)
-                                    {
-                                        raypositionforwardclampedz = (int)Mathf.Floor(raypositionforward.z * 100.0f) / 10;
-                                        someremainsz = (int)Mathf.Floor((raypositionforwardclampedz / 10.0f)) * 10;
-                                        totalTimesz = (int)(raypositionforwardclampedz - someremainsz);
-                                    }
-                                    else
-                                    {
-
-
-                                        raypositionforwardclampedz = Mathf.FloorToInt((int)Mathf.Floor(raypositionforward.z * 100.0f) / 10.0f);
-
-
-                                        someremainsz = (int)(Mathf.Floor((rayposforinnerchunkbytesz / 10.0f)) * 10.0f);
-
-                                        totalTimesz = (int)(raypositionforwardclampedz - someremainsz);
-
-                                        //totalTimesz *= -1;
-
-                                        if (totalTimesz < 0)
-                                        {
-                                            totalTimesz *= -1;
-                                            totalTimesz = 10 - totalTimesz;
-
-                                        }
-
-                                        //totalTimesz = 10 - 1 - totalTimesz;
-
-                                    }
-
-
-
-                                    /*
-
-                                    //UnityEngine.Debug.Log("/totalTimesx:" + totalTimesx + "/totalTimesy:" + totalTimesy + "/totalTimesz:" + totalTimesz + "/theremainsz:" + theremainsz + "/raypositionforwardclampedz:" + raypositionforwardclampedz + "/raypositionforward.z:" + raypositionforward.z);
-                                    */
-
-
-                                    remnantsx = totalTimesx;
-                                    remnantsy = totalTimesy;
-                                    remnantsz = totalTimesz;
-
-
-
-
-                                    /*
-                                    //UnityEngine.Debug.Log("/chunkposx:" + thechunk.chunkpos.x + "/chunkposy:" + thechunk.chunkpos.y + "/chunkposz:" + thechunk.chunkpos.z);
-                                    */
-
-
-                                    int indexofchunkbytemap = remnantsx + (10) * (remnantsy + (10) * remnantsz);
-
-                                    if (indexofchunkbytemap >= 0 && indexofchunkbytemap < 10 * 10 * 10)
-                                    {
-
-                                        if (thechunk.thebytemap[indexofchunkbytemap] == 1)
-                                        {
-
-                                            hasfoundblock = 1;
-
-                                            swtcdontlookfurther = 1;
-                                            var sccsplayerscript = sccsikplayer.currentsccsikplayer.themovementplayerscript;// arrayofikarms[2].GetComponent<sccsplayer>();
-
-                                            if (sccsplayerscript != null)
-                                            {
-                                                if (sccsplayerscript.indexofmaxvalueofperfacegravity == 0) //TOPFACE FAKE GRAVITY-ISH CHARACTER ROTATION
-                                                {
-                                                    float offsetposx = 0.05f;
-                                                    float offsetposy = 0.05f;
-                                                    float offsetposz = 0.05f;
-
-                                                    offsetposy += 0.10f;
-
-                                                    Vector3 position = new Vector3((float)rayposforinnerchunkx + ((float)remnantsx * planeSize) + offsetposx, (float)rayposforinnerchunky + ((float)remnantsy * planeSize) + offsetposy, ((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz);
-                                                    //Vector3 position = new Vector3((float)rayposforinnerchunkx, (float)rayposforinnerchunky , ((float)rayposforinnerchunkz));
-                                                    /*
-                                                    if (whichsiderayselect == 0)
-                                                    {
-                                                        sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().handTarget.transform.position = position;// new Vector3(rayposforinnerchunkx + (remnantsx * planeSize) + offsetposx, rayposforinnerchunky + (remnantsy * planeSize) + offsetposy, rayposforinnerchunkz + (remnantsz * planeSize) + offsetposz);
-                                                    }
-                                                    else if (whichsiderayselect == 1)
-                                                    {
-                                                        sccsikplayer.currentsccsikplayer.arrayofikarms[3].GetComponent<sccsikarm>().handTarget.transform.position = position;// new Vector3(rayposforinnerchunkx + (remnantsx * planeSize) + offsetposx, rayposforinnerchunky + (remnantsy * planeSize) + offsetposy, rayposforinnerchunkz + (remnantsz * planeSize) + offsetposz);
-
-                                                    }*/
-
-
-                                                    //UnityEngine.Debug.Log(position + "/z:" + (((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz));
-                                                }
-                                                else if (sccsplayerscript.indexofmaxvalueofperfacegravity == 1) //LEFTFACE FAKE GRAVITY-ISH CHARACTER ROTATION
-                                                {
-                                                    float offsetposx = 0.05f;
-                                                    float offsetposy = 0.05f;
-                                                    float offsetposz = 0.05f;
-
-                                                    offsetposx += 0.10f;
-
-                                                    Vector3 position = new Vector3((float)rayposforinnerchunkx + ((float)remnantsx * planeSize) + offsetposx, (float)rayposforinnerchunky + ((float)remnantsy * planeSize) + offsetposy, ((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz);
-                                                    //Vector3 position = new Vector3((float)rayposforinnerchunkx, (float)rayposforinnerchunky , ((float)rayposforinnerchunkz));
-
-                                                    /*if (whichsiderayselect == 0)
-                                                    {
-                                                        sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().handTarget.transform.position = position;// new Vector3(rayposforinnerchunkx + (remnantsx * planeSize) + offsetposx, rayposforinnerchunky + (remnantsy * planeSize) + offsetposy, rayposforinnerchunkz + (remnantsz * planeSize) + offsetposz);
-                                                    }
-                                                    else if (whichsiderayselect == 1)
-                                                    {
-                                                        sccsikplayer.currentsccsikplayer.arrayofikarms[3].GetComponent<sccsikarm>().handTarget.transform.position = position;// new Vector3(rayposforinnerchunkx + (remnantsx * planeSize) + offsetposx, rayposforinnerchunky + (remnantsy * planeSize) + offsetposy, rayposforinnerchunkz + (remnantsz * planeSize) + offsetposz);
-
-                                                    }*/
-
-
-                                                    //UnityEngine.Debug.Log(position + "/z:" + (((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz));
-                                                }
-                                                else if (sccsplayerscript.indexofmaxvalueofperfacegravity == 2) //LEFTFACE FAKE GRAVITY-ISH CHARACTER ROTATION
-                                                {
-                                                    float offsetposx = 0.05f;
-                                                    float offsetposy = 0.05f;
-                                                    float offsetposz = 0.05f;
-
-                                                    offsetposx += 0.10f;
-
-                                                    Vector3 position = new Vector3((float)rayposforinnerchunkx + ((float)remnantsx * planeSize) + offsetposx, (float)rayposforinnerchunky + ((float)remnantsy * planeSize) + offsetposy, ((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz);
-                                                    //Vector3 position = new Vector3((float)rayposforinnerchunkx, (float)rayposforinnerchunky , ((float)rayposforinnerchunkz));
-
-                                                    /*if (whichsiderayselect == 0)
-                                                    {
-                                                        sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().handTarget.transform.position = position;// new Vector3(rayposforinnerchunkx + (remnantsx * planeSize) + offsetposx, rayposforinnerchunky + (remnantsy * planeSize) + offsetposy, rayposforinnerchunkz + (remnantsz * planeSize) + offsetposz);
-                                                    }
-                                                    else if (whichsiderayselect == 1)
-                                                    {
-                                                        sccsikplayer.currentsccsikplayer.arrayofikarms[3].GetComponent<sccsikarm>().handTarget.transform.position = position;// new Vector3(rayposforinnerchunkx + (remnantsx * planeSize) + offsetposx, rayposforinnerchunky + (remnantsy * planeSize) + offsetposy, rayposforinnerchunkz + (remnantsz * planeSize) + offsetposz);
-
-                                                    }
-                                                    */
-                                                    //UnityEngine.Debug.Log(position + "/z:" + (((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz));
-                                                }
-                                                else if (sccsplayerscript.indexofmaxvalueofperfacegravity == 3) //LEFTFACE FAKE GRAVITY-ISH CHARACTER ROTATION
-                                                {
-                                                    float offsetposx = 0.05f;
-                                                    float offsetposy = 0.05f;
-                                                    float offsetposz = 0.05f;
-
-                                                    offsetposz += 0.10f;
-
-                                                    Vector3 position = new Vector3((float)rayposforinnerchunkx + ((float)remnantsx * planeSize) + offsetposx, (float)rayposforinnerchunky + ((float)remnantsy * planeSize) + offsetposy, ((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz);
-                                                    //Vector3 position = new Vector3((float)rayposforinnerchunkx, (float)rayposforinnerchunky , ((float)rayposforinnerchunkz));
-
-                                                    /*if (whichsiderayselect == 0)
-                                                    {
-                                                        sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().handTarget.transform.position = position;// new Vector3(rayposforinnerchunkx + (remnantsx * planeSize) + offsetposx, rayposforinnerchunky + (remnantsy * planeSize) + offsetposy, rayposforinnerchunkz + (remnantsz * planeSize) + offsetposz);
-                                                    }
-                                                    else if (whichsiderayselect == 1)
-                                                    {
-                                                        sccsikplayer.currentsccsikplayer.arrayofikarms[3].GetComponent<sccsikarm>().handTarget.transform.position = position;// new Vector3(rayposforinnerchunkx + (remnantsx * planeSize) + offsetposx, rayposforinnerchunky + (remnantsy * planeSize) + offsetposy, rayposforinnerchunkz + (remnantsz * planeSize) + offsetposz);
-
-                                                    }*/
-
-                                                    //UnityEngine.Debug.Log(position + "/z:" + (((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz));
-                                                }
-                                                else if (sccsplayerscript.indexofmaxvalueofperfacegravity == 4) //LEFTFACE FAKE GRAVITY-ISH CHARACTER ROTATION
-                                                {
-                                                    float offsetposx = 0.05f;
-                                                    float offsetposy = 0.05f;
-                                                    float offsetposz = 0.05f;
-
-                                                    offsetposz -= 0.10f;
-
-                                                    Vector3 position = new Vector3((float)rayposforinnerchunkx + ((float)remnantsx * planeSize) + offsetposx, (float)rayposforinnerchunky + ((float)remnantsy * planeSize) + offsetposy, ((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz);
-                                                    //Vector3 position = new Vector3((float)rayposforinnerchunkx, (float)rayposforinnerchunky , ((float)rayposforinnerchunkz));
-
-                                                    /*if (whichsiderayselect == 0)
-                                                    {
-                                                        sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().handTarget.transform.position = position;// new Vector3(rayposforinnerchunkx + (remnantsx * planeSize) + offsetposx, rayposforinnerchunky + (remnantsy * planeSize) + offsetposy, rayposforinnerchunkz + (remnantsz * planeSize) + offsetposz);
-                                                    }
-                                                    else if (whichsiderayselect == 1)
-                                                    {
-                                                        sccsikplayer.currentsccsikplayer.arrayofikarms[3].GetComponent<sccsikarm>().handTarget.transform.position = position;// new Vector3(rayposforinnerchunkx + (remnantsx * planeSize) + offsetposx, rayposforinnerchunky + (remnantsy * planeSize) + offsetposy, rayposforinnerchunkz + (remnantsz * planeSize) + offsetposz);
-
-                                                    }*/
-                                                    //UnityEngine.Debug.Log(position + "/z:" + (((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz));
-                                                }
-                                                else if (sccsplayerscript.indexofmaxvalueofperfacegravity == 5) //LEFTFACE FAKE GRAVITY-ISH CHARACTER ROTATION
-                                                {
-                                                    float offsetposx = 0.05f;
-                                                    float offsetposy = 0.05f;
-                                                    float offsetposz = 0.05f;
-
-                                                    offsetposy -= 0.10f;
-
-                                                    Vector3 position = new Vector3((float)rayposforinnerchunkx + ((float)remnantsx * planeSize) + offsetposx, (float)rayposforinnerchunky + ((float)remnantsy * planeSize) + offsetposy, ((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz);
-                                                    //Vector3 position = new Vector3((float)rayposforinnerchunkx, (float)rayposforinnerchunky , ((float)rayposforinnerchunkz));
-
-                                                    /*if (whichsiderayselect == 0)
-                                                    {
-                                                        sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().handTarget.transform.position = position;// new Vector3(rayposforinnerchunkx + (remnantsx * planeSize) + offsetposx, rayposforinnerchunky + (remnantsy * planeSize) + offsetposy, rayposforinnerchunkz + (remnantsz * planeSize) + offsetposz);
-                                                    }
-                                                    else if (whichsiderayselect == 1)
-                                                    {
-                                                        sccsikplayer.currentsccsikplayer.arrayofikarms[3].GetComponent<sccsikarm>().handTarget.transform.position = position;// new Vector3(rayposforinnerchunkx + (remnantsx * planeSize) + offsetposx, rayposforinnerchunky + (remnantsy * planeSize) + offsetposy, rayposforinnerchunkz + (remnantsz * planeSize) + offsetposz);
-
-                                                    }*/
-
-                                                    //UnityEngine.Debug.Log(position + "/z:" + (((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz));
-                                                }
-                                            }
-
-                                            break;
-
-
+                                            someremainsx = (int)Mathf.Floor((raypositionforwardclampedx / 10.0f)) * 10;
+                                            totalTimesx = (int)(raypositionforwardclampedx - someremainsx);
                                         }
                                         else
                                         {
 
+                                            raypositionforwardclampedx = Mathf.FloorToInt((int)Mathf.Floor(raypositionforward.x * 100.0f) / 10.0f);
+
+
+                                            someremainsx = (int)(Mathf.Floor((rayposforinnerchunkbytesx / 10.0f)) * 10.0f);
+
+                                            totalTimesx = (int)(raypositionforwardclampedx - someremainsx);
+
+                                            //totalTimesz *= -1;
+
+                                            if (totalTimesx < 0)
+                                            {
+                                                totalTimesx *= -1;
+                                                totalTimesx = 10 - totalTimesx;
+                                            }
+
+                                        }
+
+
+
+                                        if (raypositionforward.y >= 0)
+                                        {
+                                            raypositionforwardclampedy = (int)Mathf.Floor(raypositionforward.y * 100.0f) / 10;
+                                            someremainsy = (int)Mathf.Floor((raypositionforwardclampedy / 10.0f)) * 10;
+                                            totalTimesy = (int)(raypositionforwardclampedy - someremainsy);
+                                        }
+                                        else
+                                        {
+
+
+
+                                            raypositionforwardclampedy = Mathf.FloorToInt((int)Mathf.Floor(raypositionforward.y * 100.0f) / 10.0f);
+
+
+                                            someremainsy = (int)(Mathf.Floor((rayposforinnerchunkbytesy / 10.0f)) * 10.0f);
+
+                                            totalTimesy = (int)(raypositionforwardclampedy - someremainsy);
+
+                                            //totalTimesz *= -1;
+
+                                            if (totalTimesy < 0)
+                                            {
+                                                totalTimesy *= -1;
+                                                totalTimesy = 10 - totalTimesy;
+
+                                            }
+
+
+
+                                        }
+
+
+                                        if (raypositionforward.z >= 0)
+                                        {
+                                            raypositionforwardclampedz = (int)Mathf.Floor(raypositionforward.z * 100.0f) / 10;
+                                            someremainsz = (int)Mathf.Floor((raypositionforwardclampedz / 10.0f)) * 10;
+                                            totalTimesz = (int)(raypositionforwardclampedz - someremainsz);
+                                        }
+                                        else
+                                        {
+
+
+                                            raypositionforwardclampedz = Mathf.FloorToInt((int)Mathf.Floor(raypositionforward.z * 100.0f) / 10.0f);
+
+
+                                            someremainsz = (int)(Mathf.Floor((rayposforinnerchunkbytesz / 10.0f)) * 10.0f);
+
+                                            totalTimesz = (int)(raypositionforwardclampedz - someremainsz);
+
+                                            //totalTimesz *= -1;
+
+                                            if (totalTimesz < 0)
+                                            {
+                                                totalTimesz *= -1;
+                                                totalTimesz = 10 - totalTimesz;
+
+                                            }
+
+                                            //totalTimesz = 10 - 1 - totalTimesz;
+
+                                        }
+
+
+
+                                        /*
+
+                                        //UnityEngine.Debug.Log("/totalTimesx:" + totalTimesx + "/totalTimesy:" + totalTimesy + "/totalTimesz:" + totalTimesz + "/theremainsz:" + theremainsz + "/raypositionforwardclampedz:" + raypositionforwardclampedz + "/raypositionforward.z:" + raypositionforward.z);
+                                        */
+
+
+                                        remnantsx = totalTimesx;
+                                        remnantsy = totalTimesy;
+                                        remnantsz = totalTimesz;
+
+
+
+
+                                        /*
+                                        //UnityEngine.Debug.Log("/chunkposx:" + thechunk.chunkpos.x + "/chunkposy:" + thechunk.chunkpos.y + "/chunkposz:" + thechunk.chunkpos.z);
+                                        */
+
+
+                                        int indexofchunkbytemap = remnantsx + (10) * (remnantsy + (10) * remnantsz);
+
+                                        if (indexofchunkbytemap >= 0 && indexofchunkbytemap < 10 * 10 * 10)
+                                        {
+
+                                            if (thechunk.thebytemap[indexofchunkbytemap] == 1)
+                                            {
+
+                                                hasfoundblock = 1;
+
+                                                swtcdontlookfurther = 1;
+                                                var sccsplayerscript = sccsikplayer.currentsccsikplayer.themovementplayerscript;// arrayofikarms[2].GetComponent<sccsplayer>();
+
+                                                if (sccsplayerscript != null)
+                                                {
+                                                    if (sccsplayerscript.indexofmaxvalueofperfacegravity == 0) //TOPFACE FAKE GRAVITY-ISH CHARACTER ROTATION
+                                                    {
+                                                        float offsetposx = 0.05f;
+                                                        float offsetposy = 0.05f;
+                                                        float offsetposz = 0.05f;
+
+                                                        offsetposy += 0.10f;
+
+                                                        Vector3 position = new Vector3((float)rayposforinnerchunkx + ((float)remnantsx * planeSize) + offsetposx, (float)rayposforinnerchunky + ((float)remnantsy * planeSize) + offsetposy, ((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz);
+                                                        //Vector3 position = new Vector3((float)rayposforinnerchunkx, (float)rayposforinnerchunky , ((float)rayposforinnerchunkz));
+                                                        /*
+                                                        if (whichsiderayselect == 0)
+                                                        {
+                                                            sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().handTarget.transform.position = position;// new Vector3(rayposforinnerchunkx + (remnantsx * planeSize) + offsetposx, rayposforinnerchunky + (remnantsy * planeSize) + offsetposy, rayposforinnerchunkz + (remnantsz * planeSize) + offsetposz);
+                                                        }
+                                                        else if (whichsiderayselect == 1)
+                                                        {
+                                                            sccsikplayer.currentsccsikplayer.arrayofikarms[3].GetComponent<sccsikarm>().handTarget.transform.position = position;// new Vector3(rayposforinnerchunkx + (remnantsx * planeSize) + offsetposx, rayposforinnerchunky + (remnantsy * planeSize) + offsetposy, rayposforinnerchunkz + (remnantsz * planeSize) + offsetposz);
+
+                                                        }*/
+
+
+                                                        //UnityEngine.Debug.Log(position + "/z:" + (((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz));
+                                                    }
+                                                    else if (sccsplayerscript.indexofmaxvalueofperfacegravity == 1) //LEFTFACE FAKE GRAVITY-ISH CHARACTER ROTATION
+                                                    {
+                                                        float offsetposx = 0.05f;
+                                                        float offsetposy = 0.05f;
+                                                        float offsetposz = 0.05f;
+
+                                                        offsetposx += 0.10f;
+
+                                                        Vector3 position = new Vector3((float)rayposforinnerchunkx + ((float)remnantsx * planeSize) + offsetposx, (float)rayposforinnerchunky + ((float)remnantsy * planeSize) + offsetposy, ((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz);
+                                                        //Vector3 position = new Vector3((float)rayposforinnerchunkx, (float)rayposforinnerchunky , ((float)rayposforinnerchunkz));
+
+                                                        /*if (whichsiderayselect == 0)
+                                                        {
+                                                            sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().handTarget.transform.position = position;// new Vector3(rayposforinnerchunkx + (remnantsx * planeSize) + offsetposx, rayposforinnerchunky + (remnantsy * planeSize) + offsetposy, rayposforinnerchunkz + (remnantsz * planeSize) + offsetposz);
+                                                        }
+                                                        else if (whichsiderayselect == 1)
+                                                        {
+                                                            sccsikplayer.currentsccsikplayer.arrayofikarms[3].GetComponent<sccsikarm>().handTarget.transform.position = position;// new Vector3(rayposforinnerchunkx + (remnantsx * planeSize) + offsetposx, rayposforinnerchunky + (remnantsy * planeSize) + offsetposy, rayposforinnerchunkz + (remnantsz * planeSize) + offsetposz);
+
+                                                        }*/
+
+
+                                                        //UnityEngine.Debug.Log(position + "/z:" + (((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz));
+                                                    }
+                                                    else if (sccsplayerscript.indexofmaxvalueofperfacegravity == 2) //LEFTFACE FAKE GRAVITY-ISH CHARACTER ROTATION
+                                                    {
+                                                        float offsetposx = 0.05f;
+                                                        float offsetposy = 0.05f;
+                                                        float offsetposz = 0.05f;
+
+                                                        offsetposx += 0.10f;
+
+                                                        Vector3 position = new Vector3((float)rayposforinnerchunkx + ((float)remnantsx * planeSize) + offsetposx, (float)rayposforinnerchunky + ((float)remnantsy * planeSize) + offsetposy, ((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz);
+                                                        //Vector3 position = new Vector3((float)rayposforinnerchunkx, (float)rayposforinnerchunky , ((float)rayposforinnerchunkz));
+
+                                                        /*if (whichsiderayselect == 0)
+                                                        {
+                                                            sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().handTarget.transform.position = position;// new Vector3(rayposforinnerchunkx + (remnantsx * planeSize) + offsetposx, rayposforinnerchunky + (remnantsy * planeSize) + offsetposy, rayposforinnerchunkz + (remnantsz * planeSize) + offsetposz);
+                                                        }
+                                                        else if (whichsiderayselect == 1)
+                                                        {
+                                                            sccsikplayer.currentsccsikplayer.arrayofikarms[3].GetComponent<sccsikarm>().handTarget.transform.position = position;// new Vector3(rayposforinnerchunkx + (remnantsx * planeSize) + offsetposx, rayposforinnerchunky + (remnantsy * planeSize) + offsetposy, rayposforinnerchunkz + (remnantsz * planeSize) + offsetposz);
+
+                                                        }
+                                                        */
+                                                        //UnityEngine.Debug.Log(position + "/z:" + (((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz));
+                                                    }
+                                                    else if (sccsplayerscript.indexofmaxvalueofperfacegravity == 3) //LEFTFACE FAKE GRAVITY-ISH CHARACTER ROTATION
+                                                    {
+                                                        float offsetposx = 0.05f;
+                                                        float offsetposy = 0.05f;
+                                                        float offsetposz = 0.05f;
+
+                                                        offsetposz += 0.10f;
+
+                                                        Vector3 position = new Vector3((float)rayposforinnerchunkx + ((float)remnantsx * planeSize) + offsetposx, (float)rayposforinnerchunky + ((float)remnantsy * planeSize) + offsetposy, ((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz);
+                                                        //Vector3 position = new Vector3((float)rayposforinnerchunkx, (float)rayposforinnerchunky , ((float)rayposforinnerchunkz));
+
+                                                        /*if (whichsiderayselect == 0)
+                                                        {
+                                                            sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().handTarget.transform.position = position;// new Vector3(rayposforinnerchunkx + (remnantsx * planeSize) + offsetposx, rayposforinnerchunky + (remnantsy * planeSize) + offsetposy, rayposforinnerchunkz + (remnantsz * planeSize) + offsetposz);
+                                                        }
+                                                        else if (whichsiderayselect == 1)
+                                                        {
+                                                            sccsikplayer.currentsccsikplayer.arrayofikarms[3].GetComponent<sccsikarm>().handTarget.transform.position = position;// new Vector3(rayposforinnerchunkx + (remnantsx * planeSize) + offsetposx, rayposforinnerchunky + (remnantsy * planeSize) + offsetposy, rayposforinnerchunkz + (remnantsz * planeSize) + offsetposz);
+
+                                                        }*/
+
+                                                        //UnityEngine.Debug.Log(position + "/z:" + (((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz));
+                                                    }
+                                                    else if (sccsplayerscript.indexofmaxvalueofperfacegravity == 4) //LEFTFACE FAKE GRAVITY-ISH CHARACTER ROTATION
+                                                    {
+                                                        float offsetposx = 0.05f;
+                                                        float offsetposy = 0.05f;
+                                                        float offsetposz = 0.05f;
+
+                                                        offsetposz -= 0.10f;
+
+                                                        Vector3 position = new Vector3((float)rayposforinnerchunkx + ((float)remnantsx * planeSize) + offsetposx, (float)rayposforinnerchunky + ((float)remnantsy * planeSize) + offsetposy, ((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz);
+                                                        //Vector3 position = new Vector3((float)rayposforinnerchunkx, (float)rayposforinnerchunky , ((float)rayposforinnerchunkz));
+
+                                                        /*if (whichsiderayselect == 0)
+                                                        {
+                                                            sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().handTarget.transform.position = position;// new Vector3(rayposforinnerchunkx + (remnantsx * planeSize) + offsetposx, rayposforinnerchunky + (remnantsy * planeSize) + offsetposy, rayposforinnerchunkz + (remnantsz * planeSize) + offsetposz);
+                                                        }
+                                                        else if (whichsiderayselect == 1)
+                                                        {
+                                                            sccsikplayer.currentsccsikplayer.arrayofikarms[3].GetComponent<sccsikarm>().handTarget.transform.position = position;// new Vector3(rayposforinnerchunkx + (remnantsx * planeSize) + offsetposx, rayposforinnerchunky + (remnantsy * planeSize) + offsetposy, rayposforinnerchunkz + (remnantsz * planeSize) + offsetposz);
+
+                                                        }*/
+                                                        //UnityEngine.Debug.Log(position + "/z:" + (((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz));
+                                                    }
+                                                    else if (sccsplayerscript.indexofmaxvalueofperfacegravity == 5) //LEFTFACE FAKE GRAVITY-ISH CHARACTER ROTATION
+                                                    {
+                                                        float offsetposx = 0.05f;
+                                                        float offsetposy = 0.05f;
+                                                        float offsetposz = 0.05f;
+
+                                                        offsetposy -= 0.10f;
+
+                                                        Vector3 position = new Vector3((float)rayposforinnerchunkx + ((float)remnantsx * planeSize) + offsetposx, (float)rayposforinnerchunky + ((float)remnantsy * planeSize) + offsetposy, ((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz);
+                                                        //Vector3 position = new Vector3((float)rayposforinnerchunkx, (float)rayposforinnerchunky , ((float)rayposforinnerchunkz));
+
+                                                        /*if (whichsiderayselect == 0)
+                                                        {
+                                                            sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().handTarget.transform.position = position;// new Vector3(rayposforinnerchunkx + (remnantsx * planeSize) + offsetposx, rayposforinnerchunky + (remnantsy * planeSize) + offsetposy, rayposforinnerchunkz + (remnantsz * planeSize) + offsetposz);
+                                                        }
+                                                        else if (whichsiderayselect == 1)
+                                                        {
+                                                            sccsikplayer.currentsccsikplayer.arrayofikarms[3].GetComponent<sccsikarm>().handTarget.transform.position = position;// new Vector3(rayposforinnerchunkx + (remnantsx * planeSize) + offsetposx, rayposforinnerchunky + (remnantsy * planeSize) + offsetposy, rayposforinnerchunkz + (remnantsz * planeSize) + offsetposz);
+
+                                                        }*/
+
+                                                        //UnityEngine.Debug.Log(position + "/z:" + (((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz));
+                                                    }
+                                                }
+
+                                                break;
+
+
+                                            }
+                                            else
+                                            {
+
+                                            }
                                         }
                                     }
                                 }
-                            }
-                            else
-                            {
+                                else
+                                {
 
+                                }
                             }
                         }
                     }
+                    /*else
+                    {
+                        break;
+                    }*/
                 }
-                /*else
+
+
+
+
+
+                //else
                 {
-                    break;
-                }*/
+                    float themag = (raypositionforwardinit - raypositionforward).magnitude;
+
+                    if (themag < hiptofloordist * hiptofloordistmul * 0.1f)
+                    {
+                        //UnityEngine.Debug.Log("has reached crouching pos");
+                        //raypositionforward = raypositionforwardinit + (raydirection.normalized * hiptofloordist * 0hiptofloordistmul75f);
+
+                        raypositionforward = raypositionforward + (-raydirection.normalized * hiptofloordist * hiptofloordistmul * 0.1f);
+
+                        viewer.transform.position = raypositionforward;// Vector3.Lerp(viewer.transform.position, (raypositionforward), 10.0f);// + (-viewer.transform.up * (totalarmlength)));
+
+
+
+                        //raypositionforward = 
+
+                        /*Vector3 diffdir = raypositionforward - raypositionforwardinit;
+                        diffdir.Normalize();
+                        diffdir = diffdir * (hiptofloordist * 0.75f);
+
+                        Vector3 newpos = raypositionforward + diffdir;
+
+                        viewer.transform.position = Vector3.Lerp(viewer.transform.position, newpos, 10.0f);*/
+                    }
+                    else
+                    {
+
+                        if (hasfoundblock == 1)
+                        {
+
+                            raypositionforward = raypositionforward + (-raydirection.normalized * hiptofloordist * hiptofloordistmul * 0.1f);
+
+
+                            viewer.transform.position = raypositionforward;// Vector3.Lerp(viewer.transform.position, (raypositionforward), 10.0f);//
+                                                                           //UnityEngine.Debug.Log("has reached too high pos");
+
+                        }
+                        else
+                        {
+
+                            /*raypositionforward = raypositionforward + (-raydirection.normalized * hiptofloordist * hiptofloordistmul);
+
+                            UnityEngine.Debug.Log("has reached too high pos");
+
+
+                            viewer.transform.position = Vector3.Lerp(viewer.transform.position, (raypositionforward), 0.5f);//
+                            */
+                        }
+
+
+
+                        /*raypositionforward = raypositionforward + (-raydirection.normalized * hiptofloordist * hiptofloordistmul);
+
+                        viewer.transform.position = Vector3.Lerp(viewer.transform.position, (raypositionforward), 0.15f);// + (-viewer.transform.up * (totalarmlength)));
+                        */
+
+
+
+
+                        //raypositionforward = raypositionforward + (-raydirection.normalized * hiptofloordist * 0.5f);
+
+                        //viewer.transform.position = Vector3.Lerp(viewer.transform.position, (raypositionforward), 0.5f);// + (-viewer.transform.up * (totalarmlength)));
+
+                        //UnityEngine.Debug.Log("has reached too high pos");
+
+                        /*Vector3 diffdir = raypositionforward - raypositionforwardinit;
+                        diffdir.Normalize();
+                        diffdir = diffdir * (hiptofloordist * 0.75f);
+
+                        Vector3 newpos = raypositionforward + diffdir;
+
+                        viewer.transform.position = Vector3.Lerp(viewer.transform.position, newpos, 10.0f);
+                        */
+
+
+
+
+
+                        /*if (indexofmaxvalueofperfacegravitylast != indexofmaxvalueofperfacegravity)
+                        {
+                            Vector3 diffdir = raypositionforward - raypositionforwardinit;
+                            diffdir.Normalize();
+                            diffdir = diffdir * (hiptofloordist * 0.75f);
+
+                            Vector3 newpos = raypositionforward + diffdir;
+
+                            viewer.transform.position = Vector3.Lerp(viewer.transform.position, newpos, 10.0f);
+                        }
+                        */
+
+                        /*
+                        Vector3 diffdir = raypositionforward - raypositionforwardinit;
+                        diffdir.Normalize();
+                        diffdir = diffdir * (hiptofloordist * 0.75f);
+
+                        Vector3 newpos = raypositionforward + diffdir;
+
+                        viewer.transform.position = Vector3.Lerp(viewer.transform.position, newpos, 10.0f);
+                        */
+
+                        /*
+                        //UnityEngine.Debug.Log("!has reached crouching pos");
+                        //raypositionforward = raypositionforwardinit + (raydirection.normalized * hiptofloordist * 0.75f);
+                        viewer.transform.position = Vector3.Lerp(viewer.transform.position, (viewer.transform.position + diffdir), 0.01f);// + (-viewer.transform.up * (totalarmlength)));
+                        */
+
+
+
+
+
+                    }
+                }
             }
-
-
-
-
-
-            float themag = (raypositionforwardinit - raypositionforward).magnitude;
-
-            if (themag < hiptofloordist * hiptofloordistmul * 0.1f)
-            {
-                //UnityEngine.Debug.Log("has reached crouching pos");
-                //raypositionforward = raypositionforwardinit + (raydirection.normalized * hiptofloordist * 0hiptofloordistmul75f);
-
-                raypositionforward = raypositionforward + (-raydirection.normalized * hiptofloordist * hiptofloordistmul * 0.1f);
-
-                viewer.transform.position = Vector3.Lerp(viewer.transform.position, (raypositionforward), 10.0f);// + (-viewer.transform.up * (totalarmlength)));
-
-
-
-                //raypositionforward = 
-
-                /*Vector3 diffdir = raypositionforward - raypositionforwardinit;
-                diffdir.Normalize();
-                diffdir = diffdir * (hiptofloordist * 0.75f);
-
-                Vector3 newpos = raypositionforward + diffdir;
-
-                viewer.transform.position = Vector3.Lerp(viewer.transform.position, newpos, 10.0f);*/
-            }
-            else
-            {
-
-                if (hasfoundblock == 1)
-                {
-
-                    raypositionforward = raypositionforward + (-raydirection.normalized * hiptofloordist * hiptofloordistmul * 0.1f);
-                    
-
-                    viewer.transform.position = Vector3.Lerp(viewer.transform.position, (raypositionforward), 10.0f);//
-                    UnityEngine.Debug.Log("has reached too high pos");
-
-                }
-                else
-                {
-
-                    /*raypositionforward = raypositionforward + (-raydirection.normalized * hiptofloordist * hiptofloordistmul);
-
-                    UnityEngine.Debug.Log("has reached too high pos");
-
-
-                    viewer.transform.position = Vector3.Lerp(viewer.transform.position, (raypositionforward), 0.5f);//
-                    */
-                }
-
-
-
-                /*raypositionforward = raypositionforward + (-raydirection.normalized * hiptofloordist * hiptofloordistmul);
-
-                viewer.transform.position = Vector3.Lerp(viewer.transform.position, (raypositionforward), 0.15f);// + (-viewer.transform.up * (totalarmlength)));
-                */
-
-
-
-
-                //raypositionforward = raypositionforward + (-raydirection.normalized * hiptofloordist * 0.5f);
-
-                //viewer.transform.position = Vector3.Lerp(viewer.transform.position, (raypositionforward), 0.5f);// + (-viewer.transform.up * (totalarmlength)));
-
-                //UnityEngine.Debug.Log("has reached too high pos");
-
-                /*Vector3 diffdir = raypositionforward - raypositionforwardinit;
-                diffdir.Normalize();
-                diffdir = diffdir * (hiptofloordist * 0.75f);
-
-                Vector3 newpos = raypositionforward + diffdir;
-
-                viewer.transform.position = Vector3.Lerp(viewer.transform.position, newpos, 10.0f);
-                */
-
-
-
-
-
-                /*if (indexofmaxvalueofperfacegravitylast != indexofmaxvalueofperfacegravity)
-                {
-                    Vector3 diffdir = raypositionforward - raypositionforwardinit;
-                    diffdir.Normalize();
-                    diffdir = diffdir * (hiptofloordist * 0.75f);
-
-                    Vector3 newpos = raypositionforward + diffdir;
-
-                    viewer.transform.position = Vector3.Lerp(viewer.transform.position, newpos, 10.0f);
-                }
-                */
-
-                /*
-                Vector3 diffdir = raypositionforward - raypositionforwardinit;
-                diffdir.Normalize();
-                diffdir = diffdir * (hiptofloordist * 0.75f);
-
-                Vector3 newpos = raypositionforward + diffdir;
-
-                viewer.transform.position = Vector3.Lerp(viewer.transform.position, newpos, 10.0f);
-                */
-
-                /*
-                //UnityEngine.Debug.Log("!has reached crouching pos");
-                //raypositionforward = raypositionforwardinit + (raydirection.normalized * hiptofloordist * 0.75f);
-                viewer.transform.position = Vector3.Lerp(viewer.transform.position, (viewer.transform.position + diffdir), 0.01f);// + (-viewer.transform.up * (totalarmlength)));
-                */
-
-
-
-
-
-            }
-
 
         }
 
@@ -2169,6 +2831,27 @@ public class sccsplayer : MonoBehaviour
 
 
         indexofmaxvalueofperfacegravitylast = indexofmaxvalueofperfacegravity;
+
+        hasgotgravitydot = 0;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3472,18 +4155,18 @@ public class sccsplayer : MonoBehaviour
 
                 if (theplanet != null)
                 {
-               
-                pointertarget.transform.position = theouthitpointtoground.point;
 
-                Vector3 currentdirtopointinfrontdir = theouthitpointtoground.point - theouthit.point;
-                currentdirtopointinfrontdir.Normalize();
+                    pointertarget.transform.position = theouthitpointtoground.point;
+
+                    Vector3 currentdirtopointinfrontdir = theouthitpointtoground.point - theouthit.point;
+                    currentdirtopointinfrontdir.Normalize();
 
 
-                Vector3 uppoint = viewer.transform.position - theplanet.transform.position;
-                uppoint.Normalize();
+                    Vector3 uppoint = viewer.transform.position - theplanet.transform.position;
+                    uppoint.Normalize();
 
-                Vector3 pointtobeat = theouthitpointtoground.point + (-uppoint * 0.1f);
-                MOVEPOSOFFSET = Vector3.Lerp(MOVEPOSOFFSET, pointtobeat, movementspeed * Time.deltaTime); // * Time.deltaTime
+                    Vector3 pointtobeat = theouthitpointtoground.point + (-uppoint * 0.1f);
+                    MOVEPOSOFFSET = Vector3.Lerp(MOVEPOSOFFSET, pointtobeat, movementspeed * Time.deltaTime); // * Time.deltaTime
 
 
 
@@ -4459,7 +5142,7 @@ public class sccsplayer : MonoBehaviour
 
 
 
-
+            hasgotgravitydot = 1;
 
         }
 
