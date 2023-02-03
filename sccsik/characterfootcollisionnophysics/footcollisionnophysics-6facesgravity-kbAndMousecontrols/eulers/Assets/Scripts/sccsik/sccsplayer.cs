@@ -23,7 +23,7 @@ public class sccsplayer : MonoBehaviour
     int lastfacegravityindex = -1;
 
     public float rotationspeed = 1.5f;
-    public float movementspeed = 1.5f;
+    public float movementspeed = 3.5f;
 
     float isgroundedmaxdist = 0.70f;
     float hiptofloordist = 1.0f;
@@ -656,9 +656,9 @@ public class sccsplayer : MonoBehaviour
             float yawdeg = scmaths.RadianToDegree(yawcurrent);
             float rolldeg = scmaths.RadianToDegree(rollcurrent);
 
-            //Debug.Log("pitch:" + pitchdeg);
-            Debug.Log("yawdeg start:" + yawdeg);
-            Debug.Log("rolldeg:" + rolldeg);
+            ////Debug.Log("pitch:" + pitchdeg);
+            //Debug.Log("yawdeg start:" + yawdeg);
+            //Debug.Log("rolldeg:" + rolldeg);
 
             float altyaw = 0;
 
@@ -787,7 +787,7 @@ public class sccsplayer : MonoBehaviour
 
 
 
-            //Debug.Log("altyaw:" + altyaw);
+            ////Debug.Log("altyaw:" + altyaw);
 
             /*
             if (rolldeg >= 0 && rolldeg < 180)
@@ -797,8 +797,8 @@ public class sccsplayer : MonoBehaviour
 
             Vector3 toeuler = viewer.transform.localEulerAngles;// Quaternion.ToEulerAngles(viewer.transform.rotation);
 
-            Debug.Log("eulerangles.x:" + viewer.transform.localEulerAngles.x);
-            Debug.Log("toeuler.x:" + toeuler.x);
+            //Debug.Log("eulerangles.x:" + viewer.transform.localEulerAngles.x);
+            //Debug.Log("toeuler.x:" + toeuler.x);
 
             */
 
@@ -913,8 +913,8 @@ public class sccsplayer : MonoBehaviour
 
 
             /*
-            Debug.Log("eulerangles.y:" + viewer.transform.localEulerAngles.y);
-            Debug.Log("toeuler.y:" + viewer.transform.localEulerAngles.y);
+            //Debug.Log("eulerangles.y:" + viewer.transform.localEulerAngles.y);
+            //Debug.Log("toeuler.y:" + viewer.transform.localEulerAngles.y);
             */
 
 
@@ -922,7 +922,7 @@ public class sccsplayer : MonoBehaviour
             viewer.transform.localEulerAngles = eulerangles;// Quaternion.Euler(eulerangles);
             */
             /*
-            Debug.Log("eulerx:" + viewer.transform.localEulerAngles.x + "/eulery:" + viewer.transform.localEulerAngles.y + "/eulerz:" + viewer.transform.localEulerAngles.z);
+            //Debug.Log("eulerx:" + viewer.transform.localEulerAngles.x + "/eulery:" + viewer.transform.localEulerAngles.y + "/eulerz:" + viewer.transform.localEulerAngles.z);
             */
 
 
@@ -1016,9 +1016,9 @@ public class sccsplayer : MonoBehaviour
             float yawdeg = scmaths.RadianToDegree(yawcurrent);
             float rolldeg = scmaths.RadianToDegree(rollcurrent);
 
-            Debug.Log("pitchdeg:" + pitchdeg);
-            Debug.Log("yawdeg:" + yawdeg);
-            Debug.Log("rolldeg:" + rolldeg);
+            //Debug.Log("pitchdeg:" + pitchdeg);
+            //Debug.Log("yawdeg:" + yawdeg);
+            //Debug.Log("rolldeg:" + rolldeg);
 
             float altyaw = 0;
 
@@ -1028,6 +1028,7 @@ public class sccsplayer : MonoBehaviour
             {
                 altyaw = rolldeg;//
                                  //yawdeg = rolldeg;
+
 
 
                 if (pitchdeg >= 0)
@@ -1074,7 +1075,24 @@ public class sccsplayer : MonoBehaviour
 
                 if (pitchdeg < 0)
                 {
-                    /*if (rolldeg >= 0 & rolldeg < 90)
+                    if (rolldeg < 0 & rolldeg > -90)
+                    {
+                        altyaw = rolldeg;
+
+                        altyaw *= -1;
+                        altyaw = 360 - altyaw;
+                    }
+                    if (rolldeg <= -90 & rolldeg > -180)
+                    {
+                        altyaw = rolldeg;
+
+                        altyaw *= -1;
+                        altyaw = 360 - altyaw;
+                    }
+
+
+                    /*
+                    if (rolldeg >= 0 & rolldeg < 90)
                     {
                         altyaw = rolldeg;
                         altyaw = 180 - altyaw;
@@ -1088,8 +1106,22 @@ public class sccsplayer : MonoBehaviour
 
                         altyaw = 180 + altyaw;
                     }*/
-                }
 
+                    /*if (rolldeg < 0 & rolldeg > -90)
+                    {
+                        altyaw = rolldeg;
+
+                        altyaw *= -1;
+                        altyaw = 360 - altyaw;
+                    }
+                    if (rolldeg <= -90 & rolldeg > -180)
+                    {
+                        altyaw = rolldeg;
+
+                        altyaw *= -1;
+                        altyaw = 360 - altyaw;
+                    }*/
+                }
 
 
             }
@@ -1487,7 +1519,7 @@ public class sccsplayer : MonoBehaviour
                 }
             }
             */
-            Debug.Log("altyaw0:" + altyaw);
+            //Debug.Log("altyaw0:" + altyaw);
 
 
 
@@ -1502,19 +1534,32 @@ public class sccsplayer : MonoBehaviour
                 if (altyaw >= 0 && altyaw < 90 ||
                  altyaw >= 90 && altyaw < 180)
                 {
-                    altyaw += 90;
+                    //altyaw += 90;
                     //eulerangles.x = 90;
-                    eulerangles.z = -90;
-                    eulerangles.y = 0;
+                    //Debug.Log("here00");
+
 
                     if (altyaw >= 0 && altyaw < 90)
                     {
+                        eulerangles.z = 90;
+                        eulerangles.y = 0;
+                        //Debug.Log("here0");
                         altyaw = 90 - altyaw;
-
+                        altyaw += 90;
+                        altyaw += 180;
                     }
                     else if (altyaw >= 90 && altyaw < 180)
                     {
+                        eulerangles.z = 90;
+                        eulerangles.y = 0;
+                        //Debug.Log("here1");
                         altyaw = 180 - altyaw;
+                        altyaw += 180;
+                    }
+                    else
+                    {
+                        //Debug.Log("here111");
+
 
                     }
                 }
@@ -1526,9 +1571,11 @@ public class sccsplayer : MonoBehaviour
                     eulerangles.z = 90;
                     eulerangles.y = 0;
 
+                    //Debug.Log("here22");
 
                     if (altyaw >= 180 && altyaw < 270)
                     {
+                        //Debug.Log("here2");
                         altyaw = 270 - altyaw;
                         altyaw += 90;
                         //altyaw -= 180;
@@ -1538,6 +1585,7 @@ public class sccsplayer : MonoBehaviour
                     }
                     else if (altyaw >= 270 && altyaw < 360)
                     {
+                        //Debug.Log("here3");
                         altyaw = 360 - altyaw;
                         //altyaw -= 270;
                         //altyaw = 90 - altyaw;
@@ -1550,130 +1598,274 @@ public class sccsplayer : MonoBehaviour
             }
             else if (indexofmaxvalueofperfacegravitylast == 3)
             {
-                if (altyaw >= 0 && altyaw < 90 ||
-                 altyaw >= 90 && altyaw < 180)
+
+                if (pitchdeg >= 0)
                 {
-                    eulerangles.z = -90;
-                    eulerangles.y = 0;
+
+
+
+                    if (altyaw >= 0 && altyaw < 90 ||
+                    altyaw >= 90 && altyaw < 180)
+                    {
+                     
+                        if (altyaw >= 0 && altyaw < 90)
+                        {
+                            eulerangles.z = 90;
+                            eulerangles.y = 0;
+                            //Debug.Log("here0");
+                            altyaw = 90 - altyaw;
+
+                        }
+                        else if (altyaw >= 90 && altyaw < 180)
+                        {
+                            eulerangles.z = -90;
+                            eulerangles.y = 0;
+                            //Debug.Log("here1");
+                            altyaw = 180 - altyaw;
+                            altyaw -= 90;
+
+                        }
+                    }
+                    else
+                    {
+                        if (altyaw >= 180 && altyaw < 270)
+                        {
+                            eulerangles.z = 90;
+                            eulerangles.y = 0;
+                            //Debug.Log("here2");
+                            altyaw = 270 - altyaw;
+                            altyaw += 180;
+                            //altyaw += 90;
+                            //altyaw -= 180;
+                            //altyaw = 90 - altyaw;
+                            //altyaw = 270 - altyaw;
+                            //altyaw = 90 - altyaw;
+                        }
+                        else if (altyaw >= 270 && altyaw < 360)
+                        {
+                            eulerangles.z = 90;
+                            eulerangles.y = 0;
+                            //Debug.Log("here3");
+                            altyaw = 360 - altyaw;
+                            altyaw += 90;
+                            //altyaw -= 270;
+                            //altyaw = 90 - altyaw;
+                            //altyaw = 360 - altyaw;
+
+                            //altyaw = 90 - altyaw;
+
+                        }
+                    }
                 }
                 else
                 {
-                    eulerangles.z = 90;
-                    eulerangles.y = 0;
-                }
-
-                if (altyaw >= 0 && altyaw < 90 ||
-                altyaw >= 90 && altyaw < 180)
-                {
-                    if (altyaw >= 0 && altyaw < 90)
+                    /*if (altyaw >= 0 && altyaw < 90 ||
+                        altyaw >= 90 && altyaw < 180)
                     {
-                        altyaw = 90 - altyaw;
-
+                        eulerangles.z = 90;
+                        eulerangles.y = 0;
                     }
-                    else if (altyaw >= 90 && altyaw < 180)
+                    else
                     {
-                        altyaw = 180 - altyaw;
+                        eulerangles.z = -90;
+                        eulerangles.y = 0;
+                    }*/
 
+
+
+                    if (altyaw >= 0 && altyaw < 90 ||
+                    altyaw >= 90 && altyaw < 180)
+                    {
+                    
+
+                        if (altyaw >= 0 && altyaw < 90)
+                        {
+                            eulerangles.z = -90;
+                            eulerangles.y = 0;
+                            //Debug.Log("here0");
+                            altyaw = 90 - altyaw;
+
+                        }
+                        else if (altyaw >= 90 && altyaw < 180)
+                        {
+                            eulerangles.z = 90;
+                            eulerangles.y = 0;
+                            //Debug.Log("here1");
+                            altyaw = 180 - altyaw;
+                            altyaw -= 90;
+
+                        }
+                    }
+                    else
+                    {
+                        if (altyaw >= 180 && altyaw < 270)
+                        {
+                            eulerangles.z = 90;
+                            eulerangles.y = 0;
+
+                            //Debug.Log("here2");
+                            altyaw = 270 - altyaw;
+                            altyaw += 180;
+                            //altyaw += 90;
+                            //altyaw -= 180;
+                            //altyaw = 90 - altyaw;
+                            //altyaw = 270 - altyaw;
+                            //altyaw = 90 - altyaw;
+                        }
+                        else if (altyaw >= 270 && altyaw < 360)
+                        {
+                            eulerangles.z = -90;
+                            eulerangles.y = 0;
+
+                            //Debug.Log("here3");
+                            altyaw = 360 - altyaw;
+                            altyaw += 90;
+                            //altyaw -= 270;
+                            //altyaw = 90 - altyaw;
+                            //altyaw = 360 - altyaw;
+
+                            //altyaw = 90 - altyaw;
+
+                        }
                     }
                 }
-                else
-                {
-                    if (altyaw >= 180 && altyaw < 270)
-                    {
-                        altyaw = 270 - altyaw;
-                        altyaw += 180;
-                        //altyaw += 90;
-                        //altyaw -= 180;
-                        //altyaw = 90 - altyaw;
-                        //altyaw = 270 - altyaw;
-                        //altyaw = 90 - altyaw;
-                    }
-                    else if (altyaw >= 270 && altyaw < 360)
-                    {
-                        altyaw = 360 - altyaw;
-                        altyaw += 90;
-                        //altyaw -= 270;
-                        //altyaw = 90 - altyaw;
-                        //altyaw = 360 - altyaw;
-
-                        //altyaw = 90 - altyaw;
-
-                    }
-                }
-
-                /*if (pitchdeg >= 0)
-                {
-                    altyaw += 90;
-                }
-                else
-                {
-                    altyaw += 90;
-                }*/
             }
             else if (indexofmaxvalueofperfacegravitylast == 4)
             {
-                if (altyaw >= 0 && altyaw < 90 ||
-                 altyaw >= 90 && altyaw < 180)
+               
+
+
+
+
+
+
+
+                if (pitchdeg >= 0)
                 {
-                    eulerangles.z = 90;
-                    eulerangles.y = 0;
+                   
+
+
+                    if (altyaw >= 0 && altyaw < 90 ||
+                    altyaw >= 90 && altyaw < 180)
+                    {
+                        eulerangles.z = 90;
+                        eulerangles.y = 0;
+                        if (altyaw >= 0 && altyaw < 90)
+                        {
+                            //Debug.Log("here0");
+                            altyaw = 90 - altyaw;
+
+                        }
+                        else if (altyaw >= 90 && altyaw < 180)
+                        {
+                            //Debug.Log("here1");
+                            altyaw = 180 - altyaw;
+                            altyaw -= 90;
+
+                        }
+                    }
+                    else
+                    {
+                        if (altyaw >= 180 && altyaw < 270)
+                        {
+                            eulerangles.z = -90;
+                            eulerangles.y = 0;
+                            //Debug.Log("here2");
+                            altyaw = 270 - altyaw;
+                            altyaw += 180;
+                            //altyaw += 90;
+                            //altyaw -= 180;
+                            //altyaw = 90 - altyaw;
+                            //altyaw = 270 - altyaw;
+                            //altyaw = 90 - altyaw;
+                        }
+                        else if (altyaw >= 270 && altyaw < 360)
+                        {
+                            eulerangles.z = 90;
+                            eulerangles.y = 0;
+                            //Debug.Log("here3");
+                            altyaw = 360 - altyaw;
+                            altyaw += 90;
+                            //altyaw -= 270;
+                            //altyaw = 90 - altyaw;
+                            //altyaw = 360 - altyaw;
+
+                            //altyaw = 90 - altyaw;
+
+                        }
+                    }
                 }
                 else
                 {
-                    eulerangles.z = -90;
-                    eulerangles.y = 0;
+                    /*if (altyaw >= 0 && altyaw < 90 ||
+                        altyaw >= 90 && altyaw < 180)
+                    {
+                        eulerangles.z = 90;
+                        eulerangles.y = 0;
+                    }
+                    else
+                    {
+                        eulerangles.z = -90;
+                        eulerangles.y = 0;
+                    }*/
+
+
+
+                    if (altyaw >= 0 && altyaw < 90 ||
+                    altyaw >= 90 && altyaw < 180)
+                    {
+                        eulerangles.z = 90;
+                        eulerangles.y = 0;
+
+                        if (altyaw >= 0 && altyaw < 90)
+                        {
+                            //Debug.Log("here0");
+                            altyaw = 90 - altyaw;
+
+                        }
+                        else if (altyaw >= 90 && altyaw < 180)
+                        {
+                            //Debug.Log("here1");
+                            altyaw = 180 - altyaw;
+                            altyaw -= 90;
+
+                        }
+                    }
+                    else
+                    {
+                        if (altyaw >= 180 && altyaw < 270)
+                        {
+                            eulerangles.z = 90;
+                            eulerangles.y = 0;
+
+                            //Debug.Log("here2");
+                            altyaw = 270 - altyaw;
+                            altyaw += 180;
+                            //altyaw += 90;
+                            //altyaw -= 180;
+                            //altyaw = 90 - altyaw;
+                            //altyaw = 270 - altyaw;
+                            //altyaw = 90 - altyaw;
+                        }
+                        else if (altyaw >= 270 && altyaw < 360)
+                        {
+                            eulerangles.z = 90;
+                            eulerangles.y = 0;
+
+                            //Debug.Log("here3");
+                            altyaw = 360 - altyaw;
+                            altyaw += 90;
+                            //altyaw -= 270;
+                            //altyaw = 90 - altyaw;
+                            //altyaw = 360 - altyaw;
+
+                            //altyaw = 90 - altyaw;
+
+                        }
+                    }
                 }
 
 
-
-
-
-
-
-
-
-
-
-
-                if (altyaw >= 0 && altyaw < 90 ||
-                altyaw >= 90 && altyaw < 180)
-                {
-                    if (altyaw >= 0 && altyaw < 90)
-                    {
-                        altyaw = 90 - altyaw;
-
-                    }
-                    else if (altyaw >= 90 && altyaw < 180)
-                    {
-                        altyaw = 180 - altyaw;
-                        altyaw -= 90;
-
-                    }
-                }
-                else
-                {
-                    if (altyaw >= 180 && altyaw < 270)
-                    {
-                        altyaw = 270 - altyaw;
-                        altyaw += 180;
-                        //altyaw += 90;
-                        //altyaw -= 180;
-                        //altyaw = 90 - altyaw;
-                        //altyaw = 270 - altyaw;
-                        //altyaw = 90 - altyaw;
-                    }
-                    else if (altyaw >= 270 && altyaw < 360)
-                    {
-                        altyaw = 360 - altyaw;
-                        altyaw += 90;
-                        //altyaw -= 270;
-                        //altyaw = 90 - altyaw;
-                        //altyaw = 360 - altyaw;
-
-                        //altyaw = 90 - altyaw;
-
-                    }
-                }
             }
             else if (indexofmaxvalueofperfacegravitylast == 5)
             {
@@ -1690,7 +1882,7 @@ public class sccsplayer : MonoBehaviour
 
                         if (altyaw >= 0 && altyaw < 90)
                         {
-                            Debug.Log("reached0");
+                            //Debug.Log("reached0");
                             //altyaw += 90;
 
                             //altyaw = 90 - altyaw;
@@ -1698,7 +1890,7 @@ public class sccsplayer : MonoBehaviour
                         }
                         else if (altyaw >= 90 && altyaw < 180)
                         {
-                            Debug.Log("reached1");
+                            //Debug.Log("reached1");
 
                             altyaw = 180 - altyaw;
                             altyaw -= 90;
@@ -1711,19 +1903,23 @@ public class sccsplayer : MonoBehaviour
                     {
                         //altyaw += 90;
 
-                        //eulerangles.x = 90;
-                        eulerangles.z = -90;
-                        eulerangles.y = 0;
 
 
                         if (altyaw >= 180 && altyaw < 270)
                         {
-                            Debug.Log("reached2");
+                            //eulerangles.x = 90;
+                            eulerangles.z = 90;
+                            eulerangles.y = 0;
+                            //Debug.Log("reached2");
 
                             altyaw = 270 - altyaw;
-                            // altyaw = 90 - altyaw;
                             altyaw -= 90;
+                            altyaw += 180;
+                            //altyaw = 90 - altyaw;
+
+                            //altyaw += 90;
                             //altyaw += 180;
+
                             //altyaw -= 180;
                             //altyaw = 90 - altyaw;
                             //altyaw = 270 - altyaw;
@@ -1731,11 +1927,18 @@ public class sccsplayer : MonoBehaviour
                         }
                         else if (altyaw >= 270 && altyaw < 360)
                         {
-                            Debug.Log("reached3");
+                            //eulerangles.x = 90;
+                            eulerangles.z = 90;
+                            eulerangles.y = 0;
+                            //Debug.Log("reached3");
 
                             altyaw = 360 - altyaw;
-                            //altyaw = 90 - altyaw;
+                            altyaw = 90 - altyaw;
+                            altyaw -= 90;
                             altyaw += 180;
+                            //altyaw += 90;
+                            //altyaw = 90 - altyaw;
+                            //altyaw += 180;
                             //altyaw += 90;
                             //altyaw -= 270;
                             //altyaw = 90 - altyaw;
@@ -1757,7 +1960,7 @@ public class sccsplayer : MonoBehaviour
 
                         if (altyaw >= 0 && altyaw < 90)
                         {
-                            Debug.Log("reached0");
+                            //Debug.Log("reached0");
                             //altyaw += 90;
 
                             //altyaw = 90 - altyaw;
@@ -1765,7 +1968,7 @@ public class sccsplayer : MonoBehaviour
                         }
                         else if (altyaw >= 90 && altyaw < 180)
                         {
-                            Debug.Log("reached1");
+                            //Debug.Log("reached1");
 
                             altyaw = 180 - altyaw;
                             altyaw -= 90;
@@ -1779,17 +1982,17 @@ public class sccsplayer : MonoBehaviour
                         //altyaw += 90;
 
                         //eulerangles.x = 90;
-                        eulerangles.z = -90;
-                        eulerangles.y = 0;
-
+                     
 
                         if (altyaw >= 180 && altyaw < 270)
                         {
-                            Debug.Log("reached2");
+                            //Debug.Log("reached2");
+                            eulerangles.z = 90;
+                            eulerangles.y = 0;
 
                             altyaw = 270 - altyaw;
-                            //altyaw = 90 - altyaw;
-                            altyaw -= 90;
+                            altyaw = 90 - altyaw;
+                            //altyaw += 90;
                             //altyaw += 180;
                             //altyaw -= 180;
                             //altyaw = 90 - altyaw;
@@ -1798,10 +2001,15 @@ public class sccsplayer : MonoBehaviour
                         }
                         else if (altyaw >= 270 && altyaw < 360)
                         {
-                            Debug.Log("reached3");
+                            eulerangles.z = 90;
+                            eulerangles.y = 0;
+
+                            //Debug.Log("reached3");
 
                             altyaw = 360 - altyaw;
-                            altyaw += 180;
+                            altyaw = 90 - altyaw;
+                            //altyaw += 180;
+                            altyaw += 90;
                             //altyaw -= 270;
                             //altyaw = 90 - altyaw;
                             //altyaw = 360 - altyaw;
@@ -1853,7 +2061,7 @@ public class sccsplayer : MonoBehaviour
             eulerangles.z = 90;*/
 
 
-            //Debug.Log("altyaw:" + altyaw);
+            ////Debug.Log("altyaw:" + altyaw);
             //eulerangles.y = 0;
 
             //viewer.transform.rotation = Quaternion.Euler(eulerangles);
@@ -1890,9 +2098,9 @@ public class sccsplayer : MonoBehaviour
             float yawdeg = scmaths.RadianToDegree(yawcurrent);
             float rolldeg = scmaths.RadianToDegree(rollcurrent);
 
-            Debug.Log("pitchdeg:" + pitchdeg);
-            Debug.Log("yawdeg:" + yawdeg);
-            Debug.Log("rolldeg:" + rolldeg);
+            //Debug.Log("pitchdeg:" + pitchdeg);
+            //Debug.Log("yawdeg:" + yawdeg);
+            //Debug.Log("rolldeg:" + rolldeg);
 
             float altyaw = 0;
 
@@ -2290,7 +2498,7 @@ public class sccsplayer : MonoBehaviour
                 }
             }
             */
-            Debug.Log("altyaw0:" + altyaw);
+            //Debug.Log("altyaw0:" + altyaw);
 
 
 
@@ -2311,6 +2519,7 @@ public class sccsplayer : MonoBehaviour
 
                     if (altyaw >= 0 && altyaw < 90)
                     {
+                        //Debug.Log("here0");
                         //altyaw += 90;
 
                         //altyaw = 90 - altyaw;
@@ -2318,6 +2527,7 @@ public class sccsplayer : MonoBehaviour
                     }
                     else if (altyaw >= 90 && altyaw < 180)
                     {
+                        //Debug.Log("here1");
                         altyaw = 180 - altyaw;
                         altyaw -= 90;
                         altyaw = 90 - altyaw;
@@ -2330,14 +2540,19 @@ public class sccsplayer : MonoBehaviour
                     //altyaw += 90;
 
                     //eulerangles.x = 90;
-                    eulerangles.z = 90;
-                    eulerangles.y = 0;
+                
 
 
                     if (altyaw >= 180 && altyaw < 270)
                     {
+                        eulerangles.z = -90;
+                        eulerangles.y = 0;
+                        //Debug.Log("here2");
                         altyaw = 270 - altyaw;
-                        altyaw += 90;
+
+                        altyaw = 90 - altyaw;
+                        //altyaw += 90;
+                        altyaw += 180;
                         //altyaw -= 180;
                         //altyaw = 90 - altyaw;
                         //altyaw = 270 - altyaw;
@@ -2345,7 +2560,17 @@ public class sccsplayer : MonoBehaviour
                     }
                     else if (altyaw >= 270 && altyaw < 360)
                     {
+                        eulerangles.z = -90;
+                        eulerangles.y = 0;
+
+                        //Debug.Log("here3");
                         altyaw = 360 - altyaw;
+
+                        altyaw = 90 - altyaw;
+                        altyaw += 180;
+                        altyaw += 90;
+
+
                         //altyaw -= 270;
                         //altyaw = 90 - altyaw;
                         //altyaw = 360 - altyaw;
@@ -2359,92 +2584,139 @@ public class sccsplayer : MonoBehaviour
             {
                 //altyaw = 0;
 
-                if (altyaw >= 0 && altyaw < 90 ||
-                 altyaw >= 90 && altyaw < 180)
-                {
-                    eulerangles.z = -90;
-                    eulerangles.y = 0;
-                }
-                else
-                {
-                    eulerangles.z = 90;
-                    eulerangles.y = 0;
-                }
 
                 if (pitchdeg >= 0)
                 {
-                    altyaw += 90;
+
+                    if (altyaw >= 0 && altyaw < 90 ||
+                altyaw >= 90 && altyaw < 180)
+                    {
+
+                        if (altyaw >= 0 && altyaw < 90)
+                        {
+                            eulerangles.z = -90;
+                            eulerangles.y = 0;
+                            //Debug.Log("here0");
+                            altyaw = 90 - altyaw;
+                            //altyaw += 180;
+                            altyaw = 90 - altyaw;
+                            altyaw += 90;
+                        }
+                        else if (altyaw >= 90 && altyaw < 180)
+                        {
+                            eulerangles.z = -90;
+                            eulerangles.y = 0;
+                            //Debug.Log("here1");
+                            altyaw = 180 - altyaw;
+
+                        }
+                    }
+                    else
+                    {
+                   
+                        if (altyaw >= 180 && altyaw < 270)
+                        {
+                            eulerangles.z = 90;
+                            eulerangles.y = 0;
+                            //Debug.Log("here2");
+                            altyaw = 270 - altyaw;
+                            altyaw = 90 - altyaw;
+                            altyaw += 180;
+                            altyaw += 90;
+
+
+                            //altyaw -= 180;
+                            //altyaw = 90 - altyaw;
+                            //altyaw = 270 - altyaw;
+                            //altyaw = 90 - altyaw;
+                        }
+                        else if (altyaw >= 270 && altyaw < 360)
+                        {
+                            eulerangles.z = -90;
+                            eulerangles.y = 0;
+                            //Debug.Log("here3");
+                            altyaw = 360 - altyaw;
+                            altyaw = 90 - altyaw;
+
+                            //altyaw += 90;
+                            //altyaw -= 270;
+                            //altyaw = 90 - altyaw;
+                            //altyaw = 360 - altyaw;
+
+                            //altyaw = 90 - altyaw;
+
+                        }
+                    }
                 }
                 else
                 {
-                    altyaw += 90;
+                    if (altyaw >= 0 && altyaw < 90 ||
+                        altyaw >= 90 && altyaw < 180)
+                    {
+
+
+                        if (altyaw >= 0 && altyaw < 90)
+                        {
+                            eulerangles.z = -90;
+                            eulerangles.y = 0;
+                            //Debug.Log("here0");
+                            altyaw = 90 - altyaw;
+                            altyaw += 180;
+                        }
+                        else if (altyaw >= 90 && altyaw < 180)
+                        {
+                            eulerangles.z = -90;
+                            eulerangles.y = 0;
+                            //Debug.Log("here1");
+                            altyaw = 180 - altyaw;
+                            altyaw = 90 - altyaw;
+
+                            altyaw += 180;
+
+                        }
+                    }
+                    else
+                    {
+                        
+
+                        if (altyaw >= 180 && altyaw < 270)
+                        {
+                            eulerangles.z = -90;
+                            eulerangles.y = 0;
+                            //Debug.Log("here2");
+                            altyaw = 270 - altyaw;
+                            altyaw = 90 - altyaw;
+                            altyaw += 180;
+                            altyaw += 90;
+
+
+                            //altyaw -= 180;
+                            //altyaw = 90 - altyaw;
+                            //altyaw = 270 - altyaw;
+                            //altyaw = 90 - altyaw;
+                        }
+                        else if (altyaw >= 270 && altyaw < 360)
+                        {
+                            eulerangles.z = 90;
+                            eulerangles.y = 0;
+                            //Debug.Log("here3");
+                            altyaw = 360 - altyaw;
+                            altyaw = 90 - altyaw;
+
+                            //altyaw += 90;
+                            //altyaw -= 270;
+                            //altyaw = 90 - altyaw;
+                            //altyaw = 360 - altyaw;
+
+                            //altyaw = 90 - altyaw;
+
+                        }
+                    }
                 }
-                /*if (altyaw >= 0 && altyaw < 90 ||
-                 altyaw >= 90 && altyaw < 180)
-                {
-                    altyaw += 180;
-
-                    //eulerangles.x = 90;
-                    eulerangles.z = -90;
-                    eulerangles.y = 0;
-
-                    if (altyaw >= 0 && altyaw < 90)
-                    {
-
-                        altyaw = 90 - altyaw;
-
-                        //altyaw = 270 - altyaw;
-                        //altyaw += 90;
-
-                        //altyaw = 90 - altyaw;
-
-                    }
-                    else if (altyaw >= 90 && altyaw < 180)
-                    {
-                        //altyaw -= 90;
-                        //altyaw = 90 - altyaw;
-
-                        //altyaw += 90;
-                        /*altyaw = 180 - altyaw;
-                        altyaw -= 90;
-                        altyaw = 90 - altyaw;
-
-
-                    }
-                }
-                else
-                {
-                    //altyaw += 90;
-
-                    //eulerangles.x = 90;
-                    eulerangles.z = 90;
-                    eulerangles.y = 0;
-
-
-                    if (altyaw >= 180 && altyaw < 270)
-                    {
-                        altyaw = 270 - altyaw;
-                        altyaw += 90;
-                        //altyaw -= 180;
-                        //altyaw = 90 - altyaw;
-                        //altyaw = 270 - altyaw;
-                        //altyaw = 90 - altyaw;
-                    }
-                    else if (altyaw >= 270 && altyaw < 360)
-                    {
-                        altyaw = 360 - altyaw;
-                        //altyaw -= 270;
-                        //altyaw = 90 - altyaw;
-                        //altyaw = 360 - altyaw;
-
-                        //altyaw = 90 - altyaw;
-
-                    }
-                }*/
             }
             else if (indexofmaxvalueofperfacegravitylast == 4)
             {
-                if (altyaw >= 0 && altyaw < 90 ||
+                /*if (altyaw >= 0 && altyaw < 90 ||
                  altyaw >= 90 && altyaw < 180)
                 {
                     eulerangles.z = 90;
@@ -2454,55 +2726,133 @@ public class sccsplayer : MonoBehaviour
                 {
                     eulerangles.z = -90;
                     eulerangles.y = 0;
-                }
+                }*/
 
 
 
 
 
 
-
-                if (altyaw >= 0 && altyaw < 90 ||
-                altyaw >= 90 && altyaw < 180)
+                if (pitchdeg >= 0)
                 {
-                    if (altyaw >= 0 && altyaw < 90)
-                    {
-                        altyaw = 90 - altyaw;
-                        altyaw += 180;
-                    }
-                    else if (altyaw >= 90 && altyaw < 180)
-                    {
-                        altyaw = 180 - altyaw;
 
+                    if (altyaw >= 0 && altyaw < 90 ||
+                altyaw >= 90 && altyaw < 180)
+                    {
+                       
+                        if (altyaw >= 0 && altyaw < 90)
+                        {
+                            eulerangles.z = -90;
+                            eulerangles.y = 0;
+                            //Debug.Log("here0");
+                            altyaw = 90 - altyaw;
+                            //altyaw += 180;
+                            altyaw = 90 - altyaw;
+                            altyaw += 90;
+                        }
+                        else if (altyaw >= 90 && altyaw < 180)
+                        {
+                            eulerangles.z = 90;
+                            eulerangles.y = 0;
+                            //Debug.Log("here1");
+                            altyaw = 180 - altyaw;
+
+                        }
+                    }
+                    else
+                    {
+                        eulerangles.z = -90;
+                        eulerangles.y = 0;
+                        if (altyaw >= 180 && altyaw < 270)
+                        {
+                            //Debug.Log("here2");
+                            altyaw = 270 - altyaw;
+                            altyaw = 90 - altyaw;
+                            altyaw += 180;
+                            altyaw += 90;
+
+
+                            //altyaw -= 180;
+                            //altyaw = 90 - altyaw;
+                            //altyaw = 270 - altyaw;
+                            //altyaw = 90 - altyaw;
+                        }
+                        else if (altyaw >= 270 && altyaw < 360)
+                        {
+                            //Debug.Log("here3");
+                            altyaw = 360 - altyaw;
+                            altyaw = 90 - altyaw;
+
+                            //altyaw += 90;
+                            //altyaw -= 270;
+                            //altyaw = 90 - altyaw;
+                            //altyaw = 360 - altyaw;
+
+                            //altyaw = 90 - altyaw;
+
+                        }
                     }
                 }
                 else
                 {
-                    if (altyaw >= 180 && altyaw < 270)
+                    if (altyaw >= 0 && altyaw < 90 ||
+                        altyaw >= 90 && altyaw < 180)
                     {
-                        altyaw = 270 - altyaw;
-                        altyaw = 90 - altyaw;
-                        altyaw += 180;
-                        altyaw += 90;
+                    
+                        
+                        if (altyaw >= 0 && altyaw < 90)
+                        {
+                            eulerangles.z = 90;
+                            eulerangles.y = 0;
+                            //Debug.Log("here0");
+                            altyaw = 90 - altyaw;
+                            altyaw += 180;
+                        }
+                        else if (altyaw >= 90 && altyaw < 180)
+                        {
+                            eulerangles.z = -90;
+                            eulerangles.y = 0;
+                            //Debug.Log("here1");
+                            altyaw = 180 - altyaw;
+                            altyaw = 90 - altyaw;
 
+                            altyaw += 180;
 
-                        //altyaw -= 180;
-                        //altyaw = 90 - altyaw;
-                        //altyaw = 270 - altyaw;
-                        //altyaw = 90 - altyaw;
+                        }
                     }
-                    else if (altyaw >= 270 && altyaw < 360)
+                    else
                     {
-                        altyaw = 360 - altyaw;
-                        altyaw = 90 - altyaw;
+                        eulerangles.z = -90;
+                        eulerangles.y = 0;
 
-                        //altyaw += 90;
-                        //altyaw -= 270;
-                        //altyaw = 90 - altyaw;
-                        //altyaw = 360 - altyaw;
+                        if (altyaw >= 180 && altyaw < 270)
+                        {
+                            //Debug.Log("here2");
+                            altyaw = 270 - altyaw;
+                            altyaw = 90 - altyaw;
+                            altyaw += 180;
+                            altyaw += 90;
 
-                        //altyaw = 90 - altyaw;
 
+                            //altyaw -= 180;
+                            //altyaw = 90 - altyaw;
+                            //altyaw = 270 - altyaw;
+                            //altyaw = 90 - altyaw;
+                        }
+                        else if (altyaw >= 270 && altyaw < 360)
+                        {
+                            //Debug.Log("here3");
+                            altyaw = 360 - altyaw;
+                            altyaw = 90 - altyaw;
+
+                            //altyaw += 90;
+                            //altyaw -= 270;
+                            //altyaw = 90 - altyaw;
+                            //altyaw = 360 - altyaw;
+
+                            //altyaw = 90 - altyaw;
+
+                        }
                     }
                 }
             }
@@ -2518,25 +2868,32 @@ public class sccsplayer : MonoBehaviour
                  altyaw >= 90 && altyaw < 180)
                     {
                         //eulerangles.x = 90;
-                        eulerangles.z = 90;
-                        eulerangles.y = 0;
+                   
 
                         if (altyaw >= 0 && altyaw < 90)
                         {
-                            Debug.Log("reached0");
-                            //altyaw += 90;
+                            eulerangles.z = -90;
+                            eulerangles.y = 0;
+                            //Debug.Log("reached0");
+
+                            altyaw = 90 - altyaw;
+                            altyaw += 90;
 
                             //altyaw = 90 - altyaw;
 
                         }
                         else if (altyaw >= 90 && altyaw < 180)
                         {
-                            Debug.Log("reached1");
+                            eulerangles.z = -90;
+                            eulerangles.y = 0;
+                            //Debug.Log("reached1");
 
                             altyaw = 180 - altyaw;
-                            altyaw -= 90;
-                            altyaw = 90 - altyaw;
-
+                            //altyaw = 90 - altyaw;
+                            //altyaw = 90 - altyaw;
+                            //altyaw += 180;
+                            //altyaw += 270;
+                            //altyaw -= 90;
 
                         }
                     }
@@ -2551,7 +2908,7 @@ public class sccsplayer : MonoBehaviour
 
                         if (altyaw >= 180 && altyaw < 270)
                         {
-                            Debug.Log("reached2");
+                            //Debug.Log("reached2");
 
                             altyaw = 270 - altyaw;
                            // altyaw = 90 - altyaw;
@@ -2564,7 +2921,7 @@ public class sccsplayer : MonoBehaviour
                         }
                         else if (altyaw >= 270 && altyaw < 360)
                         {
-                            Debug.Log("reached3");
+                            //Debug.Log("reached3");
 
                             altyaw = 360 - altyaw;
                             //altyaw = 90 - altyaw;
@@ -2585,26 +2942,31 @@ public class sccsplayer : MonoBehaviour
                     altyaw >= 90 && altyaw < 180)
                     {
                         //eulerangles.x = 90;
-                        eulerangles.z = 90;
-                        eulerangles.y = 0;
+                  
 
                         if (altyaw >= 0 && altyaw < 90)
                         {
-                            Debug.Log("reached0");
-                            //altyaw += 90;
+                            eulerangles.z = -90;
+                            eulerangles.y = 0;
+                            //Debug.Log("reached0");
 
-                            //altyaw = 90 - altyaw;
+                            altyaw = 90 - altyaw;
+                            altyaw += 90;
+
+                            //
 
                         }
                         else if (altyaw >= 90 && altyaw < 180)
                         {
-                            Debug.Log("reached1");
+                            eulerangles.z = -90;
+                            eulerangles.y = 0;
+                            //Debug.Log("reached1");
 
-                            altyaw = 180 - altyaw;
-                            altyaw -= 90;
-                            altyaw = 90 - altyaw;
+                            altyaw = 180 - altyaw;                   
+                            //altyaw = 90 - altyaw;
 
 
+                            //altyaw -= 90;
                         }
                     }
                     else
@@ -2618,7 +2980,7 @@ public class sccsplayer : MonoBehaviour
 
                         if (altyaw >= 180 && altyaw < 270)
                         {
-                            Debug.Log("reached2");
+                            //Debug.Log("reached2");
 
                             altyaw = 270 - altyaw;
                             //altyaw = 90 - altyaw;
@@ -2631,7 +2993,7 @@ public class sccsplayer : MonoBehaviour
                         }
                         else if (altyaw >= 270 && altyaw < 360)
                         {
-                            Debug.Log("reached3");
+                            //Debug.Log("reached3");
 
                             altyaw = 360 - altyaw;
                             altyaw += 180;
@@ -2648,7 +3010,7 @@ public class sccsplayer : MonoBehaviour
             }
 
 
-            Debug.Log("altyaw1:" + altyaw);
+            //Debug.Log("altyaw1:" + altyaw);
 
 
 
@@ -2687,7 +3049,7 @@ public class sccsplayer : MonoBehaviour
             eulerangles.z = 90;*/
 
 
-            //Debug.Log("altyaw:" + altyaw);
+            ////Debug.Log("altyaw:" + altyaw);
             //eulerangles.y = 0;
 
             //viewer.transform.rotation = Quaternion.Euler(eulerangles);
@@ -2725,9 +3087,9 @@ public class sccsplayer : MonoBehaviour
             //yawdeg = rolldeg;
 
 
-            Debug.Log("pitch:" + pitchdeg);
-            Debug.Log("yawdeg:" + yawdeg);
-            Debug.Log("rolldeg:" + rolldeg);
+            //Debug.Log("pitch:" + pitchdeg);
+            //Debug.Log("yawdeg:" + yawdeg);
+            //Debug.Log("rolldeg:" + rolldeg);
 
             //float altyaw = (360 - yawdeg) - 90;
             float altyaw = 0;// yawdeg;
@@ -2735,21 +3097,6 @@ public class sccsplayer : MonoBehaviour
             if (indexofmaxvalueofperfacegravitylast == 0)
             {
                 altyaw = rolldeg;//
-                //yawdeg = rolldeg;
-            }
-            else if (indexofmaxvalueofperfacegravitylast == 1)
-            {
-                altyaw = yawdeg;//
-            }
-            else if (indexofmaxvalueofperfacegravitylast == 2)
-            {
-                altyaw = yawdeg;//
-            }
-            else if (indexofmaxvalueofperfacegravitylast == 5)
-            {
-                altyaw = rolldeg;//
-                //yawdeg = rolldeg;
-
                 if (pitchdeg >= 0)
                 {
 
@@ -2808,10 +3155,273 @@ public class sccsplayer : MonoBehaviour
                     }
                 }
             }
+            else if (indexofmaxvalueofperfacegravitylast == 1)
+            {
+                altyaw = yawdeg;//
+                if (pitchdeg >= 0)
+                {
+                    if (yawdeg >= 0 & yawdeg < 90)
+                    {
+                        altyaw = yawdeg;
+                    }
+
+
+                    if (yawdeg < -90 & yawdeg >= -180)
+                    {
+                        altyaw = yawdeg;
+
+                        altyaw *= -1;
+
+                        altyaw = 270 - altyaw;
+
+                    }
+
+                    if (yawdeg < 0 & yawdeg >= -90)
+                    {
+                        altyaw = yawdeg;
+
+                        altyaw *= -1;
+
+                        altyaw = 180 + altyaw;
+                    }
+
+                }
+
+                if (pitchdeg < 0)
+                {
+
+
+                    if (yawdeg >= 0 & yawdeg < 90)
+                    {
+                        altyaw = yawdeg;
+                    }
+
+
+                    if (yawdeg < -90 & yawdeg >= -180)
+                    {
+                        altyaw = yawdeg;
+
+                        altyaw *= -1;
+
+                        altyaw = 270 - altyaw;
+
+                    }
+
+                    if (yawdeg < 0 & yawdeg >= -90)
+                    {
+                        altyaw = yawdeg;
+
+                        altyaw *= -1;
+
+                        altyaw = 180 + altyaw;
+                    }
+
+                }
+            }
+            else if (indexofmaxvalueofperfacegravitylast == 2)
+            {
+                altyaw = yawdeg;//
+
+
+                if (pitchdeg >= 0)
+                {
+                    if (yawdeg >= 0 & yawdeg < 90)
+                    {
+                        altyaw = yawdeg;
+                    }
+
+
+                    if (yawdeg < -90 & yawdeg >= -180)
+                    {
+                        altyaw = yawdeg;
+
+                        altyaw *= -1;
+
+                        altyaw = 270 - altyaw;
+
+                    }
+
+                    if (yawdeg < 0 & yawdeg >= -90)
+                    {
+                        altyaw = yawdeg;
+
+                        altyaw *= -1;
+
+                        altyaw = 180 + altyaw;
+                    }
+
+                }
+
+                if (pitchdeg < 0)
+                {
+
+
+                    if (yawdeg >= 0 & yawdeg < 90)
+                    {
+                        altyaw = yawdeg;
+                    }
+
+
+                    if (yawdeg < -90 & yawdeg >= -180)
+                    {
+                        altyaw = yawdeg;
+
+                        altyaw *= -1;
+
+                        altyaw = 270 - altyaw;
+
+                    }
+
+                    if (yawdeg < 0 & yawdeg >= -90)
+                    {
+                        altyaw = yawdeg;
+
+                        altyaw *= -1;
+
+                        altyaw = 180 + altyaw;
+                    }
+
+                }
+            }
+            else if (indexofmaxvalueofperfacegravitylast == 5)
+            {
+                altyaw = rolldeg;//
+                //yawdeg = rolldeg;
+
+                if (pitchdeg >= 0)
+                {
+                    if (rolldeg >= 0 & rolldeg < 90)
+                    {
+                        altyaw = rolldeg;
+                    }
+
+
+                    if (rolldeg < -90 & rolldeg >= -180)
+                    {
+                        altyaw = rolldeg;
+
+                        altyaw *= -1;
+
+                        altyaw = 270 - altyaw;
+
+                    }
+
+                    if (rolldeg < 0 & rolldeg >= -90)
+                    {
+                        altyaw = rolldeg;
+
+                        altyaw *= -1;
+
+                        altyaw = 180 + altyaw;
+                    }
+
+                    /*if (rolldeg < 0 & rolldeg >= -90)
+                    {
+                        altyaw = rolldeg;
+
+                        altyaw *= -1;
+
+                        altyaw = 360 - altyaw;
+
+                    }
+
+                    if (rolldeg < -90 & rolldeg >= -180)
+                    {
+                        altyaw = rolldeg;
+
+                        altyaw *= -1;
+
+                        altyaw = 360 - altyaw;
+
+                    }*/
+
+                }
+
+                if (pitchdeg < 0)
+                {
+
+
+                    if (rolldeg >= 0 & rolldeg < 90)
+                    {
+                        altyaw = rolldeg;
+                    }
+
+
+                    if (rolldeg < -90 & rolldeg >= -180)
+                    {
+                        altyaw = rolldeg;
+
+                        altyaw *= -1;
+
+                        altyaw = 270 - altyaw;
+
+                    }
+
+                    if (rolldeg < 0 & rolldeg >= -90)
+                    {
+                        altyaw = rolldeg;
+
+                        altyaw *= -1;
+
+                        altyaw = 180 + altyaw;
+                    }
+
+                    /*if (rolldeg >= 0 & rolldeg < 90)
+                    {
+                        altyaw = rolldeg;
+                        altyaw = 180 - altyaw;
+                    }
+
+                    if (rolldeg < 0 & rolldeg >= -90)
+                    {
+                        altyaw = rolldeg;
+
+                        altyaw *= -1;
+
+                        altyaw = 180 + altyaw;
+                    }*/
+
+                    /*if (rolldeg >= 0 & rolldeg < 90)
+                    {
+                        altyaw = rolldeg;
+                    }*/
+
+                    /*if (rolldeg < -90 & rolldeg >= -180)
+                    {
+                        altyaw = rolldeg;
+
+                        altyaw *= -1;
+
+                        altyaw = 270 - altyaw;
+                    }
+
+                    if (rolldeg < -180 & rolldeg >= -270)
+                    {
+                        altyaw = rolldeg;
+
+                        altyaw *= -1;
+
+                        altyaw = 360 - altyaw;
+                    }*/
 
 
 
 
+                    /*if (rolldeg < -90 & rolldeg >= -180)
+                    {
+                        altyaw = rolldeg;
+
+                        altyaw *= -1;
+
+                        altyaw = 360 - altyaw;
+
+                    }*/
+                }
+            }
+
+
+
+            /*
             if (pitchdeg >= 0)
             {
                 if (altyaw >= 0 & altyaw < 90)
@@ -2847,7 +3457,7 @@ public class sccsplayer : MonoBehaviour
                     altyaw = 180 + altyaw;
                 }
             }
-
+            */
 
 
 
@@ -2916,7 +3526,7 @@ public class sccsplayer : MonoBehaviour
 
 
             //altyaw = 360 - altyaw;
-            Debug.Log("altyaw:" + altyaw);
+            //Debug.Log("altyaw:" + altyaw);
 
 
             //altyaw += 90;
@@ -2934,11 +3544,14 @@ public class sccsplayer : MonoBehaviour
 
                     if (altyaw >= 0 && altyaw < 90)
                     {
+                        //Debug.Log("here0");
                         altyaw = 90 - altyaw;
                     }
                     else if (altyaw >= 90 && altyaw < 180)
                     {
+                        //Debug.Log("here1");
                         altyaw = 180 - altyaw;
+                        altyaw += 270;
                     }
                 }
                 else
@@ -2952,11 +3565,15 @@ public class sccsplayer : MonoBehaviour
 
                     if (altyaw >= 180 && altyaw < 270)
                     {
+                        //Debug.Log("here2");
                         altyaw = 270 - altyaw;
                         altyaw = 90 - altyaw;
+                        altyaw += 270;
+
                     }
                     else if (altyaw >= 270 && altyaw < 360)
                     {
+                        //Debug.Log("here3");
                         altyaw = 360 - altyaw;
 
                         altyaw = 90 - altyaw;
@@ -2969,16 +3586,33 @@ public class sccsplayer : MonoBehaviour
                 if (altyaw >= 0 && altyaw < 90 ||
                     altyaw >= 90 && altyaw < 180)
                 {
-                    eulerangles.z = 90;
-                    eulerangles.y = 90;
+                 
                     //altyaw += 90;
 
                     if (altyaw >= 0 && altyaw < 90)
                     {
-                        altyaw = 90 - altyaw;
+                        if (rolldeg >=0)
+                        {
+                            eulerangles.z = 90;
+                            eulerangles.y = 90;
+                            //Debug.Log("here00");
+                            altyaw -= 90;
+                        }
+                        else
+                        {
+                            eulerangles.z = 90;
+                            eulerangles.y = 90;
+                            //Debug.Log("here01");
+
+                            altyaw = 90 - altyaw;
+                        }
+                    
+                        //altyaw = 90 - altyaw;
+                        //altyaw += 90;
                     }
                     else if (altyaw >= 90 && altyaw < 180)
                     {
+                        //Debug.Log("here1");
                         altyaw = 180 - altyaw;
                         altyaw -= 90;
 
@@ -2995,11 +3629,27 @@ public class sccsplayer : MonoBehaviour
 
                     if (altyaw >= 180 && altyaw < 270)
                     {
+                        
                         altyaw = 270 - altyaw;
-                        altyaw = 90 - altyaw;
+                        //altyaw = 90 - altyaw;
+
+                        if (rolldeg >=0)
+                        {
+                            //Debug.Log("here21");
+                            altyaw = 90 - altyaw;
+                            altyaw += 270;
+
+
+                        }
+                        else
+                        {
+                            //Debug.Log("here22");
+                        }
+
                     }
                     else if (altyaw >= 270 && altyaw < 360)
                     {
+                        //Debug.Log("here3");
                         altyaw = 360 - altyaw;
 
                         altyaw = 90 - altyaw;
@@ -3009,55 +3659,123 @@ public class sccsplayer : MonoBehaviour
             }
             else if (indexofmaxvalueofperfacegravitylast == 2)
             {
-                if (altyaw >= 0 && altyaw < 90 ||
-                    altyaw >= 90 && altyaw < 180)
-                {
-                    eulerangles.z = 90;
-                    eulerangles.y = 90;
-                    //altyaw += 90;
 
-                    if (altyaw >= 0 && altyaw < 90)
+                if (pitchdeg >= 0)
+                {
+                    if (altyaw >= 0 && altyaw < 90 ||
+                    altyaw >= 90 && altyaw < 180)
                     {
-                        altyaw = 90 - altyaw;
+                        eulerangles.z = 90;
+                        eulerangles.y = 90;
+                        //altyaw += 90;
+
+                        if (altyaw >= 0 && altyaw < 90)
+                        {
+                            //Debug.Log("here0");
+                            altyaw = 90 - altyaw;
+                        }
+                        else if (altyaw >= 90 && altyaw < 180)
+                        {
+                            //Debug.Log("here1");
+                            altyaw = 180 - altyaw;
+                        }
                     }
-                    else if (altyaw >= 90 && altyaw < 180)
+                    else
                     {
-                        altyaw = 180 - altyaw;
+
+                        //altyaw += 90;
+
+                        eulerangles.z = -90;
+                        eulerangles.y = -90;
+                        //altyaw = altyaw - 90;
+
+
+                        if (altyaw >= 180 && altyaw < 270)
+                        {
+                            //Debug.Log("here2");
+                            altyaw = 270 - altyaw;
+
+                            //altyaw -= 90;
+                            //altyaw = 270 - altyaw;
+                            //altyaw = 180 - altyaw;
+                            //altyaw = 90 - altyaw;
+                        }
+                        else if (altyaw >= 270 && altyaw < 360)
+                        {
+                            //Debug.Log("here3");
+                            altyaw = 360 - altyaw;
+                            altyaw -= 270;
+                            altyaw = 90 - altyaw;
+                            altyaw += 90;
+
+                            //altyaw = 360 - altyaw;
+                            //altyaw = 90 - altyaw;
+
+                        }
                     }
                 }
                 else
                 {
-
-                    //altyaw += 90;
-
-                    eulerangles.z = -90;
-                    eulerangles.y = -90;
-                    //altyaw = altyaw - 90;
-
-
-                    if (altyaw >= 180 && altyaw < 270)
+                    if (altyaw >= 0 && altyaw < 90 ||
+                    altyaw >= 90 && altyaw < 180)
                     {
-                        altyaw = 270 - altyaw;
-                        altyaw -= 90;
-                        altyaw = 270 - altyaw;
-                        //altyaw = 180 - altyaw;
-                        //altyaw = 90 - altyaw;
+                        eulerangles.z = 90;
+                        eulerangles.y = 90;
+                        //altyaw += 90;
+
+                        if (altyaw >= 0 && altyaw < 90)
+                        {
+                            //Debug.Log("here0");
+                            //altyaw = 90 - altyaw;
+                            altyaw -= 90;
+                        }
+                        else if (altyaw >= 90 && altyaw < 180)
+                        {
+                            //Debug.Log("here1");
+                            altyaw = 180 - altyaw;
+                        }
                     }
-                    else if (altyaw >= 270 && altyaw < 360)
+                    else
                     {
-                        altyaw = 360 - altyaw;
-                        altyaw -= 270;
-                        altyaw = 90 - altyaw;
-                        altyaw += 90;
 
-                        //altyaw = 360 - altyaw;
-                        //altyaw = 90 - altyaw;
+                        //altyaw += 90;
 
+                        eulerangles.z = -90;
+                        eulerangles.y = -90;
+                        //altyaw = altyaw - 90;
+
+
+                        if (altyaw >= 180 && altyaw < 270)
+                        {
+                            //Debug.Log("here2");
+                            altyaw = 270 - altyaw;
+                            altyaw -= 90;
+                            altyaw = 270 - altyaw;
+                            //altyaw = 180 - altyaw;
+                            //altyaw = 90 - altyaw;
+                        }
+                        else if (altyaw >= 270 && altyaw < 360)
+                        {
+                            //Debug.Log("here3");
+                            altyaw = 360 - altyaw;
+                            altyaw -= 270;
+                            altyaw = 90 - altyaw;
+                            altyaw += 90;
+
+                            //altyaw = 360 - altyaw;
+                            //altyaw = 90 - altyaw;
+
+                        }
                     }
                 }
+                
             }
             else if (indexofmaxvalueofperfacegravitylast == 5)
             {
+
+
+
+
                 if (altyaw >= 0 && altyaw < 90 ||
                     altyaw >= 90 && altyaw < 180)
                 {
@@ -3067,15 +3785,30 @@ public class sccsplayer : MonoBehaviour
 
                     if (altyaw >= 0 && altyaw < 90)
                     {
-                        Debug.Log("reached0");
-                        altyaw = 90 - altyaw;
+                        //Debug.Log("reached0");
+                        //altyaw = 90 - altyaw;
+                        altyaw += 90;
                     }
                     else if (altyaw >= 90 && altyaw < 180)
                     {
-                        Debug.Log("reached1");
-                        altyaw = 180 - altyaw;
-                        altyaw = 90 - altyaw;
-                        altyaw += 180;
+                        if (rolldeg >=0)
+                        {
+                            //Debug.Log("reached12");
+                            altyaw = 180 - altyaw;
+                            altyaw = 90 - altyaw;
+                            altyaw += 180;
+                            //altyaw += 90;
+
+                        }
+                        else
+                        {
+                            //Debug.Log("reached13");
+                            altyaw = 180 - altyaw;
+                            altyaw = 90 - altyaw;
+                            altyaw += 180;
+                            altyaw += 90;
+                        }
+                       
                     }
                 }
                 else
@@ -3089,16 +3822,33 @@ public class sccsplayer : MonoBehaviour
 
                     if (altyaw >= 180 && altyaw < 270)
                     {
-                        Debug.Log("reached2");
-                        altyaw = 270 - altyaw;
-                        //altyaw = 90 - altyaw;
-                        altyaw += 180;
-                        //
 
+
+                        //Debug.Log("reached2");
+                        altyaw = 270 - altyaw;
+                        //altyaw = 180 - altyaw;
+                        altyaw = 90 - altyaw;
+                        if (rolldeg >= 0)
+                        {
+                            //Debug.Log("reached21");
+                        }
+                        else
+                        {
+                            ///altyaw += 180;
+                            altyaw += 90;
+
+                            //Debug.Log("reached22");
+                            //altyaw += 90;
+                        }
+
+                        //altyaw = 90 - altyaw;
+                        //altyaw += 180;
+                        //
+                        //altyaw += 180;
                     }
                     else if (altyaw >= 270 && altyaw < 360)
                     {
-                        Debug.Log("reached3");
+                        //Debug.Log("reached3");
                         altyaw = 360 - altyaw;
 
                         altyaw = 90 - altyaw;
@@ -3158,9 +3908,9 @@ public class sccsplayer : MonoBehaviour
             float rolldeg = scmaths.RadianToDegree(rollcurrent);
             //yawdeg = rolldeg;
 
-            Debug.Log("pitch:" + pitchdeg);
-            Debug.Log("yawdeg:" + yawdeg);
-            Debug.Log("rolldeg:" + rolldeg);
+            //Debug.Log("pitch:" + pitchdeg);
+            //Debug.Log("yawdeg:" + yawdeg);
+            //Debug.Log("rolldeg:" + rolldeg);
 
             //float altyaw = (360 - yawdeg) - 90;
             float altyaw = 0;// yawdeg;
@@ -3189,6 +3939,17 @@ public class sccsplayer : MonoBehaviour
                         altyaw = 360 - altyaw;
 
                     }
+
+                    if (rolldeg < -90 & rolldeg >= -180)
+                    {
+                        altyaw = rolldeg;
+
+                        altyaw *= -1;
+
+                        altyaw = 360 - altyaw;
+                    }
+
+
                 }
 
                 if (pitchdeg < 0)
@@ -3207,6 +3968,7 @@ public class sccsplayer : MonoBehaviour
 
                         altyaw = 180 + altyaw;
                     }
+
                 }
 
             }
@@ -3298,7 +4060,7 @@ public class sccsplayer : MonoBehaviour
             else if (indexofmaxvalueofperfacegravitylast == 5)
             {
                 altyaw = rolldeg;//
-                yawdeg = rolldeg;
+                //yawdeg = rolldeg;
 
 
                 if (pitchdeg >= 0)
@@ -3308,7 +4070,27 @@ public class sccsplayer : MonoBehaviour
                         altyaw = rolldeg;
                     }
 
+
+                    if (rolldeg < -90 & rolldeg >= -180)
+                    {
+                        altyaw = rolldeg;
+
+                        altyaw *= -1;
+
+                        altyaw = 270 - altyaw;
+
+                    }
+
                     if (rolldeg < 0 & rolldeg >= -90)
+                    {
+                        altyaw = rolldeg;
+
+                        altyaw *= -1;
+
+                        altyaw = 180 + altyaw;
+                    }
+
+                    /*if (rolldeg < 0 & rolldeg >= -90)
                     {
                         altyaw = rolldeg;
 
@@ -3317,11 +4099,49 @@ public class sccsplayer : MonoBehaviour
                         altyaw = 360 - altyaw;
 
                     }
+
+                    if (rolldeg < -90 & rolldeg >= -180)
+                    {
+                        altyaw = rolldeg;
+
+                        altyaw *= -1;
+
+                        altyaw = 360 - altyaw;
+
+                    }*/
+
                 }
 
                 if (pitchdeg < 0)
                 {
+
+
                     if (rolldeg >= 0 & rolldeg < 90)
+                    {
+                        altyaw = rolldeg;
+                    }
+
+
+                    if (rolldeg < -90 & rolldeg >= -180)
+                    {
+                        altyaw = rolldeg;
+
+                        altyaw *= -1;
+
+                        altyaw = 270 - altyaw;
+
+                    }
+
+                    if (rolldeg < 0 & rolldeg >= -90)
+                    {
+                        altyaw = rolldeg;
+
+                        altyaw *= -1;
+
+                        altyaw = 180 + altyaw;
+                    }
+
+                    /*if (rolldeg >= 0 & rolldeg < 90)
                     {
                         altyaw = rolldeg;
                         altyaw = 180 - altyaw;
@@ -3334,7 +4154,43 @@ public class sccsplayer : MonoBehaviour
                         altyaw *= -1;
 
                         altyaw = 180 + altyaw;
+                    }*/
+
+                    /*if (rolldeg >= 0 & rolldeg < 90)
+                    {
+                        altyaw = rolldeg;
+                    }*/
+
+                    /*if (rolldeg < -90 & rolldeg >= -180)
+                    {
+                        altyaw = rolldeg;
+
+                        altyaw *= -1;
+
+                        altyaw = 270 - altyaw;
                     }
+
+                    if (rolldeg < -180 & rolldeg >= -270)
+                    {
+                        altyaw = rolldeg;
+
+                        altyaw *= -1;
+
+                        altyaw = 360 - altyaw;
+                    }*/
+
+
+
+
+                    /*if (rolldeg < -90 & rolldeg >= -180)
+                    {
+                        altyaw = rolldeg;
+
+                        altyaw *= -1;
+
+                        altyaw = 360 - altyaw;
+
+                    }*/
                 }
 
             }
@@ -3407,7 +4263,7 @@ public class sccsplayer : MonoBehaviour
 
 
 
-            Debug.Log("altyaw0:" + altyaw);
+            //Debug.Log("altyaw0:" + altyaw);
             //altyaw = 360 - altyaw;
 
 
@@ -3418,28 +4274,33 @@ public class sccsplayer : MonoBehaviour
             if (indexofmaxvalueofperfacegravitylast == 0)
             {
 
-                altyaw += 180;//
 
                 if (altyaw >= 0 && altyaw < 90 ||
                     altyaw >= 90 && altyaw < 180)
                 {
-
+                    //Debug.Log("here00");
                     eulerangles.z = 90;
                     eulerangles.y = -90;
                     //altyaw += 90;
 
                     if (altyaw >= 0 && altyaw < 90)
                     {
+                        //Debug.Log("here0");
                         altyaw = 90 - altyaw;
+                        altyaw += 180;//
+
                     }
                     else if (altyaw >= 90 && altyaw < 180)
                     {
+                        //Debug.Log("here2");
                         altyaw = 180 - altyaw;
+                        altyaw += 90;//
+
                     }
                 }
                 else
                 {
-
+                    //Debug.Log("here11");
 
                     eulerangles.z = 90;
                     eulerangles.y = -90;
@@ -3448,18 +4309,24 @@ public class sccsplayer : MonoBehaviour
 
                     if (altyaw >= 180 && altyaw < 270)
                     {
+                        //Debug.Log("here2");//
                         altyaw = 270 - altyaw;
+                        //altyaw += 180;//
+                        //altyaw += 180;//
                         //altyaw = 90 - altyaw;
                     }
                     else if (altyaw >= 270 && altyaw < 360)
                     {
+                        //Debug.Log("here3");
                         altyaw = 360 - altyaw;
+                        altyaw += 270;//
+
 
                         //altyaw = 90 - altyaw;
 
                     }
 
-                    altyaw += 90;
+                    //altyaw += 90;
 
 
                 }
@@ -3475,14 +4342,14 @@ public class sccsplayer : MonoBehaviour
             }
             else if (indexofmaxvalueofperfacegravitylast == 1)
             {
-                Debug.Log("altyaw0:" + altyaw);
+                //Debug.Log("altyaw0:" + altyaw);
 
                 if (pitchdeg >= 0)
                 {
                     if (altyaw >= 0 && altyaw < 90 ||
                         altyaw >= 90 && altyaw < 180)
                     {
-                        Debug.Log("reached0");
+                        ////Debug.Log("reached0");
                         //altyaw += 180;//
 
 
@@ -3495,11 +4362,15 @@ public class sccsplayer : MonoBehaviour
 
                         if (altyaw >= 0 && altyaw < 90)
                         {
+                            //Debug.Log("reached00");
+
                             altyaw = 90 - altyaw;
-                            altyaw += 180;
+                            //altyaw += 180;
                         }
                         else if (altyaw >= 90 && altyaw < 180)
                         {
+                            //Debug.Log("reached01");
+
                             altyaw = 180 - altyaw;
                         }
 
@@ -3509,7 +4380,7 @@ public class sccsplayer : MonoBehaviour
                     }
                     else
                     {
-                        Debug.Log("reached1");
+                        ////Debug.Log("reached1");
 
 
                         eulerangles.z = 90;
@@ -3519,6 +4390,8 @@ public class sccsplayer : MonoBehaviour
 
                         if (altyaw >= 180 && altyaw < 270)
                         {
+                            //Debug.Log("reached02");
+
                             altyaw = 180 - altyaw;
                             altyaw += 180;
 
@@ -3527,6 +4400,8 @@ public class sccsplayer : MonoBehaviour
                         }
                         else if (altyaw >= 270 && altyaw < 360)
                         {
+                            //Debug.Log("reached03");
+
                             altyaw = 360 - altyaw;
                             //altyaw = 90 - altyaw;
                             altyaw += 90;
@@ -3550,7 +4425,7 @@ public class sccsplayer : MonoBehaviour
                     {
                         //altyaw += 180;//
 
-                        Debug.Log("reached2");
+                        ////Debug.Log("reached2");
 
                         eulerangles.z = 90;
                         eulerangles.y = -90;
@@ -3561,11 +4436,17 @@ public class sccsplayer : MonoBehaviour
 
                         if (altyaw >= 0 && altyaw < 90)
                         {
+                            //Debug.Log("reached21");
+
                             altyaw = 90 - altyaw;
                         }
                         else if (altyaw >= 90 && altyaw < 180)
                         {
+                            //Debug.Log("reached22");
+
                             altyaw = 180 - altyaw;
+                            altyaw += 180;
+
                         }
 
                         //altyaw += 180;//
@@ -3575,7 +4456,7 @@ public class sccsplayer : MonoBehaviour
                     else
                     {
 
-                        Debug.Log("reached3");
+                        ////Debug.Log("reached3");
 
                         eulerangles.z = 90;
                         eulerangles.y = -90;
@@ -3584,11 +4465,15 @@ public class sccsplayer : MonoBehaviour
 
                         if (altyaw >= 180 && altyaw < 270)
                         {
+                            //Debug.Log("reached31");
+
                             altyaw = 270 - altyaw;
                             //altyaw = 90 - altyaw;
                         }
                         else if (altyaw >= 270 && altyaw < 360)
                         {
+                            //Debug.Log("reached32");
+
                             altyaw = 360 - altyaw;
 
                             //altyaw = 90 - altyaw;
@@ -3607,58 +4492,154 @@ public class sccsplayer : MonoBehaviour
             }
             else if (indexofmaxvalueofperfacegravitylast == 2)
             {
-                //Debug.Log("altyaw0:" + altyaw);
+                ////Debug.Log("altyaw0:" + altyaw);
 
-                if (altyaw >= 0 && altyaw < 90 ||
-                    altyaw >= 90 && altyaw < 180)
+                if (pitchdeg >= 0)
                 {
-                    //Debug.Log("reached0");
-
-                    eulerangles.z = 90;
-                    eulerangles.y = -90;
-                    //altyaw += 90;
-
-                    if (altyaw >= 0 && altyaw < 90)
+                    if (altyaw >= 0 && altyaw < 90 ||
+                        altyaw >= 90 && altyaw < 180)
                     {
-                        altyaw = 90 - altyaw;
+                        ////Debug.Log("reached0");
+                        //altyaw += 180;//
+
+
+                        eulerangles.z = -90;
+                        eulerangles.y = 90;
+                        //altyaw += 90;
+
+
+
+
+                        if (altyaw >= 0 && altyaw < 90)
+                        {
+                            //Debug.Log("reached00");
+
+                            //altyaw = 90 - altyaw;
+                            //altyaw += 180;
+                            altyaw += 90;
+                        }
+                        else if (altyaw >= 90 && altyaw < 180)
+                        {
+                            //Debug.Log("reached01");
+
+                            altyaw = 180 - altyaw;
+                        }
+
+                        //altyaw += 180;//
+                        //altyaw -= 90;
+
                     }
-                    else if (altyaw >= 90 && altyaw < 180)
+                    else
                     {
-                        altyaw = 180 - altyaw;
-                        altyaw -= 90;
+                        ////Debug.Log("reached1");
+
+
+                        eulerangles.z = -90;
+                        eulerangles.y = 90;
+                        //altyaw = altyaw - 90;
+
+
+                        if (altyaw >= 180 && altyaw < 270)
+                        {
+                            //Debug.Log("reached02");
+
+                            altyaw = 180 - altyaw;
+                            altyaw += 180;
+
+                            //altyaw = 270 - altyaw;
+                            //altyaw = 90 - altyaw;
+                        }
+                        else if (altyaw >= 270 && altyaw < 360)
+                        {
+                            //Debug.Log("reached03");
+
+                            altyaw = 360 - altyaw;
+                            altyaw = 90 - altyaw;
+                            //altyaw -= 90;
+                            //altyaw += 270;
+                            //altyaw += 270;
+                            //altyaw += 180;
+                            //altyaw = 360 - altyaw;
+
+                            //altyaw = 90 - altyaw;
+
+                        }
+
+
 
                     }
                 }
                 else
                 {
-
-                    //Debug.Log("reached1");
-
-                    eulerangles.z = 90;
-                    eulerangles.y = -90;
-                    //altyaw = altyaw - 90;
-
-
-                    if (altyaw >= 180 && altyaw < 270)
+                    if (altyaw >= 0 && altyaw < 90 ||
+                        altyaw >= 90 && altyaw < 180)
                     {
-                        altyaw = 270 - altyaw;
-                        //altyaw = 90 - altyaw;
+                        //altyaw += 180;//
+
+                        ////Debug.Log("reached2");
+
+                        eulerangles.z = -90;
+                        eulerangles.y = 90;
+                        //altyaw += 90;
+
+
+
+
+                        if (altyaw >= 0 && altyaw < 90)
+                        {
+                            //Debug.Log("reached21");
+
+                            altyaw = 90 - altyaw;
+                        }
+                        else if (altyaw >= 90 && altyaw < 180)
+                        {
+                            //Debug.Log("reached22");
+
+                            altyaw = 180 - altyaw;
+                            //altyaw += 180;
+                            altyaw = 90 - altyaw;
+                            altyaw += 180;
+                        }
+
+                        //altyaw += 180;//
+                        //altyaw += 90;
+
+                    }
+                    else
+                    {
+
+                        ////Debug.Log("reached3");
+
+                        eulerangles.z = -90;
+                        eulerangles.y = 90;
+                        //altyaw = altyaw - 90;
+
+
+                        if (altyaw >= 180 && altyaw < 270)
+                        {
+                            //Debug.Log("reached31");
+
+                            altyaw = 270 - altyaw;
+                            altyaw = 90 - altyaw;
+                            altyaw += 90;
+                            //altyaw = 90 - altyaw;
+                        }
+                        else if (altyaw >= 270 && altyaw < 360)
+                        {
+                            //Debug.Log("reached32");
+
+                            altyaw = 360 - altyaw;
+
+                            //altyaw = 90 - altyaw;
+
+                        }
                         altyaw += 180;
-                        altyaw -= 90;
-                    }
-                    else if (altyaw >= 270 && altyaw < 360)
-                    {
-                        altyaw = 360 - altyaw;
-                        //altyaw -= 90;
 
-                        //altyaw = 90 - altyaw;
+
 
                     }
-
-                    //altyaw -= 90;
-
-
                 }
+
 
             }
             else if (indexofmaxvalueofperfacegravitylast == 5)
@@ -3668,70 +4649,287 @@ public class sccsplayer : MonoBehaviour
 
                 //altyaw += 180;//
 
-                if (altyaw >= 0 && altyaw < 90 ||
-                    altyaw >= 90 && altyaw < 180)
+                /*if (pitchdeg >= 0)
                 {
-
-                    eulerangles.z = -90;
-                    eulerangles.y = 90;
-                    //altyaw += 90;
-
-                    if (altyaw >= 0 && altyaw < 90)
+                    if (altyaw >= 0 && altyaw < 90 ||
+                   altyaw >= 90 && altyaw < 180)
                     {
-                        Debug.Log("hasreached0");
-                        altyaw = 90 - altyaw;
-                        altyaw += 180;
+                        //Debug.Log("here00");
+                        eulerangles.z = 90;
+                        eulerangles.y = -90;
+                        //altyaw += 90;
+
+                        if (altyaw >= 0 && altyaw < 90)
+                        {
+                            //Debug.Log("hasreached0"); //bottom to back going forward
+                            altyaw = 90 - altyaw;
+                            //altyaw += 180;
+                            //altyaw -= 90;
+                        }
+                        else if (altyaw >= 90 && altyaw < 180)
+                        {
+                            //Debug.Log("hasreached1");//bottom to back backwards
+                            altyaw = 180 - altyaw;
+                            altyaw = 90 - altyaw;
+                            //altyaw += 180;
+
+                        }
                     }
-                    else if (altyaw >= 90 && altyaw < 180)
+                    else
                     {
-                        Debug.Log("hasreached1");
-                        altyaw = 180 - altyaw;
-                        altyaw = 90 - altyaw;
-                        altyaw += 180;
+
+                        //Debug.Log("here11");
+                        eulerangles.z = 90;
+                        eulerangles.y = -90;
+                        //altyaw = altyaw - 90;
+
+
+                        if (altyaw >= 180 && altyaw < 270)
+                        {
+                            //Debug.Log("hasreached2222"); //bottom to back going backwards
+                            altyaw = 270 - altyaw;
+                            //altyaw += 180;
+                            altyaw = 90 - altyaw;
+                            //altyaw += 90;
+                            altyaw += 180;
+                            altyaw -= 90;
+                            //altyaw = 90 - altyaw;
+                        }
+                        else if (altyaw >= 270 && altyaw < 360)
+                        {
+                            //Debug.Log("hasreached3");
+                            altyaw = 360 - altyaw;
+                            altyaw = 90 - altyaw;
+                            altyaw -= 180;
+                            //altyaw += 180;
+                            //altyaw = 90 - altyaw;
+
+                        }
+
+                        //altyaw += 90;
+
+
                     }
                 }
                 else
                 {
-
-
-                    eulerangles.z = -90;
-                    eulerangles.y = 90;
-                    //altyaw = altyaw - 90;
-
-
-                    if (altyaw >= 180 && altyaw < 270)
+                    if (altyaw >= 0 && altyaw < 90 ||
+                   altyaw >= 90 && altyaw < 180)
                     {
-                        Debug.Log("hasreached2");
-                        altyaw = 270 - altyaw;
-                        altyaw += 180;
+                        //Debug.Log("here00");
+                        eulerangles.z = 90;
+                        eulerangles.y = -90;
+                        //altyaw += 90;
+
+                        if (altyaw >= 0 && altyaw < 90)
+                        {
+                            //Debug.Log("hasreached00");
+                            altyaw = 90 - altyaw;
+                            altyaw += 180;
+                        }
+                        else if (altyaw >= 90 && altyaw < 180)
+                        {
+                            //Debug.Log("hasreached1111");
+                            //bottom to back forwards
+                            //bottom to back backwards
+                            altyaw = 180 - altyaw;
+                            altyaw = 90 - altyaw;
+                            //altyaw = 90 - altyaw;
+                            //altyaw += 180;
+                            //altyaw += 180;
+                            altyaw += 180;
+                            altyaw -= 90;
+
+                        }
+                    }
+                    else
+                    {
+
+                        //Debug.Log("here11");
+                        eulerangles.z = 90;
+                        eulerangles.y = -90;
+                        //altyaw = altyaw - 90;
+
+
+                        if (altyaw >= 180 && altyaw < 270)
+                        {
+                            //Debug.Log("hasreached22222");
+                            //trying to fix bottom to back backwards
+                            //trying to fix bottom to back forward
+                            altyaw = 270 - altyaw;
+                            //altyaw += 180;
+                            altyaw = 90 - altyaw;
+                            altyaw += 90;
+                            //altyaw += 180;
+                            //altyaw = 90 - altyaw;
+                            //altyaw -= 90;
+
+                            //altyaw = 90 - altyaw;
+                            //altyaw += 180;
+                            //altyaw += 90;
+
+                            //altyaw -= 90;
+                            //altyaw += 270;
+                            //altyaw = 90 - altyaw;
+                            //altyaw += 90;
+                            //altyaw = 90 - altyaw;
+                        }
+                        else if (altyaw >= 270 && altyaw < 360)
+                        {
+                            //Debug.Log("hasreached33");
+                            altyaw = 360 - altyaw;
+
+                            altyaw -= 90;
+                            //altyaw += 180;
+                            //altyaw = 90 - altyaw;
+
+                        }
 
                         //altyaw += 90;
-                        //altyaw = 90 - altyaw;
+
+
                     }
-                    else if (altyaw >= 270 && altyaw < 360)
+                }*/
+
+
+                if (pitchdeg >=0)
+                {
+                    if (altyaw >= 0 && altyaw < 90 ||
+                    altyaw >= 90 && altyaw < 180)
                     {
-                        Debug.Log("hasreached3");
-                        altyaw = 360 - altyaw;
+                        eulerangles.z = 90;
+                        eulerangles.y = -90;
+                        //altyaw += 90;
 
-                        altyaw -= 90;
-                        //altyaw += 180;
-                        //altyaw = 90 - altyaw;
+                        if (altyaw >= 0 && altyaw < 90)
+                        {
+                            //Debug.Log("reached0");
+                            //altyaw = 90 - altyaw;
+                            altyaw -= 90;
+                        }
+                        else if (altyaw >= 90 && altyaw < 180)
+                        {
+                            if (rolldeg >= 0)
+                            {
+                                //Debug.Log("reached1");
+                                altyaw = 180 - altyaw;
+                                altyaw = 90 - altyaw;
+                                ///altyaw += 180;
+                                //altyaw += 180;
+                            }
+                            else
+                            {
+                                //Debug.Log("reached1");
+                                altyaw = 180 - altyaw;
+                                altyaw = 90 - altyaw;
+                                altyaw += 90;
+                                //altyaw += 180;
+                            }
 
+                        }
                     }
+                    else
+                    {
 
-                    //altyaw += 90;
+
+                        eulerangles.z = 90;
+                        eulerangles.y = -90;
+                        //altyaw = altyaw - 90;
 
 
+                        if (altyaw >= 180 && altyaw < 270)
+                        {
+                            //Debug.Log("reached2");
+                            altyaw = 270 - altyaw;
+                            //altyaw = 90 - altyaw;
+                            altyaw += 180;
+                            //
+
+                        }
+                        else if (altyaw >= 270 && altyaw < 360)
+                        {
+                            //Debug.Log("reached3");
+                            altyaw = 360 - altyaw;
+
+                            altyaw = 90 - altyaw;
+
+                        }
+                    }
                 }
+                else
+                {
+                    if (altyaw >= 0 && altyaw < 90 ||
+                    altyaw >= 90 && altyaw < 180)
+                    {
+                        eulerangles.z = 90;
+                        eulerangles.y = -90;
+                        //altyaw += 90;
+
+                        if (altyaw >= 0 && altyaw < 90)
+                        {
+                            //Debug.Log("reached0");
+                            //altyaw = 90 - altyaw;
+                            altyaw -= 90;
+                        }
+                        else if (altyaw >= 90 && altyaw < 180)
+                        {
+                            //Debug.Log("reached1");
+                           
+
+                            if (rolldeg >= 0)
+                            {
+                                //Debug.Log("reached11");
+                                //altyaw = 180 - altyaw;
+                                //altyaw = 90 - altyaw;
+                                //altyaw += 180;
+                                //altyaw += 180;
+                                altyaw -=90;
+
+                            }
+                            else
+                            {
+                                //Debug.Log("reached12");
+                                altyaw = 180 - altyaw;
+                                altyaw = 90 - altyaw;
+                                //altyaw += 180;
+                                altyaw += 90;
+                            }
+                        }
+                    }
+                    else
+                    {
 
 
+                        eulerangles.z = 90;
+                        eulerangles.y = -90;
+                        //altyaw = altyaw - 90;
 
+
+                        if (altyaw >= 180 && altyaw < 270)
+                        {
+                            //Debug.Log("reached2");
+                            altyaw = 270 - altyaw;
+                            //altyaw = 90 - altyaw;
+                            altyaw += 180;
+                            //
+
+                        }
+                        else if (altyaw >= 270 && altyaw < 360)
+                        {
+                            //Debug.Log("reached3");
+                            altyaw = 360 - altyaw;
+
+                            altyaw = 90 - altyaw;
+
+                        }
+                    }
+                }
 
             }
 
 
 
-            //Debug.Log("altyaw:" + altyaw);
+            ////Debug.Log("altyaw:" + altyaw);
 
 
 
@@ -3754,7 +4952,8 @@ public class sccsplayer : MonoBehaviour
 
             faceposcubic = -Vector3.forward;
         }
-        else if (indexofmaxvalueofperfacegravity == 5 && indexofmaxvalueofperfacegravitylast != indexofmaxvalueofperfacegravity) //bo
+        else if (indexofmaxvalueofperfacegravity == 5 && indexofmaxvalueofperfacegravitylast != indexofmaxvalueofperfacegravity
+            ) //bo
         {
             Vector3 eulerangles = new Vector3(viewer.transform.localEulerAngles.x, viewer.transform.localEulerAngles.y, viewer.transform.localEulerAngles.z);
 
@@ -3775,19 +4974,169 @@ public class sccsplayer : MonoBehaviour
             float yawdeg = scmaths.RadianToDegree(yawcurrent);
             float rolldeg = scmaths.RadianToDegree(rollcurrent);
 
-            Debug.Log("pitch:" + pitchdeg);
-            Debug.Log("yawdeg start:" + yawdeg);
-            Debug.Log("rolldeg:" + rolldeg);
+            //Debug.Log("pitch:" + pitchdeg);
+            //Debug.Log("yawdeg start:" + yawdeg);
+            //Debug.Log("rolldeg:" + rolldeg);
 
             float altyaw = 0;
 
             if (indexofmaxvalueofperfacegravitylast == 1)
             {
                 altyaw = yawdeg;
+
+                if (pitchdeg >= 0)
+                {
+
+
+
+                    if (yawdeg < 0 & yawdeg > -90)
+                    {
+                        altyaw = yawdeg;
+
+                        altyaw *= -1;
+                        altyaw = 360 - altyaw;
+                    }
+                    if (yawdeg <= -90 & yawdeg > -180)
+                    {
+                        altyaw = yawdeg;
+
+                        altyaw *= -1;
+                        altyaw = 360 - altyaw;
+                    }
+
+                    /*if (yawdeg >= 0 & yawdeg < 90)
+                    {
+                        altyaw = yawdeg;
+                    }
+
+                    if (yawdeg < 0 & yawdeg >= -90)
+                    {
+                        altyaw = yawdeg;
+
+                        altyaw *= -1;
+
+                        altyaw = 360 - altyaw;
+
+                    }*/
+
+
+
+
+
+
+                }
+
+                if (pitchdeg < 0)
+                {
+                    if (yawdeg >= 0 & yawdeg < 90)
+                    {
+                        altyaw = yawdeg;
+                        altyaw = 180 - altyaw;
+                    }
+
+                    if (yawdeg < 0 & yawdeg >= -90)
+                    {
+                        altyaw = yawdeg;
+
+                        altyaw *= -1;
+
+                        altyaw = 180 + altyaw;
+                    }
+
+                    /*if (yawdeg < 0 & yawdeg > -90)
+                    {
+                        altyaw = yawdeg;
+
+                        altyaw *= -1;
+                        altyaw = 360 - altyaw;
+                    }
+                    if (yawdeg <= -90 & yawdeg > -180)
+                    {
+                        altyaw = yawdeg;
+
+                        altyaw *= -1;
+                        altyaw = 360 - altyaw;
+                    }*/
+                }
             }
             else if (indexofmaxvalueofperfacegravitylast == 2)
             {
                 altyaw = yawdeg;
+
+                if (pitchdeg >= 0)
+                {
+
+
+
+                    if (yawdeg < 0 & yawdeg > -90)
+                    {
+                        altyaw = yawdeg;
+
+                        altyaw *= -1;
+                        altyaw = 360 - altyaw;
+                    }
+                    if (yawdeg <= -90 & yawdeg > -180)
+                    {
+                        altyaw = yawdeg;
+
+                        altyaw *= -1;
+                        altyaw = 360 - altyaw;
+                    }
+
+                    /*if (yawdeg >= 0 & yawdeg < 90)
+                    {
+                        altyaw = yawdeg;
+                    }
+
+                    if (yawdeg < 0 & yawdeg >= -90)
+                    {
+                        altyaw = yawdeg;
+
+                        altyaw *= -1;
+
+                        altyaw = 360 - altyaw;
+
+                    }*/
+
+
+
+
+
+
+                }
+
+                if (pitchdeg < 0)
+                {
+                    if (yawdeg >= 0 & yawdeg < 90)
+                    {
+                        altyaw = yawdeg;
+                        altyaw = 180 - altyaw;
+                    }
+
+                    if (yawdeg < 0 & yawdeg >= -90)
+                    {
+                        altyaw = yawdeg;
+
+                        altyaw *= -1;
+
+                        altyaw = 180 + altyaw;
+                    }
+
+                    /*if (yawdeg < 0 & yawdeg > -90)
+                    {
+                        altyaw = yawdeg;
+
+                        altyaw *= -1;
+                        altyaw = 360 - altyaw;
+                    }
+                    if (yawdeg <= -90 & yawdeg > -180)
+                    {
+                        altyaw = yawdeg;
+
+                        altyaw *= -1;
+                        altyaw = 360 - altyaw;
+                    }*/
+                }
             }
             else if (indexofmaxvalueofperfacegravitylast == 3)
             {
@@ -3954,7 +5303,24 @@ public class sccsplayer : MonoBehaviour
 
             }
 
-            Debug.Log("altyaw0:" + altyaw);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            //Debug.Log("altyaw0:" + altyaw);
 
             /*if (pitchdeg >= 0)
             {
@@ -4029,7 +5395,7 @@ public class sccsplayer : MonoBehaviour
                 }
             }*/
 
-            if (yawdeg >= 0 & yawdeg < 90)
+           /* if (yawdeg >= 0 & yawdeg < 90)
             {
                 altyaw = yawdeg;
             }
@@ -4042,7 +5408,7 @@ public class sccsplayer : MonoBehaviour
 
                 altyaw = 360 - altyaw;
             }
-
+           */
 
             /*if (altyaw >= 0 && altyaw < 90 ||
                 altyaw >= 90 && altyaw < 180)
@@ -4127,7 +5493,50 @@ public class sccsplayer : MonoBehaviour
                 }
                 else
                 {
+                    if (altyaw >= 0 && altyaw < 90 ||
+                        altyaw >= 90 && altyaw < 180)
+                    {
+                        if (altyaw >= 0 && altyaw < 90)
+                        {
+                            //Debug.Log("reached0");
+                            altyaw = 90 - altyaw;
+                            altyaw += 90;
+                        }
+                        else if (altyaw >= 90 && altyaw < 180)
+                        {
+                            //Debug.Log("reached1");
+                            altyaw = 180 - altyaw;
+                        }
+                    }
+                    else
+                    {
+                        if (altyaw >= 180 && altyaw < 270)
+                        {
+                            //Debug.Log("reached2");
+                            altyaw = 270 - altyaw;
+                            altyaw -= 90;
+                            //altyaw += 180;
+                            //altyaw += 90;
+                            //altyaw -= 180;
+                            //altyaw = 90 - altyaw;
+                            //altyaw = 270 - altyaw;
+                            //altyaw = 90 - altyaw;
+                        }
+                        else if (altyaw >= 270 && altyaw < 360)
+                        {
+                            //Debug.Log("reached3");
+                            altyaw = 360 - altyaw;
+                            altyaw += 180;
 
+                            //altyaw += 90;
+                            //altyaw -= 270;
+                            //altyaw = 90 - altyaw;
+                            //altyaw = 360 - altyaw;
+
+                            //altyaw = 90 - altyaw;
+
+                        }
+                    }
                 }
             }
             else if (indexofmaxvalueofperfacegravitylast == 2)
@@ -4184,6 +5593,50 @@ public class sccsplayer : MonoBehaviour
                 }
                 else
                 {
+                    if (altyaw >= 0 && altyaw < 90 ||
+                        altyaw >= 90 && altyaw < 180)
+                    {
+                        if (altyaw >= 0 && altyaw < 90)
+                        {
+                            //Debug.Log("reached0");
+                            altyaw = 90 - altyaw;
+                            altyaw += 90;
+                        }
+                        else if (altyaw >= 90 && altyaw < 180)
+                        {
+                            //Debug.Log("reached1");
+                            altyaw = 180 - altyaw;
+                        }
+                    }
+                    else
+                    {
+                        if (altyaw >= 180 && altyaw < 270)
+                        {
+                            //Debug.Log("reached2");
+                            altyaw = 270 - altyaw;
+                            altyaw -= 90;
+                            //altyaw += 180;
+                            //altyaw += 90;
+                            //altyaw -= 180;
+                            //altyaw = 90 - altyaw;
+                            //altyaw = 270 - altyaw;
+                            //altyaw = 90 - altyaw;
+                        }
+                        else if (altyaw >= 270 && altyaw < 360)
+                        {
+                            //Debug.Log("reached3");
+                            altyaw = 360 - altyaw;
+                            altyaw += 180;
+
+                            //altyaw += 90;
+                            //altyaw -= 270;
+                            //altyaw = 90 - altyaw;
+                            //altyaw = 360 - altyaw;
+
+                            //altyaw = 90 - altyaw;
+
+                        }
+                    }
 
                 }
             }
@@ -4241,7 +5694,50 @@ public class sccsplayer : MonoBehaviour
                 }
                 else
                 {
+                    if (altyaw >= 0 && altyaw < 90 ||
+                        altyaw >= 90 && altyaw < 180)
+                    {
+                        if (altyaw >= 0 && altyaw < 90)
+                        {
+                            //Debug.Log("reached0");
+                            altyaw = 90 - altyaw;
+                            altyaw += 90;
+                        }
+                        else if (altyaw >= 90 && altyaw < 180)
+                        {
+                            //Debug.Log("reached1");
+                            altyaw = 180 - altyaw;
+                        }
+                    }
+                    else
+                    {
+                        if (altyaw >= 180 && altyaw < 270)
+                        {
+                            //Debug.Log("reached2");
+                            altyaw = 270 - altyaw;
+                            altyaw -= 90;
+                            //altyaw += 180;
+                            //altyaw += 90;
+                            //altyaw -= 180;
+                            //altyaw = 90 - altyaw;
+                            //altyaw = 270 - altyaw;
+                            //altyaw = 90 - altyaw;
+                        }
+                        else if (altyaw >= 270 && altyaw < 360)
+                        {
+                            //Debug.Log("reached3");
+                            altyaw = 360 - altyaw;
+                            altyaw += 180;
 
+                            //altyaw += 90;
+                            //altyaw -= 270;
+                            //altyaw = 90 - altyaw;
+                            //altyaw = 360 - altyaw;
+
+                            //altyaw = 90 - altyaw;
+
+                        }
+                    }
                 }
             }
             else if (indexofmaxvalueofperfacegravitylast == 4)
@@ -4298,7 +5794,50 @@ public class sccsplayer : MonoBehaviour
                 }
                 else
                 {
+                    if (altyaw >= 0 && altyaw < 90 ||
+                        altyaw >= 90 && altyaw < 180)
+                    {
+                        if (altyaw >= 0 && altyaw < 90)
+                        {
+                            //Debug.Log("reached0");
+                            altyaw = 90 - altyaw;
+                            altyaw += 90;
+                        }
+                        else if (altyaw >= 90 && altyaw < 180)
+                        {
+                            //Debug.Log("reached1");
+                            altyaw = 180 - altyaw;
+                        }
+                    }
+                    else
+                    {
+                        if (altyaw >= 180 && altyaw < 270)
+                        {
+                            //Debug.Log("reached2");
+                            altyaw = 270 - altyaw;
+                            altyaw -= 90;
+                            //altyaw += 180;
+                            //altyaw += 90;
+                            //altyaw -= 180;
+                            //altyaw = 90 - altyaw;
+                            //altyaw = 270 - altyaw;
+                            //altyaw = 90 - altyaw;
+                        }
+                        else if (altyaw >= 270 && altyaw < 360)
+                        {
+                            //Debug.Log("reached3");
+                            altyaw = 360 - altyaw;
+                            altyaw += 180;
 
+                            //altyaw += 90;
+                            //altyaw -= 270;
+                            //altyaw = 90 - altyaw;
+                            //altyaw = 360 - altyaw;
+
+                            //altyaw = 90 - altyaw;
+
+                        }
+                    }
                 }
             }
 
@@ -4321,7 +5860,7 @@ public class sccsplayer : MonoBehaviour
 
 
 
-            //Debug.Log("altyaw:" + altyaw);
+            ////Debug.Log("altyaw:" + altyaw);
 
             /*
             if (rolldeg >= 0 && rolldeg < 180)
@@ -4331,8 +5870,8 @@ public class sccsplayer : MonoBehaviour
 
             Vector3 toeuler = viewer.transform.localEulerAngles;// Quaternion.ToEulerAngles(viewer.transform.rotation);
 
-            Debug.Log("eulerangles.x:" + viewer.transform.localEulerAngles.x);
-            Debug.Log("toeuler.x:" + toeuler.x);
+            //Debug.Log("eulerangles.x:" + viewer.transform.localEulerAngles.x);
+            //Debug.Log("toeuler.x:" + toeuler.x);
 
             */
 
@@ -4392,7 +5931,7 @@ public class sccsplayer : MonoBehaviour
 
         float thedotplayertogravityside = Vector3.Dot(viewer.transform.forward, dirplayertomidpointofgravity);
 
-        //UnityEngine.Debug.Log("dot:" + thedotplayertogravityside);
+        //UnityEngine.//Debug.Log("dot:" + thedotplayertogravityside);
 
         lastdot = thedotplayertogravityside;
 
@@ -4400,7 +5939,7 @@ public class sccsplayer : MonoBehaviour
 
 
 
-        //UnityEngine.//Debug.Log("/cubicx:" + poscubicgravityvisualx + "/cubicy:" + poscubicgravityvisualy + "/cubicz:" + poscubicgravityvisualz);
+        //UnityEngine.////Debug.Log("/cubicx:" + poscubicgravityvisualx + "/cubicy:" + poscubicgravityvisualy + "/cubicz:" + poscubicgravityvisualz);
 
         var distance = 0.00025f;
         //var dirForward = viewer.transform.rotation * Vector3.forward;
@@ -4432,7 +5971,7 @@ public class sccsplayer : MonoBehaviour
         */
 
 
-        Debug.Log("facetype:" + indexofmaxvalueofperfacegravity + "/lastfacetype:" + indexofmaxvalueofperfacegravitylast);
+        //Debug.Log("facetype:" + indexofmaxvalueofperfacegravity + "/lastfacetype:" + indexofmaxvalueofperfacegravitylast);
 
 
 
@@ -4465,7 +6004,7 @@ public class sccsplayer : MonoBehaviour
         RotationY = scmaths.RadianToDegree(yawcurrent0);
         RotationZ = scmaths.RadianToDegree(rollcurrent0);
         */
-        //Debug.Log("/rotx:" + RotationX + "/roty:" + RotationY + "/rotz:" + RotationZ);
+        ////Debug.Log("/rotx:" + RotationX + "/roty:" + RotationY + "/rotz:" + RotationZ);
 
 
 
@@ -4513,7 +6052,7 @@ public class sccsplayer : MonoBehaviour
                             /*
                             float rotate_speed = 25.0f;
 
-                            //Debug.Log("***********");
+                            ////Debug.Log("***********");
                             Vector3 pointforward = isgroundedpivotpoint.transform.position + (viewer.transform.forward * 0.00125f);
 
                             float lengthofarm = hiptofloordist * hiptofloordistmul;// sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().totalArmLength + (sccsikplayer.currentsccsikplayer.pelvisrenderer.transform.localScale.y * 0.5f) + (sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().shoulderrenderer.transform.localScale.y * 1.0f) + (sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().handrenderer.transform.localScale.y * 0.5f);
@@ -4619,7 +6158,7 @@ public class sccsplayer : MonoBehaviour
                     //swtcfordontchangefacegravity = 0;
                     float rotate_speed = 25.0f;
 
-                    //Debug.Log("***********");
+                    ////Debug.Log("***********");
                     Vector3 pointforward = isgroundedpivotpoint.transform.position + (viewer.transform.forward * 0.00125f);
 
                     float lengthofarm = hiptofloordist * hiptofloordistmul;// sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().totalArmLength + (sccsikplayer.currentsccsikplayer.pelvisrenderer.transform.localScale.y * 0.5f) + (sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().shoulderrenderer.transform.localScale.y * 1.0f) + (sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().handrenderer.transform.localScale.y * 0.5f);
@@ -4713,7 +6252,7 @@ public class sccsplayer : MonoBehaviour
             //swtcfordontchangefacegravity = 0;
             float rotate_speed = 25.0f;
 
-            //Debug.Log("***********");
+            ////Debug.Log("***********");
             Vector3 pointforward = isgroundedpivotpoint.transform.position + (viewer.transform.forward * 0.00125f);
 
             float lengthofarm = hiptofloordist * hiptofloordistmul;// sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().totalArmLength + (sccsikplayer.currentsccsikplayer.pelvisrenderer.transform.localScale.y * 0.5f) + (sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().shoulderrenderer.transform.localScale.y * 1.0f) + (sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().handrenderer.transform.localScale.y * 0.5f);
@@ -4812,7 +6351,7 @@ public class sccsplayer : MonoBehaviour
 
             //if (maglegleft > totalarmlength || maglegright > totalarmlength)
             {
-                //Debug.Log(" > totalarmlength");
+                ////Debug.Log(" > totalarmlength");
                 /*if (maglegleft > totalarmlength)
                 {
 
@@ -4924,7 +6463,7 @@ public class sccsplayer : MonoBehaviour
 
                     int swtcdontlookfurther = 0;
 
-                    ////UnityEngine.Debug.Log("/rayposition:" + rayposition.x + "/rayposition:" + rayposition.y + "/rayposition:" + rayposition.z);
+                    ////UnityEngine.//Debug.Log("/rayposition:" + rayposition.x + "/rayposition:" + rayposition.y + "/rayposition:" + rayposition.z);
 
                     int hasfoundblock = 0;
 
@@ -5043,14 +6582,14 @@ public class sccsplayer : MonoBehaviour
                                     int raypositionforwardclampedz = (int)Mathf.Floor(raypositionforward.z * 10.0f) / 10;
 
                                     /*
-                                    //UnityEngine.Debug.Log("/x:" + raypositionforwardclampedx + "/y:" + raypositionforwardclampedy + "/z:" + raypositionforwardclampedz);
+                                    //UnityEngine.//Debug.Log("/x:" + raypositionforwardclampedx + "/y:" + raypositionforwardclampedy + "/z:" + raypositionforwardclampedz);
 
-                                    //UnityEngine.Debug.Log("/someremainsx:" + someremainsx + "/someremainsy:" + someremainsy + "/someremainsz:" + someremainsz);
-                                    ////UnityEngine.Debug.Log("/totalTimesx:" + totalTimesx + "/totalTimesy:" + totalTimesy + "/totalTimesz:" + totalTimesz);
+                                    //UnityEngine.//Debug.Log("/someremainsx:" + someremainsx + "/someremainsy:" + someremainsy + "/someremainsz:" + someremainsz);
+                                    ////UnityEngine.//Debug.Log("/totalTimesx:" + totalTimesx + "/totalTimesy:" + totalTimesy + "/totalTimesz:" + totalTimesz);
                                     */
                                     /*
-                                    //UnityEngine.Debug.Log("/x:" + rayposforinnerchunkx + "/y:" + rayposforinnerchunky + "/z:" + rayposforinnerchunkz);
-                                    //UnityEngine.Debug.Log("/x:" + sometestx + "/y:" + sometesty + "/z:" + sometestz);
+                                    //UnityEngine.//Debug.Log("/x:" + rayposforinnerchunkx + "/y:" + rayposforinnerchunky + "/z:" + rayposforinnerchunkz);
+                                    //UnityEngine.//Debug.Log("/x:" + sometestx + "/y:" + sometesty + "/z:" + sometestz);
                                     */
                                     //var thechunk = planetdiv.getChunk(rayposforinnerchunkx, rayposforinnerchunky, rayposforinnerchunkz);
                                     var thechunk = planetdiv.getChunk((int)sometestx, (int)sometesty, (int)sometestz);
@@ -5062,7 +6601,7 @@ public class sccsplayer : MonoBehaviour
 
                                         if (thechunk.thebytemap != null)
                                         {
-                                            //Debug.Log("thechunk.thebytemap != null");
+                                            ////Debug.Log("thechunk.thebytemap != null");
 
                                             var thebytemap = thechunk.thebytemap;
 
@@ -5190,7 +6729,7 @@ public class sccsplayer : MonoBehaviour
 
                                             /*
 
-                                            //UnityEngine.Debug.Log("/totalTimesx:" + totalTimesx + "/totalTimesy:" + totalTimesy + "/totalTimesz:" + totalTimesz + "/theremainsz:" + theremainsz + "/raypositionforwardclampedz:" + raypositionforwardclampedz + "/raypositionforward.z:" + raypositionforward.z);
+                                            //UnityEngine.//Debug.Log("/totalTimesx:" + totalTimesx + "/totalTimesy:" + totalTimesy + "/totalTimesz:" + totalTimesz + "/theremainsz:" + theremainsz + "/raypositionforwardclampedz:" + raypositionforwardclampedz + "/raypositionforward.z:" + raypositionforward.z);
                                             */
 
 
@@ -5202,7 +6741,7 @@ public class sccsplayer : MonoBehaviour
 
 
                                             /*
-                                            //UnityEngine.Debug.Log("/chunkposx:" + thechunk.chunkpos.x + "/chunkposy:" + thechunk.chunkpos.y + "/chunkposz:" + thechunk.chunkpos.z);
+                                            //UnityEngine.//Debug.Log("/chunkposx:" + thechunk.chunkpos.x + "/chunkposy:" + thechunk.chunkpos.y + "/chunkposz:" + thechunk.chunkpos.z);
                                             */
 
 
@@ -5243,7 +6782,7 @@ public class sccsplayer : MonoBehaviour
                                                             }*/
 
 
-                                                            //UnityEngine.Debug.Log(position + "/z:" + (((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz));
+                                                            //UnityEngine.//Debug.Log(position + "/z:" + (((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz));
                                                         }
                                                         else if (sccsplayerscript.indexofmaxvalueofperfacegravity == 1) //LEFTFACE FAKE GRAVITY-ISH CHARACTER ROTATION
                                                         {
@@ -5267,7 +6806,7 @@ public class sccsplayer : MonoBehaviour
                                                             }*/
 
 
-                                                            //UnityEngine.Debug.Log(position + "/z:" + (((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz));
+                                                            //UnityEngine.//Debug.Log(position + "/z:" + (((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz));
                                                         }
                                                         else if (sccsplayerscript.indexofmaxvalueofperfacegravity == 2) //LEFTFACE FAKE GRAVITY-ISH CHARACTER ROTATION
                                                         {
@@ -5290,7 +6829,7 @@ public class sccsplayer : MonoBehaviour
 
                                                             }
                                                             */
-                                                            //UnityEngine.Debug.Log(position + "/z:" + (((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz));
+                                                            //UnityEngine.//Debug.Log(position + "/z:" + (((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz));
                                                         }
                                                         else if (sccsplayerscript.indexofmaxvalueofperfacegravity == 3) //LEFTFACE FAKE GRAVITY-ISH CHARACTER ROTATION
                                                         {
@@ -5313,7 +6852,7 @@ public class sccsplayer : MonoBehaviour
 
                                                             }*/
 
-                                                            //UnityEngine.Debug.Log(position + "/z:" + (((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz));
+                                                            //UnityEngine.//Debug.Log(position + "/z:" + (((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz));
                                                         }
                                                         else if (sccsplayerscript.indexofmaxvalueofperfacegravity == 4) //LEFTFACE FAKE GRAVITY-ISH CHARACTER ROTATION
                                                         {
@@ -5335,7 +6874,7 @@ public class sccsplayer : MonoBehaviour
                                                                 sccsikplayer.currentsccsikplayer.arrayofikarms[3].GetComponent<sccsikarm>().handTarget.transform.position = position;// new Vector3(rayposforinnerchunkx + (remnantsx * planeSize) + offsetposx, rayposforinnerchunky + (remnantsy * planeSize) + offsetposy, rayposforinnerchunkz + (remnantsz * planeSize) + offsetposz);
 
                                                             }*/
-                                                            //UnityEngine.Debug.Log(position + "/z:" + (((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz));
+                                                            //UnityEngine.//Debug.Log(position + "/z:" + (((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz));
                                                         }
                                                         else if (sccsplayerscript.indexofmaxvalueofperfacegravity == 5) //LEFTFACE FAKE GRAVITY-ISH CHARACTER ROTATION
                                                         {
@@ -5358,7 +6897,7 @@ public class sccsplayer : MonoBehaviour
 
                                                             }*/
 
-                                                            //UnityEngine.Debug.Log(position + "/z:" + (((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz));
+                                                            //UnityEngine.//Debug.Log(position + "/z:" + (((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz));
                                                         }
                                                     }
 
@@ -5396,7 +6935,7 @@ public class sccsplayer : MonoBehaviour
 
                         if (themag < hiptofloordist * hiptofloordistmul * 0.125f) // 0.1f
                         {
-                            //UnityEngine.Debug.Log("has reached crouching pos");
+                            //UnityEngine.//Debug.Log("has reached crouching pos");
                             //raypositionforward = raypositionforwardinit + (raydirection.normalized * hiptofloordist * 0hiptofloordistmul75f);
 
                             raypositionforward = raypositionforward + (-raydirection.normalized * hiptofloordist * hiptofloordistmul * 0.125f);
@@ -5425,7 +6964,7 @@ public class sccsplayer : MonoBehaviour
 
 
                                 viewer.transform.position = raypositionforward;// Vector3.Lerp(viewer.transform.position, (raypositionforward), 10.0f);//
-                                                                               //UnityEngine.Debug.Log("has reached too high pos");
+                                                                               //UnityEngine.//Debug.Log("has reached too high pos");
 
                             }
                             else
@@ -5433,7 +6972,7 @@ public class sccsplayer : MonoBehaviour
 
                                 /*raypositionforward = raypositionforward + (-raydirection.normalized * hiptofloordist * hiptofloordistmul);
 
-                                UnityEngine.Debug.Log("has reached too high pos");
+                                UnityEngine.//Debug.Log("has reached too high pos");
 
 
                                 viewer.transform.position = Vector3.Lerp(viewer.transform.position, (raypositionforward), 0.5f);//
@@ -5454,7 +6993,7 @@ public class sccsplayer : MonoBehaviour
 
                             //viewer.transform.position = Vector3.Lerp(viewer.transform.position, (raypositionforward), 0.5f);// + (-viewer.transform.up * (totalarmlength)));
 
-                            //UnityEngine.Debug.Log("has reached too high pos");
+                            //UnityEngine.//Debug.Log("has reached too high pos");
 
                             /*Vector3 diffdir = raypositionforward - raypositionforwardinit;
                             diffdir.Normalize();
@@ -5492,7 +7031,7 @@ public class sccsplayer : MonoBehaviour
                             */
 
                             /*
-                            //UnityEngine.Debug.Log("!has reached crouching pos");
+                            //UnityEngine.//Debug.Log("!has reached crouching pos");
                             //raypositionforward = raypositionforwardinit + (raydirection.normalized * hiptofloordist * 0.75f);
                             viewer.transform.position = Vector3.Lerp(viewer.transform.position, (viewer.transform.position + diffdir), 0.01f);// + (-viewer.transform.up * (totalarmlength)));
                             */
@@ -5630,7 +7169,7 @@ public class sccsplayer : MonoBehaviour
         }
         else
         {
-            //Debug.Log("the planet is null");
+            ////Debug.Log("the planet is null");
         }
 
         yield return new WaitForSeconds(0.001f);
@@ -5807,7 +7346,7 @@ public class sccsplayer : MonoBehaviour
         else
         {
             hasclickedtomoveplayer = 0;
-            ////Debug.Log("test");
+            //////Debug.Log("test");
         }
 
         //Debug.DrawRay(clicktomoveplayerpos, thepositionupofpoint - clicktomoveplayerpos, Color.red, 1.0f);
@@ -5936,14 +7475,14 @@ public class sccsplayer : MonoBehaviour
                 }
                 else
                 {
-                    //Debug.Log("the planet is null");
+                    ////Debug.Log("the planet is null");
                 }
             }
         }
         else
         {
             hasclickedtomoveplayer = 0;
-            ////Debug.Log("test");
+            //////Debug.Log("test");
         }
 
         //Debug.DrawRay(clicktomoveplayerpos, thepositionupofpoint - clicktomoveplayerpos, Color.red, 1.0f);
@@ -6002,7 +7541,7 @@ public class sccsplayer : MonoBehaviour
 
         /*if (maglegleft > totalarmlength || maglegright > totalarmlength)
         {
-            Debug.Log(" > totalarmlength");
+            //Debug.Log(" > totalarmlength");
             if (maglegleft > totalarmlength)
             {
 
@@ -6079,7 +7618,7 @@ public class sccsplayer : MonoBehaviour
 
             MOVEPOSOFFSET = Vector3.Lerp(MOVEPOSOFFSET, pointtobeat, movementspeed * Time.deltaTime); // * Time.deltaTime
 
-            //UnityEngine.//Debug.Log("has tried moving w");
+            //UnityEngine.////Debug.Log("has tried moving w");
 
 
 
@@ -6352,13 +7891,13 @@ public class sccsplayer : MonoBehaviour
                     //Debug.DrawRay(camera.transform.position, dir * 10.0f, Color.blue, 10.0f);
                     hasclickedtomoveplayer = 1;
 
-                    //Debug.Log("hasclickedtomoveplayer");
+                    ////Debug.Log("hasclickedtomoveplayer");
                     swtchastriedmovingplayerwithmouseclick = 1;
                 }
                 else
                 {
                     hasclickedtomoveplayer = 0;
-                    ////Debug.Log("test");
+                    //////Debug.Log("test");
                 }
             }
 
@@ -6643,7 +8182,7 @@ public class sccsplayer : MonoBehaviour
 
             /*targetobjectvisual.transform.position = new Vector3(posx * 5, posy * 5, posz * 5);
 
-            //Debug.Log("/x:" + posx + "/y:" + posy + "/z:" + posz);
+            ////Debug.Log("/x:" + posx + "/y:" + posy + "/z:" + posz);
             */
 
             indexofmaxvalueofperfacegravity = arrayofgravityperfacedot.ToList().IndexOf(arrayofgravityperfacedot.Max());
@@ -6762,7 +8301,7 @@ public class sccsplayer : MonoBehaviour
 
             //indexofmaxvalueofperfacegravitynext
 
-            //UnityEngine.//Debug.Log("typeofface:" + indexofmaxvalueofperfacegravity + "/facetypenext:" + indexofmaxvalueofperfacegravitynext);
+            //UnityEngine.////Debug.Log("typeofface:" + indexofmaxvalueofperfacegravity + "/facetypenext:" + indexofmaxvalueofperfacegravitynext);
 
             /*
             var listofnextgravityx = arrayofgravityperfacex.ToList();
@@ -6932,35 +8471,35 @@ public class sccsplayer : MonoBehaviour
 
         if (answerx == 1 && answery == -1 && answerz == -1)
         {
-            //Debug.Log("answerx == 1 && answery == -1 && answerz == -1");
+            ////Debug.Log("answerx == 1 && answery == -1 && answerz == -1");
         }
         else if (answerx == 1 && answery == 1 && answerz == -1)
         {
-            //Debug.Log("answerx == 1 && answery == 1 && answerz == -1");
+            ////Debug.Log("answerx == 1 && answery == 1 && answerz == -1");
         }
         else if (answerx == 1 && answery == 1 && answerz == 1)
         {
-            //Debug.Log("answerx == 1 && answery == 1 && answerz == 1");
+            ////Debug.Log("answerx == 1 && answery == 1 && answerz == 1");
         }
         else if (answerx == -1 && answery == 1 && answerz == 1)
         {
-            //Debug.Log("answerx == -1 && answery == 1 && answerz == 1");
+            ////Debug.Log("answerx == -1 && answery == 1 && answerz == 1");
         }
         else if (answerx == -1 && answery == -1 && answerz == 1)
         {
-            //Debug.Log("answerx == -1 && answery == -1 && answerz == 1");
+            ////Debug.Log("answerx == -1 && answery == -1 && answerz == 1");
         }
         else if (answerx == 1 && answery == -1 && answerz == 1)
         {
-            //Debug.Log("answerx == 1 && answery == -1 && answerz == 1");
+            ////Debug.Log("answerx == 1 && answery == -1 && answerz == 1");
         }
         else if (answerx == 1 && answery == 1 && answerz == -1)
         {
-            //Debug.Log("answerx == 1 && answery == 1 && answerz == -1");
+            ////Debug.Log("answerx == 1 && answery == 1 && answerz == -1");
         }
         else if (answerx == -1 && answery == -1 && answerz == -1)
         {
-            //Debug.Log("answerx == -1 && answery == -1 && answerz == -1");
+            ////Debug.Log("answerx == -1 && answery == -1 && answerz == -1");
         }
 
 
@@ -7043,7 +8582,7 @@ public class sccsplayer : MonoBehaviour
                 answer = -1;
             }
 
-            ////Debug.Log("dot:" + _dotGoal);
+            //////Debug.Log("dot:" + _dotGoal);
         }*/
     }
 
@@ -7091,7 +8630,7 @@ public class sccsplayer : MonoBehaviour
             }
             else
             {
-                //Debug.Log("the planet is null");
+                ////Debug.Log("the planet is null");
 
             }
             
@@ -7111,7 +8650,7 @@ public class sccsplayer : MonoBehaviour
             }
             else
             {
-                //Debug.Log("the planet is null");
+                ////Debug.Log("the planet is null");
 
             }
 
