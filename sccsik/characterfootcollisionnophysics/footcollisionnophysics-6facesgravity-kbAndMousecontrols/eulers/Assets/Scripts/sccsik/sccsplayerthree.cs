@@ -12,7 +12,7 @@ using System.Diagnostics;
 
 using Debug = UnityEngine.Debug;
 
-public class sccsplayer : MonoBehaviour
+public class sccsplayerthree : MonoBehaviour
 {
     public float indexofmaxvalueofperfacegravitydot = 0.0f;
     public float indexofmaxvalueofperfacegravitynextdot = 0.0f;
@@ -159,10 +159,10 @@ public class sccsplayer : MonoBehaviour
         gravityplayerpointertarget.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
         gravityplayerpointertarget.GetComponent<MeshRenderer>().material.color = Color.green;
 
+      
+      
 
-
-
-
+  
 
         /*
         GameObject gravityplayerpointertargetforearm;
@@ -237,10 +237,10 @@ public class sccsplayer : MonoBehaviour
 
         Quaternion cameraq = camera.transform.rotation;
 
-        x = cameraq.x;
-        y = cameraq.y;
-        z = cameraq.z;
-        w = cameraq.w;
+         x = cameraq.x;
+         y = cameraq.y;
+         z = cameraq.z;
+         w = cameraq.w;
 
         //https://answers.unity.com/questions/416169/finding-pitchrollyaw-from-quaternions.html - also found elsewhere
         rollcurrent = Mathf.Atan2(2 * y * w - 2 * x * z, 1 - 2 * y * y - 2 * z * z);
@@ -267,7 +267,7 @@ public class sccsplayer : MonoBehaviour
 
         hiptofloordist = sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().totalArmLength + (sccsikplayer.currentsccsikplayer.pelvisrenderer.transform.localScale.y * 0.5f) + (sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().shoulderrenderer.transform.localScale.y * 1.0f) + (sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().handrenderer.transform.localScale.y * 0.5f);
 
-        //Debug.Log("isgroundedmaxdist" + isgroundedmaxdist + "/hiptofloordist:" + hiptofloordist);
+
 
 
         theplanet = GameObject.FindGameObjectWithTag("terrain");
@@ -288,8 +288,6 @@ public class sccsplayer : MonoBehaviour
     int swtchaschangedsidesactivatewatch = 0;
     Stopwatch haschangedsidesactivatewatch = new Stopwatch();
 
-    int otherrayswtc = 0;
-
     int timeswtc = 0;
     Stopwatch timewatch = new Stopwatch();
 
@@ -301,24 +299,10 @@ public class sccsplayer : MonoBehaviour
     Vector3 pointtobeat;
 
     float lastdot = 0;
-
-    int framecounterforray = 0;
-    int framecounterforraymax = 3;
-
     // Update is called once per frame
     void Update()
     {
 
-
-        otherrayswtc = 0;
-
-
-
-        if (isMoving)
-        {
-            lastposition = viewer.transform.position;
-
-        }
         if (theplanet != null)
         {
             cubicgravityvector = new Vector3(poscubicgravityvisualx, poscubicgravityvisualy, poscubicgravityvisualz) - theplanet.transform.position;
@@ -329,32 +313,16 @@ public class sccsplayer : MonoBehaviour
 
 
 
-        //StartCoroutine(CheckMoving());
+        StartCoroutine(CheckMoving());
 
 
 
-
-        findgravitygriddots();
-
-
-
-        if (indexofmaxvalueofperfacegravity != indexofmaxvalueofperfacegravitynext)
+        //if (isMoving)
         {
-            
+            findgravitygriddots();
+
+
         }
-
-
-
-
-
-
-        StartCoroutine(MovePlayerWithKeyboard());        
-        StartCoroutine(RotatePlayerMouse());
-        StartCoroutine(RotatePlayerWithKeyboard());
-        
-        
-
-
 
 
 
@@ -444,12 +412,14 @@ public class sccsplayer : MonoBehaviour
 
 
 
+        StartCoroutine(RotatePlayerMouse());
+        StartCoroutine(MovePlayerWithKeyboard());
+
+        StartCoroutine(RotatePlayerWithKeyboard());
 
 
 
 
-
-        //Debug.Log("/curface:" + indexofmaxvalueofperfacegravity + "/nextface:" + indexofmaxvalueofperfacegravitynext + "/lastface:" + indexofmaxvalueofperfacegravitylast);
 
 
 
@@ -512,10 +482,9 @@ public class sccsplayer : MonoBehaviour
 
 
 
-        Vector3 forwardplayer = viewer.transform.position - lastposition;
+        Vector3 forwardplayer = lastposition - currentPosition;
         forwardplayer.Normalize();
 
-        ////Debug.Log(forwardplayer);
 
         Vector3 theplanettopointgravityUP = new Vector3(poscubicgravityvisualx, poscubicgravityvisualy, poscubicgravityvisualz); // - theplanet.transform.position
         theplanettopointgravityUP.Normalize();
@@ -540,6 +509,10 @@ public class sccsplayer : MonoBehaviour
             indexofmaxvalueofperfacegravitynextdotinvert *= -1;
             indexofmaxvalueofperfacegravitynextdotinvert = indexofmaxvalueofperfacegravitynextdotinvert + 1.0f;
         }
+
+
+
+
 
 
         Vector3 playertoplanet1 = viewer.transform.position - theplanet.transform.position;
@@ -568,12 +541,12 @@ public class sccsplayer : MonoBehaviour
         //float thedotplayertogravityside0 = Vector3.Dot(viewer.transform.forward, dirplayertomidpointofgravity0);
         float thedotplayertogravityside0 = Vector3.Dot(forwardplayer, dirplayertomidpointofgravity0);
 
-        ////Debug.Log("/currentdot:" + indexofmaxvalueofperfacegravitydot + "/dotnext:" + thedotplayertogravityside0 + "/dottocurrentpointonface:" + thedotplayertogravityside1);
+        Debug.Log("/currentdot:" + indexofmaxvalueofperfacegravitydot + "/dotnext:" + thedotplayertogravityside0 + "/dottocurrentpointonface:" + thedotplayertogravityside1);
 
         if (thedotplayertogravityside0 > 0 && indexofmaxvalueofperfacegravitydot < 0)
         {
 
-            ////Debug.Log("here0");
+            Debug.Log("here0");
             //timeswtc = 1;
 
         }
@@ -581,328 +554,601 @@ public class sccsplayer : MonoBehaviour
         {
 
 
+            /*if (!isMoving)
+            {
+                indexofmaxvalueofperfacegravity = indexofmaxvalueofperfacegravitylast;
+
+                if (indexofmaxvalueofperfacegravity == 0)
+                {
+                    poscubicgravityvisualx = 0;
+                    poscubicgravityvisualy = 1;
+                    poscubicgravityvisualz = 0;
+                }
+                else if (indexofmaxvalueofperfacegravity == 1)
+                {
+                    poscubicgravityvisualx = -1;
+                    poscubicgravityvisualy = 0;
+                    poscubicgravityvisualz = 0;
+                }
+                else if (indexofmaxvalueofperfacegravity == 2)
+                {
+                    poscubicgravityvisualx = 1;
+                    poscubicgravityvisualy = 0;
+                    poscubicgravityvisualz = 0;
+                }
+                else if (indexofmaxvalueofperfacegravity == 3)
+                {
+                    poscubicgravityvisualx = 0;
+                    poscubicgravityvisualy = 0;
+                    poscubicgravityvisualz = 1;
+                }
+                else if (indexofmaxvalueofperfacegravity == 4)
+                {
+                    poscubicgravityvisualx = 0;
+                    poscubicgravityvisualy = 0;
+                    poscubicgravityvisualz = -1;
+                }
+                else if (indexofmaxvalueofperfacegravity == 5)
+                {
+                    poscubicgravityvisualx = 0;
+                    poscubicgravityvisualy = -1;
+                    poscubicgravityvisualz = 0;
+                }
+            }*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             if (indexofmaxvalueofperfacegravity != indexofmaxvalueofperfacegravitylast)
             {
 
-
                 if (thedotplayertogravityside0 >= 0 && indexofmaxvalueofperfacegravitydot >= 0)
                 {
+                    Debug.Log("here0");
 
-                    if (thedotplayertogravityside0 > thedotplayertogravityside1)
+                    float invertgravitydot = indexofmaxvalueofperfacegravitydot;
+
+                    if (invertgravitydot < 0 )
                     {
-
-
-                        float invertgravitydot = indexofmaxvalueofperfacegravitydot;
-
-                        if (invertgravitydot < 0)
-                        {
-                            invertgravitydot *= -1;
-                            invertgravitydot = invertgravitydot + 1.0f;
-                        }
-
-                        float invertgravitydotnext = indexofmaxvalueofperfacegravitynextdot;
-
-                        if (invertgravitydotnext < 0)
-                        {
-                            invertgravitydotnext *= -1;
-                            invertgravitydotnext = invertgravitydotnext + 1.0f;
-                        }
-
-                        float theresultabs = Mathf.Abs(invertgravitydot - invertgravitydotnext);
-
-                        //Debug.Log(theresultabs);
-                        /*
-                        if (theresultabs < 0.40f)
-                        {
-                            otherrayswtc = 1;
-
-                            /*indexofmaxvalueofperfacegravity = indexofmaxvalueofperfacegravitynext;
-                            indexofmaxvalueofperfacegravitylast = indexofmaxvalueofperfacegravity;
-
-                            if (indexofmaxvalueofperfacegravity == 0)
-                            {
-                                poscubicgravityvisualx = 0;
-                                poscubicgravityvisualy = 1;
-                                poscubicgravityvisualz = 0;
-                            }
-                            else if (indexofmaxvalueofperfacegravity == 1)
-                            {
-                                poscubicgravityvisualx = -1;
-                                poscubicgravityvisualy = 0;
-                                poscubicgravityvisualz = 0;
-                            }
-                            else if (indexofmaxvalueofperfacegravity == 2)
-                            {
-                                poscubicgravityvisualx = 1;
-                                poscubicgravityvisualy = 0;
-                                poscubicgravityvisualz = 0;
-                            }
-                            else if (indexofmaxvalueofperfacegravity == 3)
-                            {
-                                poscubicgravityvisualx = 0;
-                                poscubicgravityvisualy = 0;
-                                poscubicgravityvisualz = 1;
-                            }
-                            else if (indexofmaxvalueofperfacegravity == 4)
-                            {
-                                poscubicgravityvisualx = 0;
-                                poscubicgravityvisualy = 0;
-                                poscubicgravityvisualz = -1;
-                            }
-                            else if (indexofmaxvalueofperfacegravity == 5)
-                            {
-                                poscubicgravityvisualx = 0;
-                                poscubicgravityvisualy = -1;
-                                poscubicgravityvisualz = 0;
-                            }
-                        }
-                        else
-                        {
-
-                        }*/
-
-                        otherrayswtc = 1;
-
-                        /*
-                        if (theresultabs > 0.005f && theresultabs < 0.01f) //0.01f
-                        {
-
-
-                        }
-                        else
-                        {
-
-                            indexofmaxvalueofperfacegravity = indexofmaxvalueofperfacegravitynext;
-                            indexofmaxvalueofperfacegravitylast = indexofmaxvalueofperfacegravity;
-
-                            if (indexofmaxvalueofperfacegravity == 0)
-                            {
-                                poscubicgravityvisualx = 0;
-                                poscubicgravityvisualy = 1;
-                                poscubicgravityvisualz = 0;
-                            }
-                            else if (indexofmaxvalueofperfacegravity == 1)
-                            {
-                                poscubicgravityvisualx = -1;
-                                poscubicgravityvisualy = 0;
-                                poscubicgravityvisualz = 0;
-                            }
-                            else if (indexofmaxvalueofperfacegravity == 2)
-                            {
-                                poscubicgravityvisualx = 1;
-                                poscubicgravityvisualy = 0;
-                                poscubicgravityvisualz = 0;
-                            }
-                            else if (indexofmaxvalueofperfacegravity == 3)
-                            {
-                                poscubicgravityvisualx = 0;
-                                poscubicgravityvisualy = 0;
-                                poscubicgravityvisualz = 1;
-                            }
-                            else if (indexofmaxvalueofperfacegravity == 4)
-                            {
-                                poscubicgravityvisualx = 0;
-                                poscubicgravityvisualy = 0;
-                                poscubicgravityvisualz = -1;
-                            }
-                            else if (indexofmaxvalueofperfacegravity == 5)
-                            {
-                                poscubicgravityvisualx = 0;
-                                poscubicgravityvisualy = -1;
-                                poscubicgravityvisualz = 0;
-                            }
-                        }*/
-
-
-
-                        ////Debug.Log("here00");
-
-
-
-
-
-                        /**/
+                        invertgravitydot *= -1;
+                        invertgravitydot = invertgravitydot + 1.0f;
                     }
-                    else
+
+                    float invertgravitydotnext = indexofmaxvalueofperfacegravitynextdot;
+
+                    if (invertgravitydotnext < 0)
+                    {
+                        invertgravitydotnext *= -1;
+                        invertgravitydotnext = invertgravitydotnext + 1.0f;
+                    }
+
+                    float theresultabs = Mathf.Abs(invertgravitydot - invertgravitydotnext);
+
+                    Debug.Log("/theresultabs:" + theresultabs);
+
+                    if (theresultabs < 0.05f)
                     {
 
-
-                       /* if (thedotplayertogravityside0 == 0 && thedotplayertogravityside1 == 0)
+                        if (thedotplayertogravityside1 < 0)
                         {
-                            ////Debug.Log("here01");
 
-                            otherrayswtc = 1;
-                
-                            indexofmaxvalueofperfacegravity = indexofmaxvalueofperfacegravitynext;
-                            indexofmaxvalueofperfacegravitylast = indexofmaxvalueofperfacegravity;
+                            if (indexofmaxvalueofperfacegravitylast == indexofmaxvalueofperfacegravitynext)
+                            {
+                                Debug.Log("/here0");
 
-                            if (indexofmaxvalueofperfacegravity == 0)
-                            {
-                                poscubicgravityvisualx = 0;
-                                poscubicgravityvisualy = 1;
-                                poscubicgravityvisualz = 0;
+                               /* indexofmaxvalueofperfacegravity = indexofmaxvalueofperfacegravitylast;
+
+                                if (indexofmaxvalueofperfacegravity == 0)
+                                {
+                                    poscubicgravityvisualx = 0;
+                                    poscubicgravityvisualy = 1;
+                                    poscubicgravityvisualz = 0;
+                                }
+                                else if (indexofmaxvalueofperfacegravity == 1)
+                                {
+                                    poscubicgravityvisualx = -1;
+                                    poscubicgravityvisualy = 0;
+                                    poscubicgravityvisualz = 0;
+                                }
+                                else if (indexofmaxvalueofperfacegravity == 2)
+                                {
+                                    poscubicgravityvisualx = 1;
+                                    poscubicgravityvisualy = 0;
+                                    poscubicgravityvisualz = 0;
+                                }
+                                else if (indexofmaxvalueofperfacegravity == 3)
+                                {
+                                    poscubicgravityvisualx = 0;
+                                    poscubicgravityvisualy = 0;
+                                    poscubicgravityvisualz = 1;
+                                }
+                                else if (indexofmaxvalueofperfacegravity == 4)
+                                {
+                                    poscubicgravityvisualx = 0;
+                                    poscubicgravityvisualy = 0;
+                                    poscubicgravityvisualz = -1;
+                                }
+                                else if (indexofmaxvalueofperfacegravity == 5)
+                                {
+                                    poscubicgravityvisualx = 0;
+                                    poscubicgravityvisualy = -1;
+                                    poscubicgravityvisualz = 0;
+                                }*/
                             }
-                            else if (indexofmaxvalueofperfacegravity == 1)
+                            else
                             {
-                                poscubicgravityvisualx = -1;
-                                poscubicgravityvisualy = 0;
-                                poscubicgravityvisualz = 0;
+                                Debug.Log("/here1");
+
                             }
-                            else if (indexofmaxvalueofperfacegravity == 2)
+
+                            //thedotplayertogravityside1
+
+                            /**/
+                        }
+                        else
+                        {
+                            if (indexofmaxvalueofperfacegravitylast == indexofmaxvalueofperfacegravitynext)
                             {
-                                poscubicgravityvisualx = 1;
-                                poscubicgravityvisualy = 0;
-                                poscubicgravityvisualz = 0;
+                                Debug.Log("/here0");
+
+                                /*indexofmaxvalueofperfacegravity = indexofmaxvalueofperfacegravitylast;
+
+                                if (indexofmaxvalueofperfacegravity == 0)
+                                {
+                                    poscubicgravityvisualx = 0;
+                                    poscubicgravityvisualy = 1;
+                                    poscubicgravityvisualz = 0;
+                                }
+                                else if (indexofmaxvalueofperfacegravity == 1)
+                                {
+                                    poscubicgravityvisualx = -1;
+                                    poscubicgravityvisualy = 0;
+                                    poscubicgravityvisualz = 0;
+                                }
+                                else if (indexofmaxvalueofperfacegravity == 2)
+                                {
+                                    poscubicgravityvisualx = 1;
+                                    poscubicgravityvisualy = 0;
+                                    poscubicgravityvisualz = 0;
+                                }
+                                else if (indexofmaxvalueofperfacegravity == 3)
+                                {
+                                    poscubicgravityvisualx = 0;
+                                    poscubicgravityvisualy = 0;
+                                    poscubicgravityvisualz = 1;
+                                }
+                                else if (indexofmaxvalueofperfacegravity == 4)
+                                {
+                                    poscubicgravityvisualx = 0;
+                                    poscubicgravityvisualy = 0;
+                                    poscubicgravityvisualz = -1;
+                                }
+                                else if (indexofmaxvalueofperfacegravity == 5)
+                                {
+                                    poscubicgravityvisualx = 0;
+                                    poscubicgravityvisualy = -1;
+                                    poscubicgravityvisualz = 0;
+                                }*/
                             }
-                            else if (indexofmaxvalueofperfacegravity == 3)
+                            else
                             {
-                                poscubicgravityvisualx = 0;
-                                poscubicgravityvisualy = 0;
-                                poscubicgravityvisualz = 1;
+                                Debug.Log("/here1");
+
                             }
-                            else if (indexofmaxvalueofperfacegravity == 4)
-                            {
-                                poscubicgravityvisualx = 0;
-                                poscubicgravityvisualy = 0;
-                                poscubicgravityvisualz = -1;
-                            }
-                            else if (indexofmaxvalueofperfacegravity == 5)
-                            {
-                                poscubicgravityvisualx = 0;
-                                poscubicgravityvisualy = -1;
-                                poscubicgravityvisualz = 0;
-                            }
-                        }*/
+                        }
+                        
                     }
 
                 }
                 else if (thedotplayertogravityside0 < 0 && indexofmaxvalueofperfacegravitydot >= 0)
                 {
-                    ////Debug.Log("here01");
-
-
-                    /*otherrayswtc = 1;
-
-                    indexofmaxvalueofperfacegravity = indexofmaxvalueofperfacegravitylast;
-                    indexofmaxvalueofperfacegravitylast = indexofmaxvalueofperfacegravity;
-
-                    if (indexofmaxvalueofperfacegravity == 0)
-                    {
-                        poscubicgravityvisualx = 0;
-                        poscubicgravityvisualy = 1;
-                        poscubicgravityvisualz = 0;
-                    }
-                    else if (indexofmaxvalueofperfacegravity == 1)
-                    {
-                        poscubicgravityvisualx = -1;
-                        poscubicgravityvisualy = 0;
-                        poscubicgravityvisualz = 0;
-                    }
-                    else if (indexofmaxvalueofperfacegravity == 2)
-                    {
-                        poscubicgravityvisualx = 1;
-                        poscubicgravityvisualy = 0;
-                        poscubicgravityvisualz = 0;
-                    }
-                    else if (indexofmaxvalueofperfacegravity == 3)
-                    {
-                        poscubicgravityvisualx = 0;
-                        poscubicgravityvisualy = 0;
-                        poscubicgravityvisualz = 1;
-                    }
-                    else if (indexofmaxvalueofperfacegravity == 4)
-                    {
-                        poscubicgravityvisualx = 0;
-                        poscubicgravityvisualy = 0;
-                        poscubicgravityvisualz = -1;
-                    }
-                    else if (indexofmaxvalueofperfacegravity == 5)
-                    {
-                        poscubicgravityvisualx = 0;
-                        poscubicgravityvisualy = -1;
-                        poscubicgravityvisualz = 0;
-                    }*/
+                    Debug.Log("here1");
                 }
                 else if (thedotplayertogravityside0 < 0 && indexofmaxvalueofperfacegravitydot < 0)
                 {
-                    ////Debug.Log("here02");
+                    Debug.Log("here2");
                 }
                 else if (thedotplayertogravityside0 >= 0 && indexofmaxvalueofperfacegravitydot < 0)
                 {
-                    ////Debug.Log("here03");
-
-                    /*indexofmaxvalueofperfacegravity = indexofmaxvalueofperfacegravitylast;
-
-                    if (indexofmaxvalueofperfacegravity == 0)
-                    {
-                        poscubicgravityvisualx = 0;
-                        poscubicgravityvisualy = 1;
-                        poscubicgravityvisualz = 0;
-                    }
-                    else if (indexofmaxvalueofperfacegravity == 1)
-                    {
-                        poscubicgravityvisualx = -1;
-                        poscubicgravityvisualy = 0;
-                        poscubicgravityvisualz = 0;
-                    }
-                    else if (indexofmaxvalueofperfacegravity == 2)
-                    {
-                        poscubicgravityvisualx = 1;
-                        poscubicgravityvisualy = 0;
-                        poscubicgravityvisualz = 0;
-                    }
-                    else if (indexofmaxvalueofperfacegravity == 3)
-                    {
-                        poscubicgravityvisualx = 0;
-                        poscubicgravityvisualy = 0;
-                        poscubicgravityvisualz = 1;
-                    }
-                    else if (indexofmaxvalueofperfacegravity == 4)
-                    {
-                        poscubicgravityvisualx = 0;
-                        poscubicgravityvisualy = 0;
-                        poscubicgravityvisualz = -1;
-                    }
-                    else if (indexofmaxvalueofperfacegravity == 5)
-                    {
-                        poscubicgravityvisualx = 0;
-                        poscubicgravityvisualy = -1;
-                        poscubicgravityvisualz = 0;
-                    }*/
+                    Debug.Log("here3");
                 }
 
+
+
+
+
+
+
+                /*if (thedotplayertogravityside1 < 0)
+                {
+                    if (Mathf.Abs(indexofmaxvalueofperfacegravitydotinvert) - (indexofmaxvalueofperfacegravitynextdotinvert) < 0.75f)
+                    {
+                        Debug.Log("here11");
+                        indexofmaxvalueofperfacegravity = indexofmaxvalueofperfacegravitylast;
+
+                        if (indexofmaxvalueofperfacegravity == 0)
+                        {
+                            poscubicgravityvisualx = 0;
+                            poscubicgravityvisualy = 1;
+                            poscubicgravityvisualz = 0;
+                        }
+                        else if (indexofmaxvalueofperfacegravity == 1)
+                        {
+                            poscubicgravityvisualx = -1;
+                            poscubicgravityvisualy = 0;
+                            poscubicgravityvisualz = 0;
+                        }
+                        else if (indexofmaxvalueofperfacegravity == 2)
+                        {
+                            poscubicgravityvisualx = 1;
+                            poscubicgravityvisualy = 0;
+                            poscubicgravityvisualz = 0;
+                        }
+                        else if (indexofmaxvalueofperfacegravity == 3)
+                        {
+                            poscubicgravityvisualx = 0;
+                            poscubicgravityvisualy = 0;
+                            poscubicgravityvisualz = 1;
+                        }
+                        else if (indexofmaxvalueofperfacegravity == 4)
+                        {
+                            poscubicgravityvisualx = 0;
+                            poscubicgravityvisualy = 0;
+                            poscubicgravityvisualz = -1;
+                        }
+                        else if (indexofmaxvalueofperfacegravity == 5)
+                        {
+                            poscubicgravityvisualx = 0;
+                            poscubicgravityvisualy = -1;
+                            poscubicgravityvisualz = 0;
+                        }
+                    }
+                    //indexofmaxvalueofperfacegravity = indexofmaxvalueofperfacegravitylast;
+
+
+                }
+                else
+                {
+
+                }*/
             }
 
 
 
 
-            /*float invertgravitydot = indexofmaxvalueofperfacegravitydot;
 
-            if (invertgravitydot < 0)
+
+
+
+
+
+
+
+
+
+
+            if (thedotplayertogravityside0 >= 0 && indexofmaxvalueofperfacegravitydot >= 0)
             {
-                invertgravitydot *= -1;
-                invertgravitydot = invertgravitydot + 1.0f;
+                //Debug.Log("here11");
+
+                if (thedotplayertogravityside1 < 0)
+                {
+                    if (Mathf.Abs(indexofmaxvalueofperfacegravitydotinvert) - (indexofmaxvalueofperfacegravitynextdotinvert) > 0.15f)
+                    {
+
+                        /*if (indexofmaxvalueofperfacegravity == indexofmaxvalueofperfacegravitylast)
+                        {
+
+
+                            Debug.Log("here11");
+                            indexofmaxvalueofperfacegravity = indexofmaxvalueofperfacegravitylast;
+
+                            if (indexofmaxvalueofperfacegravity == 0)
+                            {
+                                poscubicgravityvisualx = 0;
+                                poscubicgravityvisualy = 1;
+                                poscubicgravityvisualz = 0;
+                            }
+                            else if (indexofmaxvalueofperfacegravity == 1)
+                            {
+                                poscubicgravityvisualx = -1;
+                                poscubicgravityvisualy = 0;
+                                poscubicgravityvisualz = 0;
+                            }
+                            else if (indexofmaxvalueofperfacegravity == 2)
+                            {
+                                poscubicgravityvisualx = 1;
+                                poscubicgravityvisualy = 0;
+                                poscubicgravityvisualz = 0;
+                            }
+                            else if (indexofmaxvalueofperfacegravity == 3)
+                            {
+                                poscubicgravityvisualx = 0;
+                                poscubicgravityvisualy = 0;
+                                poscubicgravityvisualz = 1;
+                            }
+                            else if (indexofmaxvalueofperfacegravity == 4)
+                            {
+                                poscubicgravityvisualx = 0;
+                                poscubicgravityvisualy = 0;
+                                poscubicgravityvisualz = -1;
+                            }
+                            else if (indexofmaxvalueofperfacegravity == 5)
+                            {
+                                poscubicgravityvisualx = 0;
+                                poscubicgravityvisualy = -1;
+                                poscubicgravityvisualz = 0;
+                            }
+                        }*/
+                    }
+                }
+                else
+                {
+                    
+                    if (indexofmaxvalueofperfacegravity != indexofmaxvalueofperfacegravitylast)
+                    {
+                        if (Mathf.Abs(indexofmaxvalueofperfacegravitydotinvert) - (indexofmaxvalueofperfacegravitynextdotinvert) > 0.15f)
+                        {
+                            Debug.Log("here12");
+
+                            /*indexofmaxvalueofperfacegravity = indexofmaxvalueofperfacegravitylast;
+
+                            if (indexofmaxvalueofperfacegravity == 0)
+                            {
+                                poscubicgravityvisualx = 0;
+                                poscubicgravityvisualy = 1;
+                                poscubicgravityvisualz = 0;
+                            }
+                            else if (indexofmaxvalueofperfacegravity == 1)
+                            {
+                                poscubicgravityvisualx = -1;
+                                poscubicgravityvisualy = 0;
+                                poscubicgravityvisualz = 0;
+                            }
+                            else if (indexofmaxvalueofperfacegravity == 2)
+                            {
+                                poscubicgravityvisualx = 1;
+                                poscubicgravityvisualy = 0;
+                                poscubicgravityvisualz = 0;
+                            }
+                            else if (indexofmaxvalueofperfacegravity == 3)
+                            {
+                                poscubicgravityvisualx = 0;
+                                poscubicgravityvisualy = 0;
+                                poscubicgravityvisualz = 1;
+                            }
+                            else if (indexofmaxvalueofperfacegravity == 4)
+                            {
+                                poscubicgravityvisualx = 0;
+                                poscubicgravityvisualy = 0;
+                                poscubicgravityvisualz = -1;
+                            }
+                            else if (indexofmaxvalueofperfacegravity == 5)
+                            {
+                                poscubicgravityvisualx = 0;
+                                poscubicgravityvisualy = -1;
+                                poscubicgravityvisualz = 0;
+                            }*/
+                        }
+                        else
+                        {
+                            Debug.Log("here13");
+
+                            /*indexofmaxvalueofperfacegravity = indexofmaxvalueofperfacegravitylast;
+
+                            if (indexofmaxvalueofperfacegravity == 0)
+                            {
+                                poscubicgravityvisualx = 0;
+                                poscubicgravityvisualy = 1;
+                                poscubicgravityvisualz = 0;
+                            }
+                            else if (indexofmaxvalueofperfacegravity == 1)
+                            {
+                                poscubicgravityvisualx = -1;
+                                poscubicgravityvisualy = 0;
+                                poscubicgravityvisualz = 0;
+                            }
+                            else if (indexofmaxvalueofperfacegravity == 2)
+                            {
+                                poscubicgravityvisualx = 1;
+                                poscubicgravityvisualy = 0;
+                                poscubicgravityvisualz = 0;
+                            }
+                            else if (indexofmaxvalueofperfacegravity == 3)
+                            {
+                                poscubicgravityvisualx = 0;
+                                poscubicgravityvisualy = 0;
+                                poscubicgravityvisualz = 1;
+                            }
+                            else if (indexofmaxvalueofperfacegravity == 4)
+                            {
+                                poscubicgravityvisualx = 0;
+                                poscubicgravityvisualy = 0;
+                                poscubicgravityvisualz = -1;
+                            }
+                            else if (indexofmaxvalueofperfacegravity == 5)
+                            {
+                                poscubicgravityvisualx = 0;
+                                poscubicgravityvisualy = -1;
+                                poscubicgravityvisualz = 0;
+                            }*/
+
+                        }
+                    }
+                }
+                
+
+                /*if (indexofmaxvalueofperfacegravitydot > 0.5f)
+                {
+
+
+                    if (thedotplayertogravityside1 > 0.5f)
+                    {
+
+                        if (Mathf.Abs(indexofmaxvalueofperfacegravitydotinvert) - (indexofmaxvalueofperfacegravitynextdotinvert) < 0.5f)
+                        //if (Mathf.Abs(Mathf.Abs(indexofmaxvalueofperfacegravitynextdot) - Mathf.Abs(indexofmaxvalueofperfacegravitydot)) < 0.25f)
+                        {
+                            indexofmaxvalueofperfacegravity = indexofmaxvalueofperfacegravitylast;
+
+                            if (indexofmaxvalueofperfacegravity == 0)
+                            {
+                                poscubicgravityvisualx = 0;
+                                poscubicgravityvisualy = 1;
+                                poscubicgravityvisualz = 0;
+                            }
+                            else if (indexofmaxvalueofperfacegravity == 1)
+                            {
+                                poscubicgravityvisualx = -1;
+                                poscubicgravityvisualy = 0;
+                                poscubicgravityvisualz = 0;
+                            }
+                            else if (indexofmaxvalueofperfacegravity == 2)
+                            {
+                                poscubicgravityvisualx = 1;
+                                poscubicgravityvisualy = 0;
+                                poscubicgravityvisualz = 0;
+                            }
+                            else if (indexofmaxvalueofperfacegravity == 3)
+                            {
+                                poscubicgravityvisualx = 0;
+                                poscubicgravityvisualy = 0;
+                                poscubicgravityvisualz = 1;
+                            }
+                            else if (indexofmaxvalueofperfacegravity == 4)
+                            {
+                                poscubicgravityvisualx = 0;
+                                poscubicgravityvisualy = 0;
+                                poscubicgravityvisualz = -1;
+                            }
+                            else if (indexofmaxvalueofperfacegravity == 5)
+                            {
+                                poscubicgravityvisualx = 0;
+                                poscubicgravityvisualy = -1;
+                                poscubicgravityvisualz = 0;
+                            }
+                        }
+                    }
+                    /*else
+                    {
+
+                    }
+
+                }
+                else
+                {
+
+                }*/
             }
-
-            float invertgravitydotnext = indexofmaxvalueofperfacegravitynextdot;
-
-            if (invertgravitydotnext < 0)
+            else if (thedotplayertogravityside0 < 0 && indexofmaxvalueofperfacegravitydot < 0)
             {
-                invertgravitydotnext *= -1;
-                invertgravitydotnext = invertgravitydotnext + 1.0f;
+                Debug.Log("here2");
             }
-
-            float theresultabs = Mathf.Abs(invertgravitydot - invertgravitydotnext);
-            */
-
+            else if (thedotplayertogravityside0 < 0 && indexofmaxvalueofperfacegravitydot >= 0)
+            {
 
 
-            if (indexofmaxvalueofperfacegravity != indexofmaxvalueofperfacegravitylast)
+                if (indexofmaxvalueofperfacegravitydot > 0.995f)
+                {
+                    Debug.Log("here22");
+
+                }
+                else if (indexofmaxvalueofperfacegravitydot >= 0.75f && indexofmaxvalueofperfacegravitydot <= 0.995f)
+                {
+                    Debug.Log("here23");
+                    if (Mathf.Abs(indexofmaxvalueofperfacegravitydotinvert) - (indexofmaxvalueofperfacegravitynextdotinvert) < 0.15f)
+                    //if (Mathf.Abs(Mathf.Abs(indexofmaxvalueofperfacegravitynextdot) - Mathf.Abs(indexofmaxvalueofperfacegravitydot)) < 0.25f)
+                    {
+                        /*indexofmaxvalueofperfacegravity = indexofmaxvalueofperfacegravitylast;
+
+                        if (indexofmaxvalueofperfacegravity == 0)
+                        {
+                            poscubicgravityvisualx = 0;
+                            poscubicgravityvisualy = 1;
+                            poscubicgravityvisualz = 0;
+                        }
+                        else if (indexofmaxvalueofperfacegravity == 1)
+                        {
+                            poscubicgravityvisualx = -1;
+                            poscubicgravityvisualy = 0;
+                            poscubicgravityvisualz = 0;
+                        }
+                        else if (indexofmaxvalueofperfacegravity == 2)
+                        {
+                            poscubicgravityvisualx = 1;
+                            poscubicgravityvisualy = 0;
+                            poscubicgravityvisualz = 0;
+                        }
+                        else if (indexofmaxvalueofperfacegravity == 3)
+                        {
+                            poscubicgravityvisualx = 0;
+                            poscubicgravityvisualy = 0;
+                            poscubicgravityvisualz = 1;
+                        }
+                        else if (indexofmaxvalueofperfacegravity == 4)
+                        {
+                            poscubicgravityvisualx = 0;
+                            poscubicgravityvisualy = 0;
+                            poscubicgravityvisualz = -1;
+                        }
+                        else if (indexofmaxvalueofperfacegravity == 5)
+                        {
+                            poscubicgravityvisualx = 0;
+                            poscubicgravityvisualy = -1;
+                            poscubicgravityvisualz = 0;
+                        }*/
+                    }
+
+                }
+
+
+
+
+
+                /*
+                Debug.Log("here3");
+                if (indexofmaxvalueofperfacegravitydot > 0.5f)
+                {
+                    
+
+                    if (thedotplayertogravityside1 > 0.5f)
+                    {
+
+                        
+                    }
+                    /*else
+                    {
+
+                    }
+
+                }
+                else
+                {
+
+                }*/
+
+            }
+            else
             {
 
             }
-
-
 
 
             //timeswtc = 1;
@@ -914,14 +1160,7 @@ public class sccsplayer : MonoBehaviour
 
 
 
-
-        //if (timeswtc == 0)
-        {
-            //cubicrotation.instance.setcubicrotation(indexofmaxvalueofperfacegravity, indexofmaxvalueofperfacegravitylast, viewer);
-
-        }
-
-
+        //cubicrotation.instance.setcubicrotation(indexofmaxvalueofperfacegravity, indexofmaxvalueofperfacegravitylast, viewer);
         setcubicrotation(indexofmaxvalueofperfacegravity, indexofmaxvalueofperfacegravitylast, viewer);
 
 
@@ -929,24 +1168,8 @@ public class sccsplayer : MonoBehaviour
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         /*
-
+       
 
 
         Vector3 playertoplanet = viewer.transform.position - theplanet.transform.position;
@@ -959,7 +1182,7 @@ public class sccsplayer : MonoBehaviour
 
         float thedotplayertogravityside = Vector3.Dot(viewer.transform.forward, dirplayertomidpointofgravity);
 
-        //UnityEngine.//////Debug.Log("dot:" + thedotplayertogravityside);
+        //UnityEngine.//Debug.Log("dot:" + thedotplayertogravityside);
 
         lastdot = thedotplayertogravityside;
 
@@ -967,7 +1190,7 @@ public class sccsplayer : MonoBehaviour
 
 
 
-        //UnityEngine.////////Debug.Log("/cubicx:" + poscubicgravityvisualx + "/cubicy:" + poscubicgravityvisualy + "/cubicz:" + poscubicgravityvisualz);
+        //UnityEngine.////Debug.Log("/cubicx:" + poscubicgravityvisualx + "/cubicy:" + poscubicgravityvisualy + "/cubicz:" + poscubicgravityvisualz);
 
         var distance = 0.00025f;
         //var dirForward = viewer.transform.rotation * Vector3.forward;
@@ -999,7 +1222,7 @@ public class sccsplayer : MonoBehaviour
         */
 
 
-        //////Debug.Log("facetype:" + indexofmaxvalueofperfacegravity + "/lastfacetype:" + indexofmaxvalueofperfacegravitylast);
+        //Debug.Log("facetype:" + indexofmaxvalueofperfacegravity + "/lastfacetype:" + indexofmaxvalueofperfacegravitylast);
 
 
 
@@ -1032,7 +1255,7 @@ public class sccsplayer : MonoBehaviour
         RotationY = scmaths.RadianToDegree(yawcurrent0);
         RotationZ = scmaths.RadianToDegree(rollcurrent0);
         */
-        ////////Debug.Log("/rotx:" + RotationX + "/roty:" + RotationY + "/rotz:" + RotationZ);
+        ////Debug.Log("/rotx:" + RotationX + "/roty:" + RotationY + "/rotz:" + RotationZ);
 
 
 
@@ -1059,7 +1282,7 @@ public class sccsplayer : MonoBehaviour
 
 
 
-        if (indexofmaxvalueofperfacegravity != indexofmaxvalueofperfacegravitylast && indexofmaxvalueofperfacegravitylast != -1 && otherrayswtc == 1) // && indexofmaxvalueofperfacegravitydot > 0.985f
+        if (indexofmaxvalueofperfacegravity != indexofmaxvalueofperfacegravitylast && indexofmaxvalueofperfacegravitylast != -1 ) // && indexofmaxvalueofperfacegravitydot > 0.985f
         {
 
 
@@ -1077,11 +1300,11 @@ public class sccsplayer : MonoBehaviour
 
                             timeswtc = 1;
 
-
+                            
                             float rotate_speed = 25.0f;
 
-                            ////////Debug.Log("***********");
-                            Vector3 pointforward = isgroundedpivotpoint.transform.position + (forwardplayer * 0.00125f);
+                            ////Debug.Log("***********");
+                            Vector3 pointforward = isgroundedpivotpoint.transform.position + (viewer.transform.forward * 0.00125f);
 
                             float lengthofarm = hiptofloordist * hiptofloordistmul;// sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().totalArmLength + (sccsikplayer.currentsccsikplayer.pelvisrenderer.transform.localScale.y * 0.5f) + (sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().shoulderrenderer.transform.localScale.y * 1.0f) + (sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().handrenderer.transform.localScale.y * 0.5f);
 
@@ -1089,9 +1312,9 @@ public class sccsplayer : MonoBehaviour
                             //Vector3 pointforwardnextface = viewer.transform.position + (viewer.transform.forward * lengthofarm) + (-viewer.transform.up * 0.00125f);// + (-viewer.transform.up * 0.1f);
                             Vector3 pointforwardnextfacenooffset = viewer.transform.position + (-viewer.transform.up * 0.00125f);
 
-                            //Vector3 pointforwardnextface = viewer.transform.position + (viewer.transform.forward * lengthofarm) + (-viewer.transform.up * 0.00125f);
+                            Vector3 pointforwardnextface = viewer.transform.position + (viewer.transform.forward * lengthofarm) + (-viewer.transform.up * 0.00125f);
                             //Vector3 pointforwardnextface = isgroundedpivotpoint.transform.position + (viewer.transform.forward * lengthofarm) + (-viewer.transform.up * 0.00125f);
-                            Vector3 pointforwardnextface = viewer.transform.position + (forwardplayer * 0.05f) + (-viewer.transform.up * 0.05f);
+                            //Vector3 pointforwardnextface = viewer.transform.position + (viewer.transform.forward * 0.15f) + (-viewer.transform.up * 0.15f);
 
 
 
@@ -1130,13 +1353,13 @@ public class sccsplayer : MonoBehaviour
                             //for (int i = 0;i < 10;i++)
                             {
                                 viewer.transform.rotation = rot;// Quaternion.Lerp(viewer.transform.rotation, rot, 100.0f * Time.deltaTime);
-
+                                
                                 //viewer.transform.localRotation = Quaternion.Euler(new Vector3(rot.eulerAngles.x, rot.eulerAngles.y, rot.eulerAngles.z));
 
 
                             }
                             */
-                            //swtchaschangedsidesactivatewatch = 1;
+                            swtchaschangedsidesactivatewatch = 1;
 
 
 
@@ -1152,7 +1375,7 @@ public class sccsplayer : MonoBehaviour
 
 
 
-                            
+                            /*
                             //MOVEPOSOFFSET = viewer.transform.position;
                             Vector3 playerforward = viewer.transform.rotation * Vector3.forward;
                             Vector3 uppoint = viewer.transform.position - theplanet.transform.position;
@@ -1160,11 +1383,11 @@ public class sccsplayer : MonoBehaviour
 
                             //Vector3 pointtobeat = pointforwardnextface + (viewer.transform.forward * 0.025f * 1.0f * 50.0f); // + (-uppoint * 0.1f) //10.95f //* movementspeed
 
-                            pointtobeat = pointforwardnextface + (forwardplayer * 0.00125f * 1.0f * 1.0f); // + (-uppoint * 0.1f) //10.95f //* movementspeed
+                            pointtobeat = pointforwardnextface + (viewer.transform.forward * 0.00125f * 1.0f * 10.0f); // + (-uppoint * 0.1f) //10.95f //* movementspeed
                             viewer.transform.position = pointtobeat;// Vector3.Lerp(viewer.transform.position, pointtobeat, movementspeed); // * Time.deltaTime //* Time.deltaTime * 100.0f
                             //viewer.transform.position = MOVEPOSOFFSET;
-                            
-                            
+                            */
+
 
                             timewatch.Restart();
 
@@ -1186,7 +1409,7 @@ public class sccsplayer : MonoBehaviour
                     //swtcfordontchangefacegravity = 0;
                     float rotate_speed = 25.0f;
 
-                    ////////Debug.Log("***********");
+                    ////Debug.Log("***********");
                     Vector3 pointforward = isgroundedpivotpoint.transform.position + (viewer.transform.forward * 0.00125f);
 
                     float lengthofarm = hiptofloordist * hiptofloordistmul;// sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().totalArmLength + (sccsikplayer.currentsccsikplayer.pelvisrenderer.transform.localScale.y * 0.5f) + (sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().shoulderrenderer.transform.localScale.y * 1.0f) + (sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().handrenderer.transform.localScale.y * 0.5f);
@@ -1215,7 +1438,7 @@ public class sccsplayer : MonoBehaviour
                     Debug.DrawRay(pointforwardnextface, nextfaceposcubic, Color.green, 100.0f);
 
                     //crossofcrossprodforward.z = 1;
-
+                    
 
                     Quaternion rot = new Quaternion();
                     //rot.SetLookRotation(forwarddirtopointfrontplayer, faceposcubic.normalized);
@@ -1280,7 +1503,7 @@ public class sccsplayer : MonoBehaviour
             //swtcfordontchangefacegravity = 0;
             float rotate_speed = 25.0f;
 
-            ////////Debug.Log("***********");
+            ////Debug.Log("***********");
             Vector3 pointforward = isgroundedpivotpoint.transform.position + (viewer.transform.forward * 0.00125f);
 
             float lengthofarm = hiptofloordist * hiptofloordistmul;// sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().totalArmLength + (sccsikplayer.currentsccsikplayer.pelvisrenderer.transform.localScale.y * 0.5f) + (sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().shoulderrenderer.transform.localScale.y * 1.0f) + (sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().handrenderer.transform.localScale.y * 0.5f);
@@ -1309,7 +1532,7 @@ public class sccsplayer : MonoBehaviour
             Debug.DrawRay(pointforwardnextface, nextfaceposcubic0, Color.green, 100.0f);
             */
             //crossofcrossprodforward.z = 1;
-
+            
             /*
             Quaternion rot = new Quaternion();
             //rot.SetLookRotation(forwarddirtopointfrontplayer, faceposcubic.normalized);
@@ -1348,698 +1571,651 @@ public class sccsplayer : MonoBehaviour
 
 
 
-        if (framecounterforray > framecounterforraymax)
+
+
+
+
+
+        int hasusingray = 1;
+
+        if (hasusingray == 1)
         {
+            // new Vector3(rayposforinnerchunkx + (remnantsx * planeSize) + offsetposx, rayposforinnerchunky + (remnantsy * planeSize) + offsetposy, rayposforinnerchunkz + (remnantsz * planeSize) + offsetposz);
 
-            int hasusingray = 1;
+            Vector3 currentposofleftfoot = sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().shoulder.GetComponent<playerInteractionrev11>().raypositionmovingforwardtargethit;
+            Vector3 currentposofrightfoot = sccsikplayer.currentsccsikplayer.arrayofikarms[3].GetComponent<sccsikarm>().shoulder.GetComponent<playerInteractionrev11>().raypositionmovingforwardtargethit;
 
-            if (hasusingray == 1)
+            Vector3 positionofpivotlegleft = sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().shoulder.GetComponent<playerInteractionrev11>().transform.position;
+            Vector3 positionofpivotlegright = sccsikplayer.currentsccsikplayer.arrayofikarms[3].GetComponent<sccsikarm>().shoulder.GetComponent<playerInteractionrev11>().transform.position;
+
+            Vector3 dirpivotleglefttotargetleft = currentposofleftfoot - positionofpivotlegleft;
+            float maglegleft = dirpivotleglefttotargetleft.magnitude;
+            dirpivotleglefttotargetleft.Normalize();
+
+            Vector3 dirpivotlegrighttotargetright = currentposofrightfoot - positionofpivotlegright;
+            float maglegright = dirpivotlegrighttotargetright.magnitude;
+            dirpivotlegrighttotargetright.Normalize();
+
+            float diffinmags = Mathf.Abs(maglegright - maglegright);
+
+            float totalarmlength = sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().totalArmLength;// + (sccsikplayer.currentsccsikplayer.pelvisrenderer.transform.localScale.y * 0.5f);
+
+            //if (maglegleft > totalarmlength || maglegright > totalarmlength)
             {
-                // new Vector3(rayposforinnerchunkx + (remnantsx * planeSize) + offsetposx, rayposforinnerchunky + (remnantsy * planeSize) + offsetposy, rayposforinnerchunkz + (remnantsz * planeSize) + offsetposz);
-
-                Vector3 currentposofleftfoot = sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().shoulder.GetComponent<playerInteractionrev11>().raypositionmovingforwardtargethit;
-                Vector3 currentposofrightfoot = sccsikplayer.currentsccsikplayer.arrayofikarms[3].GetComponent<sccsikarm>().shoulder.GetComponent<playerInteractionrev11>().raypositionmovingforwardtargethit;
-
-                Vector3 positionofpivotlegleft = sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().shoulder.GetComponent<playerInteractionrev11>().transform.position;
-                Vector3 positionofpivotlegright = sccsikplayer.currentsccsikplayer.arrayofikarms[3].GetComponent<sccsikarm>().shoulder.GetComponent<playerInteractionrev11>().transform.position;
-
-                Vector3 dirpivotleglefttotargetleft = currentposofleftfoot - positionofpivotlegleft;
-                float maglegleft = dirpivotleglefttotargetleft.magnitude;
-                dirpivotleglefttotargetleft.Normalize();
-
-                Vector3 dirpivotlegrighttotargetright = currentposofrightfoot - positionofpivotlegright;
-                float maglegright = dirpivotlegrighttotargetright.magnitude;
-                dirpivotlegrighttotargetright.Normalize();
-
-                float diffinmags = Mathf.Abs(maglegright - maglegright);
-
-                float totalarmlength = sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().totalArmLength;// + (sccsikplayer.currentsccsikplayer.pelvisrenderer.transform.localScale.y * 0.5f);
-
-                //if (maglegleft > totalarmlength || maglegright > totalarmlength)
+                ////Debug.Log(" > totalarmlength");
+                /*if (maglegleft > totalarmlength)
                 {
-                    ////////Debug.Log(" > totalarmlength");
-                    /*if (maglegleft > totalarmlength)
-                    {
-
-                    }
-                    else if (maglegleft <= totalarmlength)
-                    {
-
-                    }
-
-                    if (maglegright > totalarmlength)
-                    {
-
-                    }
-                    else if (maglegright <= totalarmlength)
-                    {
-
-                    }*/
 
                 }
-                //else
+                else if (maglegleft <= totalarmlength)
+                {
+
+                }
+
+                if (maglegright > totalarmlength)
+                {
+
+                }
+                else if (maglegright <= totalarmlength)
+                {
+
+                }*/
+
+            }
+            //else
+            {
+
+
+
+                if (swtchaschangedsidesactivatewatch == 1)
+                {
+                    haschangedsidesactivatewatch.Restart();
+                    swtchaschangedsidesactivatewatch = 2;
+
+                }
+
+                if (swtchaschangedsidesactivatewatch == 2)
+                {
+                    if (haschangedsidesactivatewatch.ElapsedMilliseconds >= 25) // && isMoving //25
+                    {
+
+                        swtchaschangedsidesactivatewatch = 0;
+                    }
+                }
+
+
+
+
+                if (swtchaschangedsidesactivatewatch == 0) // && hasgotgravitydot == 1 //0
                 {
 
 
-                    /*
-                    if (swtchaschangedsidesactivatewatch == 1)
+                    Vector3 midpointfoot = currentposofleftfoot - currentposofrightfoot;
+                    float magmidpointfoot = midpointfoot.magnitude;
+                    magmidpointfoot *= 0.5f;
+                    midpointfoot.Normalize();
+
+                    Vector3 posofmidpoint = currentposofleftfoot + (midpointfoot * magmidpointfoot);
+                    //viewer.transform.position = (posofmidpoint + (viewer.transform.up * (totalarmlength * 0.hiptofloordistmul)));
+
+
+
+
+
+
+
+
+                    float planeSize = 0.1f;
+
+
+
+                    //ADJUST POSITION 
+                    float lengthofarm = hiptofloordist * hiptofloordistmul * 1.0f;// sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().totalArmLength + (sccsikplayer.currentsccsikplayer.pelvisrenderer.transform.localScale.y * 0.5f) + (sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().shoulderrenderer.transform.localScale.y * 1.0f) + (sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().handrenderer.transform.localScale.y * 0.5f);
+
+                    //Vector3 pointforwardnextface = isgroundedpivotpoint.transform.position + (viewer.transform.forward * lengthofarm) + (-viewer.transform.up * 0.00125f);
+                    //Vector3 pointforwardnextface = isgroundedpivotpoint.transform.position + (viewer.transform.forward * 0.1f) + (-viewer.transform.up * 0.1f);
+                    //Vector3 pointforwardnextface = viewer.transform.position + (viewer.transform.forward * 1.75f) + (-viewer.transform.up * 0.15f);
+                    Vector3 pointforwardnextface = viewer.transform.position + (viewer.transform.forward * lengthofarm) + (-viewer.transform.up * 0.00125f);
+
+
+                    //MOVEPOSOFFSET = viewer.transform.position;
+                    //Vector3 playerforward = viewer.transform.rotation * Vector3.forward;
+                    //Vector3 uppoint = viewer.transform.position - theplanet.transform.position;
+                    //uppoint.Normalize();
+
+                    //Vector3 pointtobeat = pointforwardnextface + (viewer.transform.forward * 0.025f * 1.0f * 50.0f); // + (-uppoint * 0.1f) //10.95f //* movementspeed
+
+                    Vector3 pointtobeat = Vector3.zero;// pointforwardnextface + (viewer.transform.forward * 0.0125f * 1.0f * 10.0f); // + (-uppoint * 0.1f) //10.95f //* movementspeed
+
+
+                    if (timeswtc == 1)
                     {
-                        haschangedsidesactivatewatch.Restart();
-                        swtchaschangedsidesactivatewatch = 2;
+                        pointtobeat = pointforwardnextface + (viewer.transform.forward * 0.0125f * 1.0f * 25.0f); // + (-uppoint * 0.1f) //10.95f //* movementspeed
 
                     }
-
-                    if (swtchaschangedsidesactivatewatch == 2)
+                    else
                     {
-                        if (haschangedsidesactivatewatch.ElapsedMilliseconds >= 25) // && isMoving //25
-                        {
-
-                            swtchaschangedsidesactivatewatch = 0;
-                        }
+                        pointtobeat = isgroundedpivotpoint.transform.position;
                     }
-                    */
 
 
 
-                    if (swtchaschangedsidesactivatewatch == 0) // && hasgotgravitydot == 1 //0
+
+                    Vector3 rayposition = pointtobeat;// isgroundedpivotpoint.transform.position;// sccsikplayer.currentsccsikplayer.pelvisemptygameobject.transform.position;
+                    Vector3 raypositionforward = rayposition - new Vector3(0, 0, 0);
+                    Vector3 raypositionforwardinit = rayposition - new Vector3(0, 0, 0);
+
+                    //raypositionforward­.x = Mathf.Floor((raypositionforward.x * 10) / 10);
+                    //raypositionforward­.y = Mathf.Floor((raypositionforward.y * 10) / 10);
+                    //raypositionforward­.z = Mathf.Floor((raypositionforward.z * 10) / 10);
+
+
+                    Vector3 raydirection = -viewer.transform.up;
+
+                    int swtcdontlookfurther = 0;
+
+                    ////UnityEngine.//Debug.Log("/rayposition:" + rayposition.x + "/rayposition:" + rayposition.y + "/rayposition:" + rayposition.z);
+
+                    int hasfoundblock = 0;
+
+                    //THE RAY LOOP - INCREMENTING THE RAY THE SIZE OF EACH BYTES EVERY FRAMES FROM THE HIP JOINT OF EACH LEGS.
+                    for (int y = 0; y < 25; y++)
                     {
+                        raypositionforward = raypositionforward + (raydirection * planeSize);
 
-
-                        Vector3 midpointfoot = currentposofleftfoot - currentposofrightfoot;
-                        float magmidpointfoot = midpointfoot.magnitude;
-                        magmidpointfoot *= 0.5f;
-                        midpointfoot.Normalize();
-
-                        Vector3 posofmidpoint = currentposofleftfoot + (midpointfoot * magmidpointfoot);
-                        //viewer.transform.position = (posofmidpoint + (viewer.transform.up * (totalarmlength * 0.hiptofloordistmul)));
-
-
-
-
-
-
-
-
-                        float planeSize = 0.1f;
-
-
-
-                        //ADJUST POSITION 
-                        float lengthofarm = hiptofloordist * hiptofloordistmul * 1.0f;// sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().totalArmLength + (sccsikplayer.currentsccsikplayer.pelvisrenderer.transform.localScale.y * 0.5f) + (sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().shoulderrenderer.transform.localScale.y * 1.0f) + (sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().handrenderer.transform.localScale.y * 0.5f);
-
-                        //Vector3 pointforwardnextface = isgroundedpivotpoint.transform.position + (viewer.transform.forward * lengthofarm) + (-viewer.transform.up * 0.00125f);
-                        Vector3 pointforwardnextface = isgroundedpivotpoint.transform.position + (viewer.transform.forward * 0.1f) + (-viewer.transform.up * 0.1f);
-                        //Vector3 pointforwardnextface = viewer.transform.position + (viewer.transform.forward * 1.75f) + (-viewer.transform.up * 0.15f);
-                        //Vector3 pointforwardnextface = viewer.transform.position + (viewer.transform.forward * lengthofarm) + (-viewer.transform.up * 0.00125f);
-
-
-                        //MOVEPOSOFFSET = viewer.transform.position;
-                        //Vector3 playerforward = viewer.transform.rotation * Vector3.forward;
-                        //Vector3 uppoint = viewer.transform.position - theplanet.transform.position;
-                        //uppoint.Normalize();
-
-                        //Vector3 pointtobeat = pointforwardnextface + (viewer.transform.forward * 0.025f * 1.0f * 50.0f); // + (-uppoint * 0.1f) //10.95f //* movementspeed
-
-                        Vector3 pointtobeat = Vector3.zero;// pointforwardnextface + (viewer.transform.forward * 0.0125f * 1.0f * 10.0f); // + (-uppoint * 0.1f) //10.95f //* movementspeed
-
-
-                        if (timeswtc == 1 || otherrayswtc == 1)
+                        //if ((raypositionforwardinit - raypositionforward).magnitude < hiptofloordist * hiptofloordistmul)
                         {
-                            pointtobeat = pointforwardnextface + (viewer.transform.forward * 0.00125f * 1.0f * 1.0f); // + (-uppoint * 0.1f) //10.95f //* movementspeed
+                            int chunksizex = sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkwl + sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkwr + 1;
+                            int chunksizey = sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkhl + sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkhr + 1;
+                            int chunksizez = sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkdl + sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkdr + 1;
 
-                            //pointertarget.transform.position = pointforwardnextface;
-                        }
-                        else
-                        {
-                            pointtobeat = isgroundedpivotpoint.transform.position;
-                        }
+                            int sizex = chunksizex * 10;
+                            int sizey = chunksizey * 10;
+                            int sizez = chunksizez * 10;
 
-                        //pointtobeat = isgroundedpivotpoint.transform.position;
+                            int planetdivsizex = sccschunkfacesbuilder.instance.chunkwl + sccschunkfacesbuilder.instance.chunkwr + 1;
+                            int planetdivsizey = sccschunkfacesbuilder.instance.chunkhl + sccschunkfacesbuilder.instance.chunkhr + 1;
+                            int planetdivsizez = sccschunkfacesbuilder.instance.chunkdl + sccschunkfacesbuilder.instance.chunkdr + 1;
 
+                            //sizex /= planetdivsizex;
+                            //sizey /= planetdivsizey;
+                            //sizez /= planetdivsizez;
 
-                        //pointtobeat = isgroundedpivotpoint.transform.position;
-                        //pointtobeat = isgroundedpivotpoint.transform.position;
+                            int raypositionx = (int)Mathf.Floor(raypositionforward.x / 10.0f) * 10; //((((int)Mathf.Floor(raypositionforward.x * 10) / 10)) / 1);// + sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkwl;// + sccschunkfacesbuilder.instance.chunkwl;// * (sccschunkfacesbuilder.instance.chunkwl + sccschunkfacesbuilder.instance.chunkwr + 1);
+                            int raypositiony = (int)Mathf.Floor(raypositionforward.y / 10.0f) * 10; //((((int)Mathf.Floor(raypositionforward.y * 10) / 10)) / 1);// + sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkhl;// + sccschunkfacesbuilder.instance.chunkhl;// * (sccschunkfacesbuilder.instance.chunkhl + sccschunkfacesbuilder.instance.chunkhr + 1);
+                            int raypositionz = (int)Mathf.Floor(raypositionforward.z / 10.0f) * 10; //((((int)Mathf.Floor(raypositionforward.z * 10) / 10)) / 1);// + sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkdl;// + sccschunkfacesbuilder.instance.chunkdl;// * (sccschunkfacesbuilder.instance.chunkdl + sccschunkfacesbuilder.instance.chunkdr + 1);
 
+                            raypositionx /= 4;
+                            raypositiony /= 4;
+                            raypositionz /= 4;
 
-                        Vector3 rayposition = pointtobeat;// isgroundedpivotpoint.transform.position;// sccsikplayer.currentsccsikplayer.pelvisemptygameobject.transform.position;
-                        Vector3 raypositionforward = rayposition - new Vector3(0, 0, 0);
-                        Vector3 raypositionforwardinit = rayposition - new Vector3(0, 0, 0);
+                            float rayposoffsetx = sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkwl;
+                            float rayposoffsety = sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkhl;
+                            float rayposoffsetz = sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkdl;
 
-                        //raypositionforward­.x = Mathf.Floor((raypositionforward.x * 10) / 10);
-                        //raypositionforward­.y = Mathf.Floor((raypositionforward.y * 10) / 10);
-                        //raypositionforward­.z = Mathf.Floor((raypositionforward.z * 10) / 10);
+                            raypositionx /= 2;
+                            raypositiony /= 2;
+                            raypositionz /= 2;
 
+                            int rayposforinnerchunkx = (int)Mathf.Floor(raypositionforward.x);
+                            int rayposforinnerchunky = (int)Mathf.Floor(raypositionforward.y);
+                            int rayposforinnerchunkz = (int)Mathf.Floor(raypositionforward.z);
 
-                        Vector3 raydirection = isgroundedpivotpoint.transform.forward;
+                            int rayposforinnerchunkbytesx = (int)(Mathf.Floor(raypositionforward.x * 100.0f) / 10.0f); //((((int)Mathf.Floor(raypositionforward.x * 10) / 10)) / 1);// + sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkwl;// + sccschunkfacesbuilder.instance.chunkwl;// * (sccschunkfacesbuilder.instance.chunkwl + sccschunkfacesbuilder.instance.chunkwr + 1);
+                            int rayposforinnerchunkbytesy = (int)(Mathf.Floor(raypositionforward.y * 100.0f) / 10.0f); //((((int)Mathf.Floor(raypositionforward.y * 10) / 10)) / 1);// + sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkhl;// + sccschunkfacesbuilder.instance.chunkhl;// * (sccschunkfacesbuilder.instance.chunkhl + sccschunkfacesbuilder.instance.chunkhr + 1);
+                            int rayposforinnerchunkbytesz = (int)(Mathf.Floor(raypositionforward.z * 100.0f) / 10.0f); //((((int)Mathf.Floor(raypositionforward.z * 10) / 10)) / 1);// + sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkdl;// + sccschunkfacesbuilder.instance.chunkdl;// * (sccschunkfacesbuilder.instance.chunkdl + sccschunkfacesbuilder.instance.chunkdr + 1);
 
-                        int swtcdontlookfurther = 0;
-
-                        ////UnityEngine.//////Debug.Log("/rayposition:" + rayposition.x + "/rayposition:" + rayposition.y + "/rayposition:" + rayposition.z);
-
-                        int hasfoundblock = 0;
-
-                        //THE RAY LOOP - INCREMENTING THE RAY THE SIZE OF EACH BYTES EVERY FRAMES FROM THE HIP JOINT OF EACH LEGS.
-                        for (int y = 0; y < 25; y++)
-                        {
-                            raypositionforward = raypositionforward + (raydirection * planeSize);
-
-                            //if ((raypositionforwardinit - raypositionforward).magnitude < hiptofloordist * hiptofloordistmul)
+                            if (raypositionforward.x < 0)
                             {
-                                int chunksizex = sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkwl + sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkwr + 1;
-                                int chunksizey = sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkhl + sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkhr + 1;
-                                int chunksizez = sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkdl + sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkdr + 1;
 
-                                int sizex = chunksizex * 10;
-                                int sizey = chunksizey * 10;
-                                int sizez = chunksizez * 10;
+                            }
 
-                                int planetdivsizex = sccschunkfacesbuilder.instance.chunkwl + sccschunkfacesbuilder.instance.chunkwr + 1;
-                                int planetdivsizey = sccschunkfacesbuilder.instance.chunkhl + sccschunkfacesbuilder.instance.chunkhr + 1;
-                                int planetdivsizez = sccschunkfacesbuilder.instance.chunkdl + sccschunkfacesbuilder.instance.chunkdr + 1;
+                            if (raypositionforward.y < 0)
+                            {
 
-                                //sizex /= planetdivsizex;
-                                //sizey /= planetdivsizey;
-                                //sizez /= planetdivsizez;
+                            }
 
-                                int raypositionx = (int)Mathf.Floor(raypositionforward.x / 10.0f) * 10; //((((int)Mathf.Floor(raypositionforward.x * 10) / 10)) / 1);// + sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkwl;// + sccschunkfacesbuilder.instance.chunkwl;// * (sccschunkfacesbuilder.instance.chunkwl + sccschunkfacesbuilder.instance.chunkwr + 1);
-                                int raypositiony = (int)Mathf.Floor(raypositionforward.y / 10.0f) * 10; //((((int)Mathf.Floor(raypositionforward.y * 10) / 10)) / 1);// + sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkhl;// + sccschunkfacesbuilder.instance.chunkhl;// * (sccschunkfacesbuilder.instance.chunkhl + sccschunkfacesbuilder.instance.chunkhr + 1);
-                                int raypositionz = (int)Mathf.Floor(raypositionforward.z / 10.0f) * 10; //((((int)Mathf.Floor(raypositionforward.z * 10) / 10)) / 1);// + sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkdl;// + sccschunkfacesbuilder.instance.chunkdl;// * (sccschunkfacesbuilder.instance.chunkdl + sccschunkfacesbuilder.instance.chunkdr + 1);
+                            if (raypositionforward.z < 0)
+                            {
 
-                                raypositionx /= 4;
-                                raypositiony /= 4;
-                                raypositionz /= 4;
+                            }
 
-                                float rayposoffsetx = sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkwl;
-                                float rayposoffsety = sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkhl;
-                                float rayposoffsetz = sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkdl;
+                            float somevaldiv = 1.0f / ((0.01f));
 
-                                raypositionx /= 2;
-                                raypositiony /= 2;
-                                raypositionz /= 2;
+                            if (swtcdontlookfurther == 0)
+                            {
+                                var planetdiv = sccschunkfacesbuilder.instance.getplanetdiv(raypositionx, raypositiony, raypositionz);
 
-                                int rayposforinnerchunkx = (int)Mathf.Floor(raypositionforward.x);
-                                int rayposforinnerchunky = (int)Mathf.Floor(raypositionforward.y);
-                                int rayposforinnerchunkz = (int)Mathf.Floor(raypositionforward.z);
-
-                                int rayposforinnerchunkbytesx = (int)(Mathf.Floor(raypositionforward.x * 100.0f) / 10.0f); //((((int)Mathf.Floor(raypositionforward.x * 10) / 10)) / 1);// + sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkwl;// + sccschunkfacesbuilder.instance.chunkwl;// * (sccschunkfacesbuilder.instance.chunkwl + sccschunkfacesbuilder.instance.chunkwr + 1);
-                                int rayposforinnerchunkbytesy = (int)(Mathf.Floor(raypositionforward.y * 100.0f) / 10.0f); //((((int)Mathf.Floor(raypositionforward.y * 10) / 10)) / 1);// + sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkhl;// + sccschunkfacesbuilder.instance.chunkhl;// * (sccschunkfacesbuilder.instance.chunkhl + sccschunkfacesbuilder.instance.chunkhr + 1);
-                                int rayposforinnerchunkbytesz = (int)(Mathf.Floor(raypositionforward.z * 100.0f) / 10.0f); //((((int)Mathf.Floor(raypositionforward.z * 10) / 10)) / 1);// + sccscomputevoxelALLFACES.currentsccscomputevoxelALLFACES.schunkdl;// + sccschunkfacesbuilder.instance.chunkdl;// * (sccschunkfacesbuilder.instance.chunkdl + sccschunkfacesbuilder.instance.chunkdr + 1);
-
-                                if (raypositionforward.x < 0)
+                                if (planetdiv != null)
                                 {
+                                    float sometestx = 0;
+                                    float sometesty = 0;
+                                    float sometestz = 0;
 
-                                }
-
-                                if (raypositionforward.y < 0)
-                                {
-
-                                }
-
-                                if (raypositionforward.z < 0)
-                                {
-
-                                }
-
-                                float somevaldiv = 1.0f / ((0.01f));
-
-                                if (swtcdontlookfurther == 0)
-                                {
-                                    var planetdiv = sccschunkfacesbuilder.instance.getplanetdiv(raypositionx, raypositiony, raypositionz);
-
-                                    if (planetdiv != null)
+                                    if (raypositionforward.x >= 0)
                                     {
-                                        float sometestx = 0;
-                                        float sometesty = 0;
-                                        float sometestz = 0;
+                                        sometestx = rayposforinnerchunkx - rayposoffsetx;
+                                    }
+                                    else
+                                    {
+                                        sometestx = rayposforinnerchunkx + rayposoffsetx;
+                                    }
 
-                                        if (raypositionforward.x >= 0)
+                                    if (raypositionforward.y >= 0)
+                                    {
+                                        sometesty = rayposforinnerchunky - rayposoffsety;
+                                    }
+                                    else
+                                    {
+                                        sometesty = rayposforinnerchunky + rayposoffsety;
+                                    }
+
+                                    if (raypositionforward.z >= 0)
+                                    {
+                                        sometestz = rayposforinnerchunkz - rayposoffsetz;
+                                    }
+                                    else
+                                    {
+                                        sometestz = rayposforinnerchunkz + rayposoffsetz;
+                                    }
+
+                                    int someremainsx = 0;
+                                    int totalTimesx = 0;
+
+                                    int someremainsy = 0;
+                                    int totalTimesy = 0;
+
+                                    int someremainsz = 0;
+                                    int totalTimesz = 0;
+
+                                    int raypositionforwardclampedx = (int)Mathf.Floor(raypositionforward.x * 10.0f) / 10;
+                                    int raypositionforwardclampedy = (int)Mathf.Floor(raypositionforward.y * 10.0f) / 10;
+                                    int raypositionforwardclampedz = (int)Mathf.Floor(raypositionforward.z * 10.0f) / 10;
+
+                                    /*
+                                    //UnityEngine.//Debug.Log("/x:" + raypositionforwardclampedx + "/y:" + raypositionforwardclampedy + "/z:" + raypositionforwardclampedz);
+
+                                    //UnityEngine.//Debug.Log("/someremainsx:" + someremainsx + "/someremainsy:" + someremainsy + "/someremainsz:" + someremainsz);
+                                    ////UnityEngine.//Debug.Log("/totalTimesx:" + totalTimesx + "/totalTimesy:" + totalTimesy + "/totalTimesz:" + totalTimesz);
+                                    */
+                                    /*
+                                    //UnityEngine.//Debug.Log("/x:" + rayposforinnerchunkx + "/y:" + rayposforinnerchunky + "/z:" + rayposforinnerchunkz);
+                                    //UnityEngine.//Debug.Log("/x:" + sometestx + "/y:" + sometesty + "/z:" + sometestz);
+                                    */
+                                    //var thechunk = planetdiv.getChunk(rayposforinnerchunkx, rayposforinnerchunky, rayposforinnerchunkz);
+                                    var thechunk = planetdiv.getChunk((int)sometestx, (int)sometesty, (int)sometestz);
+
+                                    if (thechunk != null)
+                                    {
+
+                                        //targetikfoot.transform.position = new Vector3(thechunk.chunkpos.x, thechunk.chunkpos.y, thechunk.chunkpos.z);
+
+                                        if (thechunk.thebytemap != null)
                                         {
-                                            sometestx = rayposforinnerchunkx - rayposoffsetx;
-                                        }
-                                        else
-                                        {
-                                            sometestx = rayposforinnerchunkx + rayposoffsetx;
-                                        }
+                                            ////Debug.Log("thechunk.thebytemap != null");
 
-                                        if (raypositionforward.y >= 0)
-                                        {
-                                            sometesty = rayposforinnerchunky - rayposoffsety;
-                                        }
-                                        else
-                                        {
-                                            sometesty = rayposforinnerchunky + rayposoffsety;
-                                        }
+                                            var thebytemap = thechunk.thebytemap;
 
-                                        if (raypositionforward.z >= 0)
-                                        {
-                                            sometestz = rayposforinnerchunkz - rayposoffsetz;
-                                        }
-                                        else
-                                        {
-                                            sometestz = rayposforinnerchunkz + rayposoffsetz;
-                                        }
+                                            //rayposforinnerchunkbytesx
+                                            int multipleofx = 0;
+                                            int remnantsx = 0;
 
-                                        int someremainsx = 0;
-                                        int totalTimesx = 0;
+                                            int multipleofy = 0;
+                                            int remnantsy = 0;
 
-                                        int someremainsy = 0;
-                                        int totalTimesy = 0;
+                                            int multipleofz = 0;
+                                            int remnantsz = 0;
 
-                                        int someremainsz = 0;
-                                        int totalTimesz = 0;
 
-                                        int raypositionforwardclampedx = (int)Mathf.Floor(raypositionforward.x * 10.0f) / 10;
-                                        int raypositionforwardclampedy = (int)Mathf.Floor(raypositionforward.y * 10.0f) / 10;
-                                        int raypositionforwardclampedz = (int)Mathf.Floor(raypositionforward.z * 10.0f) / 10;
+                                            someremainsx = 0;
+                                            totalTimesx = 0;
 
-                                        /*
-                                        //UnityEngine.//////Debug.Log("/x:" + raypositionforwardclampedx + "/y:" + raypositionforwardclampedy + "/z:" + raypositionforwardclampedz);
+                                            someremainsy = 0;
+                                            totalTimesy = 0;
 
-                                        //UnityEngine.//////Debug.Log("/someremainsx:" + someremainsx + "/someremainsy:" + someremainsy + "/someremainsz:" + someremainsz);
-                                        ////UnityEngine.//////Debug.Log("/totalTimesx:" + totalTimesx + "/totalTimesy:" + totalTimesy + "/totalTimesz:" + totalTimesz);
-                                        */
-                                        /*
-                                        //UnityEngine.//////Debug.Log("/x:" + rayposforinnerchunkx + "/y:" + rayposforinnerchunky + "/z:" + rayposforinnerchunkz);
-                                        //UnityEngine.//////Debug.Log("/x:" + sometestx + "/y:" + sometesty + "/z:" + sometestz);
-                                        */
-                                        //var thechunk = planetdiv.getChunk(rayposforinnerchunkx, rayposforinnerchunky, rayposforinnerchunkz);
-                                        var thechunk = planetdiv.getChunk((int)sometestx, (int)sometesty, (int)sometestz);
+                                            someremainsz = 0;
+                                            totalTimesz = 0;
 
-                                        if (thechunk != null)
-                                        {
 
-                                            //targetikfoot.transform.position = new Vector3(thechunk.chunkpos.x, thechunk.chunkpos.y, thechunk.chunkpos.z);
+                                            raypositionforwardclampedx = (int)Mathf.Floor(raypositionforward.x * 100.0f);
+                                            raypositionforwardclampedy = (int)Mathf.Floor(raypositionforward.y * 100.0f);
+                                            raypositionforwardclampedz = (int)Mathf.Floor(raypositionforward.z * 100.0f);
 
-                                            if (thechunk.thebytemap != null)
+                                            float theremainsz = 0;
+
+
+
+                                            if (raypositionforward.x >= 0)
                                             {
-                                                ////////Debug.Log("thechunk.thebytemap != null");
+                                                raypositionforwardclampedx = (int)Mathf.Floor(raypositionforward.x * 100.0f) / 10;
 
-                                                var thebytemap = thechunk.thebytemap;
+                                                someremainsx = (int)Mathf.Floor((raypositionforwardclampedx / 10.0f)) * 10;
+                                                totalTimesx = (int)(raypositionforwardclampedx - someremainsx);
+                                            }
+                                            else
+                                            {
 
-                                                //rayposforinnerchunkbytesx
-                                                int multipleofx = 0;
-                                                int remnantsx = 0;
-
-                                                int multipleofy = 0;
-                                                int remnantsy = 0;
-
-                                                int multipleofz = 0;
-                                                int remnantsz = 0;
+                                                raypositionforwardclampedx = Mathf.FloorToInt((int)Mathf.Floor(raypositionforward.x * 100.0f) / 10.0f);
 
 
-                                                someremainsx = 0;
-                                                totalTimesx = 0;
+                                                someremainsx = (int)(Mathf.Floor((rayposforinnerchunkbytesx / 10.0f)) * 10.0f);
 
-                                                someremainsy = 0;
-                                                totalTimesy = 0;
+                                                totalTimesx = (int)(raypositionforwardclampedx - someremainsx);
 
-                                                someremainsz = 0;
-                                                totalTimesz = 0;
+                                                //totalTimesz *= -1;
 
-
-                                                raypositionforwardclampedx = (int)Mathf.Floor(raypositionforward.x * 100.0f);
-                                                raypositionforwardclampedy = (int)Mathf.Floor(raypositionforward.y * 100.0f);
-                                                raypositionforwardclampedz = (int)Mathf.Floor(raypositionforward.z * 100.0f);
-
-                                                float theremainsz = 0;
-
-
-
-                                                if (raypositionforward.x >= 0)
+                                                if (totalTimesx < 0)
                                                 {
-                                                    raypositionforwardclampedx = (int)Mathf.Floor(raypositionforward.x * 100.0f) / 10;
-
-                                                    someremainsx = (int)Mathf.Floor((raypositionforwardclampedx / 10.0f)) * 10;
-                                                    totalTimesx = (int)(raypositionforwardclampedx - someremainsx);
+                                                    totalTimesx *= -1;
+                                                    totalTimesx = 10 - totalTimesx;
                                                 }
-                                                else
+
+                                            }
+
+
+
+                                            if (raypositionforward.y >= 0)
+                                            {
+                                                raypositionforwardclampedy = (int)Mathf.Floor(raypositionforward.y * 100.0f) / 10;
+                                                someremainsy = (int)Mathf.Floor((raypositionforwardclampedy / 10.0f)) * 10;
+                                                totalTimesy = (int)(raypositionforwardclampedy - someremainsy);
+                                            }
+                                            else
+                                            {
+
+
+
+                                                raypositionforwardclampedy = Mathf.FloorToInt((int)Mathf.Floor(raypositionforward.y * 100.0f) / 10.0f);
+
+
+                                                someremainsy = (int)(Mathf.Floor((rayposforinnerchunkbytesy / 10.0f)) * 10.0f);
+
+                                                totalTimesy = (int)(raypositionforwardclampedy - someremainsy);
+
+                                                //totalTimesz *= -1;
+
+                                                if (totalTimesy < 0)
+                                                {
+                                                    totalTimesy *= -1;
+                                                    totalTimesy = 10 - totalTimesy;
+
+                                                }
+
+
+
+                                            }
+
+
+                                            if (raypositionforward.z >= 0)
+                                            {
+                                                raypositionforwardclampedz = (int)Mathf.Floor(raypositionforward.z * 100.0f) / 10;
+                                                someremainsz = (int)Mathf.Floor((raypositionforwardclampedz / 10.0f)) * 10;
+                                                totalTimesz = (int)(raypositionforwardclampedz - someremainsz);
+                                            }
+                                            else
+                                            {
+
+
+                                                raypositionforwardclampedz = Mathf.FloorToInt((int)Mathf.Floor(raypositionforward.z * 100.0f) / 10.0f);
+
+
+                                                someremainsz = (int)(Mathf.Floor((rayposforinnerchunkbytesz / 10.0f)) * 10.0f);
+
+                                                totalTimesz = (int)(raypositionforwardclampedz - someremainsz);
+
+                                                //totalTimesz *= -1;
+
+                                                if (totalTimesz < 0)
+                                                {
+                                                    totalTimesz *= -1;
+                                                    totalTimesz = 10 - totalTimesz;
+
+                                                }
+
+                                                //totalTimesz = 10 - 1 - totalTimesz;
+
+                                            }
+
+
+
+                                            /*
+
+                                            //UnityEngine.//Debug.Log("/totalTimesx:" + totalTimesx + "/totalTimesy:" + totalTimesy + "/totalTimesz:" + totalTimesz + "/theremainsz:" + theremainsz + "/raypositionforwardclampedz:" + raypositionforwardclampedz + "/raypositionforward.z:" + raypositionforward.z);
+                                            */
+
+
+                                            remnantsx = totalTimesx;
+                                            remnantsy = totalTimesy;
+                                            remnantsz = totalTimesz;
+
+
+
+
+                                            /*
+                                            //UnityEngine.//Debug.Log("/chunkposx:" + thechunk.chunkpos.x + "/chunkposy:" + thechunk.chunkpos.y + "/chunkposz:" + thechunk.chunkpos.z);
+                                            */
+
+
+                                            int indexofchunkbytemap = remnantsx + (10) * (remnantsy + (10) * remnantsz);
+
+                                            if (indexofchunkbytemap >= 0 && indexofchunkbytemap < 10 * 10 * 10)
+                                            {
+
+                                                if (thechunk.thebytemap[indexofchunkbytemap] == 1)
                                                 {
 
-                                                    raypositionforwardclampedx = Mathf.FloorToInt((int)Mathf.Floor(raypositionforward.x * 100.0f) / 10.0f);
+                                                    hasfoundblock = 1;
 
+                                                    swtcdontlookfurther = 1;
+                                                    var sccsplayerscript = sccsikplayer.currentsccsikplayer.themovementplayerscript;// arrayofikarms[2].GetComponent<sccsplayer>();
 
-                                                    someremainsx = (int)(Mathf.Floor((rayposforinnerchunkbytesx / 10.0f)) * 10.0f);
-
-                                                    totalTimesx = (int)(raypositionforwardclampedx - someremainsx);
-
-                                                    //totalTimesz *= -1;
-
-                                                    if (totalTimesx < 0)
+                                                    if (sccsplayerscript != null)
                                                     {
-                                                        totalTimesx *= -1;
-                                                        totalTimesx = 10 - totalTimesx;
-                                                    }
-
-                                                }
-
-
-
-                                                if (raypositionforward.y >= 0)
-                                                {
-                                                    raypositionforwardclampedy = (int)Mathf.Floor(raypositionforward.y * 100.0f) / 10;
-                                                    someremainsy = (int)Mathf.Floor((raypositionforwardclampedy / 10.0f)) * 10;
-                                                    totalTimesy = (int)(raypositionforwardclampedy - someremainsy);
-                                                }
-                                                else
-                                                {
-
-
-
-                                                    raypositionforwardclampedy = Mathf.FloorToInt((int)Mathf.Floor(raypositionforward.y * 100.0f) / 10.0f);
-
-
-                                                    someremainsy = (int)(Mathf.Floor((rayposforinnerchunkbytesy / 10.0f)) * 10.0f);
-
-                                                    totalTimesy = (int)(raypositionforwardclampedy - someremainsy);
-
-                                                    //totalTimesz *= -1;
-
-                                                    if (totalTimesy < 0)
-                                                    {
-                                                        totalTimesy *= -1;
-                                                        totalTimesy = 10 - totalTimesy;
-
-                                                    }
-
-
-
-                                                }
-
-
-                                                if (raypositionforward.z >= 0)
-                                                {
-                                                    raypositionforwardclampedz = (int)Mathf.Floor(raypositionforward.z * 100.0f) / 10;
-                                                    someremainsz = (int)Mathf.Floor((raypositionforwardclampedz / 10.0f)) * 10;
-                                                    totalTimesz = (int)(raypositionforwardclampedz - someremainsz);
-                                                }
-                                                else
-                                                {
-
-
-                                                    raypositionforwardclampedz = Mathf.FloorToInt((int)Mathf.Floor(raypositionforward.z * 100.0f) / 10.0f);
-
-
-                                                    someremainsz = (int)(Mathf.Floor((rayposforinnerchunkbytesz / 10.0f)) * 10.0f);
-
-                                                    totalTimesz = (int)(raypositionforwardclampedz - someremainsz);
-
-                                                    //totalTimesz *= -1;
-
-                                                    if (totalTimesz < 0)
-                                                    {
-                                                        totalTimesz *= -1;
-                                                        totalTimesz = 10 - totalTimesz;
-
-                                                    }
-
-                                                    //totalTimesz = 10 - 1 - totalTimesz;
-
-                                                }
-
-
-
-                                                /*
-
-                                                //UnityEngine.//////Debug.Log("/totalTimesx:" + totalTimesx + "/totalTimesy:" + totalTimesy + "/totalTimesz:" + totalTimesz + "/theremainsz:" + theremainsz + "/raypositionforwardclampedz:" + raypositionforwardclampedz + "/raypositionforward.z:" + raypositionforward.z);
-                                                */
-
-
-                                                remnantsx = totalTimesx;
-                                                remnantsy = totalTimesy;
-                                                remnantsz = totalTimesz;
-
-
-
-
-                                                /*
-                                                //UnityEngine.//////Debug.Log("/chunkposx:" + thechunk.chunkpos.x + "/chunkposy:" + thechunk.chunkpos.y + "/chunkposz:" + thechunk.chunkpos.z);
-                                                */
-
-
-                                                int indexofchunkbytemap = remnantsx + (10) * (remnantsy + (10) * remnantsz);
-
-                                                if (indexofchunkbytemap >= 0 && indexofchunkbytemap < 10 * 10 * 10)
-                                                {
-
-                                                    if (thechunk.thebytemap[indexofchunkbytemap] == 1)
-                                                    {
-
-                                                        hasfoundblock = 1;
-
-                                                        swtcdontlookfurther = 1;
-                                                        var sccsplayerscript = sccsikplayer.currentsccsikplayer.themovementplayerscript;// arrayofikarms[2].GetComponent<sccsplayer>();
-
-                                                        if (sccsplayerscript != null)
+                                                        if (sccsplayerscript.indexofmaxvalueofperfacegravity == 0) //TOPFACE FAKE GRAVITY-ISH CHARACTER ROTATION
                                                         {
-                                                            if (sccsplayerscript.indexofmaxvalueofperfacegravity == 0) //TOPFACE FAKE GRAVITY-ISH CHARACTER ROTATION
+                                                            float offsetposx = 0.05f;
+                                                            float offsetposy = 0.05f;
+                                                            float offsetposz = 0.05f;
+
+                                                            offsetposy += 0.10f;
+
+                                                            Vector3 position = new Vector3((float)rayposforinnerchunkx + ((float)remnantsx * planeSize) + offsetposx, (float)rayposforinnerchunky + ((float)remnantsy * planeSize) + offsetposy, ((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz);
+                                                            //Vector3 position = new Vector3((float)rayposforinnerchunkx, (float)rayposforinnerchunky , ((float)rayposforinnerchunkz));
+                                                            /*
+                                                            if (whichsiderayselect == 0)
                                                             {
-                                                                float offsetposx = 0.05f;
-                                                                float offsetposy = 0.05f;
-                                                                float offsetposz = 0.05f;
-
-                                                                offsetposy += 0.10f;
-
-                                                                Vector3 position = new Vector3((float)rayposforinnerchunkx + ((float)remnantsx * planeSize) + offsetposx, (float)rayposforinnerchunky + ((float)remnantsy * planeSize) + offsetposy, ((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz);
-                                                                //Vector3 position = new Vector3((float)rayposforinnerchunkx, (float)rayposforinnerchunky , ((float)rayposforinnerchunkz));
-                                                                /*
-                                                                if (whichsiderayselect == 0)
-                                                                {
-                                                                    sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().handTarget.transform.position = position;// new Vector3(rayposforinnerchunkx + (remnantsx * planeSize) + offsetposx, rayposforinnerchunky + (remnantsy * planeSize) + offsetposy, rayposforinnerchunkz + (remnantsz * planeSize) + offsetposz);
-                                                                }
-                                                                else if (whichsiderayselect == 1)
-                                                                {
-                                                                    sccsikplayer.currentsccsikplayer.arrayofikarms[3].GetComponent<sccsikarm>().handTarget.transform.position = position;// new Vector3(rayposforinnerchunkx + (remnantsx * planeSize) + offsetposx, rayposforinnerchunky + (remnantsy * planeSize) + offsetposy, rayposforinnerchunkz + (remnantsz * planeSize) + offsetposz);
-
-                                                                }*/
-
-
-                                                                //UnityEngine.//////Debug.Log(position + "/z:" + (((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz));
+                                                                sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().handTarget.transform.position = position;// new Vector3(rayposforinnerchunkx + (remnantsx * planeSize) + offsetposx, rayposforinnerchunky + (remnantsy * planeSize) + offsetposy, rayposforinnerchunkz + (remnantsz * planeSize) + offsetposz);
                                                             }
-                                                            else if (sccsplayerscript.indexofmaxvalueofperfacegravity == 1) //LEFTFACE FAKE GRAVITY-ISH CHARACTER ROTATION
+                                                            else if (whichsiderayselect == 1)
                                                             {
-                                                                float offsetposx = 0.05f;
-                                                                float offsetposy = 0.05f;
-                                                                float offsetposz = 0.05f;
+                                                                sccsikplayer.currentsccsikplayer.arrayofikarms[3].GetComponent<sccsikarm>().handTarget.transform.position = position;// new Vector3(rayposforinnerchunkx + (remnantsx * planeSize) + offsetposx, rayposforinnerchunky + (remnantsy * planeSize) + offsetposy, rayposforinnerchunkz + (remnantsz * planeSize) + offsetposz);
 
-                                                                offsetposx += 0.10f;
-
-                                                                Vector3 position = new Vector3((float)rayposforinnerchunkx + ((float)remnantsx * planeSize) + offsetposx, (float)rayposforinnerchunky + ((float)remnantsy * planeSize) + offsetposy, ((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz);
-                                                                //Vector3 position = new Vector3((float)rayposforinnerchunkx, (float)rayposforinnerchunky , ((float)rayposforinnerchunkz));
-
-                                                                /*if (whichsiderayselect == 0)
-                                                                {
-                                                                    sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().handTarget.transform.position = position;// new Vector3(rayposforinnerchunkx + (remnantsx * planeSize) + offsetposx, rayposforinnerchunky + (remnantsy * planeSize) + offsetposy, rayposforinnerchunkz + (remnantsz * planeSize) + offsetposz);
-                                                                }
-                                                                else if (whichsiderayselect == 1)
-                                                                {
-                                                                    sccsikplayer.currentsccsikplayer.arrayofikarms[3].GetComponent<sccsikarm>().handTarget.transform.position = position;// new Vector3(rayposforinnerchunkx + (remnantsx * planeSize) + offsetposx, rayposforinnerchunky + (remnantsy * planeSize) + offsetposy, rayposforinnerchunkz + (remnantsz * planeSize) + offsetposz);
-
-                                                                }*/
+                                                            }*/
 
 
-                                                                //UnityEngine.//////Debug.Log(position + "/z:" + (((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz));
-                                                            }
-                                                            else if (sccsplayerscript.indexofmaxvalueofperfacegravity == 2) //LEFTFACE FAKE GRAVITY-ISH CHARACTER ROTATION
-                                                            {
-                                                                float offsetposx = 0.05f;
-                                                                float offsetposy = 0.05f;
-                                                                float offsetposz = 0.05f;
-
-                                                                offsetposx += 0.10f;
-
-                                                                Vector3 position = new Vector3((float)rayposforinnerchunkx + ((float)remnantsx * planeSize) + offsetposx, (float)rayposforinnerchunky + ((float)remnantsy * planeSize) + offsetposy, ((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz);
-                                                                //Vector3 position = new Vector3((float)rayposforinnerchunkx, (float)rayposforinnerchunky , ((float)rayposforinnerchunkz));
-
-                                                                /*if (whichsiderayselect == 0)
-                                                                {
-                                                                    sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().handTarget.transform.position = position;// new Vector3(rayposforinnerchunkx + (remnantsx * planeSize) + offsetposx, rayposforinnerchunky + (remnantsy * planeSize) + offsetposy, rayposforinnerchunkz + (remnantsz * planeSize) + offsetposz);
-                                                                }
-                                                                else if (whichsiderayselect == 1)
-                                                                {
-                                                                    sccsikplayer.currentsccsikplayer.arrayofikarms[3].GetComponent<sccsikarm>().handTarget.transform.position = position;// new Vector3(rayposforinnerchunkx + (remnantsx * planeSize) + offsetposx, rayposforinnerchunky + (remnantsy * planeSize) + offsetposy, rayposforinnerchunkz + (remnantsz * planeSize) + offsetposz);
-
-                                                                }
-                                                                */
-                                                                //UnityEngine.//////Debug.Log(position + "/z:" + (((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz));
-                                                            }
-                                                            else if (sccsplayerscript.indexofmaxvalueofperfacegravity == 3) //LEFTFACE FAKE GRAVITY-ISH CHARACTER ROTATION
-                                                            {
-                                                                float offsetposx = 0.05f;
-                                                                float offsetposy = 0.05f;
-                                                                float offsetposz = 0.05f;
-
-                                                                offsetposz += 0.10f;
-
-                                                                Vector3 position = new Vector3((float)rayposforinnerchunkx + ((float)remnantsx * planeSize) + offsetposx, (float)rayposforinnerchunky + ((float)remnantsy * planeSize) + offsetposy, ((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz);
-                                                                //Vector3 position = new Vector3((float)rayposforinnerchunkx, (float)rayposforinnerchunky , ((float)rayposforinnerchunkz));
-
-                                                                /*if (whichsiderayselect == 0)
-                                                                {
-                                                                    sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().handTarget.transform.position = position;// new Vector3(rayposforinnerchunkx + (remnantsx * planeSize) + offsetposx, rayposforinnerchunky + (remnantsy * planeSize) + offsetposy, rayposforinnerchunkz + (remnantsz * planeSize) + offsetposz);
-                                                                }
-                                                                else if (whichsiderayselect == 1)
-                                                                {
-                                                                    sccsikplayer.currentsccsikplayer.arrayofikarms[3].GetComponent<sccsikarm>().handTarget.transform.position = position;// new Vector3(rayposforinnerchunkx + (remnantsx * planeSize) + offsetposx, rayposforinnerchunky + (remnantsy * planeSize) + offsetposy, rayposforinnerchunkz + (remnantsz * planeSize) + offsetposz);
-
-                                                                }*/
-
-                                                                //UnityEngine.//////Debug.Log(position + "/z:" + (((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz));
-                                                            }
-                                                            else if (sccsplayerscript.indexofmaxvalueofperfacegravity == 4) //LEFTFACE FAKE GRAVITY-ISH CHARACTER ROTATION
-                                                            {
-                                                                float offsetposx = 0.05f;
-                                                                float offsetposy = 0.05f;
-                                                                float offsetposz = 0.05f;
-
-                                                                offsetposz -= 0.10f;
-
-                                                                Vector3 position = new Vector3((float)rayposforinnerchunkx + ((float)remnantsx * planeSize) + offsetposx, (float)rayposforinnerchunky + ((float)remnantsy * planeSize) + offsetposy, ((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz);
-                                                                //Vector3 position = new Vector3((float)rayposforinnerchunkx, (float)rayposforinnerchunky , ((float)rayposforinnerchunkz));
-
-                                                                /*if (whichsiderayselect == 0)
-                                                                {
-                                                                    sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().handTarget.transform.position = position;// new Vector3(rayposforinnerchunkx + (remnantsx * planeSize) + offsetposx, rayposforinnerchunky + (remnantsy * planeSize) + offsetposy, rayposforinnerchunkz + (remnantsz * planeSize) + offsetposz);
-                                                                }
-                                                                else if (whichsiderayselect == 1)
-                                                                {
-                                                                    sccsikplayer.currentsccsikplayer.arrayofikarms[3].GetComponent<sccsikarm>().handTarget.transform.position = position;// new Vector3(rayposforinnerchunkx + (remnantsx * planeSize) + offsetposx, rayposforinnerchunky + (remnantsy * planeSize) + offsetposy, rayposforinnerchunkz + (remnantsz * planeSize) + offsetposz);
-
-                                                                }*/
-                                                                //UnityEngine.//////Debug.Log(position + "/z:" + (((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz));
-                                                            }
-                                                            else if (sccsplayerscript.indexofmaxvalueofperfacegravity == 5) //LEFTFACE FAKE GRAVITY-ISH CHARACTER ROTATION
-                                                            {
-                                                                float offsetposx = 0.05f;
-                                                                float offsetposy = 0.05f;
-                                                                float offsetposz = 0.05f;
-
-                                                                offsetposy -= 0.10f;
-
-                                                                Vector3 position = new Vector3((float)rayposforinnerchunkx + ((float)remnantsx * planeSize) + offsetposx, (float)rayposforinnerchunky + ((float)remnantsy * planeSize) + offsetposy, ((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz);
-                                                                //Vector3 position = new Vector3((float)rayposforinnerchunkx, (float)rayposforinnerchunky , ((float)rayposforinnerchunkz));
-
-                                                                /*if (whichsiderayselect == 0)
-                                                                {
-                                                                    sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().handTarget.transform.position = position;// new Vector3(rayposforinnerchunkx + (remnantsx * planeSize) + offsetposx, rayposforinnerchunky + (remnantsy * planeSize) + offsetposy, rayposforinnerchunkz + (remnantsz * planeSize) + offsetposz);
-                                                                }
-                                                                else if (whichsiderayselect == 1)
-                                                                {
-                                                                    sccsikplayer.currentsccsikplayer.arrayofikarms[3].GetComponent<sccsikarm>().handTarget.transform.position = position;// new Vector3(rayposforinnerchunkx + (remnantsx * planeSize) + offsetposx, rayposforinnerchunky + (remnantsy * planeSize) + offsetposy, rayposforinnerchunkz + (remnantsz * planeSize) + offsetposz);
-
-                                                                }*/
-
-                                                                //UnityEngine.//////Debug.Log(position + "/z:" + (((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz));
-                                                            }
+                                                            //UnityEngine.//Debug.Log(position + "/z:" + (((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz));
                                                         }
+                                                        else if (sccsplayerscript.indexofmaxvalueofperfacegravity == 1) //LEFTFACE FAKE GRAVITY-ISH CHARACTER ROTATION
+                                                        {
+                                                            float offsetposx = 0.05f;
+                                                            float offsetposy = 0.05f;
+                                                            float offsetposz = 0.05f;
 
-                                                        break;
+                                                            offsetposx += 0.10f;
+
+                                                            Vector3 position = new Vector3((float)rayposforinnerchunkx + ((float)remnantsx * planeSize) + offsetposx, (float)rayposforinnerchunky + ((float)remnantsy * planeSize) + offsetposy, ((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz);
+                                                            //Vector3 position = new Vector3((float)rayposforinnerchunkx, (float)rayposforinnerchunky , ((float)rayposforinnerchunkz));
+
+                                                            /*if (whichsiderayselect == 0)
+                                                            {
+                                                                sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().handTarget.transform.position = position;// new Vector3(rayposforinnerchunkx + (remnantsx * planeSize) + offsetposx, rayposforinnerchunky + (remnantsy * planeSize) + offsetposy, rayposforinnerchunkz + (remnantsz * planeSize) + offsetposz);
+                                                            }
+                                                            else if (whichsiderayselect == 1)
+                                                            {
+                                                                sccsikplayer.currentsccsikplayer.arrayofikarms[3].GetComponent<sccsikarm>().handTarget.transform.position = position;// new Vector3(rayposforinnerchunkx + (remnantsx * planeSize) + offsetposx, rayposforinnerchunky + (remnantsy * planeSize) + offsetposy, rayposforinnerchunkz + (remnantsz * planeSize) + offsetposz);
+
+                                                            }*/
 
 
+                                                            //UnityEngine.//Debug.Log(position + "/z:" + (((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz));
+                                                        }
+                                                        else if (sccsplayerscript.indexofmaxvalueofperfacegravity == 2) //LEFTFACE FAKE GRAVITY-ISH CHARACTER ROTATION
+                                                        {
+                                                            float offsetposx = 0.05f;
+                                                            float offsetposy = 0.05f;
+                                                            float offsetposz = 0.05f;
+
+                                                            offsetposx += 0.10f;
+
+                                                            Vector3 position = new Vector3((float)rayposforinnerchunkx + ((float)remnantsx * planeSize) + offsetposx, (float)rayposforinnerchunky + ((float)remnantsy * planeSize) + offsetposy, ((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz);
+                                                            //Vector3 position = new Vector3((float)rayposforinnerchunkx, (float)rayposforinnerchunky , ((float)rayposforinnerchunkz));
+
+                                                            /*if (whichsiderayselect == 0)
+                                                            {
+                                                                sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().handTarget.transform.position = position;// new Vector3(rayposforinnerchunkx + (remnantsx * planeSize) + offsetposx, rayposforinnerchunky + (remnantsy * planeSize) + offsetposy, rayposforinnerchunkz + (remnantsz * planeSize) + offsetposz);
+                                                            }
+                                                            else if (whichsiderayselect == 1)
+                                                            {
+                                                                sccsikplayer.currentsccsikplayer.arrayofikarms[3].GetComponent<sccsikarm>().handTarget.transform.position = position;// new Vector3(rayposforinnerchunkx + (remnantsx * planeSize) + offsetposx, rayposforinnerchunky + (remnantsy * planeSize) + offsetposy, rayposforinnerchunkz + (remnantsz * planeSize) + offsetposz);
+
+                                                            }
+                                                            */
+                                                            //UnityEngine.//Debug.Log(position + "/z:" + (((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz));
+                                                        }
+                                                        else if (sccsplayerscript.indexofmaxvalueofperfacegravity == 3) //LEFTFACE FAKE GRAVITY-ISH CHARACTER ROTATION
+                                                        {
+                                                            float offsetposx = 0.05f;
+                                                            float offsetposy = 0.05f;
+                                                            float offsetposz = 0.05f;
+
+                                                            offsetposz += 0.10f;
+
+                                                            Vector3 position = new Vector3((float)rayposforinnerchunkx + ((float)remnantsx * planeSize) + offsetposx, (float)rayposforinnerchunky + ((float)remnantsy * planeSize) + offsetposy, ((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz);
+                                                            //Vector3 position = new Vector3((float)rayposforinnerchunkx, (float)rayposforinnerchunky , ((float)rayposforinnerchunkz));
+
+                                                            /*if (whichsiderayselect == 0)
+                                                            {
+                                                                sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().handTarget.transform.position = position;// new Vector3(rayposforinnerchunkx + (remnantsx * planeSize) + offsetposx, rayposforinnerchunky + (remnantsy * planeSize) + offsetposy, rayposforinnerchunkz + (remnantsz * planeSize) + offsetposz);
+                                                            }
+                                                            else if (whichsiderayselect == 1)
+                                                            {
+                                                                sccsikplayer.currentsccsikplayer.arrayofikarms[3].GetComponent<sccsikarm>().handTarget.transform.position = position;// new Vector3(rayposforinnerchunkx + (remnantsx * planeSize) + offsetposx, rayposforinnerchunky + (remnantsy * planeSize) + offsetposy, rayposforinnerchunkz + (remnantsz * planeSize) + offsetposz);
+
+                                                            }*/
+
+                                                            //UnityEngine.//Debug.Log(position + "/z:" + (((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz));
+                                                        }
+                                                        else if (sccsplayerscript.indexofmaxvalueofperfacegravity == 4) //LEFTFACE FAKE GRAVITY-ISH CHARACTER ROTATION
+                                                        {
+                                                            float offsetposx = 0.05f;
+                                                            float offsetposy = 0.05f;
+                                                            float offsetposz = 0.05f;
+
+                                                            offsetposz -= 0.10f;
+
+                                                            Vector3 position = new Vector3((float)rayposforinnerchunkx + ((float)remnantsx * planeSize) + offsetposx, (float)rayposforinnerchunky + ((float)remnantsy * planeSize) + offsetposy, ((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz);
+                                                            //Vector3 position = new Vector3((float)rayposforinnerchunkx, (float)rayposforinnerchunky , ((float)rayposforinnerchunkz));
+
+                                                            /*if (whichsiderayselect == 0)
+                                                            {
+                                                                sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().handTarget.transform.position = position;// new Vector3(rayposforinnerchunkx + (remnantsx * planeSize) + offsetposx, rayposforinnerchunky + (remnantsy * planeSize) + offsetposy, rayposforinnerchunkz + (remnantsz * planeSize) + offsetposz);
+                                                            }
+                                                            else if (whichsiderayselect == 1)
+                                                            {
+                                                                sccsikplayer.currentsccsikplayer.arrayofikarms[3].GetComponent<sccsikarm>().handTarget.transform.position = position;// new Vector3(rayposforinnerchunkx + (remnantsx * planeSize) + offsetposx, rayposforinnerchunky + (remnantsy * planeSize) + offsetposy, rayposforinnerchunkz + (remnantsz * planeSize) + offsetposz);
+
+                                                            }*/
+                                                            //UnityEngine.//Debug.Log(position + "/z:" + (((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz));
+                                                        }
+                                                        else if (sccsplayerscript.indexofmaxvalueofperfacegravity == 5) //LEFTFACE FAKE GRAVITY-ISH CHARACTER ROTATION
+                                                        {
+                                                            float offsetposx = 0.05f;
+                                                            float offsetposy = 0.05f;
+                                                            float offsetposz = 0.05f;
+
+                                                            offsetposy -= 0.10f;
+
+                                                            Vector3 position = new Vector3((float)rayposforinnerchunkx + ((float)remnantsx * planeSize) + offsetposx, (float)rayposforinnerchunky + ((float)remnantsy * planeSize) + offsetposy, ((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz);
+                                                            //Vector3 position = new Vector3((float)rayposforinnerchunkx, (float)rayposforinnerchunky , ((float)rayposforinnerchunkz));
+
+                                                            /*if (whichsiderayselect == 0)
+                                                            {
+                                                                sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().handTarget.transform.position = position;// new Vector3(rayposforinnerchunkx + (remnantsx * planeSize) + offsetposx, rayposforinnerchunky + (remnantsy * planeSize) + offsetposy, rayposforinnerchunkz + (remnantsz * planeSize) + offsetposz);
+                                                            }
+                                                            else if (whichsiderayselect == 1)
+                                                            {
+                                                                sccsikplayer.currentsccsikplayer.arrayofikarms[3].GetComponent<sccsikarm>().handTarget.transform.position = position;// new Vector3(rayposforinnerchunkx + (remnantsx * planeSize) + offsetposx, rayposforinnerchunky + (remnantsy * planeSize) + offsetposy, rayposforinnerchunkz + (remnantsz * planeSize) + offsetposz);
+
+                                                            }*/
+
+                                                            //UnityEngine.//Debug.Log(position + "/z:" + (((float)rayposforinnerchunkz) + ((float)remnantsz * planeSize) + offsetposz));
+                                                        }
                                                     }
-                                                    else
-                                                    {
 
-                                                    }
+                                                    break;
+
+
+                                                }
+                                                else
+                                                {
+
                                                 }
                                             }
                                         }
-                                        else
-                                        {
+                                    }
+                                    else
+                                    {
 
-                                        }
                                     }
                                 }
                             }
-                            /*else
-                            {
-                                break;
-                            }*/
                         }
-
-
-
-
-
-                        //else
+                        /*else
                         {
+                            break;
+                        }*/
+                    }
 
-                            /*
+
+
+
+
+                    //else
+                    {
+                        float themag = (raypositionforwardinit - raypositionforward).magnitude;
+
+                        if (themag < hiptofloordist * hiptofloordistmul * 0.125f) // 0.1f
+                        {
+                            //UnityEngine.//Debug.Log("has reached crouching pos");
+                            //raypositionforward = raypositionforwardinit + (raydirection.normalized * hiptofloordist * 0hiptofloordistmul75f);
+
                             raypositionforward = raypositionforward + (-raydirection.normalized * hiptofloordist * hiptofloordistmul * 0.125f);
 
                             viewer.transform.position = raypositionforward;// Vector3.Lerp(viewer.transform.position, (raypositionforward), 10.0f);// + (-viewer.transform.up * (totalarmlength)));
 
 
 
-                            */
+                            //raypositionforward = 
 
-                            ////Debug.Log("has reached crouching pos");
-                            //raypositionforward = raypositionforwardinit + (raydirection.normalized * hiptofloordist * 0hiptofloordistmul75f);
+                            /*Vector3 diffdir = raypositionforward - raypositionforwardinit;
+                            diffdir.Normalize();
+                            diffdir = diffdir * (hiptofloordist * 0.75f);
 
+                            Vector3 newpos = raypositionforward + diffdir;
 
+                            viewer.transform.position = Vector3.Lerp(viewer.transform.position, newpos, 10.0f);*/
+                        }
+                        else
+                        {
 
-                            float themag = (raypositionforwardinit - raypositionforward).magnitude;
-
-                            if (themag < hiptofloordist * hiptofloordistmul * 0.125f) // 0.1f
-                            {
-                                ////Debug.Log("has reached crouching pos");
-                                //raypositionforward = raypositionforwardinit + (raydirection.normalized * hiptofloordist * 0hiptofloordistmul75f);
-
-                                raypositionforward = raypositionforward + (-raydirection.normalized * hiptofloordist * hiptofloordistmul * 0.125f);
-
-                                viewer.transform.position = raypositionforward;// Vector3.Lerp(viewer.transform.position, (raypositionforward), 10.0f);// + (-viewer.transform.up * (totalarmlength)));
-
-                            }
-                            else
-                            {
-
-                                if (hasfoundblock == 1)// && indexofmaxvalueofperfacegravity == indexofmaxvalueofperfacegravitylast)
-                                {
-
-
-                                    raypositionforward = raypositionforward + (-raydirection.normalized * hiptofloordist * hiptofloordistmul * 0.125f);
-                                    viewer.transform.position = Vector3.Lerp(viewer.transform.position, (raypositionforward), 0.5f);// raypositionforward;
-
-
-                                    //Vector3.Lerp(viewer.transform.position, (raypositionforward), 10.0f);//
-                                    //UnityEngine.//////Debug.Log("has reached too high pos");
-                                }
-                                else
-                                {
-
-                                    /*raypositionforward = raypositionforward + (-raydirection.normalized * hiptofloordist * hiptofloordistmul);
-
-                                    UnityEngine.//////Debug.Log("has reached too high pos");
-                                    viewer.transform.position = Vector3.Lerp(viewer.transform.position, (raypositionforward), 0.5f);//
-                                    */
-                                }
-                            }
-
-
-
-
-
-                            /*
-                            raypositionforward = raypositionforward + (-raydirection.normalized * hiptofloordist * hiptofloordistmul * 0.125f);
-                            viewer.transform.position = raypositionforward;
-                            */
-
-
-
-
-
-
-
-
-                            /*if (hasfoundblock == 1 && isMoving)
+                            if (hasfoundblock == 1)
                             {
 
                                 raypositionforward = raypositionforward + (-raydirection.normalized * hiptofloordist * hiptofloordistmul * 0.125f);
-                                viewer.transform.position = raypositionforward;
 
 
-
-                                //Vector3.Lerp(viewer.transform.position, (raypositionforward), 10.0f);//
-                                //UnityEngine.//////Debug.Log("has reached too high pos");
+                                viewer.transform.position = raypositionforward;// Vector3.Lerp(viewer.transform.position, (raypositionforward), 10.0f);//
+                                                                               //UnityEngine.//Debug.Log("has reached too high pos");
 
                             }
                             else
@@ -2047,71 +2223,19 @@ public class sccsplayer : MonoBehaviour
 
                                 /*raypositionforward = raypositionforward + (-raydirection.normalized * hiptofloordist * hiptofloordistmul);
 
-                                UnityEngine.//////Debug.Log("has reached too high pos");
+                                UnityEngine.//Debug.Log("has reached too high pos");
 
 
                                 viewer.transform.position = Vector3.Lerp(viewer.transform.position, (raypositionforward), 0.5f);//
-
-                            }*/
-
-
-
-
-                            /*
-                            if (themag < hiptofloordist * hiptofloordistmul * 0.125f) // 0.1f
-                            {
-                                UnityEngine.////Debug.Log("has reached crouching pos");
-                                //raypositionforward = raypositionforwardinit + (raydirection.normalized * hiptofloordist * 0hiptofloordistmul75f);
-
-                                raypositionforward = raypositionforward + (-raydirection.normalized * hiptofloordist * hiptofloordistmul * 0.125f);
-
-                                viewer.transform.position = raypositionforward;// Vector3.Lerp(viewer.transform.position, (raypositionforward), 10.0f);// + (-viewer.transform.up * (totalarmlength)));
-
-
-
-                                //raypositionforward = 
-
-                                /*Vector3 diffdir = raypositionforward - raypositionforwardinit;
-                                diffdir.Normalize();
-                                diffdir = diffdir * (hiptofloordist * 0.75f);
-
-                                Vector3 newpos = raypositionforward + diffdir;
-
-                                viewer.transform.position = Vector3.Lerp(viewer.transform.position, newpos, 10.0f);
-                            }
-                            else
-                            {
-                                UnityEngine.////Debug.Log("has reached higher pos");
-                                if (hasfoundblock == 1)
-                                {
-
-                                    raypositionforward = raypositionforward + (-raydirection.normalized * hiptofloordist * hiptofloordistmul * 0.125f * 1.0f);
-                                    viewer.transform.position = raypositionforward;
-
-
-
-                                    //Vector3.Lerp(viewer.transform.position, (raypositionforward), 10.0f);//
-                                    //UnityEngine.//////Debug.Log("has reached too high pos");
-
-                                }
-                                else
-                                {
-
-                                    /*raypositionforward = raypositionforward + (-raydirection.normalized * hiptofloordist * hiptofloordistmul);
-
-                                    UnityEngine.//////Debug.Log("has reached too high pos");
-
-
-                                    viewer.transform.position = Vector3.Lerp(viewer.transform.position, (raypositionforward), 0.5f);//
-
-                                }
-
-
-
-                                /*raypositionforward = raypositionforward + (-raydirection.normalized * hiptofloordist * hiptofloordistmul);
-
-                                viewer.transform.position = Vector3.Lerp(viewer.transform.position, (raypositionforward), 0.15f);// + (-viewer.transform.up * (totalarmlength)));
                                 */
+                            }
+
+
+
+                            /*raypositionforward = raypositionforward + (-raydirection.normalized * hiptofloordist * hiptofloordistmul);
+
+                            viewer.transform.position = Vector3.Lerp(viewer.transform.position, (raypositionforward), 0.15f);// + (-viewer.transform.up * (totalarmlength)));
+                            */
 
 
 
@@ -2120,7 +2244,7 @@ public class sccsplayer : MonoBehaviour
 
                             //viewer.transform.position = Vector3.Lerp(viewer.transform.position, (raypositionforward), 0.5f);// + (-viewer.transform.up * (totalarmlength)));
 
-                            //UnityEngine.//////Debug.Log("has reached too high pos");
+                            //UnityEngine.//Debug.Log("has reached too high pos");
 
                             /*Vector3 diffdir = raypositionforward - raypositionforwardinit;
                             diffdir.Normalize();
@@ -2158,39 +2282,30 @@ public class sccsplayer : MonoBehaviour
                             */
 
                             /*
-                            //UnityEngine.//////Debug.Log("!has reached crouching pos");
+                            //UnityEngine.//Debug.Log("!has reached crouching pos");
                             //raypositionforward = raypositionforwardinit + (raydirection.normalized * hiptofloordist * 0.75f);
                             viewer.transform.position = Vector3.Lerp(viewer.transform.position, (viewer.transform.position + diffdir), 0.01f);// + (-viewer.transform.up * (totalarmlength)));
+                            */
 
 
 
 
 
-
-                        }*/
                         }
                     }
                 }
 
-
-
-
-
-                hasgotgravitydot = 0;
             }
 
 
 
 
-            framecounterforray = 0;
+            indexofmaxvalueofperfacegravitylast = indexofmaxvalueofperfacegravity;
+
+            hasgotgravitydot = 0;
         }
-        framecounterforray++;
 
-
-
-
-
-        indexofmaxvalueofperfacegravitylast = indexofmaxvalueofperfacegravity;
+        lastposition = currentPosition;
 
     }
 
@@ -2308,7 +2423,7 @@ public class sccsplayer : MonoBehaviour
         }
         else
         {
-            ////////Debug.Log("the planet is null");
+            ////Debug.Log("the planet is null");
         }
 
         yield return new WaitForSeconds(0.001f);
@@ -2487,7 +2602,7 @@ public class sccsplayer : MonoBehaviour
         else
         {
             hasclickedtomoveplayer = 0;
-            //////////Debug.Log("test");
+            //////Debug.Log("test");
         }
 
         //Debug.DrawRay(clicktomoveplayerpos, thepositionupofpoint - clicktomoveplayerpos, Color.red, 1.0f);
@@ -2541,8 +2656,8 @@ public class sccsplayer : MonoBehaviour
             //currentdirtopointclick.Normalize();
 
             Vector3 positioninfrontofplayer = isgroundedpivotpoint.transform.position + (dirForward * distance);
-
-
+            
+            
             /*
             MOVEPOSOFFSET = Vector3.Lerp(MOVEPOSOFFSET, positioninfrontofplayer, movementspeed * Time.deltaTime); // * Time.deltaTime
 
@@ -2616,14 +2731,14 @@ public class sccsplayer : MonoBehaviour
                 }
                 else
                 {
-                    ////////Debug.Log("the planet is null");
+                    ////Debug.Log("the planet is null");
                 }
             }
         }
         else
         {
             hasclickedtomoveplayer = 0;
-            //////////Debug.Log("test");
+            //////Debug.Log("test");
         }
 
         //Debug.DrawRay(clicktomoveplayerpos, thepositionupofpoint - clicktomoveplayerpos, Color.red, 1.0f);
@@ -2645,14 +2760,11 @@ public class sccsplayer : MonoBehaviour
 
 
 
-    int haspressedbutton = 0;
+
 
     IEnumerator MovePlayerWithKeyboard()
     {
 
-        MOVEPOSOFFSET = viewer.transform.position;
-
-        haspressedbutton = 0;
 
         var sccsikarmtargetfootl = sccsikplayer.currentsccsikplayer.arrayofikarms[2].GetComponent<sccsikarm>().handTarget;
         var sccsikarmtargetfootr = sccsikplayer.currentsccsikplayer.arrayofikarms[3].GetComponent<sccsikarm>().handTarget;
@@ -2685,7 +2797,7 @@ public class sccsplayer : MonoBehaviour
 
         /*if (maglegleft > totalarmlength || maglegright > totalarmlength)
         {
-            //////Debug.Log(" > totalarmlength");
+            //Debug.Log(" > totalarmlength");
             if (maglegleft > totalarmlength)
             {
 
@@ -2749,7 +2861,7 @@ public class sccsplayer : MonoBehaviour
         */
 
         Vector3 topointforward = MOVEPOSOFFSET;
-
+       
         if (Input.GetKey(KeyCode.W))
         {
 
@@ -2762,7 +2874,7 @@ public class sccsplayer : MonoBehaviour
 
             MOVEPOSOFFSET = Vector3.Lerp(MOVEPOSOFFSET, pointtobeat, movementspeed * Time.deltaTime); // * Time.deltaTime
 
-            //UnityEngine.////////Debug.Log("has tried moving w");
+            //UnityEngine.////Debug.Log("has tried moving w");
 
 
 
@@ -2783,7 +2895,7 @@ public class sccsplayer : MonoBehaviour
             Vector3 pointtobeat = theouthitpointtoground.point + (-uppoint * 0.1f);
 
             MOVEPOSOFFSET = Vector3.Lerp(MOVEPOSOFFSET, pointtobeat, movementspeed * Time.deltaTime); // * Time.deltaTime*/
-            haspressedbutton = 1;
+
         }
 
         if (Input.GetKey(KeyCode.Q))
@@ -2796,7 +2908,7 @@ public class sccsplayer : MonoBehaviour
 
 
             MOVEPOSOFFSET = Vector3.Lerp(MOVEPOSOFFSET, pointtobeat, movementspeed * Time.deltaTime); // * Time.deltaTime
-            haspressedbutton = 1;
+
         }
 
         if (Input.GetKey(KeyCode.E))
@@ -2809,7 +2921,7 @@ public class sccsplayer : MonoBehaviour
 
 
             MOVEPOSOFFSET = Vector3.Lerp(MOVEPOSOFFSET, pointtobeat, movementspeed * Time.deltaTime); // * Time.deltaTime
-            haspressedbutton = 1;
+
         }
 
         if (Input.GetKey(KeyCode.S))
@@ -2822,7 +2934,7 @@ public class sccsplayer : MonoBehaviour
 
 
             MOVEPOSOFFSET = Vector3.Lerp(MOVEPOSOFFSET, pointtobeat, movementspeed * Time.deltaTime); // * Time.deltaTime
-            haspressedbutton = 1;
+
         }
 
         if (Input.GetKey(KeyCode.R))
@@ -2833,7 +2945,6 @@ public class sccsplayer : MonoBehaviour
             dirForward.Normalize();
             MOVEPOSOFFSET = MOVEPOSOFFSET + (dirForward * distance);
             //topointforward = MOVEPOSOFFSET + pointforward;
-            haspressedbutton = 1;
         }
 
 
@@ -2845,7 +2956,6 @@ public class sccsplayer : MonoBehaviour
             dirForward.Normalize();
             MOVEPOSOFFSET = MOVEPOSOFFSET + (dirForward * distance);
             //topointforward = MOVEPOSOFFSET + pointforward;
-            haspressedbutton = 1;
         }
 
         //var currentrotationforward = viewer.transform.rotation.eulerAngles.z;
@@ -2878,15 +2988,11 @@ public class sccsplayer : MonoBehaviour
 
 
         //hiptofloordist
-        if (theplanet != null && haspressedbutton == 1)
+        if (theplanet != null)
         {
             viewer.transform.position = MOVEPOSOFFSET;
             lastframeviewerpos = viewer.transform.position;
         }
-
-
-
-
 
         yield return new WaitForSeconds(0.001f);
     }
@@ -2900,7 +3006,7 @@ public class sccsplayer : MonoBehaviour
     IEnumerator RotatePlayerMouse()
     {
 
-
+       
 
         if (Input.GetMouseButton(1))
         {
@@ -2924,7 +3030,7 @@ public class sccsplayer : MonoBehaviour
             oricursory = mousey;
 
 
-
+            
             Quaternion q = viewer.transform.rotation;
 
             float x = q.x;
@@ -2961,7 +3067,7 @@ public class sccsplayer : MonoBehaviour
 
 
 
-        if (Input.GetMouseButtonUp(1))
+        if(Input.GetMouseButtonUp(1))
         {
 
             if (swtcactivatemouselook == 1)
@@ -2995,8 +3101,8 @@ public class sccsplayer : MonoBehaviour
 
                 //camera.transform.rotation = beforemouselookrot;
                 camera.transform.rotation = upperbodypivot.transform.rotation;// Quaternion.Euler(pitch, yaw, roll);// Quaternion.Lerp(camera.transform.rotation, Quaternion.Euler(pitch, yaw, roll), 0.1f);
-                                                                              //camera.transform.rotation = Quaternion.Lerp(viewer.transform.rotation, Quaternion.Euler(pitch, yaw, roll), 0.1f);
-
+                //camera.transform.rotation = Quaternion.Lerp(viewer.transform.rotation, Quaternion.Euler(pitch, yaw, roll), 0.1f);
+                
                 MouseRotationX = 0;
                 MouseRotationY = 0;
                 MouseRotationZ = 0;
@@ -3033,7 +3139,7 @@ public class sccsplayer : MonoBehaviour
                     // Find the direction to move in
                     Vector3 dir = theouthit.point - camera.transform.position;
 
-
+                   
                     clicktomoveplayerpos = theouthit.point;
                     clicktomoveplayerdirtopos = dir;
                     clicktomoveplayernormalofpos = theouthit.normal;
@@ -3041,13 +3147,13 @@ public class sccsplayer : MonoBehaviour
                     //Debug.DrawRay(camera.transform.position, dir * 10.0f, Color.blue, 10.0f);
                     hasclickedtomoveplayer = 1;
 
-                    ////////Debug.Log("hasclickedtomoveplayer");
+                    ////Debug.Log("hasclickedtomoveplayer");
                     swtchastriedmovingplayerwithmouseclick = 1;
                 }
                 else
                 {
                     hasclickedtomoveplayer = 0;
-                    //////////Debug.Log("test");
+                    //////Debug.Log("test");
                 }
             }
 
@@ -3213,7 +3319,7 @@ public class sccsplayer : MonoBehaviour
 
 
 
-
+          
             for (int x = -1; x <= 1; x++)
             {
                 for (int y = -1; y <= 1; y++)
@@ -3337,7 +3443,7 @@ public class sccsplayer : MonoBehaviour
 
             /*targetobjectvisual.transform.position = new Vector3(posx * 5, posy * 5, posz * 5);
 
-            ////////Debug.Log("/x:" + posx + "/y:" + posy + "/z:" + posz);
+            ////Debug.Log("/x:" + posx + "/y:" + posy + "/z:" + posz);
             */
             indexofmaxvalueofperfacegravity = arrayofgravityperfacedot.ToList().IndexOf(arrayofgravityperfacedot.Max());
 
@@ -3373,146 +3479,13 @@ public class sccsplayer : MonoBehaviour
 
 
 
-            //////Debug.Log("dotinvert0:" + indexofmaxvalueofperfacegravitydotinvert +"/nextdotinvert:" + +indexofmaxvalueofperfacegravitynextdotinvert);
-            /* float resultabs = Mathf.Abs(indexofmaxvalueofperfacegravitydotinvert - indexofmaxvalueofperfacegravitynextdotinvert);
-             //Debug.Log("dotinvert0:" + indexofmaxvalueofperfacegravitydotinvert + "/nextdotinvert:" + +indexofmaxvalueofperfacegravitynextdotinvert + "/abs:" + resultabs);
-
-             if (resultabs > 0.15f)
-             {
-                 poscubicgravityvisualx = arrayofgravityperfacex[indexofmaxvalueofperfacegravity];
-                 poscubicgravityvisualy = arrayofgravityperfacey[indexofmaxvalueofperfacegravity];
-                 poscubicgravityvisualz = arrayofgravityperfacez[indexofmaxvalueofperfacegravity];
-
-
-                 targetobjectvisual.transform.position = new Vector3(poscubicgravityvisualx * 5, poscubicgravityvisualy * 5, poscubicgravityvisualz * 5);
-             }*/
-
-
-
-
-            Vector3 nextfaceposcubic0 = Vector3.zero;
-
-            if (indexofmaxvalueofperfacegravitynext == 0) //t
-            {
-                nextfaceposcubic0 = Vector3.up;
-            }
-            else if (indexofmaxvalueofperfacegravitynext == 1) //l
-            {
-                nextfaceposcubic0 = -Vector3.right;
-            }
-            else if (indexofmaxvalueofperfacegravitynext == 2) //r
-            {
-                nextfaceposcubic0 = Vector3.right;
-            }
-            else if (indexofmaxvalueofperfacegravitynext == 3) //fr
-            {
-                nextfaceposcubic0 = Vector3.forward;
-            }
-            else if (indexofmaxvalueofperfacegravitynext == 4) //ba
-            {
-                nextfaceposcubic0 = -Vector3.forward;
-            }
-            else if (indexofmaxvalueofperfacegravitynext == 5) //bo
-            {
-                nextfaceposcubic0 = -Vector3.up;
-            }
-
-            Vector3 currentfaceposcubic1 = Vector3.zero;
-
-            if (indexofmaxvalueofperfacegravity == 0) //t
-            {
-                currentfaceposcubic1 = Vector3.up;
-            }
-            else if (indexofmaxvalueofperfacegravity == 1) //l
-            {
-                currentfaceposcubic1 = -Vector3.right;
-            }
-            else if (indexofmaxvalueofperfacegravity == 2) //r
-            {
-                currentfaceposcubic1 = Vector3.right;
-            }
-            else if (indexofmaxvalueofperfacegravity == 3) //fr
-            {
-                currentfaceposcubic1 = Vector3.forward;
-            }
-            else if (indexofmaxvalueofperfacegravity == 4) //ba
-            {
-                currentfaceposcubic1 = -Vector3.forward;
-            }
-            else if (indexofmaxvalueofperfacegravity == 5) //bo
-            {
-                currentfaceposcubic1 = -Vector3.up;
-            }
-
-
-
-
-
-            Vector3 forwardplayer = lastposition - viewer.transform.position;
-            forwardplayer.Normalize();
-
-            ////Debug.Log(forwardplayer);
-
-            Vector3 theplanettopointgravityUP = new Vector3(poscubicgravityvisualx, poscubicgravityvisualy, poscubicgravityvisualz); // - theplanet.transform.position
-            theplanettopointgravityUP.Normalize();
-
-
-
-
-            Vector3 playertoplanet1 = viewer.transform.position - theplanet.transform.position;
-            float magofplayertoplanet1 = playertoplanet1.magnitude;
-
-            Vector3 pointtofaceofgravity1 = theplanet.transform.position + (currentfaceposcubic1 * magofplayertoplanet1);
-
-            Vector3 dirplayertomidpointofgravity1 = pointtofaceofgravity1 - viewer.transform.position;
-            dirplayertomidpointofgravity1.Normalize();
-
-            //float thedotplayertogravityside1 = Vector3.Dot(viewer.transform.forward, dirplayertomidpointofgravity1);
-            float thedotplayertogravityside1 = Vector3.Dot(forwardplayer, dirplayertomidpointofgravity1);
-
-
-
-
-
-            Vector3 playertoplanet0 = viewer.transform.position - theplanet.transform.position;
-            float magofplayertoplanet0 = playertoplanet0.magnitude;
-
-            Vector3 pointtofaceofgravity0 = theplanet.transform.position + (nextfaceposcubic0 * magofplayertoplanet0);
-
-            Vector3 dirplayertomidpointofgravity0 = pointtofaceofgravity0 - viewer.transform.position;
-            dirplayertomidpointofgravity0.Normalize();
-
-            //float thedotplayertogravityside0 = Vector3.Dot(viewer.transform.forward, dirplayertomidpointofgravity0);
-            float thedotplayertogravitysidenext0 = Vector3.Dot(forwardplayer, dirplayertomidpointofgravity0);
-
-
-            //Debug.Log("dot0:" + thedotplayertogravityside1 + "/dot1:" + +thedotplayertogravitysidenext0);
-
-
-
-            if (thedotplayertogravitysidenext0 > thedotplayertogravityside1)
-            {
-
-
-
-
-            }
-
-            if (thedotplayertogravityside1 < 0)
-            {
-
-            }
-
-
-          
+            //Debug.Log("dotinvert0:" + indexofmaxvalueofperfacegravitydotinvert +"/nextdotinvert:" + +indexofmaxvalueofperfacegravitynextdotinvert);
             float resultabs = Mathf.Abs(indexofmaxvalueofperfacegravitydotinvert - indexofmaxvalueofperfacegravitynextdotinvert);
-            ////Debug.Log("dotinvert0:" + indexofmaxvalueofperfacegravitydotinvert + "/nextdotinvert:" + +indexofmaxvalueofperfacegravitynextdotinvert + "/abs:" + resultabs);
+            //Debug.Log("dotinvert0:" + indexofmaxvalueofperfacegravitydotinvert + "/nextdotinvert:" + +indexofmaxvalueofperfacegravitynextdotinvert + "/abs:" + resultabs);
 
-
-
-
-            if (resultabs > 0.15f && resultabs < 0.01f) //0.01f // 0.005f
+            //if (resultabs > 0.25f)
             {
+
 
                 poscubicgravityvisualx = arrayofgravityperfacex[indexofmaxvalueofperfacegravity];
                 poscubicgravityvisualy = arrayofgravityperfacey[indexofmaxvalueofperfacegravity];
@@ -3521,68 +3494,9 @@ public class sccsplayer : MonoBehaviour
 
                 targetobjectvisual.transform.position = new Vector3(poscubicgravityvisualx * 5, poscubicgravityvisualy * 5, poscubicgravityvisualz * 5);
 
-            }
-            else
-            {
 
-                if (indexofmaxvalueofperfacegravity != indexofmaxvalueofperfacegravitylast)
-                {
-                    
-
-                
-                 
-                }
-
-                if (thedotplayertogravitysidenext0 < thedotplayertogravityside1)
-                {
-                    /*if (indexofmaxvalueofperfacegravitylast != -1 && thedotplayertogravityside1 != 0 && thedotplayertogravitysidenext0 != 0)
-                    {
-                        indexofmaxvalueofperfacegravity = indexofmaxvalueofperfacegravitylast;//indexofmaxvalueofperfacegravitylast;
-                        indexofmaxvalueofperfacegravitynext = indexofmaxvalueofperfacegravity;
-
-                        poscubicgravityvisualx = arrayofgravityperfacex[indexofmaxvalueofperfacegravity];
-                        poscubicgravityvisualy = arrayofgravityperfacey[indexofmaxvalueofperfacegravity];
-                        poscubicgravityvisualz = arrayofgravityperfacez[indexofmaxvalueofperfacegravity];
-
-
-                        targetobjectvisual.transform.position = new Vector3(poscubicgravityvisualx * 5, poscubicgravityvisualy * 5, poscubicgravityvisualz * 5);
-                    }*/
-
-                    indexofmaxvalueofperfacegravity = indexofmaxvalueofperfacegravitylast;//indexofmaxvalueofperfacegravitylast;
-                    indexofmaxvalueofperfacegravitynext = indexofmaxvalueofperfacegravity;
-
-                    poscubicgravityvisualx = arrayofgravityperfacex[indexofmaxvalueofperfacegravity];
-                    poscubicgravityvisualy = arrayofgravityperfacey[indexofmaxvalueofperfacegravity];
-                    poscubicgravityvisualz = arrayofgravityperfacez[indexofmaxvalueofperfacegravity];
-
-
-                    targetobjectvisual.transform.position = new Vector3(poscubicgravityvisualx * 5, poscubicgravityvisualy * 5, poscubicgravityvisualz * 5);
-
-                }
-                else 
-                {
-                    if (indexofmaxvalueofperfacegravitylast != -1 && thedotplayertogravityside1 != 0 && thedotplayertogravitysidenext0 != 0)
-                    {
-                        poscubicgravityvisualx = arrayofgravityperfacex[indexofmaxvalueofperfacegravity];
-                        poscubicgravityvisualy = arrayofgravityperfacey[indexofmaxvalueofperfacegravity];
-                        poscubicgravityvisualz = arrayofgravityperfacez[indexofmaxvalueofperfacegravity];
-
-
-                        targetobjectvisual.transform.position = new Vector3(poscubicgravityvisualx * 5, poscubicgravityvisualy * 5, poscubicgravityvisualz * 5);
-                    }
-                }
 
             }
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -3675,7 +3589,7 @@ public class sccsplayer : MonoBehaviour
 
             //indexofmaxvalueofperfacegravitynext
 
-            //UnityEngine.////////Debug.Log("typeofface:" + indexofmaxvalueofperfacegravity + "/facetypenext:" + indexofmaxvalueofperfacegravitynext);
+            //UnityEngine.////Debug.Log("typeofface:" + indexofmaxvalueofperfacegravity + "/facetypenext:" + indexofmaxvalueofperfacegravitynext);
 
             /*
             var listofnextgravityx = arrayofgravityperfacex.ToList();
@@ -3845,35 +3759,35 @@ public class sccsplayer : MonoBehaviour
 
         if (answerx == 1 && answery == -1 && answerz == -1)
         {
-            ////////Debug.Log("answerx == 1 && answery == -1 && answerz == -1");
+            ////Debug.Log("answerx == 1 && answery == -1 && answerz == -1");
         }
         else if (answerx == 1 && answery == 1 && answerz == -1)
         {
-            ////////Debug.Log("answerx == 1 && answery == 1 && answerz == -1");
+            ////Debug.Log("answerx == 1 && answery == 1 && answerz == -1");
         }
         else if (answerx == 1 && answery == 1 && answerz == 1)
         {
-            ////////Debug.Log("answerx == 1 && answery == 1 && answerz == 1");
+            ////Debug.Log("answerx == 1 && answery == 1 && answerz == 1");
         }
         else if (answerx == -1 && answery == 1 && answerz == 1)
         {
-            ////////Debug.Log("answerx == -1 && answery == 1 && answerz == 1");
+            ////Debug.Log("answerx == -1 && answery == 1 && answerz == 1");
         }
         else if (answerx == -1 && answery == -1 && answerz == 1)
         {
-            ////////Debug.Log("answerx == -1 && answery == -1 && answerz == 1");
+            ////Debug.Log("answerx == -1 && answery == -1 && answerz == 1");
         }
         else if (answerx == 1 && answery == -1 && answerz == 1)
         {
-            ////////Debug.Log("answerx == 1 && answery == -1 && answerz == 1");
+            ////Debug.Log("answerx == 1 && answery == -1 && answerz == 1");
         }
         else if (answerx == 1 && answery == 1 && answerz == -1)
         {
-            ////////Debug.Log("answerx == 1 && answery == 1 && answerz == -1");
+            ////Debug.Log("answerx == 1 && answery == 1 && answerz == -1");
         }
         else if (answerx == -1 && answery == -1 && answerz == -1)
         {
-            ////////Debug.Log("answerx == -1 && answery == -1 && answerz == -1");
+            ////Debug.Log("answerx == -1 && answery == -1 && answerz == -1");
         }
 
 
@@ -3956,7 +3870,7 @@ public class sccsplayer : MonoBehaviour
                 answer = -1;
             }
 
-            //////////Debug.Log("dot:" + _dotGoal);
+            //////Debug.Log("dot:" + _dotGoal);
         }*/
     }
 
@@ -4001,9 +3915,9 @@ public class sccsplayer : MonoBehaviour
             float yawdeg = scmaths.RadianToDegree(yawcurrent);
             float rolldeg = scmaths.RadianToDegree(rollcurrent);
 
-            ////////Debug.Log("pitch:" + pitchdeg);
-            //////Debug.Log("yawdeg start:" + yawdeg);
-            //////Debug.Log("rolldeg:" + rolldeg);
+            ////Debug.Log("pitch:" + pitchdeg);
+            //Debug.Log("yawdeg start:" + yawdeg);
+            //Debug.Log("rolldeg:" + rolldeg);
 
             float altyaw = 0;
 
@@ -4126,9 +4040,9 @@ public class sccsplayer : MonoBehaviour
             float yawdeg = scmaths.RadianToDegree(yawcurrent);
             float rolldeg = scmaths.RadianToDegree(rollcurrent);
 
-            //////Debug.Log("pitchdeg:" + pitchdeg);
-            //////Debug.Log("yawdeg:" + yawdeg);
-            //////Debug.Log("rolldeg:" + rolldeg);
+            //Debug.Log("pitchdeg:" + pitchdeg);
+            //Debug.Log("yawdeg:" + yawdeg);
+            //Debug.Log("rolldeg:" + rolldeg);
 
             float altyaw = 0;
 
@@ -4334,14 +4248,14 @@ public class sccsplayer : MonoBehaviour
                 if (altyaw >= 0 && altyaw < 90 ||
                  altyaw >= 90 && altyaw < 180)
                 {
-                    //////Debug.Log("here00");
+                    //Debug.Log("here00");
 
 
                     if (altyaw >= 0 && altyaw < 90)
                     {
                         eulerangles.z = 90;
                         eulerangles.y = 0;
-                        //////Debug.Log("here0");
+                        //Debug.Log("here0");
                         altyaw = 90 - altyaw;
                         altyaw += 90;
                         altyaw += 180;
@@ -4350,13 +4264,13 @@ public class sccsplayer : MonoBehaviour
                     {
                         eulerangles.z = 90;
                         eulerangles.y = 0;
-                        //////Debug.Log("here1");
+                        //Debug.Log("here1");
                         altyaw = 180 - altyaw;
                         altyaw += 180;
                     }
                     else
                     {
-                        //////Debug.Log("here111");
+                        //Debug.Log("here111");
 
 
                     }
@@ -4369,13 +4283,13 @@ public class sccsplayer : MonoBehaviour
 
                     if (altyaw >= 180 && altyaw < 270)
                     {
-                        //////Debug.Log("here2");
+                        //Debug.Log("here2");
                         altyaw = 270 - altyaw;
                         altyaw += 90;
                     }
                     else if (altyaw >= 270 && altyaw < 360)
                     {
-                        //////Debug.Log("here3");
+                        //Debug.Log("here3");
                         altyaw = 360 - altyaw;
 
 
@@ -4398,7 +4312,7 @@ public class sccsplayer : MonoBehaviour
                         {
                             eulerangles.z = 90;
                             eulerangles.y = 0;
-                            //////Debug.Log("here0");
+                            //Debug.Log("here0");
                             altyaw = 90 - altyaw;
 
                         }
@@ -4406,7 +4320,7 @@ public class sccsplayer : MonoBehaviour
                         {
                             eulerangles.z = -90;
                             eulerangles.y = 0;
-                            //////Debug.Log("here1");
+                            //Debug.Log("here1");
                             altyaw = 180 - altyaw;
                             altyaw -= 90;
 
@@ -4418,7 +4332,7 @@ public class sccsplayer : MonoBehaviour
                         {
                             eulerangles.z = 90;
                             eulerangles.y = 0;
-                            //////Debug.Log("here2");
+                            //Debug.Log("here2");
                             altyaw = 270 - altyaw;
                             altyaw += 180;
                         }
@@ -4426,7 +4340,7 @@ public class sccsplayer : MonoBehaviour
                         {
                             eulerangles.z = 90;
                             eulerangles.y = 0;
-                            //////Debug.Log("here3");
+                            //Debug.Log("here3");
                             altyaw = 360 - altyaw;
                             altyaw += 90;
 
@@ -4446,7 +4360,7 @@ public class sccsplayer : MonoBehaviour
                         {
                             eulerangles.z = -90;
                             eulerangles.y = 0;
-                            //////Debug.Log("here0");
+                            //Debug.Log("here0");
                             altyaw = 90 - altyaw;
 
                         }
@@ -4454,7 +4368,7 @@ public class sccsplayer : MonoBehaviour
                         {
                             eulerangles.z = 90;
                             eulerangles.y = 0;
-                            //////Debug.Log("here1");
+                            //Debug.Log("here1");
                             altyaw = 180 - altyaw;
                             altyaw -= 90;
 
@@ -4467,7 +4381,7 @@ public class sccsplayer : MonoBehaviour
                             eulerangles.z = 90;
                             eulerangles.y = 0;
 
-                            //////Debug.Log("here2");
+                            //Debug.Log("here2");
                             altyaw = 270 - altyaw;
                             altyaw += 180;
 
@@ -4477,7 +4391,7 @@ public class sccsplayer : MonoBehaviour
                             eulerangles.z = -90;
                             eulerangles.y = 0;
 
-                            //////Debug.Log("here3");
+                            //Debug.Log("here3");
                             altyaw = 360 - altyaw;
                             altyaw += 90;
 
@@ -4508,13 +4422,13 @@ public class sccsplayer : MonoBehaviour
                         eulerangles.y = 0;
                         if (altyaw >= 0 && altyaw < 90)
                         {
-                            //////Debug.Log("here0");
+                            //Debug.Log("here0");
                             altyaw = 90 - altyaw;
 
                         }
                         else if (altyaw >= 90 && altyaw < 180)
                         {
-                            //////Debug.Log("here1");
+                            //Debug.Log("here1");
                             altyaw = 180 - altyaw;
                             altyaw -= 90;
 
@@ -4526,7 +4440,7 @@ public class sccsplayer : MonoBehaviour
                         {
                             eulerangles.z = -90;
                             eulerangles.y = 0;
-                            //////Debug.Log("here2");
+                            //Debug.Log("here2");
                             altyaw = 270 - altyaw;
                             altyaw += 180;
                         }
@@ -4534,7 +4448,7 @@ public class sccsplayer : MonoBehaviour
                         {
                             eulerangles.z = 90;
                             eulerangles.y = 0;
-                            //////Debug.Log("here3");
+                            //Debug.Log("here3");
                             altyaw = 360 - altyaw;
                             altyaw += 90;
                         }
@@ -4550,13 +4464,13 @@ public class sccsplayer : MonoBehaviour
 
                         if (altyaw >= 0 && altyaw < 90)
                         {
-                            //////Debug.Log("here0");
+                            //Debug.Log("here0");
                             altyaw = 90 - altyaw;
 
                         }
                         else if (altyaw >= 90 && altyaw < 180)
                         {
-                            //////Debug.Log("here1");
+                            //Debug.Log("here1");
                             altyaw = 180 - altyaw;
                             altyaw -= 90;
 
@@ -4569,7 +4483,7 @@ public class sccsplayer : MonoBehaviour
                             eulerangles.z = 90;
                             eulerangles.y = 0;
 
-                            //////Debug.Log("here2");
+                            //Debug.Log("here2");
                             altyaw = 270 - altyaw;
                             altyaw += 180;
                         }
@@ -4578,7 +4492,7 @@ public class sccsplayer : MonoBehaviour
                             eulerangles.z = 90;
                             eulerangles.y = 0;
 
-                            //////Debug.Log("here3");
+                            //Debug.Log("here3");
                             altyaw = 360 - altyaw;
                             altyaw += 90;
 
@@ -4602,12 +4516,12 @@ public class sccsplayer : MonoBehaviour
 
                         if (altyaw >= 0 && altyaw < 90)
                         {
-                            //////Debug.Log("reached0");
+                            //Debug.Log("reached0");
                             altyaw += 180;
                         }
                         else if (altyaw >= 90 && altyaw < 180)
                         {
-                            //////Debug.Log("reached1");
+                            //Debug.Log("reached1");
 
                             altyaw = 180 - altyaw;
                             altyaw -= 90;
@@ -4623,7 +4537,7 @@ public class sccsplayer : MonoBehaviour
                         {
                             eulerangles.z = 90;
                             eulerangles.y = 0;
-                            //////Debug.Log("reached2");
+                            //Debug.Log("reached2");
 
                             altyaw = 270 - altyaw;
                             altyaw -= 90;
@@ -4634,7 +4548,7 @@ public class sccsplayer : MonoBehaviour
                             //eulerangles.x = 90;
                             eulerangles.z = 90;
                             eulerangles.y = 0;
-                            //////Debug.Log("reached3");
+                            //Debug.Log("reached3");
 
                             altyaw = 360 - altyaw;
                             altyaw = 90 - altyaw;
@@ -4655,12 +4569,12 @@ public class sccsplayer : MonoBehaviour
 
                         if (altyaw >= 0 && altyaw < 90)
                         {
-                            //////Debug.Log("reached0");
+                            //Debug.Log("reached0");
                             altyaw += 180;
                         }
                         else if (altyaw >= 90 && altyaw < 180)
                         {
-                            //////Debug.Log("reached1");
+                            //Debug.Log("reached1");
 
                             altyaw = 180 - altyaw;
                             altyaw -= 90;
@@ -4674,7 +4588,7 @@ public class sccsplayer : MonoBehaviour
 
                         if (altyaw >= 180 && altyaw < 270)
                         {
-                            //////Debug.Log("reached2");
+                            //Debug.Log("reached2");
                             eulerangles.z = 90;
                             eulerangles.y = 0;
 
@@ -4686,7 +4600,7 @@ public class sccsplayer : MonoBehaviour
                             eulerangles.z = 90;
                             eulerangles.y = 0;
 
-                            //////Debug.Log("reached3");
+                            //Debug.Log("reached3");
 
                             altyaw = 360 - altyaw;
                             altyaw = 90 - altyaw;
@@ -4748,9 +4662,9 @@ public class sccsplayer : MonoBehaviour
             float yawdeg = scmaths.RadianToDegree(yawcurrent);
             float rolldeg = scmaths.RadianToDegree(rollcurrent);
 
-            //////Debug.Log("pitchdeg:" + pitchdeg);
-            //////Debug.Log("yawdeg:" + yawdeg);
-            //////Debug.Log("rolldeg:" + rolldeg);
+            //Debug.Log("pitchdeg:" + pitchdeg);
+            //Debug.Log("yawdeg:" + yawdeg);
+            //Debug.Log("rolldeg:" + rolldeg);
 
             float altyaw = 0;
 
@@ -4952,7 +4866,7 @@ public class sccsplayer : MonoBehaviour
 
 
 
-            //////Debug.Log("altyaw0:" + altyaw);
+            //Debug.Log("altyaw0:" + altyaw);
 
 
 
@@ -4967,12 +4881,12 @@ public class sccsplayer : MonoBehaviour
 
                     if (altyaw >= 0 && altyaw < 90)
                     {
-                        //////Debug.Log("here0");
+                        //Debug.Log("here0");
 
                     }
                     else if (altyaw >= 90 && altyaw < 180)
                     {
-                        //////Debug.Log("here1");
+                        //Debug.Log("here1");
                         altyaw = 180 - altyaw;
                         altyaw -= 90;
                         altyaw = 90 - altyaw;
@@ -4987,7 +4901,7 @@ public class sccsplayer : MonoBehaviour
                     {
                         eulerangles.z = -90;
                         eulerangles.y = 0;
-                        //////Debug.Log("here2");
+                        //Debug.Log("here2");
                         altyaw = 270 - altyaw;
 
                         altyaw = 90 - altyaw;
@@ -4998,7 +4912,7 @@ public class sccsplayer : MonoBehaviour
                         eulerangles.z = -90;
                         eulerangles.y = 0;
 
-                        //////Debug.Log("here3");
+                        //Debug.Log("here3");
                         altyaw = 360 - altyaw;
 
                         altyaw = 90 - altyaw;
@@ -5021,7 +4935,7 @@ public class sccsplayer : MonoBehaviour
                         {
                             eulerangles.z = -90;
                             eulerangles.y = 0;
-                            //////Debug.Log("here0");
+                            //Debug.Log("here0");
                             altyaw = 90 - altyaw;
                             altyaw = 90 - altyaw;
                             altyaw += 90;
@@ -5030,7 +4944,7 @@ public class sccsplayer : MonoBehaviour
                         {
                             eulerangles.z = -90;
                             eulerangles.y = 0;
-                            //////Debug.Log("here1");
+                            //Debug.Log("here1");
                             altyaw = 180 - altyaw;
 
                         }
@@ -5042,7 +4956,7 @@ public class sccsplayer : MonoBehaviour
                         {
                             eulerangles.z = 90;
                             eulerangles.y = 0;
-                            //////Debug.Log("here2");
+                            //Debug.Log("here2");
                             altyaw = 270 - altyaw;
                             altyaw = 90 - altyaw;
                             altyaw += 180;
@@ -5052,7 +4966,7 @@ public class sccsplayer : MonoBehaviour
                         {
                             eulerangles.z = -90;
                             eulerangles.y = 0;
-                            //////Debug.Log("here3");
+                            //Debug.Log("here3");
                             altyaw = 360 - altyaw;
                             altyaw = 90 - altyaw;
 
@@ -5070,7 +4984,7 @@ public class sccsplayer : MonoBehaviour
                         {
                             eulerangles.z = -90;
                             eulerangles.y = 0;
-                            //////Debug.Log("here0");
+                            //Debug.Log("here0");
                             altyaw = 90 - altyaw;
                             altyaw += 180;
                         }
@@ -5078,7 +4992,7 @@ public class sccsplayer : MonoBehaviour
                         {
                             eulerangles.z = -90;
                             eulerangles.y = 0;
-                            //////Debug.Log("here1");
+                            //Debug.Log("here1");
                             altyaw = 180 - altyaw;
                             altyaw = 90 - altyaw;
 
@@ -5094,7 +5008,7 @@ public class sccsplayer : MonoBehaviour
                         {
                             eulerangles.z = -90;
                             eulerangles.y = 0;
-                            //////Debug.Log("here2");
+                            //Debug.Log("here2");
                             altyaw = 270 - altyaw;
                             altyaw = 90 - altyaw;
                             altyaw += 180;
@@ -5104,7 +5018,7 @@ public class sccsplayer : MonoBehaviour
                         {
                             eulerangles.z = 90;
                             eulerangles.y = 0;
-                            //////Debug.Log("here3");
+                            //Debug.Log("here3");
                             altyaw = 360 - altyaw;
                             altyaw = 90 - altyaw;
 
@@ -5126,7 +5040,7 @@ public class sccsplayer : MonoBehaviour
                         {
                             eulerangles.z = -90;
                             eulerangles.y = 0;
-                            //////Debug.Log("here0");
+                            //Debug.Log("here0");
                             altyaw = 90 - altyaw;
                             altyaw = 90 - altyaw;
                             altyaw += 90;
@@ -5135,7 +5049,7 @@ public class sccsplayer : MonoBehaviour
                         {
                             eulerangles.z = 90;
                             eulerangles.y = 0;
-                            //////Debug.Log("here1");
+                            //Debug.Log("here1");
                             altyaw = 180 - altyaw;
 
                         }
@@ -5146,7 +5060,7 @@ public class sccsplayer : MonoBehaviour
                         eulerangles.y = 0;
                         if (altyaw >= 180 && altyaw < 270)
                         {
-                            //////Debug.Log("here2");
+                            //Debug.Log("here2");
                             altyaw = 270 - altyaw;
                             altyaw = 90 - altyaw;
                             altyaw += 180;
@@ -5155,7 +5069,7 @@ public class sccsplayer : MonoBehaviour
                         }
                         else if (altyaw >= 270 && altyaw < 360)
                         {
-                            //////Debug.Log("here3");
+                            //Debug.Log("here3");
                             altyaw = 360 - altyaw;
                             altyaw = 90 - altyaw;
                         }
@@ -5172,7 +5086,7 @@ public class sccsplayer : MonoBehaviour
                         {
                             eulerangles.z = 90;
                             eulerangles.y = 0;
-                            //////Debug.Log("here0");
+                            //Debug.Log("here0");
                             altyaw = 90 - altyaw;
                             altyaw += 180;
                         }
@@ -5180,7 +5094,7 @@ public class sccsplayer : MonoBehaviour
                         {
                             eulerangles.z = -90;
                             eulerangles.y = 0;
-                            //////Debug.Log("here1");
+                            //Debug.Log("here1");
                             altyaw = 180 - altyaw;
                             altyaw = 90 - altyaw;
 
@@ -5195,7 +5109,7 @@ public class sccsplayer : MonoBehaviour
 
                         if (altyaw >= 180 && altyaw < 270)
                         {
-                            //////Debug.Log("here2");
+                            //Debug.Log("here2");
                             altyaw = 270 - altyaw;
                             altyaw = 90 - altyaw;
                             altyaw += 180;
@@ -5203,7 +5117,7 @@ public class sccsplayer : MonoBehaviour
                         }
                         else if (altyaw >= 270 && altyaw < 360)
                         {
-                            //////Debug.Log("here3");
+                            //Debug.Log("here3");
                             altyaw = 360 - altyaw;
                             altyaw = 90 - altyaw;
                         }
@@ -5226,7 +5140,7 @@ public class sccsplayer : MonoBehaviour
                         {
                             eulerangles.z = -90;
                             eulerangles.y = 0;
-                            //////Debug.Log("reached0");
+                            //Debug.Log("reached0");
 
                             altyaw = 90 - altyaw;
                             altyaw += 90;
@@ -5236,7 +5150,7 @@ public class sccsplayer : MonoBehaviour
                         {
                             eulerangles.z = -90;
                             eulerangles.y = 0;
-                            //////Debug.Log("reached1");
+                            //Debug.Log("reached1");
 
                             altyaw = 180 - altyaw;
 
@@ -5250,14 +5164,14 @@ public class sccsplayer : MonoBehaviour
 
                         if (altyaw >= 180 && altyaw < 270)
                         {
-                            //////Debug.Log("reached2");
+                            //Debug.Log("reached2");
 
                             altyaw = 270 - altyaw;
                             altyaw -= 90;
                         }
                         else if (altyaw >= 270 && altyaw < 360)
                         {
-                            //////Debug.Log("reached3");
+                            //Debug.Log("reached3");
 
                             altyaw = 360 - altyaw;
                             altyaw += 180;
@@ -5275,7 +5189,7 @@ public class sccsplayer : MonoBehaviour
                         {
                             eulerangles.z = -90;
                             eulerangles.y = 0;
-                            //////Debug.Log("reached0");
+                            //Debug.Log("reached0");
 
                             altyaw = 90 - altyaw;
                             altyaw += 90;
@@ -5284,7 +5198,7 @@ public class sccsplayer : MonoBehaviour
                         {
                             eulerangles.z = -90;
                             eulerangles.y = 0;
-                            //////Debug.Log("reached1");
+                            //Debug.Log("reached1");
 
                             altyaw = 180 - altyaw;
                         }
@@ -5297,14 +5211,14 @@ public class sccsplayer : MonoBehaviour
 
                         if (altyaw >= 180 && altyaw < 270)
                         {
-                            //////Debug.Log("reached2");
+                            //Debug.Log("reached2");
 
                             altyaw = 270 - altyaw;
                             altyaw -= 90;
                         }
                         else if (altyaw >= 270 && altyaw < 360)
                         {
-                            //////Debug.Log("reached3");
+                            //Debug.Log("reached3");
 
                             altyaw = 360 - altyaw;
                             altyaw += 180;
@@ -5316,7 +5230,7 @@ public class sccsplayer : MonoBehaviour
             }
 
 
-            //////Debug.Log("altyaw1:" + altyaw);
+            //Debug.Log("altyaw1:" + altyaw);
 
             if (indexofmaxvalueofperfacegravitylast == 0)
             {
@@ -5366,9 +5280,9 @@ public class sccsplayer : MonoBehaviour
             //yawdeg = rolldeg;
 
 
-            //////Debug.Log("pitch:" + pitchdeg);
-            //////Debug.Log("yawdeg:" + yawdeg);
-            //////Debug.Log("rolldeg:" + rolldeg);
+            //Debug.Log("pitch:" + pitchdeg);
+            //Debug.Log("yawdeg:" + yawdeg);
+            //Debug.Log("rolldeg:" + rolldeg);
 
             //float altyaw = (360 - yawdeg) - 90;
             float altyaw = 0;// yawdeg;
@@ -5608,7 +5522,7 @@ public class sccsplayer : MonoBehaviour
 
 
 
-            //////Debug.Log("altyaw:" + altyaw);
+            //Debug.Log("altyaw:" + altyaw);
 
 
             if (indexofmaxvalueofperfacegravitylast == 0)
@@ -5621,12 +5535,12 @@ public class sccsplayer : MonoBehaviour
 
                     if (altyaw >= 0 && altyaw < 90)
                     {
-                        //////Debug.Log("here0");
+                        //Debug.Log("here0");
                         altyaw = 90 - altyaw;
                     }
                     else if (altyaw >= 90 && altyaw < 180)
                     {
-                        //////Debug.Log("here1");
+                        //Debug.Log("here1");
                         altyaw = 180 - altyaw;
                         altyaw += 270;
                     }
@@ -5641,7 +5555,7 @@ public class sccsplayer : MonoBehaviour
 
                     if (altyaw >= 180 && altyaw < 270)
                     {
-                        //////Debug.Log("here2");
+                        //Debug.Log("here2");
                         altyaw = 270 - altyaw;
                         altyaw = 90 - altyaw;
                         altyaw += 270;
@@ -5649,7 +5563,7 @@ public class sccsplayer : MonoBehaviour
                     }
                     else if (altyaw >= 270 && altyaw < 360)
                     {
-                        //////Debug.Log("here3");
+                        //Debug.Log("here3");
                         altyaw = 360 - altyaw;
 
                         altyaw = 90 - altyaw;
@@ -5669,14 +5583,14 @@ public class sccsplayer : MonoBehaviour
                         {
                             eulerangles.z = 90;
                             eulerangles.y = 90;
-                            //////Debug.Log("here00");
+                            //Debug.Log("here00");
                             altyaw -= 90;
                         }
                         else
                         {
                             eulerangles.z = 90;
                             eulerangles.y = 90;
-                            //////Debug.Log("here01");
+                            //Debug.Log("here01");
 
                             altyaw = 90 - altyaw;
                         }
@@ -5684,7 +5598,7 @@ public class sccsplayer : MonoBehaviour
                     }
                     else if (altyaw >= 90 && altyaw < 180)
                     {
-                        //////Debug.Log("here1");
+                        //Debug.Log("here1");
                         altyaw = 180 - altyaw;
                         altyaw -= 90;
 
@@ -5705,7 +5619,7 @@ public class sccsplayer : MonoBehaviour
 
                         if (rolldeg >= 0)
                         {
-                            //////Debug.Log("here21");
+                            //Debug.Log("here21");
                             altyaw = 90 - altyaw;
                             altyaw += 270;
 
@@ -5713,13 +5627,13 @@ public class sccsplayer : MonoBehaviour
                         }
                         else
                         {
-                            //////Debug.Log("here22");
+                            //Debug.Log("here22");
                         }
 
                     }
                     else if (altyaw >= 270 && altyaw < 360)
                     {
-                        //////Debug.Log("here3");
+                        //Debug.Log("here3");
                         altyaw = 360 - altyaw;
 
                         altyaw = 90 - altyaw;
@@ -5740,12 +5654,12 @@ public class sccsplayer : MonoBehaviour
 
                         if (altyaw >= 0 && altyaw < 90)
                         {
-                            //////Debug.Log("here0");
+                            //Debug.Log("here0");
                             altyaw = 90 - altyaw;
                         }
                         else if (altyaw >= 90 && altyaw < 180)
                         {
-                            //////Debug.Log("here1");
+                            //Debug.Log("here1");
                             altyaw = 180 - altyaw;
                         }
                     }
@@ -5758,12 +5672,12 @@ public class sccsplayer : MonoBehaviour
 
                         if (altyaw >= 180 && altyaw < 270)
                         {
-                            //////Debug.Log("here2");
+                            //Debug.Log("here2");
                             altyaw = 270 - altyaw;
                         }
                         else if (altyaw >= 270 && altyaw < 360)
                         {
-                            //////Debug.Log("here3");
+                            //Debug.Log("here3");
                             altyaw = 360 - altyaw;
                             altyaw -= 270;
                             altyaw = 90 - altyaw;
@@ -5782,12 +5696,12 @@ public class sccsplayer : MonoBehaviour
 
                         if (altyaw >= 0 && altyaw < 90)
                         {
-                            //////Debug.Log("here0");
+                            //Debug.Log("here0");
                             altyaw -= 90;
                         }
                         else if (altyaw >= 90 && altyaw < 180)
                         {
-                            //////Debug.Log("here1");
+                            //Debug.Log("here1");
                             altyaw = 180 - altyaw;
                         }
                     }
@@ -5798,14 +5712,14 @@ public class sccsplayer : MonoBehaviour
 
                         if (altyaw >= 180 && altyaw < 270)
                         {
-                            //////Debug.Log("here2");
+                            //Debug.Log("here2");
                             altyaw = 270 - altyaw;
                             altyaw -= 90;
                             altyaw = 270 - altyaw;
                         }
                         else if (altyaw >= 270 && altyaw < 360)
                         {
-                            //////Debug.Log("here3");
+                            //Debug.Log("here3");
                             altyaw = 360 - altyaw;
                             altyaw -= 270;
                             altyaw = 90 - altyaw;
@@ -5827,14 +5741,14 @@ public class sccsplayer : MonoBehaviour
 
                     if (altyaw >= 0 && altyaw < 90)
                     {
-                        //////Debug.Log("reached0");
+                        //Debug.Log("reached0");
                         altyaw += 90;
                     }
                     else if (altyaw >= 90 && altyaw < 180)
                     {
                         if (rolldeg >= 0)
                         {
-                            //////Debug.Log("reached12");
+                            //Debug.Log("reached12");
                             altyaw = 180 - altyaw;
                             altyaw = 90 - altyaw;
                             altyaw += 180;
@@ -5842,7 +5756,7 @@ public class sccsplayer : MonoBehaviour
                         }
                         else
                         {
-                            //////Debug.Log("reached13");
+                            //Debug.Log("reached13");
                             altyaw = 180 - altyaw;
                             altyaw = 90 - altyaw;
                             altyaw += 180;
@@ -5862,24 +5776,24 @@ public class sccsplayer : MonoBehaviour
                     {
 
 
-                        //////Debug.Log("reached2");
+                        //Debug.Log("reached2");
                         altyaw = 270 - altyaw;
                         altyaw = 90 - altyaw;
                         if (rolldeg >= 0)
                         {
-                            //////Debug.Log("reached21");
+                            //Debug.Log("reached21");
                         }
                         else
                         {
                             altyaw += 90;
 
-                            //////Debug.Log("reached22");
+                            //Debug.Log("reached22");
                         }
 
                     }
                     else if (altyaw >= 270 && altyaw < 360)
                     {
-                        //////Debug.Log("reached3");
+                        //Debug.Log("reached3");
                         altyaw = 360 - altyaw;
 
                         altyaw = 90 - altyaw;
@@ -5922,9 +5836,9 @@ public class sccsplayer : MonoBehaviour
             float rolldeg = scmaths.RadianToDegree(rollcurrent);
             //yawdeg = rolldeg;
 
-            //////Debug.Log("pitch:" + pitchdeg);
-            //////Debug.Log("yawdeg:" + yawdeg);
-            //////Debug.Log("rolldeg:" + rolldeg);
+            //Debug.Log("pitch:" + pitchdeg);
+            //Debug.Log("yawdeg:" + yawdeg);
+            //Debug.Log("rolldeg:" + rolldeg);
 
             //float altyaw = (360 - yawdeg) - 90;
             float altyaw = 0;// yawdeg;
@@ -6145,7 +6059,7 @@ public class sccsplayer : MonoBehaviour
 
 
 
-            //////Debug.Log("altyaw0:" + altyaw);
+            //Debug.Log("altyaw0:" + altyaw);
 
             if (indexofmaxvalueofperfacegravitylast == 0)
             {
@@ -6154,20 +6068,20 @@ public class sccsplayer : MonoBehaviour
                 if (altyaw >= 0 && altyaw < 90 ||
                     altyaw >= 90 && altyaw < 180)
                 {
-                    //////Debug.Log("here00");
+                    //Debug.Log("here00");
                     eulerangles.z = 90;
                     eulerangles.y = -90;
 
                     if (altyaw >= 0 && altyaw < 90)
                     {
-                        //////Debug.Log("here0");
+                        //Debug.Log("here0");
                         altyaw = 90 - altyaw;
                         altyaw += 180;//
 
                     }
                     else if (altyaw >= 90 && altyaw < 180)
                     {
-                        //////Debug.Log("here2");
+                        //Debug.Log("here2");
                         altyaw = 180 - altyaw;
                         altyaw += 90;//
 
@@ -6175,7 +6089,7 @@ public class sccsplayer : MonoBehaviour
                 }
                 else
                 {
-                    //////Debug.Log("here11");
+                    //Debug.Log("here11");
 
                     eulerangles.z = 90;
                     eulerangles.y = -90;
@@ -6183,13 +6097,13 @@ public class sccsplayer : MonoBehaviour
 
                     if (altyaw >= 180 && altyaw < 270)
                     {
-                        //////Debug.Log("here2");//
+                        //Debug.Log("here2");//
                         altyaw = 270 - altyaw;
 
                     }
                     else if (altyaw >= 270 && altyaw < 360)
                     {
-                        //////Debug.Log("here3");
+                        //Debug.Log("here3");
                         altyaw = 360 - altyaw;
                         altyaw += 270;//
                     }
@@ -6198,32 +6112,32 @@ public class sccsplayer : MonoBehaviour
             }
             else if (indexofmaxvalueofperfacegravitylast == 1)
             {
-                //////Debug.Log("altyaw0:" + altyaw);
+                //Debug.Log("altyaw0:" + altyaw);
 
                 if (pitchdeg >= 0)
                 {
                     if (altyaw >= 0 && altyaw < 90 ||
                         altyaw >= 90 && altyaw < 180)
                     {
-                        ////////Debug.Log("reached0");
+                        ////Debug.Log("reached0");
 
                         eulerangles.z = 90;
                         eulerangles.y = -90;
 
                         if (altyaw >= 0 && altyaw < 90)
                         {
-                            //////Debug.Log("reached00");
+                            //Debug.Log("reached00");
                             altyaw = 90 - altyaw;
                         }
                         else if (altyaw >= 90 && altyaw < 180)
                         {
-                            //////Debug.Log("reached01");
+                            //Debug.Log("reached01");
                             altyaw = 180 - altyaw;
                         }
                     }
                     else
                     {
-                        ////////Debug.Log("reached1");
+                        ////Debug.Log("reached1");
 
 
                         eulerangles.z = 90;
@@ -6232,14 +6146,14 @@ public class sccsplayer : MonoBehaviour
 
                         if (altyaw >= 180 && altyaw < 270)
                         {
-                            //////Debug.Log("reached02");
+                            //Debug.Log("reached02");
 
                             altyaw = 180 - altyaw;
                             altyaw += 180;
                         }
                         else if (altyaw >= 270 && altyaw < 360)
                         {
-                            //////Debug.Log("reached03");
+                            //Debug.Log("reached03");
 
                             altyaw = 360 - altyaw;
                             altyaw += 90;
@@ -6251,20 +6165,20 @@ public class sccsplayer : MonoBehaviour
                     if (altyaw >= 0 && altyaw < 90 ||
                         altyaw >= 90 && altyaw < 180)
                     {
-                        ////////Debug.Log("reached2");
+                        ////Debug.Log("reached2");
 
                         eulerangles.z = 90;
                         eulerangles.y = -90;
 
                         if (altyaw >= 0 && altyaw < 90)
                         {
-                            //////Debug.Log("reached21");
+                            //Debug.Log("reached21");
 
                             altyaw = 90 - altyaw;
                         }
                         else if (altyaw >= 90 && altyaw < 180)
                         {
-                            //////Debug.Log("reached22");
+                            //Debug.Log("reached22");
                             altyaw = 180 - altyaw;
                             altyaw += 180;
                         }
@@ -6274,20 +6188,20 @@ public class sccsplayer : MonoBehaviour
                     else
                     {
 
-                        ////////Debug.Log("reached3");
+                        ////Debug.Log("reached3");
 
                         eulerangles.z = 90;
                         eulerangles.y = -90;
 
                         if (altyaw >= 180 && altyaw < 270)
                         {
-                            //////Debug.Log("reached31");
+                            //Debug.Log("reached31");
 
                             altyaw = 270 - altyaw;
                         }
                         else if (altyaw >= 270 && altyaw < 360)
                         {
-                            //////Debug.Log("reached32");
+                            //Debug.Log("reached32");
                             altyaw = 360 - altyaw;
                         }
                         altyaw += 180;
@@ -6303,39 +6217,39 @@ public class sccsplayer : MonoBehaviour
             }
             else if (indexofmaxvalueofperfacegravitylast == 2)
             {
-                ////////Debug.Log("altyaw0:" + altyaw);
+                ////Debug.Log("altyaw0:" + altyaw);
 
                 if (pitchdeg >= 0)
                 {
                     if (altyaw >= 0 && altyaw < 90 ||
                         altyaw >= 90 && altyaw < 180)
                     {
-                        ////////Debug.Log("reached0");
+                        ////Debug.Log("reached0");
                         eulerangles.z = -90;
                         eulerangles.y = 90;
 
                         if (altyaw >= 0 && altyaw < 90)
                         {
-                            //////Debug.Log("reached00");
+                            //Debug.Log("reached00");
                             altyaw += 90;
                         }
                         else if (altyaw >= 90 && altyaw < 180)
                         {
-                            //////Debug.Log("reached01");
+                            //Debug.Log("reached01");
                             altyaw = 180 - altyaw;
                         }
 
                     }
                     else
                     {
-                        ////////Debug.Log("reached1");
+                        ////Debug.Log("reached1");
 
                         eulerangles.z = -90;
                         eulerangles.y = 90;
 
                         if (altyaw >= 180 && altyaw < 270)
                         {
-                            //////Debug.Log("reached02");
+                            //Debug.Log("reached02");
 
                             altyaw = 180 - altyaw;
                             altyaw += 180;
@@ -6343,7 +6257,7 @@ public class sccsplayer : MonoBehaviour
                         }
                         else if (altyaw >= 270 && altyaw < 360)
                         {
-                            //////Debug.Log("reached03");
+                            //Debug.Log("reached03");
 
                             altyaw = 360 - altyaw;
                             altyaw = 90 - altyaw;
@@ -6359,20 +6273,20 @@ public class sccsplayer : MonoBehaviour
                     if (altyaw >= 0 && altyaw < 90 ||
                         altyaw >= 90 && altyaw < 180)
                     {
-                        ////////Debug.Log("reached2");
+                        ////Debug.Log("reached2");
 
                         eulerangles.z = -90;
                         eulerangles.y = 90;
 
                         if (altyaw >= 0 && altyaw < 90)
                         {
-                            //////Debug.Log("reached21");
+                            //Debug.Log("reached21");
 
                             altyaw = 90 - altyaw;
                         }
                         else if (altyaw >= 90 && altyaw < 180)
                         {
-                            //////Debug.Log("reached22");
+                            //Debug.Log("reached22");
 
                             altyaw = 180 - altyaw;
                             altyaw = 90 - altyaw;
@@ -6383,14 +6297,14 @@ public class sccsplayer : MonoBehaviour
                     else
                     {
 
-                        ////////Debug.Log("reached3");
+                        ////Debug.Log("reached3");
 
                         eulerangles.z = -90;
                         eulerangles.y = 90;
 
                         if (altyaw >= 180 && altyaw < 270)
                         {
-                            //////Debug.Log("reached31");
+                            //Debug.Log("reached31");
 
                             altyaw = 270 - altyaw;
                             altyaw = 90 - altyaw;
@@ -6398,7 +6312,7 @@ public class sccsplayer : MonoBehaviour
                         }
                         else if (altyaw >= 270 && altyaw < 360)
                         {
-                            //////Debug.Log("reached32");
+                            //Debug.Log("reached32");
                             altyaw = 360 - altyaw;
 
                         }
@@ -6425,20 +6339,20 @@ public class sccsplayer : MonoBehaviour
 
                         if (altyaw >= 0 && altyaw < 90)
                         {
-                            //////Debug.Log("reached0");
+                            //Debug.Log("reached0");
                             altyaw -= 90;
                         }
                         else if (altyaw >= 90 && altyaw < 180)
                         {
                             if (rolldeg >= 0)
                             {
-                                //////Debug.Log("reached1");
+                                //Debug.Log("reached1");
                                 altyaw = 180 - altyaw;
                                 altyaw = 90 - altyaw;
                             }
                             else
                             {
-                                //////Debug.Log("reached1");
+                                //Debug.Log("reached1");
                                 altyaw = 180 - altyaw;
                                 altyaw = 90 - altyaw;
                                 altyaw += 90;
@@ -6456,13 +6370,13 @@ public class sccsplayer : MonoBehaviour
 
                         if (altyaw >= 180 && altyaw < 270)
                         {
-                            //////Debug.Log("reached2");
+                            //Debug.Log("reached2");
                             altyaw = 270 - altyaw;
                             altyaw += 180;
                         }
                         else if (altyaw >= 270 && altyaw < 360)
                         {
-                            //////Debug.Log("reached3");
+                            //Debug.Log("reached3");
                             altyaw = 360 - altyaw;
                             altyaw = 90 - altyaw;
                         }
@@ -6478,22 +6392,22 @@ public class sccsplayer : MonoBehaviour
 
                         if (altyaw >= 0 && altyaw < 90)
                         {
-                            //////Debug.Log("reached0");
+                            //Debug.Log("reached0");
                             altyaw -= 90;
                         }
                         else if (altyaw >= 90 && altyaw < 180)
                         {
-                            //////Debug.Log("reached1");
+                            //Debug.Log("reached1");
 
                             if (rolldeg >= 0)
                             {
-                                //////Debug.Log("reached11");
+                                //Debug.Log("reached11");
                                 altyaw -= 90;
 
                             }
                             else
                             {
-                                //////Debug.Log("reached12");
+                                //Debug.Log("reached12");
                                 altyaw = 180 - altyaw;
                                 altyaw = 90 - altyaw;
                                 altyaw += 90;
@@ -6510,14 +6424,14 @@ public class sccsplayer : MonoBehaviour
 
                         if (altyaw >= 180 && altyaw < 270)
                         {
-                            //////Debug.Log("reached2");
+                            //Debug.Log("reached2");
                             altyaw = 270 - altyaw;
                             altyaw += 180;
 
                         }
                         else if (altyaw >= 270 && altyaw < 360)
                         {
-                            //////Debug.Log("reached3");
+                            //Debug.Log("reached3");
                             altyaw = 360 - altyaw;
                             altyaw = 90 - altyaw;
                         }
@@ -6528,7 +6442,7 @@ public class sccsplayer : MonoBehaviour
 
 
 
-            ////////Debug.Log("altyaw:" + altyaw);
+            ////Debug.Log("altyaw:" + altyaw);
 
 
 
@@ -6560,9 +6474,9 @@ public class sccsplayer : MonoBehaviour
             float yawdeg = scmaths.RadianToDegree(yawcurrent);
             float rolldeg = scmaths.RadianToDegree(rollcurrent);
 
-            //////Debug.Log("pitch:" + pitchdeg);
-            //////Debug.Log("yawdeg start:" + yawdeg);
-            //////Debug.Log("rolldeg:" + rolldeg);
+            //Debug.Log("pitch:" + pitchdeg);
+            //Debug.Log("yawdeg start:" + yawdeg);
+            //Debug.Log("rolldeg:" + rolldeg);
 
             float altyaw = 0;
 
@@ -6772,7 +6686,7 @@ public class sccsplayer : MonoBehaviour
 
 
 
-            //////Debug.Log("altyaw0:" + altyaw);
+            //Debug.Log("altyaw0:" + altyaw);
 
 
             if (altyaw >= 0 && altyaw < 90 ||
@@ -6798,13 +6712,13 @@ public class sccsplayer : MonoBehaviour
                     {
                         if (altyaw >= 0 && altyaw < 90)
                         {
-                            //////Debug.Log("reached0");
+                            //Debug.Log("reached0");
                             altyaw = 90 - altyaw;
                             altyaw += 90;
                         }
                         else if (altyaw >= 90 && altyaw < 180)
                         {
-                            //////Debug.Log("reached1");
+                            //Debug.Log("reached1");
                             altyaw = 180 - altyaw;
                         }
                     }
@@ -6812,12 +6726,12 @@ public class sccsplayer : MonoBehaviour
                     {
                         if (altyaw >= 180 && altyaw < 270)
                         {
-                            //////Debug.Log("reached2");
+                            //Debug.Log("reached2");
                             altyaw = 270 - altyaw;
                         }
                         else if (altyaw >= 270 && altyaw < 360)
                         {
-                            //////Debug.Log("reached3");
+                            //Debug.Log("reached3");
                             altyaw = 360 - altyaw;
                             altyaw += 180;
                         }
@@ -6832,13 +6746,13 @@ public class sccsplayer : MonoBehaviour
                     {
                         if (altyaw >= 0 && altyaw < 90)
                         {
-                            //////Debug.Log("reached0");
+                            //Debug.Log("reached0");
                             altyaw = 90 - altyaw;
                             altyaw += 90;
                         }
                         else if (altyaw >= 90 && altyaw < 180)
                         {
-                            //////Debug.Log("reached1");
+                            //Debug.Log("reached1");
                             altyaw = 180 - altyaw;
                         }
                     }
@@ -6846,13 +6760,13 @@ public class sccsplayer : MonoBehaviour
                     {
                         if (altyaw >= 180 && altyaw < 270)
                         {
-                            //////Debug.Log("reached2");
+                            //Debug.Log("reached2");
                             altyaw = 270 - altyaw;
                             altyaw -= 90;
                         }
                         else if (altyaw >= 270 && altyaw < 360)
                         {
-                            //////Debug.Log("reached3");
+                            //Debug.Log("reached3");
                             altyaw = 360 - altyaw;
                             altyaw += 180;
 
@@ -6869,13 +6783,13 @@ public class sccsplayer : MonoBehaviour
                     {
                         if (altyaw >= 0 && altyaw < 90)
                         {
-                            //////Debug.Log("reached0");
+                            //Debug.Log("reached0");
                             altyaw = 90 - altyaw;
                             altyaw += 90;
                         }
                         else if (altyaw >= 90 && altyaw < 180)
                         {
-                            //////Debug.Log("reached1");
+                            //Debug.Log("reached1");
                             altyaw = 180 - altyaw;
                         }
                     }
@@ -6883,12 +6797,12 @@ public class sccsplayer : MonoBehaviour
                     {
                         if (altyaw >= 180 && altyaw < 270)
                         {
-                            //////Debug.Log("reached2");
+                            //Debug.Log("reached2");
                             altyaw = 270 - altyaw;
                         }
                         else if (altyaw >= 270 && altyaw < 360)
                         {
-                            //////Debug.Log("reached3");
+                            //Debug.Log("reached3");
                             altyaw = 360 - altyaw;
                             altyaw += 180;
                         }
@@ -6903,13 +6817,13 @@ public class sccsplayer : MonoBehaviour
                     {
                         if (altyaw >= 0 && altyaw < 90)
                         {
-                            //////Debug.Log("reached0");
+                            //Debug.Log("reached0");
                             altyaw = 90 - altyaw;
                             altyaw += 90;
                         }
                         else if (altyaw >= 90 && altyaw < 180)
                         {
-                            //////Debug.Log("reached1");
+                            //Debug.Log("reached1");
                             altyaw = 180 - altyaw;
                         }
                     }
@@ -6917,13 +6831,13 @@ public class sccsplayer : MonoBehaviour
                     {
                         if (altyaw >= 180 && altyaw < 270)
                         {
-                            //////Debug.Log("reached2");
+                            //Debug.Log("reached2");
                             altyaw = 270 - altyaw;
                             altyaw -= 90;
                         }
                         else if (altyaw >= 270 && altyaw < 360)
                         {
-                            //////Debug.Log("reached3");
+                            //Debug.Log("reached3");
                             altyaw = 360 - altyaw;
                             altyaw += 180;
                         }
@@ -6940,13 +6854,13 @@ public class sccsplayer : MonoBehaviour
                     {
                         if (altyaw >= 0 && altyaw < 90)
                         {
-                            //////Debug.Log("reached0");
+                            //Debug.Log("reached0");
                             altyaw = 90 - altyaw;
                             altyaw += 90;
                         }
                         else if (altyaw >= 90 && altyaw < 180)
                         {
-                            //////Debug.Log("reached1");
+                            //Debug.Log("reached1");
                             altyaw = 180 - altyaw;
                         }
                     }
@@ -6954,12 +6868,12 @@ public class sccsplayer : MonoBehaviour
                     {
                         if (altyaw >= 180 && altyaw < 270)
                         {
-                            //////Debug.Log("reached2");
+                            //Debug.Log("reached2");
                             altyaw = 270 - altyaw;
                         }
                         else if (altyaw >= 270 && altyaw < 360)
                         {
-                            //////Debug.Log("reached3");
+                            //Debug.Log("reached3");
                             altyaw = 360 - altyaw;
                             altyaw += 180;
                         }
@@ -6974,13 +6888,13 @@ public class sccsplayer : MonoBehaviour
                     {
                         if (altyaw >= 0 && altyaw < 90)
                         {
-                            //////Debug.Log("reached0");
+                            //Debug.Log("reached0");
                             altyaw = 90 - altyaw;
                             altyaw += 90;
                         }
                         else if (altyaw >= 90 && altyaw < 180)
                         {
-                            //////Debug.Log("reached1");
+                            //Debug.Log("reached1");
                             altyaw = 180 - altyaw;
                         }
                     }
@@ -6988,13 +6902,13 @@ public class sccsplayer : MonoBehaviour
                     {
                         if (altyaw >= 180 && altyaw < 270)
                         {
-                            //////Debug.Log("reached2");
+                            //Debug.Log("reached2");
                             altyaw = 270 - altyaw;
                             altyaw -= 90;
                         }
                         else if (altyaw >= 270 && altyaw < 360)
                         {
-                            //////Debug.Log("reached3");
+                            //Debug.Log("reached3");
                             altyaw = 360 - altyaw;
                             altyaw += 180;
 
@@ -7011,13 +6925,13 @@ public class sccsplayer : MonoBehaviour
                     {
                         if (altyaw >= 0 && altyaw < 90)
                         {
-                            //////Debug.Log("reached0");
+                            //Debug.Log("reached0");
                             altyaw = 90 - altyaw;
                             altyaw += 90;
                         }
                         else if (altyaw >= 90 && altyaw < 180)
                         {
-                            //////Debug.Log("reached1");
+                            //Debug.Log("reached1");
                             altyaw = 180 - altyaw;
                         }
                     }
@@ -7025,12 +6939,12 @@ public class sccsplayer : MonoBehaviour
                     {
                         if (altyaw >= 180 && altyaw < 270)
                         {
-                            //////Debug.Log("reached2");
+                            //Debug.Log("reached2");
                             altyaw = 270 - altyaw;
                         }
                         else if (altyaw >= 270 && altyaw < 360)
                         {
-                            //////Debug.Log("reached3");
+                            //Debug.Log("reached3");
                             altyaw = 360 - altyaw;
                             altyaw += 180;
 
@@ -7046,13 +6960,13 @@ public class sccsplayer : MonoBehaviour
                     {
                         if (altyaw >= 0 && altyaw < 90)
                         {
-                            //////Debug.Log("reached0");
+                            //Debug.Log("reached0");
                             altyaw = 90 - altyaw;
                             altyaw += 90;
                         }
                         else if (altyaw >= 90 && altyaw < 180)
                         {
-                            //////Debug.Log("reached1");
+                            //Debug.Log("reached1");
                             altyaw = 180 - altyaw;
                         }
                     }
@@ -7060,13 +6974,13 @@ public class sccsplayer : MonoBehaviour
                     {
                         if (altyaw >= 180 && altyaw < 270)
                         {
-                            //////Debug.Log("reached2");
+                            //Debug.Log("reached2");
                             altyaw = 270 - altyaw;
                             altyaw -= 90;
                         }
                         else if (altyaw >= 270 && altyaw < 360)
                         {
-                            //////Debug.Log("reached3");
+                            //Debug.Log("reached3");
                             altyaw = 360 - altyaw;
                             altyaw += 180;
 
@@ -7102,12 +7016,12 @@ public class sccsplayer : MonoBehaviour
 
     IEnumerator RotatePlayerWithKeyboard()
     {
-
+        
 
 
         if (canmovecamera == 1)
         {
-
+           
 
         }
 
@@ -7129,10 +7043,10 @@ public class sccsplayer : MonoBehaviour
             }
             else
             {
-                ////////Debug.Log("the planet is null");
+                ////Debug.Log("the planet is null");
 
             }
-
+            
 
         }
         //* Time.deltaTime
@@ -7149,11 +7063,11 @@ public class sccsplayer : MonoBehaviour
             }
             else
             {
-                ////////Debug.Log("the planet is null");
+                ////Debug.Log("the planet is null");
 
             }
 
-
+          
 
         }
 
@@ -7161,7 +7075,7 @@ public class sccsplayer : MonoBehaviour
 
         if (Input.GetKey(KeyCode.T))
         {
-
+            
             upperbodypivotRotationX += rotationincrements;
             // Set the yaw (Y axis), pitch (X axis), and roll (Z axis) rotations in radians.
             float pitch = upperbodypivotRotationX * 0.0174532925f;
@@ -7179,13 +7093,13 @@ public class sccsplayer : MonoBehaviour
 
         if (Input.GetKey(KeyCode.G))
         {
-
+            
             upperbodypivotRotationX -= rotationincrements;
             // Set the yaw (Y axis), pitch (X axis), and roll (Z axis) rotations in radians.
             float pitch = upperbodypivotRotationX * 0.0174532925f;
             float yaw = RotationY * 0.0174532925f;  // float yaw = RotationY * (float)Math.PI / 180.0f;
             float roll = upperbodypivotRotationZ * 0.0174532925f;
-
+            
 
             //Vector3 up = transform.TransformPoint(Vector3.up, rotationMatrix);
             //upperbodypivot.transform.rotation = Quaternion.Euler(pitch, yaw, roll);
